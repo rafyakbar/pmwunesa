@@ -1,5 +1,7 @@
 <?php
 
+use PMW\MAIL\RegisterMail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,3 +16,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('send',function(){
+    Mail::to('bagashidayat45@gmail.com')->send(new RegisterMail());
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
