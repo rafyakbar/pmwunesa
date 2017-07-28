@@ -4,27 +4,25 @@ namespace PMW\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class PMWProvider extends ServiceProvider
 {
-    
     /**
-     * Bootstrap any application services.
+     * Bootstrap the application services.
      *
      * @return void
      */
     public function boot()
     {
-        
+        //
     }
 
     /**
-     * Register any application services.
+     * Register the application services.
      *
      * @return void
      */
     public function register()
     {
-        $this->app->bind('ExcelExport','PMW\Support\ExcelExport');
+        //
     }
-
 }

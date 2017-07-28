@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => 'PMW Unesa',
 
     /*
     |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,6 +176,7 @@ return [
         // PMW\Providers\BroadcastServiceProvider::class,
         PMW\Providers\EventServiceProvider::class,
         PMW\Providers\RouteServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class
 
     ],
 
@@ -225,7 +226,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'ExcelExport' => PMW\Facades\ExcelExport::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];
