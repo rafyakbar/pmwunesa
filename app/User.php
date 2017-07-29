@@ -12,6 +12,8 @@ class User extends Authenticatable
 
     public static $mahasiswa = 'Mahasiswa';
 
+    protected $table = 'pengguna';
+
     /**
      * The attributes that are mass assignable.
      *
