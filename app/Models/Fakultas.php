@@ -11,6 +11,7 @@ class Fakultas extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'nama'
     ];
 }
