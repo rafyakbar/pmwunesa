@@ -6,6 +6,11 @@ use PMW\User;
 use PMW\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Auth\Events\Registered;
+use PMW\Mail\RegisterMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -22,12 +27,7 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    private $generatedPassword;
 
     /**
      * Create a new controller instance.
@@ -39,6 +39,31 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->registered($request,$user);
+
+        Session::flash('message','Berhasil Mendaftar !');
+
+        return back();
+    }
+
+    /**
+     * Melakukan pengiriman email ke pengguna
+     *
+     * @param Request $request
+     * @param Pengguna $user
+     * @return void
+     */
+    protected function registered(Request $request, $user)
+    {
+        Mail::to($user->email)->send(new RegisterMail($user,$this->generatedPassword));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -48,9 +73,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'id' => 'required|min:12|unique:pengguna|numeric',
+            'email' => 'required|unique:pengguna|email' 
         ]);
     }
 
@@ -62,10 +86,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $this->generatedPassword = str_random(8);
         return User::create([
-            'name' => $data['name'],
+            'id' => $data['id'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => bcrypt($this->generatedPassword),
+            'hak_akses' => 'Ketua Tim'
         ]);
     }
 }

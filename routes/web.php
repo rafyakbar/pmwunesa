@@ -28,9 +28,16 @@ Route::get('tes',function(){
     })->export('xls');
 });
 
-Route::get('/', function () {
-    return view('auth.login');
+Route::get('/home', function () {
+    return view('home');
 })->name('home');
+
+Route::group(['middleware' => 'auth'] ,function(){
+    Route::get('gantipassword',function(){
+        return view('gantipass');
+    });
+    Route::post('gantipassword','SettingsController@gantiPassword')->name('gantipassword');
+});
 
 /*
 |-----
@@ -38,7 +45,3 @@ Route::get('/', function () {
 |-----
 */
 Auth::routes();
-
-Route::group(['prefix' => '' ,'middleware' => 'auth'],function(){
-    Route::get('dashboard','DashboardController@index');
-});
