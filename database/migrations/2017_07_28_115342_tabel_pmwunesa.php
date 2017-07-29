@@ -45,13 +45,13 @@ class TabelPMWUNESA extends Migration
                 ->references('id')->on('prodi')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->string('nama', 50)->nullable();
+            $table->string('nama')->nullable();
             $table->string('email', 50);
-            $table->string('alamat_asal', 255)->nullable();
-            $table->string('alamat_tinggal', 255)->nullable();
+            $table->string('alamat_asal')->nullable();
+            $table->string('alamat_tinggal')->nullable();
             $table->string('no_telepon', 15)->nullable();
             $table->string('hak_akses', 25);
-            $table->string('password', 255)->nullable();
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -59,11 +59,11 @@ class TabelPMWUNESA extends Migration
         Schema::create('proposal', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('lolos')->nullable();
-            $table->string('judul', 255);
+            $table->string('judul');
             $table->string('direktori');
             $table->bigInteger('usula_dana');
-            $table->string('abstrak');
-            $table->string('keyword');
+            $table->text('abstrak');
+            $table->text('keyword');
             $table->string('jenis_usaha');
             $table->timestamps();
         });
