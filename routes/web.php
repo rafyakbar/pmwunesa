@@ -51,6 +51,10 @@ Route::group(['middleware' => 'auth'] ,function(){
 
 });
 
+Route::get('/loginz', function(){
+    return view('auth');
+})->name('loginz');
+
 /*
 |-----
 | Autentikasi bawaan dari Laravel
