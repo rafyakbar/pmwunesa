@@ -11,14 +11,14 @@ class DashboardController extends Controller
     
     public function index()
     {
-        switch(Auth::user()->role){
-            case User::$mahasiswa :
-                $this->mahasiswa();
+        switch(Auth::user()->hak_akses){
+            case User::KETUA_TIM :
+                $this->ketuaTim();
                 break;
-            case User::$reviewer :
+            case User::REVIEWER :
                 $this->reviewer();
                 break;
-            case User::$adminFakultas :
+            case User::ADMIN_FAKULTAS :
                 $this->adminFakultas();
                 break;
             default :
@@ -27,23 +27,27 @@ class DashboardController extends Controller
         }
     }
 
-    public function mahasiswa()
+    public function ketuaTim()
     {
+        return 'mahasiswa';
         return view('mahasiswa.dashboard');
     }
 
     public function reviewer()
     {
+        return 'reviewer';
         return view('reviewer.dashboard');
     }
 
     public function adminFakultas()
     {
+        return 'adminfakultas';
         return view('admin.fakultas.dashboard');
     }
 
     public function adminUniversitas()
     {
+        return 'adminuniv';
         return view('admin.univ.dashboard');
     }
 
