@@ -10,7 +10,7 @@ class LogBook extends Model
 
     protected $fillable = [
         'id_proposal',
-        'deskripsi',
+        'catatan',
         'biaya',
         'created_at',
         'updates_at'
