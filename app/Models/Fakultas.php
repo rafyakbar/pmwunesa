@@ -8,6 +8,8 @@ class Fakultas extends Model
 {
     protected $table = 'fakultas';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'nama'
     ];
