@@ -115,7 +115,7 @@ class TabelPMWUNESA extends Migration
                 ->references('id')->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->string('deskripsi');
+            $table->text('catatan');
             $table->bigInteger('biaya')->nullable();
             $table->timestamps();
         });

@@ -4,11 +4,6 @@ Route::get('/',function(){
     return view('welcome');
 })->middleware('guest');
 
-Route::get('send',function(){
-    Mail::to('rafy683@gmail.com')->send(new \PMW\Mail\RegisterMail());
-    return 'Berhasil Mengirim';
-});
-
 Route::get('tes',function(){
     Excel::create('tes',function($excel){
         $excel->sheet('Sheet',function($sheet){
@@ -50,6 +45,10 @@ Route::group(['middleware' => 'auth'] ,function(){
     Route::post('gantipassword','SettingsController@gantiPassword')->name('gantipassword');
 
 });
+
+Route::get('/loginz', function(){
+    return view('auth');
+})->name('loginz');
 
 /*
 |-----
