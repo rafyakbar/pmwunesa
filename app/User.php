@@ -24,12 +24,15 @@ class User extends Authenticatable
 
     protected $table = 'pengguna';
 
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'id',
         'id_prodi',
         'nama',
         'email',
