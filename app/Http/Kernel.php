@@ -56,5 +56,9 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \PMW\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'ketuatim' => \PMW\Http\Middleware\AuthKetuaTim::class,
+        'reviewer' => \PMW\Http\Middleware\AuthReviewer::class,
+        'adminfakultas' => \PMW\Http\Middleware\AuthAdminFakultas::class,
+        'adminuniv' => \PMW\Http\Middleware\AuthAdminUniversitas::class
     ];
 }
