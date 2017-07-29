@@ -40,7 +40,7 @@ class TabelPMWUNESA extends Migration
 
         Schema::create('pengguna', function (Blueprint $table) {
             $table->string('id', 25)->unique()->primary();
-            $table->integer('id_prodi')->unsigned();
+            $table->integer('id_prodi')->nullable()->unsigned();
             $table->foreign('id_prodi')
                 ->references('id')->on('prodi')
                 ->onUpdate('CASCADE')

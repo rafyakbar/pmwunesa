@@ -11,6 +11,7 @@ class Jurusan extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'id_fakultas',
         'nama'
     ];
