@@ -2,9 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder
 {
-    
     /**
      * Run the database seeds.
      *
@@ -12,7 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(FakultasSeeder::class);
+        factory(PMW\User::class, 18)->create()->each(function ($u) {
+            $u->make();
+        });
     }
-
 }
