@@ -53,7 +53,41 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
              ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+             ->group(base_path('routes/web/web.php'));
+        
+        /**
+         * Berikut adalah route untuk melakukan testing
+         * pastikan konfigurasi APP_STATUS bukan deployed jika ingin
+         * menjalankan route ini
+         */
+        if($_ENV['APP_STATUS'] != 'deployed'){
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web/tes/yusuf.php'));
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web/tes/bagas.php'));
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web/tes/rafy.php'));
+        }
+        
+        /**
+         * Berikut adalah route berdasarkan jenis role
+         * sehingga route tidak perlu berada pada satu file
+         */
+        Route::middleware('web','ketuatim')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/ketua.php'));
+        Route::middleware('web','reviewer')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/reviewer.php'));
+        Route::middleware('web','adminfakultas')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/adminfakultas.php'));
+        Route::middleware('web','adminuniv')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/adminuniv.php'));
     }
 
     /**
