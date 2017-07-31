@@ -32,9 +32,11 @@ class SettingsController extends Controller
         //         $response = ['error' => 0];
         //     }
         // }
+        
         $user = User::find(Auth::user()->id);
         $user->password = Hash::make($request->baru);
         $user->save();
+
         return back();
     }
 
