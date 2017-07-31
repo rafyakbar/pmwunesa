@@ -1,30 +1,24 @@
 <?php
 
-Route::get('/',function(){
-    return view('welcome');
-})->middleware('guest');
+/**
+ * Ketika membuka halaman awal,
+ * maka user akan diarahkan ke halaman dashboard
+ */
 
-Route::get('tes',function(){
-    Excel::create('tes',function($excel){
-        $excel->sheet('Sheet',function($sheet){
-            $sheet->setOrientation('landscape');
-            $sheet->setAutoSize(false);
-            $sheet->appendRow([
-                'Nama','NIM','Nama Tim'
-            ]);
-        });
-    })->export('xls');
+Route::get('/',function(){
+    return redirect()->route('dashboard');
 });
 
+/**
+ * Jika user mmebuka halaman dashboard, maka akan
+ * dilakukan pengecekan apakah user sedang login atau belum.
+ * Jika belum, maka akan diarahkan ke halaman login.
+ */
 Route::get('/dashboard', function () {
     return view('home');
 })->name('dashboard')->middleware('auth');
 
 Route::group(['middleware' => 'auth'] ,function(){
-
-    Route::group(['middleware' => 'ketuatim'],function(){
-        
-    });
     
     Route::group(['middleware' => 'reviewer'],function(){
 
@@ -45,10 +39,6 @@ Route::group(['middleware' => 'auth'] ,function(){
     Route::post('gantipassword','SettingsController@gantiPassword')->name('gantipassword');
 
 });
-
-Route::get('/loginz', function(){
-    return view('auth');
-})->name('loginz');
 
 /*
 |-----
