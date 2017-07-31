@@ -15,7 +15,7 @@ class AuthReviewer
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hak_akses != User::REVIEWER)
+        if($request->user()->hak_akses != User::REVIEWER)
             return redirect()->route('dashboard');
         return $next($request);
     }

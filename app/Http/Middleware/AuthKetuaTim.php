@@ -3,6 +3,7 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
+use PMW\User;
 
 class AuthKetuaTim
 {
@@ -15,7 +16,7 @@ class AuthKetuaTim
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hak_akses != User::KETUA_TIM)
+        if($request->user()->hak_akses != User::KETUA_TIM)
             return redirect()->route('dashboard');
         return $next($request);
     }
