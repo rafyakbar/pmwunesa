@@ -15,4 +15,12 @@ class Prodi extends Model
         'id_jurusan',
         'nama'
     ];
+
+    public function jurusan(){
+        return $this->belongsTo('PMW\Models\Jurusan');
+    }
+
+    public function pengguna(){
+        return $this->hasMany('PMW\User');
+    }
 }

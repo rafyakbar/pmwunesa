@@ -15,4 +15,8 @@ class LogBook extends Model
         'created_at',
         'updates_at'
     ];
+
+    public function proposal(){
+        return $this->belongsTo('PMW\Models\Proposal');
+    }
 }

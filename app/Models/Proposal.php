@@ -20,4 +20,16 @@ class Proposal extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function review(){
+        return $this->hasMany('PMW\Models\Review');
+    }
+
+    public function logbook(){
+        return $this->hasMany('PMW\Models\LogBook');
+    }
+
+    public function tim(){
+        return $this->hasMany('PMW\Models\Tim');
+    }
 }

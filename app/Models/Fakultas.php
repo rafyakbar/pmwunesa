@@ -14,4 +14,8 @@ class Fakultas extends Model
         'id',
         'nama'
     ];
+
+    public function jurusan(){
+        return $this->hasMany('PMW\Models\Jurusan');
+    }
 }

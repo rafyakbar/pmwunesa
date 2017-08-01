@@ -27,4 +27,12 @@ class Review extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function pengguna(){
+        return $this->belongsTo('PMW\User');
+    }
+
+    public function proposal(){
+        return $this->belongsTo('PMW\Model\Proposal');
+    }
 }

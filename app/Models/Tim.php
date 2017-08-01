@@ -15,4 +15,12 @@ class Tim extends Model
         'id_proposal',
         'ipk'
     ];
+
+    public function pengguna(){
+        return $this->belongsTo('PMW\User');
+    }
+
+    public function proposal(){
+        return $this->belongsTo('PMW\Models\Proposal');
+    }
 }

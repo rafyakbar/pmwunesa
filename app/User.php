@@ -54,4 +54,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function jurusan(){
+        return $this->belongsTo('PMW\Models\Prodi');
+    }
+
+    public function tim(){
+        return $this->has('PMW\Models\Tim');
+    }
+
+    public function review(){
+        return $this->hasMany('PMW\Models\Review');
+    }
 }
