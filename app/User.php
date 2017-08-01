@@ -10,18 +10,6 @@ class User extends Authenticatable
 
     use Notifiable;
 
-    const SUPER_ADMIN = 'Super Admin';
-
-    const ADMIN_UNIVERSITAS = 'Admin Universitas';
-
-    const ADMIN_FAKULTAS = 'Admin Fakultas';
-
-    const REVIEWER = 'Reviewer';
-
-    const KETUA_TIM = 'Ketua Tim';
-
-    const ANGGOTA = 'Anggota';
-
     protected $table = 'pengguna';
 
     public $incrementing = false;
@@ -42,7 +30,8 @@ class User extends Authenticatable
         'alamat_tinggal',
         'no_telepon',
         'hak_akses',
-        'password'
+        'password',
+        'request'
     ];
 
     /**
@@ -65,5 +54,13 @@ class User extends Authenticatable
 
     public function review(){
         return $this->hasMany('PMW\Models\Review');
+    }
+
+    public function hakAkses(){
+        return $this->belongsToMany('PMW\Models\HakAkses','hak_akses_pengguna','id_pengguna', 'id_hak_akses');
+    }
+
+    public function proposal(){
+        return $this->belongsToMany('PMW\Models\Proposal','tim','id_pengguna','id_proposal');
     }
 }

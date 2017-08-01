@@ -165,6 +165,7 @@ class TabelPMWUNESA extends Migration
             $table->string('jenis',25);
             $table->text('direktori');
             $table->text('keterangan');
+            $table->timestamps();
         });
     }
 
