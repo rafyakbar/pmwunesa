@@ -54,6 +54,7 @@ class TabelPMWUNESA extends Migration
             $table->string('alamat_tinggal')->nullable();
             $table->string('no_telepon', 15)->nullable();
             $table->string('password')->nullable();
+            $table->boolean('request');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -83,6 +84,7 @@ class TabelPMWUNESA extends Migration
             $table->boolean('lolos')->nullable();
             $table->string('judul')->nullable();
             $table->string('direktori')->nullable();
+            $table->string('direktori_final')->nullable();
             $table->bigInteger('usula_dana')->nullable();
             $table->text('abstrak')->nullable();
             $table->text('keyword')->nullable();
