@@ -85,7 +85,7 @@ class TabelPMWUNESA extends Migration
             $table->string('judul')->nullable();
             $table->string('direktori')->nullable();
             $table->string('direktori_final')->nullable();
-            $table->bigInteger('usula_dana')->nullable();
+            $table->bigInteger('usulan_dana')->nullable();
             $table->text('abstrak')->nullable();
             $table->text('keyword')->nullable();
             $table->string('jenis_usaha')->nullable();
