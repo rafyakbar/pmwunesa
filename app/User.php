@@ -61,6 +61,6 @@ class User extends Authenticatable
     }
 
     public function proposal(){
-        return $this->belongsToMany('PMW\Models\Proposal','tim','id_pengguna','id_proposal');
+        return $this->belongsToMany('PMW\Models\Proposal','tim','id_pengguna','id_proposal')->withPivot('ipk');
     }
 }
