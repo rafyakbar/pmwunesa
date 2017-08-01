@@ -81,12 +81,12 @@ class TabelPMWUNESA extends Migration
         Schema::create('proposal', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('lolos')->nullable();
-            $table->string('judul');
-            $table->string('direktori');
-            $table->bigInteger('usula_dana');
-            $table->text('abstrak');
-            $table->text('keyword');
-            $table->string('jenis_usaha');
+            $table->string('judul')->nullable();
+            $table->string('direktori')->nullable();
+            $table->bigInteger('usula_dana')->nullable();
+            $table->text('abstrak')->nullable();
+            $table->text('keyword')->nullable();
+            $table->string('jenis_usaha')->nullable();
             $table->timestamps();
         });
 
