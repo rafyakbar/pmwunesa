@@ -13,6 +13,7 @@ class Proposal extends Model
         'lolos',
         'judul',
         'direktori',
+        'direktori_final',
         'usulan_dana',
         'abstrak',
         'keyword',
@@ -20,6 +21,10 @@ class Proposal extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function pengguna(){
+        return $this->belongsToMany('PMW\User','tim','id_proposal','id_pengguna');
+    }
 
     public function review(){
         return $this->hasMany('PMW\Models\Review');
@@ -29,7 +34,7 @@ class Proposal extends Model
         return $this->hasMany('PMW\Models\LogBook');
     }
 
-    public function tim(){
-        return $this->hasMany('PMW\Models\Tim');
+    public function laporan(){
+        return $this->hasMany('PMW\Models\Laporan');
     }
 }
