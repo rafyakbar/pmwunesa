@@ -19,3 +19,11 @@ Route::get('tes',function(){
 Route::get('user',function(){
     dd(\PMW\User::all());
 });
+
+Route::get('bla',function(){
+//    foreach (\PMW\Models\Proposal::find(20)->pengguna()->cursor() as $pengguna)
+//    {
+//        echo $pengguna->nama . '<br/>';
+//    }
+return \PMW\User::find('5817875802')->proposal()->first()->pivot;
+});

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class ProposalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,8 +11,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(PMW\User::class, 50)->create()->each(function ($u) {
-            $u->make();
+        factory(PMW\Models\Proposal::class, 18)->create()->each(function ($seed) {
+            $seed->make();
         });
     }
 }

@@ -21,6 +21,28 @@ $factory->define(PMW\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
-        'hak_akses' => 'Anggota'
+        'request' => true
+    ];
+});
+
+$factory->define(PMW\Models\Proposal::class, function(Faker\Generator $faker){
+    return [
+        'judul' => $faker->sentence,
+        'direktori' => 'dir',
+        'usulan_dana' => $faker->numberBetween(2000000,5000000),
+        'abstrak' => $faker->text(300),
+        'keyword' => 'keyword',
+        'jenis_usaha' => 'barang'
+    ];
+});
+
+$factory->define(PMW\Models\Tim::class, function(Faker\Generator $faker){
+    return [
+        'id_pengguna' => function(){
+            return factory(PMW\User::class)->create()->id;
+        },
+        'id_proposal' => function(){
+            return factory(PMW\Models\Proposal::class)->create()->id;
+        }
     ];
 });
