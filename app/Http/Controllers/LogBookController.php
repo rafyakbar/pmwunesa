@@ -11,6 +11,11 @@ use Carbon\Carbon;
 
 class LogBookController extends Controller
 {
+
+    public function ketuaPage()
+    {
+        return view('mahasiswa.logbook');
+    }
     
     private function validasi(Request $request)
     {
@@ -30,7 +35,7 @@ class LogBookController extends Controller
         if(!$validate->fails())
         {
             // Mendapatkan proposal dari tim
-            $proposal = User::find(Auth::user()->id)->tim()->proposal();
+            $proposal = User::find(Auth::user()->id)->tim()->first()->proposal()->first();
             // Menambah LogBook ke database
             $tambah = LogBook::create([
                 'catatan' => $request->catatan,
@@ -54,7 +59,7 @@ class LogBookController extends Controller
         if(!$validate->fails())
         {
             // Mendapatkan proposal dari tim
-            $proposal = User::find(Auth::user()->id)->tim()->proposal();
+            $proposal = User::find(Auth::user()->id)->tim()->first()->proposal()->first();
             // Menambah LogBook ke database
             $tambah = LogBook::update([
                 'catatan' => $request->catatan,
@@ -68,7 +73,10 @@ class LogBookController extends Controller
 
     public function hapus(Request $request)
     {
+        $logbook = LogBook::find($request->id);
+        $logbook->delete();
 
+        return back();
     }
 
 }
