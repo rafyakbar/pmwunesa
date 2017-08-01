@@ -7,3 +7,7 @@
 Route::get('/loginz', function(){
     return view('auth');
 })->name('loginz');
+
+Route::get('/utama', function(){
+    return view('main');
+})->name('utama');
