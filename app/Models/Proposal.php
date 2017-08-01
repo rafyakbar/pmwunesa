@@ -23,7 +23,7 @@ class Proposal extends Model
     ];
 
     public function pengguna(){
-        return $this->belongsToMany('PMW\User','tim','id_proposal','id_pengguna');
+        return $this->belongsToMany('PMW\User','tim','id_proposal','id_pengguna')->withPivot('ipk');
     }
 
     public function review(){
