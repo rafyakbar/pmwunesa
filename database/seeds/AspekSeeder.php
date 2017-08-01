@@ -11,9 +11,10 @@ class AspekSeeder extends Seeder
      */
     public function run()
     {
-        for (int $c = 1; $c <= 10; $c++)
+        for ($c = 1; $c <= 10; $c++){
             DB::table('aspek')->insert([
-                'nama' => 'aspek ' . $c,
+                'keterangan' => 'aspek ' . $c,
             ]);
+        }
     }
 }
