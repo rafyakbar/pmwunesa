@@ -10,6 +10,20 @@ class User extends Authenticatable
 
     use Notifiable;
 
+    const KETUA_TIM = 'Ketua Tim';
+
+    const ANGGOTA = 'Anggota';
+
+    const REVIEWER = 'Reviewer';
+
+    const ADMIN_FAKULTAS = 'Admin Fakultas';
+
+    const ADMIN_UNIVERSITAS = 'Admin Universitas';
+
+    const DOSEN_PEMBIMBING = 'Dosen Pembimbing';
+
+    const SUPER_ADMIN = 'Super Admin';
+
     protected $table = 'pengguna';
 
     public $incrementing = false;
@@ -44,7 +58,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function jurusan(){
+    public function jurusan()
+    {
         return $this->belongsTo('PMW\Models\Prodi');
     }
 
@@ -52,15 +67,33 @@ class User extends Authenticatable
         return $this->has('PMW\Models\Tim');
     }
 
-    public function review(){
+    public function review()
+    {
         return $this->hasMany('PMW\Models\Review');
     }
 
-    public function hakAkses(){
+    public function hakAkses()
+    {
         return $this->belongsToMany('PMW\Models\HakAkses','hak_akses_pengguna','id_pengguna', 'id_hak_akses');
     }
 
-    public function proposal(){
+    public function proposal()
+    {
         return $this->belongsToMany('PMW\Models\Proposal','tim','id_pengguna','id_proposal')->withPivot('ipk');
+    }
+
+    public function hasAnyRole(array $roles)
+    {
+        foreach($roles as $role)
+        {
+            if($this->hasRole($role))
+                return true;
+        }
+        return false;
+    }
+
+    public function hasRole($role)
+    {
+        return $this->hakAkses()->where('nama',$role)->count() > 0;
     }
 }
