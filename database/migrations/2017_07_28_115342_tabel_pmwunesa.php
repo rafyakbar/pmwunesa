@@ -95,7 +95,7 @@ class TabelPMWUNESA extends Migration
                 ->on('mahasiswa')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->string('id_anggota', 25)->primary();
+            $table->string('id_anggota', 25);
             $table->foreign('id_anggota')
                 ->references('id_pengguna')
                 ->on('mahasiswa')
