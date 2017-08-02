@@ -11,20 +11,46 @@ Route::get('/',function(){
 
 Route::group(['middleware' => 'auth'] ,function(){
 
-    /**
-     * Jika user mmebuka halaman dashboard, maka akan
-     * dilakukan pengecekan apakah user sedang login atau belum.
-     * Jika belum, maka akan diarahkan ke halaman login.
-     */
-    Route::get('/dashboard', function () {
-        return view('home');
-    })->name('dashboard');
+    Route::group(['middleware' => 'profil'], function(){
 
-    Route::get('gantipassword',function(){
-        return view('gantipass');
+        /**
+         * Jika user mmebuka halaman dashboard, maka akan
+         * dilakukan pengecekan apakah user sedang login atau belum.
+         * Jika belum, maka akan diarahkan ke halaman login.
+         */
+        Route::get('dashboard',function(){
+            return view('dashboard');
+        })->name('dashboard');
+
+        Route::group(['prefix' => 'cari'],function(){
+            Route::post('carimahasiswa',[
+                'uses' => '',
+                'as' => 'cari.mahasiswa'
+            ]);
+        });
+
     });
 
-    Route::post('gantipassword','SettingsController@gantiPassword')->name('gantipassword');
+    Route::get('pengaturan',function(){
+         return view('pengaturan');
+    })->name('pengaturan');
+
+    Route::group(['prefix' => 'ubah'],function(){
+
+        Route::get('password',function(){
+            return view('ubahpassword');
+        })->name('ubah.password');
+
+        Route::post('profil',[
+            'uses' => 'UserController@editProfil',
+            'as' => 'ubah.profil'
+        ]);
+        
+    });
+
+    Route::get('role',function(){
+        return Illuminate\Support\Facades\Auth::user()->hakAkses()->where('nama','Ketua Tim')->count();
+    });
 
 });
 
