@@ -91,14 +91,14 @@ class TabelPMWUNESA extends Migration
         Schema::create('tim', function (Blueprint $table) {
             $table->string('id_ketua', 25);
             $table->foreign('id_ketua')
-                ->references('id')
-                ->on('pengguna')
+                ->references('id_pengguna')
+                ->on('mahasiswa')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
             $table->string('id_anggota', 25)->primary();
             $table->foreign('id_anggota')
-                ->references('id')
-                ->on('pengguna')
+                ->references('id_pengguna')
+                ->on('mahasiswa')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
         });
