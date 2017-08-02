@@ -8,7 +8,7 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    You are logged in as <b>{{ Auth::user()->hak_akses }}</b> {{ Auth::check() }}!
                 </div>
             </div>
         </div>
