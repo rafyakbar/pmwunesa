@@ -36,13 +36,24 @@ $factory->define(PMW\Models\Proposal::class, function(Faker\Generator $faker){
     ];
 });
 
+$factory->define(PMW\Models\HakAksesPengguna::class,function(Faker\Generator $faker){
+    return [
+        'id_pengguna' => function(){
+            return (PMW\User::all()->pluck('id'))[rand(0,count(PMW\User::all())-1)]; 
+        },
+        'id_hak_akses' => function(){
+            return (PMW\Models\HakAkses::all()->pluck('id'))[rand(0,count(PMW\Models\HakAkses::all())-1)]; 
+        }
+    ];
+});
+
 $factory->define(PMW\Models\Tim::class, function(Faker\Generator $faker){
     return [
         'id_pengguna' => function(){
-            return factory(PMW\User::class)->create()->id;
+            return (PMW\User::all()->pluck('id'))[rand(0,count(PMW\User::all()))]; 
         },
         'id_proposal' => function(){
-            return factory(PMW\Models\Proposal::class)->create()->id;
+            return (PMW\Models\Proposal::all()->pluck('id'))[rand(0,count(PMW\Models\Proposal::all()))]; 
         }
     ];
 });
