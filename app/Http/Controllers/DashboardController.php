@@ -11,23 +11,21 @@ class DashboardController extends Controller
     
     public function index()
     {
-        switch(Auth::user()->hak_akses){
-            case User::KETUA_TIM :
-                $this->ketuaTim();
-                break;
-            case User::REVIEWER :
-                $this->reviewer();
-                break;
-            case User::ADMIN_FAKULTAS :
-                $this->adminFakultas();
-                break;
-            default :
-                $this->adminUniversitas();
-                break;
-        }
+        if(Auth::user()->hasRole(User::SUPER_ADMIN))
+            return $this->superAdmin();
+        else if(Auth::user()->hasRole(User::ADMIN_UNIVERSITAS))
+            return $this->adminUniversitas();
+        else if(Auth::user()->hasRole(User::ADMIN_FAKULTAS))
+            return $this->adminFakultas();
+        else if(Auth::user()->hasRole(User::REVIEWER))
+            return $this->reviewer();
+        else if(Auth::user()->hasRole(User::DOSEN_PEMBIMBING))
+            return $this->dosenPembimbing();
+        else
+            return $this->mahasiswa();
     }
 
-    public function ketuaTim()
+    public function mahasiswa()
     {
         return view('mahasiswa.dashboard');
     }
@@ -45,6 +43,16 @@ class DashboardController extends Controller
     public function adminUniversitas()
     {
         return view('admin.univ.dashboard');
+    }
+
+    public function superAdmin()
+    {
+        return view('admin.super.dashboard');
+    }
+
+    public function dosenPembimbing()
+    {
+        return view('pembimbing.dashboard');
     }
 
 }

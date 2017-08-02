@@ -27,6 +27,8 @@ class UserController extends Controller
             'alamat_tinggal' => $request->alamat_tinggal,
             'no_telepon' => $request->no_telepon
         ]);
+
+        return back();
     }
 
     public function gantiPassword(Request $request)
