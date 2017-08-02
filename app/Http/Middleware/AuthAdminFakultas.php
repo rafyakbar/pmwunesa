@@ -3,6 +3,7 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
+use PMW\User;
 
 class AuthAdminFakultas
 {
@@ -15,7 +16,7 @@ class AuthAdminFakultas
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hak_akses != User::ADMIN_FAKULTAS)
+        if($request->user()->hasRole(User::ADMIN_FAKULTAS))
             return redirect()->route('dashboard');
         return $next($request);
     }

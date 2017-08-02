@@ -3,9 +3,8 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
-use PMW\User;
 
-class AuthKetuaTim
+class AuthSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +15,6 @@ class AuthKetuaTim
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hasRole(User::KETUA_TIM))
-            return redirect()->route('dashboard');
         return $next($request);
     }
 }

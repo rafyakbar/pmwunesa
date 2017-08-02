@@ -3,9 +3,9 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
-use PMW\User;
+use Illuminate\Support\Facades\Session;
 
-class AuthKetuaTim
+class CompleteProfile
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,11 @@ class AuthKetuaTim
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hasRole(User::KETUA_TIM))
-            return redirect()->route('dashboard');
+        if(empty($request->user()->id_prodi)){
+            Session::flash('message','Harap melengkapi profil anda terlebih dahulu !');
+            return redirect()->route('pengaturan');
+        }
+
         return $next($request);
     }
 }
