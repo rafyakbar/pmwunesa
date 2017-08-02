@@ -11,64 +11,61 @@ use Carbon\Carbon;
 
 class LogBookController extends Controller
 {
-    
-    private function validasi(Request $request)
-    {
-        $validate = Validator::make($request,[
-            'catatan' => 'required|min:100',
-            'biaya'=> 'required'
-        ]);
 
-        return $validate;
+    private $proposal;
+
+    private $validationArr = [
+        'catatan' => 'required|min:100',
+        'biaya'=> 'required'
+        ];
+
+    public function __construct()
+    {
+        $this->proposal = User::find(Auth::user()->id)->proposal()->first();
+    }
+
+    public function ketuaPage()
+    {
+        return view('mahasiswa.logbook');
     }
 
     public function tambah(Request $request)
     {
         
-        $validate = $this->validasi($request);
+        $this->validate($request,$this->validationArr);
 
-        if(!$validate->fails())
+        // Menambah LogBook ke database
+        $tambah = LogBook::create([
+            'catatan' => $request->catatan,
+            'biaya' => $request->biaya,
+            'id_proposal' => $this->proposal->id
+        ]);
+        if(is_null($tambah))
         {
-            // Mendapatkan proposal dari tim
-            $proposal = User::find(Auth::user()->id)->tim()->proposal();
-            // Menambah LogBook ke database
-            $tambah = LogBook::create([
-                'catatan' => $request->catatan,
-                'biaya' => $request->biaya
-            ]);
-            if(is_null($tambah))
-            {
-                Session::flash('message','Gagal menambah Logbook. Coba beberapa saat lagi !');
-                return back()->withInput();
-            }
-            return back();
+            Session::flash('message','Gagal menambah Logbook. Coba beberapa saat lagi !');
+            return back()->withInput();
         }
-
-        return back()->withInput()->withErrors($validate);
+        return back();
     }
 
     public function edit(Request $request)
     {
-        $validate = $this->validasi($request);
+        $this->validate($request,$this->validationArr);
 
-        if(!$validate->fails())
-        {
-            // Mendapatkan proposal dari tim
-            $proposal = User::find(Auth::user()->id)->tim()->proposal();
-            // Menambah LogBook ke database
-            $tambah = LogBook::update([
-                'catatan' => $request->catatan,
-                'biaya' => $request->biaya
-            ]);
-            return back();
-        }
-
-        return back()->withInput()->withErrors($validate);
+        // Menambah LogBook ke database
+        $edit = LogBook::find($request->id)->update([
+            'catatan' => $request->catatan,
+            'biaya' => $request->biaya,
+        ]);
+        return back();
     }
 
     public function hapus(Request $request)
     {
+        $logbook = LogBook::find($request->id);
+        $logbook->delete();
 
+        return back();
     }
 
 }

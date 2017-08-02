@@ -29,25 +29,21 @@ class DashboardController extends Controller
 
     public function ketuaTim()
     {
-        return 'mahasiswa';
         return view('mahasiswa.dashboard');
     }
 
     public function reviewer()
     {
-        return 'reviewer';
         return view('reviewer.dashboard');
     }
 
     public function adminFakultas()
     {
-        return 'adminfakultas';
         return view('admin.fakultas.dashboard');
     }
 
     public function adminUniversitas()
     {
-        return 'adminuniv';
         return view('admin.univ.dashboard');
     }
 
