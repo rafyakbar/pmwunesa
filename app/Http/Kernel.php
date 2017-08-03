@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'reviewer' => \PMW\Http\Middleware\AuthReviewer::class,
         'adminfakultas' => \PMW\Http\Middleware\AuthAdminFakultas::class,
         'adminuniv' => \PMW\Http\Middleware\AuthAdminUniversitas::class,
-        'profil' => \PMW\Http\Middleware\CompleteProfile::class
+        'profil' => \PMW\Http\Middleware\CompleteProfile::class,
+        'mahasiswa' => \PMW\Http\Middleware\AuthMahasiswa::class
     ];
 }
