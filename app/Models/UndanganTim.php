@@ -12,6 +12,7 @@ class UndanganTim extends Model
 
     protected $fillable = [
         'id_ketua',
-        'id_anggota'
+        'id_anggota',
+        'ditolak'
     ];
 }

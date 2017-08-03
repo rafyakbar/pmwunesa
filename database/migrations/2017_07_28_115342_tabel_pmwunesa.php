@@ -121,6 +121,7 @@ class TabelPMWUNESA extends Migration
                 ->on('mahasiswa')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table->boolean('ditolak');
         });
 
         Schema::create('bimbingan', function (Blueprint $table){

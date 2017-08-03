@@ -21,6 +21,7 @@ class ProposalController extends Controller
     public function tambah(Request $request)
     {
         $this->validate($request,$this->validationArr);
+        $this->unggahProposal($request->berkas);
     }
 
     /**
@@ -38,7 +39,7 @@ class ProposalController extends Controller
     {
         $this->validate($request,$this->validationArr);
 
-        $proposal = User::find(Auth::user()->id)->proposal()->first();
+        $proposal = Auth::user()->mahasiswa()->proposal();
 
         $proposal->update([
             'usulan_dana'   => $request->usulan_dana,

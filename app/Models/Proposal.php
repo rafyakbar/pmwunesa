@@ -2,7 +2,10 @@
 
 namespace PMW\Models;
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use PMW\User;
 
 class Proposal extends Model
 {
@@ -40,5 +43,25 @@ class Proposal extends Model
 
     public function mahasiswa(){
         return $this->hasMany('PMW\Models\Mahasiswa');
+    }
+
+    public function ketua(){
+        $tim = DB::table('mahasiswa')
+            ->whereRaw('id_proposal = '.$this->id)
+            ->select('id_pengguna')
+            ->toSql();
+
+        $ketua = DB::table('hak_akses')
+            ->whereRaw('nama = \'Ketua Tim\'')
+            ->select('id')
+            ->toSql();
+
+        $tabel = '('.$tim.') as tim, ('.$ketua.') as ketua, hak_akses_pengguna';
+
+        $idketua = DB::table(DB::raw($tabel))
+            ->whereRaw('tim.id_pengguna = hak_akses_pengguna.id_pengguna AND hak_akses_pengguna.id_hak_akses = ketua.id')
+            ->select(DB::raw('tim.id_pengguna'))->first();
+//return $idketua;
+        return User::find($idketua->id_pengguna);
     }
 }
