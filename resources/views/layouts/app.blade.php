@@ -88,10 +88,15 @@
 	                    </a>
 	                </li>
 					<li class="active-pro">
-	                    <a href="upgrade.html">
-	                        <i class="material-icons">unarchive</i>
-	                        <p>Upgrade to PRO</p>
+	                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+	                        <i class="material-icons">logout</i>
+	                        <p>Logout</p>
 	                    </a>
+						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+							{{ csrf_field() }}
+						</form>
 	                </li>
 	            </ul>
 	    	</div>
