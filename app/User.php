@@ -63,30 +63,25 @@ class User extends Authenticatable
         return $this->belongsTo('PMW\Models\Prodi');
     }
 
-    public function tim(){
-        return $this->has('PMW\Models\Tim');
+    public function hakAksesPengguna()
+    {
+        return $this->belongsToMany('PMW\Models\HakAkses', 'hak_akses_pengguna', 'id_pengguna', 'id_hak_akses')->withPivot('status_request');
     }
 
     public function review()
     {
-        return $this->hasMany('PMW\Models\Review');
+        return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('id_review', 'tahap', 'komentar');
     }
 
-    public function hakAkses()
+    public function bimbingan()
     {
-        return $this->belongsToMany('PMW\Models\HakAkses','hak_akses_pengguna','id_pengguna', 'id_hak_akses');
-    }
-
-    public function proposal()
-    {
-        return $this->belongsToMany('PMW\Models\Proposal','tim','id_pengguna','id_proposal')->withPivot('ipk');
+        return $this->belongsToMany('PMW\Models\Tim','bimbingan','id_pengguna','id_tim')->withPivot('status_request');
     }
 
     public function hasAnyRole(array $roles)
     {
-        foreach($roles as $role)
-        {
-            if($this->hasRole($role))
+        foreach ($roles as $role) {
+            if ($this->hasRole($role))
                 return true;
         }
         return false;
@@ -94,6 +89,6 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->hakAkses()->where('nama',$role)->count() > 0;
+        return $this->hakAksesPengguna()->where('nama', $role)->count() > 0;
     }
 }

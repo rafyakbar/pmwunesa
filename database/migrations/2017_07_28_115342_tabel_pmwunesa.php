@@ -76,10 +76,20 @@ class TabelPMWUNESA extends Migration
                 ->references('id')->on('pengguna')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table->string('status_request');
         });
 
-        Schema::create('tim', function (Blueprint $table) {
+        Schema::create('proposal', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->boolean('lolos')->nullable();
+            $table->string('judul')->nullable();
+            $table->string('direktori')->nullable();
+            $table->string('direktori_final')->nullable();
+            $table->bigInteger('usulan_dana')->nullable();
+            $table->text('abstrak')->nullable();
+            $table->text('keyword')->nullable();
+            $table->string('jenis_usaha')->nullable();
+            $table->timestamps();
         });
 
         Schema::create('mahasiswa', function (Blueprint $table){
@@ -89,10 +99,10 @@ class TabelPMWUNESA extends Migration
                 ->on('pengguna')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->bigInteger('id_tim')->unsigned();
-            $table->foreign('id_tim')
+            $table->bigInteger('id_proposal')->unsigned()->nullable();
+            $table->foreign('id_proposal')
                 ->references('id')
-                ->on('tim')
+                ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
             $table->float('ipk', 4, 2);
@@ -113,21 +123,6 @@ class TabelPMWUNESA extends Migration
                 ->onDelete('CASCADE');
         });
 
-        Schema::create('undangan_pembimbing', function (Blueprint $table){
-            $table->string('id_ketua', 25);
-            $table->foreign('id_ketua')
-                ->references('id_pengguna')
-                ->on('mahasiswa')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
-            $table->string('id_pengguna', 25);
-            $table->foreign('id_pengguna')
-                ->references('id')
-                ->on('pengguna')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
-        });
-
         Schema::create('bimbingan', function (Blueprint $table){
             $table->string('id_pengguna',25);
             $table->foreign('id_pengguna')
@@ -135,30 +130,12 @@ class TabelPMWUNESA extends Migration
                 ->on('pengguna')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->bigInteger('id_tim')->unsigned();
-            $table->foreign('id_tim')
+            $table->bigInteger('id_proposal')->unsigned();
+            $table->foreign('id_proposal')
                 ->references('id')
-                ->on('tim')
+                ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-        });
-
-        Schema::create('proposal', function (Blueprint $table) {
-            $table->bigInteger('id_tim')->unsigned();
-            $table->foreign('id_tim')
-                ->references('id')
-                ->on('tim')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
-            $table->boolean('lolos')->nullable();
-            $table->string('judul')->nullable();
-            $table->string('direktori')->nullable();
-            $table->string('direktori_final')->nullable();
-            $table->bigInteger('usulan_dana')->nullable();
-            $table->text('abstrak')->nullable();
-            $table->text('keyword')->nullable();
-            $table->string('jenis_usaha')->nullable();
-            $table->timestamps();
         });
 
         Schema::create('review', function (Blueprint $table) {
@@ -170,7 +147,7 @@ class TabelPMWUNESA extends Migration
                 ->onDelete('CASCADE');
             $table->bigInteger('id_proposal')->unsigned();
             $table->foreign('id_proposal')
-                ->references('id_tim')
+                ->references('id')
                 ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
@@ -202,7 +179,7 @@ class TabelPMWUNESA extends Migration
         Schema::create('logbook', function (Blueprint $table){
             $table->bigInteger('id_proposal')->unsigned();
             $table->foreign('id_proposal')
-                ->references('id_tim')
+                ->references('id')
                 ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
@@ -214,7 +191,7 @@ class TabelPMWUNESA extends Migration
         Schema::create('laporan', function (Blueprint $table){
             $table->bigInteger('id_proposal')->unsigned();
             $table->foreign('id_proposal')
-                ->references('id_tim')
+                ->references('id')
                 ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');

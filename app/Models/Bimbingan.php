@@ -4,7 +4,7 @@ namespace PMW\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HakAksesPengguna extends Model
+class Bimbingan extends Model
 {
     const STATUS_REQUEST = [
         'Requesting',
@@ -18,13 +18,13 @@ class HakAksesPengguna extends Model
 
     const REJECTED = 'Rejected';
 
-    public $table = 'hak_akses_pengguna';
+    public $table = 'bimbingan';
 
     public $timestamps = false;
 
     protected $fillable = [
         'id_pengguna',
-        'id_hak_akses',
+        'id_proposal',
         'status_request'
     ];
 }

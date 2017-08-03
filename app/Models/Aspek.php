@@ -15,7 +15,7 @@ class Aspek extends Model
         'nama'
     ];
 
-    public function review(){
-        return $this->belongsToMany('PMW\Models\Review','penilaian','id_aspek','id_review');
+    public function penilaian(){
+        return $this->belongsToMany('PMW\Models\Review','penilaian','id_aspek','id_review')->withPivot('nilai');
     }
 }

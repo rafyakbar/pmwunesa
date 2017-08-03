@@ -18,7 +18,7 @@ class Review extends Model
         'updated_at'
     ];
 
-    public function nilai(){
-        return $this->belongsToMany('PMW\Models\Aspek','penilaian','id_review','id_aspek');
+    public function penilaian(){
+        return $this->belongsToMany('PMW\Models\Aspek','penilaian','id_review','id_aspek')->withPivot('nilai');
     }
 }

@@ -8,6 +8,8 @@ class Penilaian extends Model
 {
     public $table = 'penilaian';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'id_review',
         'id_aspek',

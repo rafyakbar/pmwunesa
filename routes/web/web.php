@@ -23,10 +23,10 @@ Route::group(['middleware' => 'auth'] ,function(){
         })->name('dashboard');
 
         Route::group(['prefix' => 'cari'],function(){
-            Route::post('carimahasiswa',[
-                'uses' => '',
-                'as' => 'cari.mahasiswa'
-            ]);
+//            Route::post('carimahasiswa',[
+//                'uses' => '',
+//                'as' => 'cari.mahasiswa'
+//            ]);
         });
 
     });
