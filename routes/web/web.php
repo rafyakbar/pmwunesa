@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'] ,function(){
 
         Route::group(['prefix' => 'cari'],function(){
             Route::post('carimahasiswa',[
-                'uses' => '',
+                'uses' => 'PencarianController@cariMahasiswa',
                 'as' => 'cari.mahasiswa'
             ]);
         });
@@ -46,10 +46,6 @@ Route::group(['middleware' => 'auth'] ,function(){
             'as' => 'ubah.profil'
         ]);
         
-    });
-
-    Route::get('role',function(){
-        return Illuminate\Support\Facades\Auth::user()->hakAkses()->where('nama','Ketua Tim')->count();
     });
 
 });
