@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use PMW\User;
+use PMW\Models\HakAkses;
+use PMW\Models\Proposal;
 
 class TeamSeeder extends Seeder
 {
@@ -11,9 +14,12 @@ class TeamSeeder extends Seeder
      */
     public function run()
     {
-        factory(PMW\Models\Tim::class, 6)->create()->each(function ($seed) {
-            $seed->make();
-        });
+        foreach(HakAkses::where('nama',User::KETUA_TIM)->pengguna()->cursor() as $ketua)
+        {
+            factory(Proposal::class, 50)->create()->each(function ($u) {
+                $u->make();
+            });
+        }
     }
 
 }

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use PMW\User;
+use PMW\Models\Mahasiswa;
 
 class UserSeeder extends Seeder
 {

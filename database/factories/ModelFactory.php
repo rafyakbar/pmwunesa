@@ -42,8 +42,10 @@ $factory->define(PMW\Models\HakAksesPengguna::class,function(Faker\Generator $fa
             return (PMW\User::all()->pluck('id'))[rand(0,count(PMW\User::all())-1)]; 
         },
         'id_hak_akses' => function(){
-            return (PMW\Models\HakAkses::all()->pluck('id'))[rand(0,count(PMW\Models\HakAkses::all())-1)]; 
-        }
+            return [1,1,1,1,3,4,5,6,7][rand(0,8)];
+            // return (PMW\Models\HakAkses::all()->pluck('id'))[rand(0,count(PMW\Models\HakAkses::all())-1)]; 
+        },
+        'status_request' => 'entah'
     ];
 });
 

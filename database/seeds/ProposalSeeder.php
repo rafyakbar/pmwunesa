@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use PMW\Models\Proposal;
+use PMW\Models\HakAkses;
+use PMW\User;
 
 class ProposalSeeder extends Seeder
 {
@@ -11,8 +14,9 @@ class ProposalSeeder extends Seeder
      */
     public function run()
     {
-        factory(PMW\Models\Proposal::class, 18)->create()->each(function ($seed) {
+        factory(Proposal::class, HakAkses::where('nama',User::KETUA_TIM)->count())->create()->each(function ($seed) {
             $seed->make();
         });
     }
+
 }
