@@ -4,15 +4,14 @@ namespace PMW\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tim extends Model
+class UndanganTim extends Model
 {
-    protected $table = 'tim';
+    public $table = 'undangan_tim';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'id_pengguna',
-        'id_proposal',
-        'ipk'
+        'id_ketua',
+        'id_anggota'
     ];
 }

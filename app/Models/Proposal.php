@@ -22,12 +22,12 @@ class Proposal extends Model
         'updated_at'
     ];
 
-    public function pengguna(){
-        return $this->belongsToMany('PMW\User','tim','id_proposal','id_pengguna')->withPivot('ipk');
+    public function bimbingan(){
+        return $this->belongsToMany('PMW\User','bimbingan','id_proposal','id_pengguna')->withPivot('status_request');
     }
 
     public function review(){
-        return $this->hasMany('PMW\Models\Review');
+        return $this->belongsToMany('PMW\User','review','id_proposal','id_pengguna')->withPivot('id','tahap','komentar');
     }
 
     public function logbook(){
@@ -36,5 +36,9 @@ class Proposal extends Model
 
     public function laporan(){
         return $this->hasMany('PMW\Models\Laporan');
+    }
+
+    public function mahasiswa(){
+        return $this->hasMany('PMW\Models\Mahasiswa');
     }
 }
