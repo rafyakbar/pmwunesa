@@ -12,21 +12,40 @@ class UserController extends Controller
     
     public function editProfil(Request $request)
     {
-        $this->validate($request,[
-            'nama' => 'required',
-            'id_prodi' => 'required|numeric',
-            'alamat_asal' => 'required',
-            'alamat_tinggal' => 'required',
-            'no_telepon' => 'required|numeric'
-        ]);
+        if(Auth::user()->hasAnyRole([User::KETUA_TIM,User::ANGGOTA])){
+            $this->validate($request,[
+                'nama' => 'required',
+                'id_prodi' => 'required|numeric',
+                'alamat_asal' => 'required',
+                'alamat_tinggal' => 'required',
+                'no_telepon' => 'required|numeric',
+                'ipk' => 'required'
+            ]);
+        }
+        else
+        {
+            $this->validate($request,[
+                'nama' => 'required',
+                'id_prodi' => 'required|numeric',
+                'alamat_asal' => 'required',
+                'alamat_tinggal' => 'required',
+                'no_telepon' => 'required|numeric'
+            ]);
+        }
 
-        User::find(Auth::user()->id)->update([
+        Auth::user()->update([
             'nama' => $request->nama,
-            'id_prodi' => $request->id_prodi,
+            //'id_prodi' => $request->id_prodi,
             'alamat_asal' => $request->alamat_asal,
             'alamat_tinggal' => $request->alamat_tinggal,
             'no_telepon' => $request->no_telepon
         ]);
+
+        if(Auth::user()->hasAnyRole([User::KETUA_TIM,User::ANGGOTA])){
+            Auth::user()->mahasiswa()->update([
+                'ipk' => $request->ipk
+            ]);
+        }
 
         return back();
     }

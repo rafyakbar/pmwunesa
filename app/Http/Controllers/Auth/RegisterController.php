@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Registered;
 use PMW\Mail\RegisterMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use PMW\Models\Mahasiswa;
 
 class RegisterController extends Controller
 {
@@ -82,15 +83,20 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \PMW\User
+     * @return void
      */
     protected function create(array $data)
     {
         $this->generatedPassword = str_random(8);
-        return User::create([
+
+        User::create([
             'id' => $data['id'],
             'email' => $data['email'],
             'password' => bcrypt($this->generatedPassword)
+        ]);
+
+        Mahasiswa::create([
+            'id_pengguna' => $data['id'],
         ]);
     }
 }

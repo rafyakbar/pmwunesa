@@ -5,6 +5,7 @@ namespace PMW\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\User;
+use PMW\Models\UndanganTim;
 
 class DashboardController extends Controller
 {
@@ -27,7 +28,9 @@ class DashboardController extends Controller
 
     public function mahasiswa()
     {
-        return view('mahasiswa.dashboard');
+        return view('mahasiswa.dashboard',[
+            'undangan' => Auth::user()->mahasiswa()->undanganTimAnggota(),
+        ]);
     }
 
     public function reviewer()
