@@ -24,7 +24,6 @@ Route::group(['middleware' => 'auth'] ,function(){
         ]);
 
         Route::group(['prefix' => 'cari'],function(){
-
             Route::post('carimahasiswa',[
                 'uses' => 'PencarianController@cariMahasiswa',
                 'as' => 'cari.mahasiswa'
