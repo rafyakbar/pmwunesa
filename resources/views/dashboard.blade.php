@@ -36,13 +36,13 @@
 
 @if(Auth::user()->hasRole(PMW\User::KETUA_TIM))
 
-    {{ PMW\User::KETUA_TIM }}
+    @include('mahasiswa.dashboard')
 
 @endif
 
 @if(Auth::user()->hasRole(PMW\User::ANGGOTA))
 
-    {{ PMW\User::ANGGOTA }}
+    @include('mahasiswa.dashboard')
 
 @endif
 
