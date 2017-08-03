@@ -8,6 +8,10 @@ class Mahasiswa extends Model
 {
     public $table = 'mahasiswa';
 
+    public $primaryKey = 'id_pengguna';
+
+    public $keyType = 'string';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -18,7 +22,7 @@ class Mahasiswa extends Model
 
     public function pengguna()
     {
-        return $this->belongsTo('PMW\User');
+        return $this->belongsTo('PMW\User',$this->primaryKey)->first();
     }
 
     public function undanganTimKetua()
@@ -33,6 +37,7 @@ class Mahasiswa extends Model
 
     public function proposal()
     {
-        return $this->belongsTo('PMW\Models\Proposal');
+        return $this->belongsTo('PMW\Models\Proposal','id_proposal')->first();
     }
+
 }
