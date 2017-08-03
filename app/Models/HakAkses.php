@@ -15,7 +15,8 @@ class HakAkses extends Model
         'nama'
     ];
 
-    public function hakAksesPengguna(){
+    public function pengguna()
+    {
         return $this->belongsToMany('PMW\User','hak_akses_pengguna','id_hak_akses','id_pengguna');
     }
 }

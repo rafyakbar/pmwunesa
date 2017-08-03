@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('id_review', 'tahap', 'komentar');
     }
 
+    public function mahasiswa()
+    {
+        return $this->hasOne('PMW\Models\Mahasiswa','id_pengguna')->first();
+    }
+
     public function bimbingan()
     {
         return $this->belongsToMany('PMW\Models\Tim','bimbingan','id_pengguna','id_tim')->withPivot('status_request');
@@ -91,4 +96,25 @@ class User extends Authenticatable
     {
         return $this->hakAksesPengguna()->where('nama', $role)->count() > 0;
     }
+
+    public function isKetua()
+    {
+        return ($this->hasRole(static::KETUA_TIM));
+    }
+
+    public function isAnggota()
+    {
+        return ($this->hasRole(static::ANGGOTA));
+    }
+
+    public function isMahasiswa()
+    {
+        return ($this->isKetua() || $this->isAnggota());
+    }
+
+    public function punyaTim()
+    {
+        return !is_null($this->mahasiswa()->id_proposal);
+    }
+
 }
