@@ -16,7 +16,7 @@ class CompleteProfile
      */
     public function handle($request, Closure $next)
     {
-        if(empty($request->user()->id_prodi)){
+        if(empty($request->user()->no_telepon)){
             Session::flash('message','Harap melengkapi profil anda terlebih dahulu !');
             return redirect()->route('pengaturan');
         }
