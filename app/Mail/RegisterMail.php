@@ -15,8 +15,19 @@ class RegisterMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * Menyimpan instance dari \PMW\User
+     *
+     * @var \PMW\User
+     */
     private $user;
 
+    /**
+     * Menyimpan password (yang belum di enkripsi) untuk sementara
+     * agar bisa dikirim ke email pengguna
+     *
+     * @var string
+     */
     private $password;
 
     /**
