@@ -10,6 +10,10 @@ class Laporan extends Model
 
     public $timestamps = false;
 
+    const KEMAJUAN = 'kemajuan';
+
+    const AKHIR = 'akhir';
+
     protected $fillable = [
         'id_proposal',
         'jenis',
@@ -17,7 +21,8 @@ class Laporan extends Model
         'keterangan'
     ];
 
-    public function proposal(){
+    public function proposal()
+    {
         return $this->belongsTo('PMW\Models\Proposal');
     }
 }

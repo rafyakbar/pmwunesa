@@ -16,7 +16,8 @@ class LogBook extends Model
         'updates_at'
     ];
 
-    public function proposal(){
-        return $this->belongsTo('PMW\Models\Proposal');
+    public function proposal()
+    {
+        return $this->belongsTo('PMW\Models\Proposal','id_proposal');
     }
 }

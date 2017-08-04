@@ -27,4 +27,5 @@ class Bimbingan extends Model
         'id_proposal',
         'status_request'
     ];
+
 }
