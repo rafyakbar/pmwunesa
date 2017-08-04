@@ -5,6 +5,7 @@ namespace PMW;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PMW\Models\Laporan;
+use PMW\Support\RequestStatus;
 
 class User extends Authenticatable
 {
@@ -76,7 +77,7 @@ class User extends Authenticatable
 
     public function mahasiswa()
     {
-        return $this->hasOne('PMW\Models\Mahasiswa','id_pengguna')->first();
+        return $this->hasOne('PMW\Models\Mahasiswa', 'id_pengguna')->first();
     }
 
     public function proposal()
@@ -86,25 +87,20 @@ class User extends Authenticatable
 
     public function laporan($jenis = null)
     {
-        if(is_null($jenis))
-        {
+        if (is_null($jenis)) {
             return $this->proposal()->laporan();
-        }
-        else{
-            if($jenis == Laporan::KEMAJUAN)
-            {
-                return $this->proposal()->laporan()->where('jenis',Laporan::KEMAJUAN)->first();
-            }
-            elseif ($jenis == Laporan::AKHIR)
-            {
-                return $this->proposal()->laporan()->where('jenis',Laporan::AKHIR)->first();
+        } else {
+            if ($jenis == Laporan::KEMAJUAN) {
+                return $this->proposal()->laporan()->where('jenis', Laporan::KEMAJUAN)->first();
+            } elseif ($jenis == Laporan::AKHIR) {
+                return $this->proposal()->laporan()->where('jenis', Laporan::AKHIR)->first();
             }
         }
     }
 
     public function bimbingan()
     {
-        return $this->belongsToMany('PMW\Models\Tim','bimbingan','id_pengguna','id_tim')->withPivot('status_request');
+        return $this->belongsToMany('PMW\Models\Tim', 'bimbingan', 'id_pengguna', 'id_tim')->withPivot('status_request');
     }
 
     public function hasAnyRole(array $roles)
@@ -118,7 +114,9 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->hakAksesPengguna()->where('nama', $role)->count() > 0;
+        return $this->hakAksesPengguna()
+                ->where('nama', $role)
+                ->where('status_request', RequestStatus::APPROVED)->count() > 0;
     }
 
     public function isKetua()
