@@ -9,7 +9,7 @@ Route::get('/',function(){
     return redirect()->route('dashboard');
 });
 
-Route::group(['middleware' => 'auth'] ,function(){
+Route::group(['middleware' => 'auth'], function(){
 
     Route::group(['middleware' => 'profil'], function(){
 
@@ -23,30 +23,11 @@ Route::group(['middleware' => 'auth'] ,function(){
             'as' => 'dashboard'
         ]);
 
-        Route::group(['prefix' => 'cari'],function(){
+        Route::group(['prefix' => 'cari'], function(){
+            
             Route::post('carimahasiswa',[
                 'uses' => 'PencarianController@cariMahasiswa',
                 'as' => 'cari.mahasiswa'
-            ]);
-
-        });
-
-        Route::group(['prefix' => 'undang'],function(){
-
-            Route::get('anggota', function(){
-                return view('mahasiswa.undanganggota');
-            })->middleware('mahasiswa');
-
-            Route::post('anggota', [
-                'uses' => 'UndanganTimController@buatUndangan',
-                'as' => 'undang.anggota',
-                'middleware' => 'mahasiswa'
-            ]);
-
-            Route::post('terima',[
-                'uses' => 'UndanganTimController@terimaUndangan',
-                'as' => 'terima.undangan.tim',
-                'middleware' => 'mahasiswa'
             ]);
 
         });
@@ -73,8 +54,8 @@ Route::group(['middleware' => 'auth'] ,function(){
 });
 
 /*
-|-----
+|---------------------------------------------
 | Autentikasi bawaan dari Laravel
-|-----
+|---------------------------------------------
 */
 Auth::routes();

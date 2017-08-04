@@ -17,7 +17,8 @@ Route::get('tes',function(){
 });
 
 Route::get('user',function(){
-    dd(\PMW\User::all());
+    return \Illuminate\Support\facades\Auth::user()->mahasiswa()->undanganTimAnggota()->first();
+    // return \Illuminate\Support\facades\Auth::user()->mahasiswa()->first();
 });
 
 Route::get('bla',function(){
@@ -26,4 +27,14 @@ Route::get('bla',function(){
 //        echo $pengguna->nama . '<br/>';
 //    }
 return \PMW\User::find('5817875802')->proposal()->first()->pivot;
+});
+
+Route::get('upload',function(){
+    return view('bagas.upload');
+});
+
+Route::post('upload','LaporanAkhirController@unggah')->name('upload');
+
+Route::get('getfile',function(){
+    return response()->download(storage_path('app/public/tes.xls'));
 });
