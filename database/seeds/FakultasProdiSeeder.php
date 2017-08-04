@@ -9,6 +9,7 @@ class FakultasProdiSeeder extends Seeder
 
     const PRODI = [
         'Ilmu Pendidikan' => [
+            '' ,
             'S1 Manajemen Pendidikan',
             'S1 Teknologi Pendidikan',
             'S1 Bimbingan Konseling',
