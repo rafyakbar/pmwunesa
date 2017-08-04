@@ -4,6 +4,7 @@ namespace PMW;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use PMW\Models\Laporan;
 
 class User extends Authenticatable
 {
@@ -78,6 +79,29 @@ class User extends Authenticatable
         return $this->hasOne('PMW\Models\Mahasiswa','id_pengguna')->first();
     }
 
+    public function proposal()
+    {
+        return $this->mahasiswa()->proposal();
+    }
+
+    public function laporan($jenis = null)
+    {
+        if(is_null($jenis))
+        {
+            return $this->proposal()->laporan();
+        }
+        else{
+            if($jenis == Laporan::KEMAJUAN)
+            {
+                return $this->proposal()->laporan()->where('jenis',Laporan::KEMAJUAN)->first();
+            }
+            elseif ($jenis == Laporan::AKHIR)
+            {
+                return $this->proposal()->laporan()->where('jenis',Laporan::AKHIR)->first();
+            }
+        }
+    }
+
     public function bimbingan()
     {
         return $this->belongsToMany('PMW\Models\Tim','bimbingan','id_pengguna','id_tim')->withPivot('status_request');
@@ -115,6 +139,13 @@ class User extends Authenticatable
     public function punyaTim()
     {
         return !is_null($this->mahasiswa()->id_proposal);
+    }
+
+    public function ketua()
+    {
+        $proposal = $this->mahasiswa()->id_proposal;
+
+        return Proposal::find($proposal)->ketua();
     }
 
 }
