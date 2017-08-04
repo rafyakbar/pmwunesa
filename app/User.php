@@ -136,6 +136,11 @@ class User extends Authenticatable
         return ($this->isKetua() || $this->isAnggota());
     }
 
+    public function isSuperAdmin()
+    {
+        return ($this->hasRole(static::SUPER_ADMIN));
+    }
+
     public function punyaTim()
     {
         return !is_null($this->mahasiswa()->id_proposal);
