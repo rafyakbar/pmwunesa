@@ -11,13 +11,13 @@ use PMW\Models\HakAkses;
 
 class UndanganTimController extends Controller
 {
-    
+
     /**
      * Membuat undangan untuk mahasiswa lain agar bisa
      * bergabung dalam tim
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function buatUndangan(Request $request)
     {
@@ -29,20 +29,20 @@ class UndanganTimController extends Controller
             if(is_null(Auth::user()->mahasiswa()->id_tim))
             {
                 Auth::user()->mahasiswa()->undanganTimKetua()->attach(User::find($untuk)->mahasiswa());
-                return json_encode([
+                return response()->json([
                     'message' => 'Berhasil mengirim undangan !',
                     'error' => 0
                 ]);
             }
             else
             {
-                return json_encode([
+                return response()->json([
                     'message' => 'Anda tidak bisa mengirim undangan !',
                     'error' => 1
                 ]);
             }
         }
-        return json_encode([
+        return response()->json([
             'message' => 'Gagal mengirim undangan !',
             'error' => 2
         ]);
@@ -52,7 +52,7 @@ class UndanganTimController extends Controller
      * Menerima undangan untuk bergabung dalam tim
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function terimaUndangan(Request $request)
     {
@@ -99,20 +99,24 @@ class UndanganTimController extends Controller
 
             $dari->mahasiswa()->undanganTimKetua()->detach($untuk->mahasiswa());
 
-            return json_encode([
+            return response()->json([
                 'message' => 'Anda berhasil bergabung dalam tim ' . $dari->nama,
                 'error' => 0
             ]);
         }
         else
         {
-            return json_encode([
+            return response()->json([
                 'message' => 'Anda tidak bisa menerima undangan ini !',
                 'error' => 1
             ]);
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function tolakUndangan(Request $request)
     {
         $dari = User::find($request->dari);
@@ -121,18 +125,23 @@ class UndanganTimController extends Controller
         $dari->mahasiswa()->undanganTimKetua()->where('id_anggota',$untuk->id)->first()->update([
             'ditolak' => true
         ]);
-        return json_encode([
+        return response()->json([
             'message' => 'Undangan telah ditolak !',
             'error' => 0
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function hapusUndangan(Request $request)
     {
         $untuk = $request->id_pengguna;
 
-        // Memastikan undangan yang dihapus adalah undangan yang dikirim oleh user
-        UndanganTim::where('id_ketua',Auth::user()->id)->where('id_anggota',$untuk)->delete();
+        Auth::user()->mahasiswa()->undanganTimKetua()->detach(User::find($untuk)->mahasiswa());
+
+        return back();
     }
 
 }

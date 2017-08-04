@@ -3,15 +3,16 @@
 namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use PMW\Models\LogBook;
-use PMW\User;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LogBookController extends Controller
 {
 
+    /**
+     * @var \PMW\Models\Proposal
+     */
     private $proposal;
 
     private $validationArr = [
@@ -19,35 +20,50 @@ class LogBookController extends Controller
         'biaya'=> 'required'
         ];
 
+    /**
+     * Menginisialisasi proposal
+     *
+     * LogBookController constructor.
+     */
     public function __construct()
     {
-        $this->proposal = User::find(Auth::user()->id)->proposal()->first();
+        $this->proposal = Auth::user()->proposal();
     }
 
-    public function ketuaPage()
-    {
-        return view('mahasiswa.logbook');
-    }
-
+    /**
+     * Menambah LogBook
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function tambah(Request $request)
     {
         
         $this->validate($request,$this->validationArr);
 
-        // Menambah LogBook ke database
-        $tambah = LogBook::create([
-            'catatan' => $request->catatan,
-            'biaya' => $request->biaya,
-            'id_proposal' => $this->proposal->id
-        ]);
-        if(is_null($tambah))
-        {
-            Session::flash('message','Gagal menambah Logbook. Coba beberapa saat lagi !');
-            return back()->withInput();
+        if($this->bolehTambahLogBook()) {
+
+            // Menambah LogBook ke database
+            $tambah = Auth::user()->proposal()->logbook()->create([
+                'catatan' => $request->catatan,
+                'biaya' => $request->biaya,
+                'id_proposal' => $this->proposal->id
+            ]);
+            if (is_null($tambah)) {
+                Session::flash('message', 'Gagal menambah Logbook. Coba beberapa saat lagi !');
+                return back()->withInput();
+            }
+            return redirect()->route('logbook');
         }
-        return back();
+
+        Session::flash('message', 'Anda tidak bisa menambah logbook !');
+        return back()->withInput();
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function edit(Request $request)
     {
         $this->validate($request,$this->validationArr);
@@ -60,12 +76,21 @@ class LogBookController extends Controller
         return back();
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function hapus(Request $request)
     {
         $logbook = LogBook::find($request->id);
         $logbook->delete();
 
         return back();
+    }
+
+    private function bolehTambahLogBook()
+    {
+        return (Auth::user()->isKetua() && Auth::user()->proposal()->lolos);
     }
 
 }
