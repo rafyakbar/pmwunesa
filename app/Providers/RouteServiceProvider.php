@@ -76,15 +76,23 @@ class RouteServiceProvider extends ServiceProvider
          * Berikut adalah route berdasarkan jenis role
          * sehingga route tidak perlu berada pada satu file
          */
+
+        Route::middleware('web','profil','mahasiswa')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/mahasiswa.php'));
+
         Route::middleware('web','profil','ketuatim')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/ketua.php'));
+
         Route::middleware('web','profil','reviewer')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/reviewer.php'));
+
         Route::middleware('web','profil','adminfakultas')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/adminfakultas.php'));
+
         Route::middleware('web','profil','adminuniv')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/adminuniv.php'));
