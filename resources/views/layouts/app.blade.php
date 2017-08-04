@@ -30,7 +30,7 @@
 
 	<div class="wrapper">
 
-	    <div class="sidebar" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
+	    <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
 			<!--
 		        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
@@ -39,13 +39,14 @@
 
 			<div class="logo">
 				<a href="http://www.creative-tim.com" class="simple-text">
-					Creative Tim
+					PMW Unesa
 				</a>
 			</div>
 
 	    	<div class="sidebar-wrapper">
 	            <ul class="nav">
-	                <li class="active">
+					{{-- @if(Auth::user()->hasRole(\PMW\User::KETUA_TIM))
+					<li class="active">
 	                    <a href="dashboard.html">
 	                        <i class="material-icons">dashboard</i>
 	                        <p>Dashboard</p>
@@ -53,51 +54,113 @@
 	                </li>
 	                <li>
 	                    <a href="user.html">
-	                        <i class="material-icons">person</i>
-	                        <p>User Profile</p>
+	                        <i class="material-icons">people</i>
+	                        <p>Anggota</p>
 	                    </a>
 	                </li>
 	                <li>
 	                    <a href="table.html">
-	                        <i class="material-icons">content_paste</i>
-	                        <p>Table List</p>
+	                        <i class="material-icons">book</i>
+	                        <p>Logbook</p>
 	                    </a>
 	                </li>
 	                <li>
 	                    <a href="typography.html">
-	                        <i class="material-icons">library_books</i>
-	                        <p>Typography</p>
+	                        <i class="material-icons">check_circle</i>
+	                        <p>Proposal Final</p>
 	                    </a>
 	                </li>
 	                <li>
 	                    <a href="icons.html">
-	                        <i class="material-icons">bubble_chart</i>
-	                        <p>Icons</p>
+	                        <i class="material-icons">attach_money</i>
+	                        <p>Laporan Kegiatan</p>
 	                    </a>
 	                </li>
 	                <li>
 	                    <a href="maps.html">
-	                        <i class="material-icons">location_on</i>
-	                        <p>Maps</p>
+	                        <i class="material-icons">description</i>
+	                        <p>Laporan Akhir</p>
 	                    </a>
 	                </li>
-	                <li>
-	                    <a href="notifications.html">
-	                        <i class="material-icons text-gray">notifications</i>
-	                        <p>Notifications</p>
-	                    </a>
-	                </li>
-					<li class="active-pro">
+					<li>
 	                    <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
-	                        <i class="material-icons">logout</i>
+	                        <i class="material-icons">close</i>
 	                        <p>Logout</p>
 	                    </a>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 							{{ csrf_field() }}
 						</form>
 	                </li>
+					@endif
+					@if(Auth::user()->hasRole(\PMW\User::ANGGOTA))
+
+					@endif
+					@if(Auth::user()->hasRole(\PMW\User::REVIEWER))
+
+					@endif
+					@if(Auth::user()->hasRole(\PMW\User::ADMIN_FAKULTAS))
+
+					@endif
+					@if(Auth::user()->hasRole(\PMW\User::ADMIN_UNIVERSITAS))
+
+					@endif
+					@if(Auth::user()->hasRole(\PMW\User::DOSEN_PEMBIMBING))
+
+					@endif
+					@if(Auth::user()->hasRole(\PMW\User::SUPER_ADMIN))
+
+					@endif	--}}
+
+					<li class="active">
+	                    <a href="dashboard.html">
+	                        <i class="material-icons">dashboard</i>
+	                        <p>Dashboard</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="user.html">
+	                        <i class="material-icons">people</i>
+	                        <p>Anggota</p>
+	                    </a>
+					</li>
+					<li>
+	                    <a href="typography.html">
+	                        <i class="material-icons">library_books</i>
+	                        <p>Proposal</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="table.html">
+	                        <i class="material-icons">book</i>
+	                        <p>Logbook</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="icons.html">
+	                        <i class="material-icons">assignment</i>
+	                        <p>Laporan Kegiatan</p>
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="maps.html">
+	                        <i class="material-icons">description</i>
+	                        <p>Laporan Akhir</p>
+	                    </a>
+	                </li>
+					<li>
+	                    <a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+	                        <i class="material-icons">close</i>
+	                        <p>Logout</p>
+	                    </a>
+						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+							{{ csrf_field() }}
+						</form>
+	                </li>
+
 	            </ul>
 	    	</div>
 	    </div>
@@ -149,7 +212,7 @@
 
 			<footer class="footer">
 				<div class="container-fluid">
-					<nav class="pull-left">
+					<!-- <nav class="pull-left">
 						<ul>
 							<li>
 								<a href="#">
@@ -172,7 +235,7 @@
 								</a>
 							</li>
 						</ul>
-					</nav>
+					</nav> -->
 					<p class="copyright pull-right">
 						&copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
 					</p>
