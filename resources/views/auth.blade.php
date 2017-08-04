@@ -15,53 +15,62 @@
 	<title></title>
 </head>
 
-<body>
+<body style="background-color: #EEEEEE">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-12" style="margin : 0 auto; text-align: center">
+		<!-- <div class="row">
+			<div class="col-lg-4 col-lg-offset-4">
+				<center><img src="{{asset('img/logounesa.png')}}" width="60%"/></center>
+			</div>
+		</div> -->
+		<div class="row" style="margin-top: 50px">
+			<div class="col-lg-12" style="margin : 0 auto; text-align: center; color: #333333">
 				<h1>Sistem Informasi PMW</h1>
 				<h2>Universitas Negeri Surabaya</h2>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<ul class="nav nav-tabs ">
-					<li class=""><a data-toggle="tab" href="#login" aria-expanded="false">Login</a></li>
-					<li class="active"><a data-toggle="tab" href="#daftar" aria-expanded="true">Daftar</a></li>
+			<div class="col-md-6 col-md-offset-3">
+				<ul class="nav nav-tabs " style="background-color: #FFFFFF; border-top-left-radius: 7px; border-top-right-radius: 7px">
+					<li class="active"><a data-toggle="tab" href="#login" aria-expanded="true">Login</a></li>
+					<li class=""><a data-toggle="tab" href="#daftar" aria-expanded="false">Daftar</a></li>
 					<li class=""><a data-toggle="tab" href="#lupapass" aria-expanded="false">Reset Password</a></li>
 				</ul>
 				<div class="tab-content bg">
-					<div id="login" class="tab-pane fade">
+					<div id="login" class="tab-pane fade active in">
 						<div class="panel-default login-panel panel">
 							<div class="panel-body">
 								<form id="formLogin" role="form" action="/pmw/login.php" method="post" autocomplete="off">
 									<fieldset>
 										<div class="form-group">
+											<label>NIM</label>
 											<input required="" class="form-control nim" placeholder="NIM/NIP" name="id_unesa" type="text" autocomplete="on">
 										</div>
 										<div class="form-group">
+											<label>Password</label>
 											<input name="form" type="hidden" value="login">
-											<input required="" class="form-control" placeholder="Password" name="password" type="password" value="">
+											<input required="" class="form-control" placeholder="Password" name="password" type="password">
 										</div>
-										<button type="submit" id="submit_button" class="btn btn-default">Login</button>
+										<button type="submit" id="submit_button" class="btn btn-primary">Login</button>
 									</fieldset>
 								</form>
 							</div>
 						</div>
 					</div>
-					<div id="daftar" class="tab-pane fade active in">
+					<div id="daftar" class="tab-pane fade">
 						<div class="panel-default login-panel panel">
 							<div class="panel-body">
 								<form role="form" action="{{ route('loginz') }}" method="post">
 									<fieldset>
 										<div class="form-group">
+											<label>NIM</label>
 											<input required="" class="form-control nim" placeholder="NIM/NIP" name="id_unesa" type="text" autofocus="" autocomplete="on">
 										</div>
 										<div class="form-group">
+											<label>Email</label>
 											<input required="" class="form-control" placeholder="Email" name="email" type="email" value="" autocomplete="on">
 											<input name="form" type="hidden" value="daftar">
 										</div>
-										<button type="submit" class="btn btn-default">Daftar</button>
+										<button type="submit" class="btn btn-primary">Daftar</button>
 									</fieldset>
 								</form>
 							</div>
@@ -73,11 +82,12 @@
 								<form role="form" action="/pmw/login.php" method="post">
 									<fieldset>
 										<div class="form-group">
+											<label>Email</label>
 											<input name="form" type="hidden" value="lupapass">
 											<input required="" class="form-control" placeholder="Email" name="email" type="email" value="" autocomplete="on">
 										</div>
 										<!-- Change this to a button or input when using this as a form -->
-										<button type="submit" class="btn btn-default">Kirim</button>
+										<button type="submit" class="btn btn-primary">Kirim</button>
 									</fieldset>
 								</form>
 							</div>
