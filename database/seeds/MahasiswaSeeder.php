@@ -15,7 +15,7 @@ class MahasiswaSeeder extends Seeder
     {
         foreach(User::all() as $mhs)
         {
-            if($mhs->hasAnyRole([User::KETUA_TIM,User::ANGGOTA]))
+            if($mhs->isMahasiswa())
             {
                 Mahasiswa::create([
                     'id_pengguna' => $mhs->id,

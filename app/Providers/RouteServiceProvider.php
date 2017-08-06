@@ -85,6 +85,10 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/web/ketua.php'));
 
+        Route::middleware('web','profil','dosen')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web/dosen.php'));
+
         Route::middleware('web','profil','reviewer')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/reviewer.php'));

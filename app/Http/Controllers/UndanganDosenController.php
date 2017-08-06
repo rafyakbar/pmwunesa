@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Bimbingan;
 use PMW\Models\Proposal;
+use PMW\Support\RequestStatus;
 use PMW\User;
 
 class UndanganDosenController extends Controller
@@ -20,9 +21,7 @@ class UndanganDosenController extends Controller
         $dosen = User::find($request->dosen);
         $proposal = Auth::user()->proposal();
 
-        $dosen->bimbimngan()->attach($proposal,[
-            'status_request' => Bimbingan::REQUESTING
-        ]);
+        $dosen->bimbingan()->attach($proposal);
 
         return response()->json([
             'message' => 'Berhasil mengirim undangan !',
@@ -38,8 +37,10 @@ class UndanganDosenController extends Controller
     {
         $proposal = Proposal::find($request->proposal);
 
-        $proposal->bimbingan()->first()->update([
-            'status_request' => Bimbingan::APPROVED
+        $proposal->bimbingan()->detach(Auth::user());
+
+        $proposal->bimbingan()->attach(Auth::user(),[
+            'status_request' => RequestStatus::APPROVED
         ]);
 
         return response()->json([

@@ -38,3 +38,11 @@ Route::post('upload','LaporanAkhirController@unggah')->name('upload');
 Route::get('getfile',function(){
     return response()->download(storage_path('app/public/tes.xls'));
 });
+
+Route::get('radiobutton',function (){
+    return view('bagas.radio');
+});
+
+Route::post('radiobutton',function (){
+    return request()->has('a.1') ? 'ya' : 'tidak';
+})->name('radio');

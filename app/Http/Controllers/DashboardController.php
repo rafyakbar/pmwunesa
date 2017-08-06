@@ -2,10 +2,9 @@
 
 namespace PMW\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PMW\Support\RequestStatus;
 use PMW\User;
-use PMW\Models\UndanganTim;
 
 class DashboardController extends Controller
 {
@@ -18,10 +17,8 @@ class DashboardController extends Controller
             return $this->adminUniversitas();
         else if(Auth::user()->hasRole(User::ADMIN_FAKULTAS))
             return $this->adminFakultas();
-        else if(Auth::user()->hasRole(User::REVIEWER))
-            return $this->reviewer();
-        else if(Auth::user()->hasRole(User::DOSEN_PEMBIMBING))
-            return $this->dosenPembimbing();
+        else if(Auth::user()->isDosen())
+            return $this->dosen();
         else
             return $this->mahasiswa();
     }
@@ -33,9 +30,11 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function reviewer()
+    public function dosen()
     {
-        return view('reviewer.dashboard');
+        return view('dosen.dashboard',[
+            'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING)
+        ]);
     }
 
     public function adminFakultas()
@@ -51,11 +50,6 @@ class DashboardController extends Controller
     public function superAdmin()
     {
         return view('admin.super.dashboard');
-    }
-
-    public function dosenPembimbing()
-    {
-        return view('pembimbing.dashboard');
     }
 
 }

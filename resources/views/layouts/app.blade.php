@@ -114,13 +114,13 @@
 					@endif	--}}
 
 					<li class="active">
-	                    <a href="dashboard.html">
+	                    <a href="{{ route('dashboard') }}">
 	                        <i class="material-icons">dashboard</i>
 	                        <p>Dashboard</p>
 	                    </a>
 	                </li>
 	                <li>
-	                    <a href="user.html">
+	                    <a href="{{ route('undang.anggota') }}">
 	                        <i class="material-icons">people</i>
 	                        <p>Anggota</p>
 	                    </a>

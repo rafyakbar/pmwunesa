@@ -22,18 +22,22 @@ class HakAksesController extends Controller
             // update pada tabel dengan mengubah status request
             if ($pengguna->hakAksesPengguna()
                 ->where('id_hak_akses', $hakAkses->id)
-                ->where('status_request', RequestStatus::REJECTED)) {
+                ->where('status_request', RequestStatus::REJECTED)
+                ->count() > 0) {
                 $pengguna->hakAksesPengguna()
-                    ->where('id_hak_akses', $hakAkses->id)
-                    ->update([
-                        'status_request' => RequestStatus::REQUESTING
-                    ]);
+                    ->detach($hakAkses);
+                $pengguna->hakAksesPengguna()
+                    ->attach($hakAkses);
             } else {
                 $pengguna->hakAksesPengguna()->attach($hakAkses, [
                     'status_request' => RequestStatus::REQUESTING
                 ]);
             }
         }
+        return response()->json([
+            'message' => 'Gagal !',
+            'error' => 1
+        ]);
     }
 
     public function terimaRequest(Request $request)
@@ -53,7 +57,7 @@ class HakAksesController extends Controller
         $pengguna = User::find($request->id_pengguna);
         $idHakAkses = HakAkses::find($request->id_hak_akses);
 
-        $pengguna->hakAksesPengguna()->where('id_hak_akses',$idHakAkses->id)->update([
+        $pengguna->hakAksesPengguna()->where('id_hak_akses', $idHakAkses->id)->update([
             'status_request' => RequestStatus::REJECTED
         ]);
     }

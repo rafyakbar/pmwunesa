@@ -10,25 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class LogBookController extends Controller
 {
 
-    /**
-     * @var \PMW\Models\Proposal
-     */
-    private $proposal;
-
     private $validationArr = [
-        'catatan' => 'required|min:100',
-        'biaya'=> 'required'
-        ];
-
-    /**
-     * Menginisialisasi proposal
-     *
-     * LogBookController constructor.
-     */
-    public function __construct()
-    {
-        $this->proposal = Auth::user()->proposal();
-    }
+        'catatan' => 'required',
+        'biaya' => 'required'
+    ];
 
     /**
      * Menambah LogBook
@@ -38,16 +23,16 @@ class LogBookController extends Controller
      */
     public function tambah(Request $request)
     {
-        
+
         $this->validate($request,$this->validationArr);
 
-        if($this->bolehTambahLogBook()) {
+        if ($this->bolehTambahLogBook()) {
 
             // Menambah LogBook ke database
-            $tambah = Auth::user()->proposal()->logbook()->create([
+            $tambah = LogBook::create([
                 'catatan' => $request->catatan,
                 'biaya' => $request->biaya,
-                'id_proposal' => $this->proposal->id
+                'id_proposal' => Auth::user()->proposal()->id
             ]);
             if (is_null($tambah)) {
                 Session::flash('message', 'Gagal menambah Logbook. Coba beberapa saat lagi !');
@@ -66,7 +51,7 @@ class LogBookController extends Controller
      */
     public function edit(Request $request)
     {
-        $this->validate($request,$this->validationArr);
+        $this->validate($request, $this->validationArr);
 
         // Menambah LogBook ke database
         $edit = LogBook::find($request->id)->update([

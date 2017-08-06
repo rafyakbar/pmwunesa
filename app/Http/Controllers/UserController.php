@@ -68,4 +68,9 @@ class UserController extends Controller
         }
     }
 
+    public function tambahUser(Request $request)
+    {
+
+    }
+
 }

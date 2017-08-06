@@ -8,9 +8,9 @@ use PMW\Models\Proposal;
 class ReviewerController extends Controller
 {
 
-    public function tambah(Request $request)
+    public function tambah(Request $request, $idproposal)
     {
-        $proposal = Proposal::find($request->id_proposal);
+        $proposal = Proposal::find($idproposal);
 
         $tahap = $request->tahap;
 
@@ -18,7 +18,7 @@ class ReviewerController extends Controller
         $daftarCalonReviewer = explode(',', $request->daftar_pengguna);
 
         // Daftar reviewer lama
-        $daftarReviewerLama = $proposal->review()->pluck('id_pengguna')->toArray();
+        $daftarReviewerLama = $proposal->review()->where('tahap',$tahap)->pluck('id_pengguna')->toArray();
 
         // Daftar reviewer yang nantinya akan di hapus
         $daftarReviewerLengser = array_diff($daftarReviewerLama, $daftarCalonReviewer);

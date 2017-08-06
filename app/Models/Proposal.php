@@ -27,7 +27,7 @@ class Proposal extends Model
 
     public function bimbingan()
     {
-        return $this->belongsToMany('PMW\User', 'bimbingan', 'id_proposal', 'id_pengguna')->withPivot('status_request');
+        return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')->withPivot('status_request');
     }
 
     public function review()
@@ -43,6 +43,16 @@ class Proposal extends Model
     public function laporan()
     {
         return $this->hasMany('PMW\Models\Laporan', 'id_proposal');
+    }
+
+    public function laporanAkhir()
+    {
+        return $this->laporan()->where('jenis',Laporan::AKHIR)->first();
+    }
+
+    public function laporanKemjuan()
+    {
+        return $this->laporan()->where('jenis',Laporan::KEMAJUAN)->first();
     }
 
     public function mahasiswa()

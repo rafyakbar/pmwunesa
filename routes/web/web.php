@@ -53,6 +53,30 @@ Route::group(['middleware' => 'auth'], function(){
 
 });
 
+Route::group(['prefix' => 'unduh'],function (){
+
+    Route::post('proposal',[
+        'uses' => 'ProposalController@unduh',
+        'as' => 'unduh.proposal',
+    ]);
+
+    Route::post('proposal/final',[
+        'uses' => 'ProposalFinalController@unduh',
+        'as' => 'unduh.proposal.final'
+    ]);
+
+    Route::post('laporan/kemajuan',[
+        'uses' => 'LaporanController@unduh',
+        'as' => 'unduh.laporan.kemajuan',
+    ]);
+
+    Route::post('laporan/akhir',[
+        'uses' => 'LaporanAkhirController@unduh',
+        'as' => 'unduh.laporan.akhir',
+    ]);
+
+});
+
 /*
 |---------------------------------------------
 | Autentikasi bawaan dari Laravel

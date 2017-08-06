@@ -153,7 +153,7 @@ class TabelPMWUNESA extends Migration
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
             $table->integer('tahap');
-            $table->string('komentar');
+            $table->string('komentar')->nullable();
             $table->timestamps();
         });
 

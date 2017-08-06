@@ -5,6 +5,7 @@ namespace PMW;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PMW\Models\Laporan;
+use PMW\Models\Mahasiswa;
 use PMW\Support\RequestStatus;
 
 class User extends Authenticatable
@@ -72,7 +73,7 @@ class User extends Authenticatable
 
     public function review()
     {
-        return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('id_review', 'tahap', 'komentar');
+        return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('tahap', 'komentar','id');
     }
 
     public function mahasiswa()
@@ -83,6 +84,21 @@ class User extends Authenticatable
     public function proposal()
     {
         return $this->mahasiswa()->proposal();
+    }
+
+    public function laporanKemajuan()
+    {
+        return $this->proposal()->laporan()->where('jenis',Laporan::KEMAJUAN)->first();
+    }
+
+    public function laporanAkhir()
+    {
+        return $this->proposal()->laporan()->where('jenis',Laporan::AKHIR)->first();
+    }
+
+    public function logbook()
+    {
+        return $this->proposal()->logbook();
     }
 
     public function laporan($jenis = null)
@@ -96,11 +112,13 @@ class User extends Authenticatable
                 return $this->proposal()->laporan()->where('jenis', Laporan::AKHIR)->first();
             }
         }
+
+        return null;
     }
 
     public function bimbingan()
     {
-        return $this->belongsToMany('PMW\Models\Tim', 'bimbingan', 'id_pengguna', 'id_tim')->withPivot('status_request');
+        return $this->belongsToMany('PMW\Models\Proposal', 'bimbingan', 'id_pengguna', 'id_tim')->withPivot('status_request');
     }
 
     public function hasAnyRole(array $roles)
@@ -139,6 +157,21 @@ class User extends Authenticatable
         return ($this->hasRole(static::SUPER_ADMIN));
     }
 
+    public function isDosenPembimbing()
+    {
+        return $this->hasRole(static::DOSEN_PEMBIMBING);
+    }
+
+    public function isReviewer()
+    {
+        return $this->hasRole(static::REVIEWER);
+    }
+
+    public function isDosen()
+    {
+        return ($this->isDosenPembimbing() || $this->isReviewer());
+    }
+
     public function punyaTim()
     {
         return !is_null($this->mahasiswa()->id_proposal);
@@ -149,6 +182,28 @@ class User extends Authenticatable
         $proposal = $this->mahasiswa()->id_proposal;
 
         return Proposal::find($proposal)->ketua();
+    }
+
+    public function jumlahAnggotaTim()
+    {
+        $proposal = $this->proposal();
+
+        return Mahasiswa::where('id_proposal', $proposal->id)->count();
+    }
+
+    public function bolehUndangAnggota()
+    {
+        return (($this->isAnggota() && !$this->punyaTim()) || ($this->isKetua() && $this->jumlahAnggotaTim() < 3));
+    }
+
+    public function bolehUndangDosen()
+    {
+        return ($this->jumlahAnggotaTim() == 3);
+    }
+
+    public function requestingHakAkses($hakAkses)
+    {
+        return $this->hakAksesPengguna()->where('nama',$hakAkses)->count() == 1;
     }
 
 }

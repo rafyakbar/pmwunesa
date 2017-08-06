@@ -4,22 +4,33 @@
 
     <form action="{{ route('unggah.proposal') }}" method="post" enctype="multipart/form-data">
 
-        {{ method_field('put') }}
-
         {{ csrf_field() }}
 
-        <input type="text" name="judul"/>
+        {{ method_field('put') }}
 
-        <input type="text" name="jenis_usaha"/>
+        Judul
+        <input type="text" name="judul"/><br/>
 
-        <textarea name="keyword"></textarea>
+        Usulan Dana
+        <input type="number" name="usulan_dana"/><br/>
 
-        <textarea name="abstrak"></textarea>
+        Abstrak
+        <textarea name="abstrak"></textarea><br/>
 
+        Keyword
+        <textarea name="keyword"></textarea><br/>
+
+        Jenis Usaha
+        <select name="jenis_usaha">
+            <option value="Barang">Barang</option>
+            <option value="Jasa">Jasa</option>
+            <option value="Barang & Jasa">Barang & jasa</option>
+        </select>
+        <br/>
+        Berkas
         <input type="file" name="berkas"/>
 
-        <input type="submit" value="unggah"/>
-
+        <input type="submit" value="Unggah"/>
     </form>
 
 @endsection

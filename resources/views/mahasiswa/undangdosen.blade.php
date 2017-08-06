@@ -1,7 +1,11 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Public
- * Date: 8/4/2017
- * Time: 9:21 AM
- */
+@extends('layouts.app')
+
+@section('content')
+    @if(Auth::user()->bolehUndangDosen())
+        <form action="{{ route('undang.dosen') }}" method="post">
+            {{ csrf_field() }}
+            <input type="text" name="dosen"/>
+            <input type="submit"/>
+        </form>
+    @endif
+@endsection

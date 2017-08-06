@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'profil' => \PMW\Http\Middleware\CompleteProfile::class,
         'mahasiswa' => \PMW\Http\Middleware\AuthMahasiswa::class,
         'ajax' => \PMW\Http\Middleware\XMLHttpRequest::class,
-        'superadmin' => \PMW\Http\Middleware\AuthSuperAdmin::class
+        'superadmin' => \PMW\Http\Middleware\AuthSuperAdmin::class,
+        'dosen' => \PMW\Http\Middleware\AuthDosen::class
     ];
 }

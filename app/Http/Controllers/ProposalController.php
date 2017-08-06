@@ -110,6 +110,9 @@ class ProposalController extends Controller
     {
         $proposal = Proposal::find($request->id);
 
+        if(Auth::user()->isMahasiswa())
+            $proposal = Auth::user()->proposal();
+
         // proses unduh
         return response()->download(storage_path('app/public/proposal/' . $proposal->direktori));
     }

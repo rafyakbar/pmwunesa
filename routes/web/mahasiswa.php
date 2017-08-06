@@ -5,7 +5,7 @@ Route::get('proposal', function () {
 })->name('proposal');
 
 Route::get('logbook', function () {
-    return view('mahasiswa.logbook');
+    return view('mahasiswa.daftarlogbook');
 })->name('logbook');
 
 Route::get('proposal/final', function () {
@@ -15,11 +15,11 @@ Route::get('proposal/final', function () {
 Route::group(['prefix' => 'laporan'], function () {
 
     Route::get('kemajuan', function () {
-        return view('mahasiswa.laporan.kemajuan');
+        return view('mahasiswa.laporankemajuan');
     })->name('laporan.kemajuan');
 
     Route::get('akhir', function () {
-        return view('mahasiswa.laporan.akhir');
+        return view('mahasiswa.laporanakhir');
     })->name('laporan.akhir');
 
 });

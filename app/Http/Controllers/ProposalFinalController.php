@@ -5,6 +5,7 @@ namespace PMW\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\Support\FileHandler;
+use PMW\User;
 
 class ProposalFinalController extends Controller
 {
@@ -26,7 +27,7 @@ class ProposalFinalController extends Controller
     {
         if($this->bolehUnggah())
         {
-            if($this->berkasValid())
+            if($this->berkasValid($request->file('berkas')))
             {
                 $proposal = Auth::user()->proposal();
 
@@ -46,7 +47,10 @@ class ProposalFinalController extends Controller
 
     public function unduh(Request $request)
     {
-        $proposal = Auth::user()->proposal();
+        $proposal = Proposal::find($request->id);
+
+        if(Auth::user()->isMahasiswa())
+            $proposal = Auth::user()->proposal();
 
         // proses unduh
         return response()->download(storage_path('app/public/' . $this->dir . '/' . $proposal->direktori_final));

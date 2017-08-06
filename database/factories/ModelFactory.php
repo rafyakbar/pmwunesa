@@ -35,27 +35,3 @@ $factory->define(PMW\Models\Proposal::class, function(Faker\Generator $faker){
         'jenis_usaha' => 'barang'
     ];
 });
-
-$factory->define(PMW\Models\HakAksesPengguna::class,function(Faker\Generator $faker){
-    return [
-        'id_pengguna' => function(){
-            return (PMW\User::all()->pluck('id'))[rand(0,count(PMW\User::all())-1)]; 
-        },
-        'id_hak_akses' => function(){
-            return [1,1,1,1,3,4,5,6,7][rand(0,8)];
-            // return (PMW\Models\HakAkses::all()->pluck('id'))[rand(0,count(PMW\Models\HakAkses::all())-1)]; 
-        },
-        'status_request' => 'entah'
-    ];
-});
-
-$factory->define(PMW\Models\Tim::class, function(Faker\Generator $faker){
-    return [
-        'id_pengguna' => function(){
-            return (PMW\User::all()->pluck('id'))[rand(0,count(PMW\User::all()))]; 
-        },
-        'id_proposal' => function(){
-            return (PMW\Models\Proposal::all()->pluck('id'))[rand(0,count(PMW\Models\Proposal::all()))]; 
-        }
-    ];
-});

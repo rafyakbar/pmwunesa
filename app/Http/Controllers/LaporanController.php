@@ -5,6 +5,7 @@ namespace PMW\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Laporan;
+use PMW\Models\Proposal;
 use PMW\Support\FileHandler;
 
 /**
@@ -37,13 +38,11 @@ class LaporanController extends Controller
     {
         $berkas = $request->file('berkas');
 
-        if($this->bolehUnggah())
-        {
-            if($this->berkasValid($berkas))
-            {
+        if ($this->bolehUnggah()) {
+            if ($this->berkasValid($berkas)) {
                 $file = $this->unggahBerkas($berkas);
 
-                Auth::user()->laporan()->create([
+                Laporan::create([
                     'id_proposal' => Auth::user()->proposal()->id,
                     'jenis' => Laporan::KEMAJUAN,
                     'direktori' => $file,
@@ -61,14 +60,18 @@ class LaporanController extends Controller
      */
     public function unduh(Request $request)
     {
-        $laporan = Auth::user()->laporan(Laporan::KEMAJUAN);
+        if (!is_null($request->id_proposal))
+            $laporan = Proposal::find($request->id_proposal)->laporanKemajuan();
 
-        return response()->download(storage_path('public/' . $this->dir . '/' . $laporan->direktori));
+        if (Auth::user()->isMahasiswa())
+            $laporan = Auth::user()->laporanKemajuan();
+
+        return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
     }
 
     public function hapus(Request $request)
     {
-        
+
     }
 
 }
