@@ -16,8 +16,13 @@ class LogBook extends Model
         'updates_at'
     ];
 
+    /**
+     * Mendapatkan proposal dari logbook tertentu
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function proposal()
     {
-        return $this->belongsTo('PMW\Models\Proposal','id_proposal');
+        return $this->belongsTo('PMW\Models\Proposal','id_proposal')->first();
     }
 }

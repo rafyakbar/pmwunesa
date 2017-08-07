@@ -1,6 +1,5 @@
 <?php
 
-
 Route::group(['prefix' => 'terima'],function (){
 
     Route::post('undangan',[

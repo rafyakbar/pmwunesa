@@ -2,6 +2,7 @@
 
 namespace PMW\Http\Controllers\Auth;
 
+use PMW\Models\HakAkses;
 use PMW\User;
 use PMW\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -95,8 +96,16 @@ class RegisterController extends Controller
             'password' => bcrypt($this->generatedPassword)
         ]);
 
-        Mahasiswa::create([
-            'id_pengguna' => $data['id'],
-        ]);
+        // Set user sebagai mahasiswa
+        if(count($data['id']) == 11)
+        {
+            Mahasiswa::create([
+                'id_pengguna' => $data['id'],
+            ]);
+
+            User::find($data['id'])
+                ->hakAksesPengguna()
+                ->attach(HakAkses::where('nama',User::ANGGOTA)->first());
+        }
     }
 }

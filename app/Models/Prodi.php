@@ -16,11 +16,27 @@ class Prodi extends Model
         'nama'
     ];
 
-    public function jurusan(){
-        return $this->belongsTo('PMW\Models\Jurusan');
+    /**
+     * Mendapatkan jurusan dari prodi tertentu
+     *
+     * @return mixed
+     */
+    public function jurusan()
+    {
+        return $this->belongsTo('PMW\Models\Jurusan')->first();
     }
 
-    public function pengguna(){
+    /**
+     * Mendapatkan daftar pengguna atau pengguna secara spesifik
+     *
+     * @param null $pengguna
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed
+     */
+    public function pengguna($pengguna = null)
+    {
+        if(!is_null($pengguna))
+            return $this->hasMany('PMW\User')->where('id_pengguna',$pengguna)->first();
+
         return $this->hasMany('PMW\User');
     }
 }

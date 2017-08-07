@@ -32,7 +32,7 @@ class LogBookController extends Controller
             $tambah = LogBook::create([
                 'catatan' => $request->catatan,
                 'biaya' => $request->biaya,
-                'id_proposal' => Auth::user()->proposal()->id
+                'id_proposal' => Auth::user()->mahasiswa()->proposal()->id
             ]);
             if (is_null($tambah)) {
                 Session::flash('message', 'Gagal menambah Logbook. Coba beberapa saat lagi !');
@@ -75,7 +75,7 @@ class LogBookController extends Controller
 
     private function bolehTambahLogBook()
     {
-        return (Auth::user()->isKetua() && Auth::user()->proposal()->lolos);
+        return (Auth::user()->isKetua() && Auth::user()->mahasiswa()->proposal()->lolos());
     }
 
 }

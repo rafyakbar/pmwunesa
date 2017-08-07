@@ -37,11 +37,7 @@ class UndanganDosenController extends Controller
     {
         $proposal = Proposal::find($request->proposal);
 
-        $proposal->bimbingan()->detach(Auth::user());
-
-        $proposal->bimbingan()->attach(Auth::user(),[
-            'status_request' => RequestStatus::APPROVED
-        ]);
+        $proposal->tambahPembimbing(Auth::user());
 
         return response()->json([
             'message' => 'Anda telah menjadi pembimbing tim ini !',

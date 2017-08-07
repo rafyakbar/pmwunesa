@@ -47,12 +47,12 @@ class Proposal extends Model
 
     public function laporanAkhir()
     {
-        return $this->laporan()->where('jenis',Laporan::AKHIR)->first();
+        return $this->laporan()->where('jenis', Laporan::AKHIR)->first();
     }
 
     public function laporanKemjuan()
     {
-        return $this->laporan()->where('jenis',Laporan::KEMAJUAN)->first();
+        return $this->laporan()->where('jenis', Laporan::KEMAJUAN)->first();
     }
 
     public function mahasiswa()
@@ -78,5 +78,19 @@ class Proposal extends Model
             ->whereRaw('tim.id_pengguna = hak_akses_pengguna.id_pengguna AND hak_akses_pengguna.id_hak_akses = ketua.id')
             ->select(DB::raw('tim.id_pengguna'))->first();
         return User::find($idketua->id_pengguna);
+    }
+
+    public function lolos()
+    {
+        return ($this->lolos);
+    }
+
+    public function tambahPembimbing($dosen)
+    {
+        $this->bimbingan()->detach($dosen);
+
+        $this->bimbingan()->attach($dosen,[
+            'status_request' => RequestStatus::APPROVED
+        ]);
     }
 }

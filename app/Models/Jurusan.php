@@ -16,11 +16,26 @@ class Jurusan extends Model
         'nama'
     ];
 
-    public function prodi(){
+    /**
+     * Mendapatkan daftar prodi atau prodi tertentu dari jurusan tertentu
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function prodi($prodi = null)
+    {
+        if (!is_null($prodi))
+            return $this->hasMany('PMW\Models\Prodi')->where('nama',$prodi)->first();
+
         return $this->hasMany('PMW\Models\Prodi');
     }
 
-    public function fakultas(){
-        return $this->belongsTo('PMW\Models\Fakultas');
+    /**
+     * Mendapatkan fakultas dari jurusan tertentu
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function fakultas()
+    {
+        return $this->belongsTo('PMW\Models\Fakultas')->first();
     }
 }

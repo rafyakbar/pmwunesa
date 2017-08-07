@@ -64,7 +64,7 @@ class LaporanController extends Controller
             $laporan = Proposal::find($request->id_proposal)->laporanKemajuan();
 
         if (Auth::user()->isMahasiswa())
-            $laporan = Auth::user()->laporanKemajuan();
+            $laporan = Auth::user()->mahasiswa()->proposal()->laporanKemajuan();
 
         return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
     }

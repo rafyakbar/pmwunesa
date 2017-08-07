@@ -56,10 +56,7 @@ class ReviewController extends Controller
             // Menambahkan nilai per aspek
             foreach ($daftarAspek as $aspek) {
                 if ($request->has('nilai.' . $aspek->id)) {
-                    $review->penilaian()->detach(Aspek::find($aspek->id));
-                    $review->penilaian()->attach(Aspek::find($aspek->id), [
-                        'nilai' => $request->input('nilai.' . $aspek->id)
-                    ]);
+                    $review->ubahNilai(Aspek::find($aspek->id),$request->input('nilai.' . $aspek->id));
                 }
             }
 

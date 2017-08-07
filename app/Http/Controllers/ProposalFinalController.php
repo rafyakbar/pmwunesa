@@ -29,7 +29,7 @@ class ProposalFinalController extends Controller
         {
             if($this->berkasValid($request->file('berkas')))
             {
-                $proposal = Auth::user()->proposal();
+                $proposal = Auth::user()->mahasiswa()->proposal();
 
                 $berkas = $this->unggahBerkas($request->file('berkas'));
 
@@ -50,7 +50,7 @@ class ProposalFinalController extends Controller
         $proposal = Proposal::find($request->id);
 
         if(Auth::user()->isMahasiswa())
-            $proposal = Auth::user()->proposal();
+            $proposal = Auth::user()->mahasiswa()->proposal();
 
         // proses unduh
         return response()->download(storage_path('app/public/' . $this->dir . '/' . $proposal->direktori_final));

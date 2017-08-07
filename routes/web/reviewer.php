@@ -13,3 +13,12 @@ Route::group(['prefix' => 'tambah'],function (){
     ]);
 
 });
+
+Route::group(['prefix' => 'daftar'],function (){
+
+    Route::get('proposal',[
+        'uses' => 'Page\ReviewerController@daftarProposal',
+        'as' => 'daftar.proposal.reviewer'
+    ]);
+
+});

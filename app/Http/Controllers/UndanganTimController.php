@@ -5,9 +5,7 @@ namespace PMW\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\User;
-use PMW\Models\UndanganTim;
 use PMW\Models\Proposal;
-use PMW\Models\HakAkses;
 
 class UndanganTimController extends Controller
 {
@@ -59,50 +57,50 @@ class UndanganTimController extends Controller
         $dari = User::find($request->dari);
         $untuk = Auth::user();
 
-        $undangan = $untuk->mahasiswa()->undanganTimAnggota();
-
         // Memastikan bahwa user tidak sedang mengirim undangan dan
         // pengirim undangan bukan merupakan anggota, serta user
-        // belum memiliki tim
+        // belum memiliki tim, serta tidak bisa menerima undangan jika anggota tim sudah
+        // berjumlah 3 orang
         if($untuk->mahasiswa()->undanganTimKetua()->count() == 0 &&
-            is_null($untuk->mahasiswa()->id_proposal))
+            !$untuk->mahasiswa()->punyaTim())
         {
-            // Terima undangan
-            
-            if(!is_null($dari->mahasiswa()->id_proposal))
-            {
-                $proposal = $dari->mahasiswa()->proposal();
+            if(!$dari->mahasiswa()->timLengkap()) {
+
+                // Terima undangan
+                if (!is_null($dari->mahasiswa()->id_proposal)) {
+                    $proposal = $dari->mahasiswa()->proposal();
+                } else {
+                    $proposal = new Proposal();
+                    $proposal->lolos = false;
+                    $proposal->save();
+                }
+
+                // Mengupdate proposal dari pengirim undangan
+                $dari->mahasiswa()->update([
+                    'id_proposal' => $proposal->id
+                ]);
+
+                if ($dari->hasRole(User::ANGGOTA))
+                    $dari->jadikanKetua();
+
+                // Menambahkan id proposal pada user
+                $untuk->mahasiswa()->update([
+                    'id_proposal' => $proposal->id
+                ]);
+
+                $dari->mahasiswa()->undanganTimKetua()->detach($untuk->mahasiswa());
+
+                return response()->json([
+                    'message' => 'Anda berhasil bergabung dalam tim ' . $dari->nama,
+                    'error' => 0
+                ]);
             }
-            else
-            {
-                $proposal = new Proposal();
-                $proposal->lolos = false;
-                $proposal->save();
+            else{
+                return response()->json([
+                    'message' => 'Pengirim undangan telah memiliki jumlah anggota yang mencukupi !',
+                    'error' => 2
+                ]);
             }
-            
-            // Mengupdate proposal dari pengirim undangan
-            $dari->mahasiswa()->update([
-                'id_proposal' => $proposal->id
-            ]);
-
-            if($dari->hasRole(User::ANGGOTA)){
-                // Menghapus hak akses sebagai anggota dari pengirim undangan
-                $dari->hakAksesPengguna()->detach(HakAkses::where('nama', User::ANGGOTA)->first());
-                // menjadikan pengirim undangan sebagai ketua
-                $dari->hakAksesPengguna()->attach(HakAkses::where('nama', User::KETUA_TIM)->first(),['status_request' => 'Approved']);
-            }
-
-            // Menambahkan id proposal pada user
-            $untuk->mahasiswa()->update([
-                'id_proposal' => $proposal->id
-            ]);
-
-            $dari->mahasiswa()->undanganTimKetua()->detach($untuk->mahasiswa());
-
-            return response()->json([
-                'message' => 'Anda berhasil bergabung dalam tim ' . $dari->nama,
-                'error' => 0
-            ]);
         }
         else
         {
@@ -122,9 +120,8 @@ class UndanganTimController extends Controller
         $dari = User::find($request->dari);
         $untuk = Auth::user();
 
-        $dari->mahasiswa()->undanganTimKetua()->where('id_anggota',$untuk->id)->first()->update([
-            'ditolak' => true
-        ]);
+        $untuk->mahasiswa()->tolakUndanganTim($dari);
+
         return response()->json([
             'message' => 'Undangan telah ditolak !',
             'error' => 0

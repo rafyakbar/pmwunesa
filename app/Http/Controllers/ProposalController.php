@@ -54,7 +54,7 @@ class ProposalController extends Controller
                 // Mengunggah
                 $file = $this->unggahBerkas($request->file('berkas'));
 
-                Auth::user()->proposal()->update([
+                Auth::user()->mahasiswa()->proposal()->update([
                     'usulan_dana'   => $request->usulan_dana,
                     'judul'         => $request->judul,
                     'abstrak'       => $request->abstrak,
@@ -111,10 +111,19 @@ class ProposalController extends Controller
         $proposal = Proposal::find($request->id);
 
         if(Auth::user()->isMahasiswa())
-            $proposal = Auth::user()->proposal();
+            $proposal = Auth::user()->mahasiswa()->proposal();
 
         // proses unduh
         return response()->download(storage_path('app/public/proposal/' . $proposal->direktori));
+    }
+
+    public function loloskan(Request $request)
+    {
+        $proposal = Proposal::find($request->id_proposal);
+
+        $proposal->update([
+            'lolos' => true
+        ]);
     }
 
 }

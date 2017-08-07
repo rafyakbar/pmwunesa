@@ -39,7 +39,7 @@ class LaporanAkhirController extends Controller
                 $file = $this->unggahBerkas($berkas);
 
                 Laporan::create([
-                    'id_proposal' => Auth::user()->proposal()->id,
+                    'id_proposal' => Auth::user()->mahasiswa()->proposal()->id,
                     'jenis' => Laporan::AKHIR,
                     'direktori' => $file,
                     'keterangan' => $request->keterangan

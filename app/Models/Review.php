@@ -23,4 +23,12 @@ class Review extends Model
         return $this->belongsToMany('PMW\Models\Aspek', 'penilaian', 'id_review', 'id_aspek')->withPivot('nilai');
     }
 
+    public function ubahNilai($aspek, $nilai)
+    {
+        $this->penilaian()->detach($aspek);
+        $this->penilaian()->attach($aspek, [
+            'nilai' => $nilai
+        ]);
+    }
+
 }

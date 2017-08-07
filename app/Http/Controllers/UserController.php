@@ -5,6 +5,7 @@ namespace PMW\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PMW\Models\HakAkses;
 use PMW\User;
 
 class UserController extends Controller
@@ -71,6 +72,13 @@ class UserController extends Controller
     public function tambahUser(Request $request)
     {
 
+    }
+
+    public function cariMahasiswa(Request $request)
+    {
+        $nama = $request->nama;
+
+        return User::cari('nama',$nama,[User::KETUA_TIM,User::ANGGOTA]);
     }
 
 }

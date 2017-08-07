@@ -21,8 +21,24 @@ class Laporan extends Model
         'keterangan'
     ];
 
+    /**
+     *
+     *
+     * @return mixed
+     */
     public function proposal()
     {
-        return $this->belongsTo('PMW\Models\Proposal');
+        return $this->belongsTo('PMW\Models\Proposal')->first();
     }
+
+    public function kemajuan()
+    {
+        return $this->where('jenis', Laporan::KEMAJUAN)->first();
+    }
+
+    public function akhir()
+    {
+        return $this->where('jenis', Laporan::AKHIR)->first();
+    }
+
 }

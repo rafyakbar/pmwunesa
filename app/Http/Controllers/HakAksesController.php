@@ -20,10 +20,7 @@ class HakAksesController extends Controller
         if (!$pengguna->hasRole($hakAkses->nama)) {
             // Jika request pernah di tolak, maka cukup melakukan
             // update pada tabel dengan mengubah status request
-            if ($pengguna->hakAksesPengguna()
-                ->where('id_hak_akses', $hakAkses->id)
-                ->where('status_request', RequestStatus::REJECTED)
-                ->count() > 0) {
+            if ($pengguna->hakAksesDitolak($hakAkses)) {
                 $pengguna->hakAksesPengguna()
                     ->detach($hakAkses);
                 $pengguna->hakAksesPengguna()
@@ -44,7 +41,7 @@ class HakAksesController extends Controller
     {
         $pengguna = User::find($request->id_pengguna);
         $hakAkses = HakAkses::find($request->id_hak_akses);
-        $permintaan = $pengguna->hakAksesPengguna()->where('id_hak_akses', $hakAkses->id);
+        $permintaan = $pengguna->hakAksesPengguna($hakAkses);
 
         // Menerima permintaan
         $permintaan->update([

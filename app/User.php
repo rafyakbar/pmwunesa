@@ -2,11 +2,14 @@
 
 namespace PMW;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use PMW\Models\HakAkses;
 use PMW\Models\Laporan;
 use PMW\Models\Mahasiswa;
 use PMW\Support\RequestStatus;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -66,61 +69,81 @@ class User extends Authenticatable
         return $this->belongsTo('PMW\Models\Prodi');
     }
 
-    public function hakAksesPengguna()
+    /**
+     * Mendapatkan hak akses dari user tertentu
+     *
+     * @param null $hakAkses
+     * @return $this|mixed
+     */
+    public function hakAksesPengguna($hakAkses = null)
     {
-        return $this->belongsToMany('PMW\Models\HakAkses', 'hak_akses_pengguna', 'id_pengguna', 'id_hak_akses')->withPivot('status_request');
+        if(!is_null($hakAkses)) {
+            return $this->belongsToMany(
+                'PMW\Models\HakAkses',
+                'hak_akses_pengguna',
+                'id_pengguna',
+                'id_hak_akses')
+                ->withPivot('status_request')
+                ->where('id_hak_akses', $hakAkses->id)->first();
+        }
+        return $this->belongsToMany(
+            'PMW\Models\HakAkses',
+            'hak_akses_pengguna',
+            'id_pengguna',
+            'id_hak_akses')
+            ->withPivot('status_request');
+    }
+
+    /**
+     * Mengecek apakah permintaan hak akses user ditolak
+     *
+     * @param HakAkses $hakAkses
+     * @return bool
+     */
+    public function hakAksesDitolak($hakAkses)
+    {
+        return ($this->hakAksesPengguna()
+            ->where('id_hak_akses',$hakAkses->id)
+            ->where('status_request',RequestStatus::REJECTED)
+            ->count() > 0);
     }
 
     public function review()
     {
-        return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('tahap', 'komentar','id');
+        return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('tahap', 'komentar', 'id');
     }
 
+    /**
+     * Merelasikan dengan tabel mahasiswa
+     *
+     * @return mixed
+     */
     public function mahasiswa()
     {
         return $this->hasOne('PMW\Models\Mahasiswa', 'id_pengguna')->first();
     }
 
-    public function proposal()
-    {
-        return $this->mahasiswa()->proposal();
-    }
-
-    public function laporanKemajuan()
-    {
-        return $this->proposal()->laporan()->where('jenis',Laporan::KEMAJUAN)->first();
-    }
-
-    public function laporanAkhir()
-    {
-        return $this->proposal()->laporan()->where('jenis',Laporan::AKHIR)->first();
-    }
-
-    public function logbook()
-    {
-        return $this->proposal()->logbook();
-    }
-
-    public function laporan($jenis = null)
-    {
-        if (is_null($jenis)) {
-            return $this->proposal()->laporan();
-        } else {
-            if ($jenis == Laporan::KEMAJUAN) {
-                return $this->proposal()->laporan()->where('jenis', Laporan::KEMAJUAN)->first();
-            } elseif ($jenis == Laporan::AKHIR) {
-                return $this->proposal()->laporan()->where('jenis', Laporan::AKHIR)->first();
-            }
-        }
-
-        return null;
-    }
-
+    /**
+     * Merelasikan dengan tabel bimbingan jika user adalah dosen pembimbing
+     *
+     * @return BelongsToMany
+     */
     public function bimbingan()
     {
-        return $this->belongsToMany('PMW\Models\Proposal', 'bimbingan', 'id_pengguna', 'id_tim')->withPivot('status_request');
+        return $this->belongsToMany(
+            'PMW\Models\Proposal',
+            'bimbingan',
+            'id_pengguna',
+            'id_tim')
+            ->withPivot('status_request');
     }
 
+    /**
+     * Mengecek apakah user terkait memiliki salah satu diantara beberapa role yang diinginkan
+     *
+     * @param array $roles
+     * @return bool
+     */
     public function hasAnyRole(array $roles)
     {
         foreach ($roles as $role) {
@@ -172,38 +195,39 @@ class User extends Authenticatable
         return ($this->isDosenPembimbing() || $this->isReviewer());
     }
 
-    public function punyaTim()
-    {
-        return !is_null($this->mahasiswa()->id_proposal);
-    }
-
-    public function ketua()
-    {
-        $proposal = $this->mahasiswa()->id_proposal;
-
-        return Proposal::find($proposal)->ketua();
-    }
-
-    public function jumlahAnggotaTim()
-    {
-        $proposal = $this->proposal();
-
-        return Mahasiswa::where('id_proposal', $proposal->id)->count();
-    }
-
-    public function bolehUndangAnggota()
-    {
-        return (($this->isAnggota() && !$this->punyaTim()) || ($this->isKetua() && $this->jumlahAnggotaTim() < 3));
-    }
-
-    public function bolehUndangDosen()
-    {
-        return ($this->jumlahAnggotaTim() == 3);
-    }
-
     public function requestingHakAkses($hakAkses)
     {
-        return $this->hakAksesPengguna()->where('nama',$hakAkses)->count() == 1;
+        return $this->hakAksesPengguna()->where('nama', $hakAkses)->count() == 1;
+    }
+
+    public static function cari($column, $value, $roles, $logic = 'OR')
+    {
+        $qualifier = '';
+        if(is_string($roles))
+            $qualifier .= 'hak_akses.nama = \'' . $roles . '\'';
+        elseif (is_array($roles))
+        {
+            foreach ($roles as $index => $role)
+            {
+                $qualifier .= 'hak_akses.nama = \'' . $role . '\'';
+                if($index < count($roles)-1)
+                    $qualifier .= ($logic == 'OR') ? ' OR ' : 'AND ';
+            }
+        }
+        $query = DB::table(DB::raw('pengguna JOIN (SELECT * FROM hak_akses_pengguna, hak_akses WHERE '. $qualifier .') AS mhs ON mhs.id_pengguna = pengguna.id'))
+            ->select(DB::raw('pengguna.*'))
+            ->whereRaw('pengguna.'.$column.' LIKE \'%'.$value.'%\'')
+            ->distinct();
+
+        return $query->get();
+    }
+
+    public function jadikanKetua()
+    {
+        // Menghapus hak akses sebagai anggota dari pengirim undangan
+        $this->hakAksesPengguna()->detach(HakAkses::where('nama', User::ANGGOTA)->first());
+        // menjadikan pengirim undangan sebagai ketua
+        $this->hakAksesPengguna()->attach(HakAkses::where('nama', User::KETUA_TIM)->first(), ['status_request' => 'Approved']);
     }
 
 }
