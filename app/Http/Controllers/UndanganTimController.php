@@ -24,7 +24,7 @@ class UndanganTimController extends Controller
         
         if(User::findOrFail($untuk) && $dari != $untuk)
         {
-            if(is_null(Auth::user()->mahasiswa()->id_tim))
+            if(!Auth::user()->mahasiswa()->punyaTim())
             {
                 Auth::user()->mahasiswa()->undanganTimKetua()->attach(User::find($untuk)->mahasiswa());
                 return response()->json([
@@ -67,12 +67,12 @@ class UndanganTimController extends Controller
             if(!$dari->mahasiswa()->timLengkap()) {
 
                 // Terima undangan
-                if (!is_null($dari->mahasiswa()->id_proposal)) {
+                if ($dari->mahasiswa()->punyaProposal()) {
                     $proposal = $dari->mahasiswa()->proposal();
                 } else {
-                    $proposal = new Proposal();
-                    $proposal->lolos = false;
-                    $proposal->save();
+                    $proposal = Proposal::create([
+                        'lolos' => false
+                    ]);
                 }
 
                 // Mengupdate proposal dari pengirim undangan
