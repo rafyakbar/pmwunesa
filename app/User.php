@@ -192,7 +192,7 @@ class User extends Authenticatable
 
     public function isDosen()
     {
-        return ($this->isDosenPembimbing() || $this->isReviewer());
+        return ($this->isDosenPembimbing());
     }
 
     public function requestingHakAkses($hakAkses)
