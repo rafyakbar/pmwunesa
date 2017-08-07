@@ -190,11 +190,6 @@ class User extends Authenticatable
         return $this->hasRole(static::REVIEWER);
     }
 
-    public function isDosen()
-    {
-        return ($this->isDosenPembimbing());
-    }
-
     public function requestingHakAkses($hakAkses)
     {
         return $this->hakAksesPengguna()->where('nama', $hakAkses)->count() == 1;
