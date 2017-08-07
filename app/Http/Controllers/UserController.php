@@ -81,4 +81,18 @@ class UserController extends Controller
         return User::cari('nama',$nama,[User::KETUA_TIM,User::ANGGOTA]);
     }
 
+    public function cariDosen(Request $request)
+    {
+        $nama = $request->nama;
+
+        return User::cari('nama',$nama,User::DOSEN_PEMBIMBING);
+    }
+
+    public function cariReviewer(Request $request)
+    {
+        $nama = $request->nama;
+
+        return User::cari('nama',$nama,User::REVIEWER);
+    }
+
 }
