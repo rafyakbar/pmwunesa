@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Auth::user()->bolehUndangAnggota())
+    {{--@if(Auth::user()->mahasiswa()->bisaKirimUndanganTim())--}}
 
         <form action="{{ route('cari.mahasiswa') }}" method="get" id="cari-anggota">
 
@@ -75,5 +75,5 @@
                 })
             </script>
         @endpush
-    @endif
+    {{--@endif--}}
 @endsection

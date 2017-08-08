@@ -2,7 +2,7 @@
 
 @section('content')
 
-@if(Auth::user()->isMahasiswa() && Auth::user()->punyaTim())
+@if(Auth::user()->isMahasiswa() && Auth::user()->mahasiswa()->punyaTim())
     <p>Anggota tim anda : </p>
     <ul>
     @foreach(\PMW\Models\Mahasiswa::where('id_proposal',Auth::user()->mahasiswa()->id_proposal)->cursor() as $anggota)

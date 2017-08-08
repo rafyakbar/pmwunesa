@@ -17,7 +17,7 @@ class DashboardController extends Controller
             return $this->adminUniversitas();
         else if(Auth::user()->hasRole(HakAkses::ADMIN_FAKULTAS))
             return $this->adminFakultas();
-        else if(Auth::user()->isDosen())
+        else if(Auth::user()->isDosenPembimbing())
             return $this->dosen();
         else
             return $this->mahasiswa();

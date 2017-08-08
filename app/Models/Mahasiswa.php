@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
+
     public $table = 'mahasiswa';
 
     public $primaryKey = 'id_pengguna';
@@ -72,7 +73,7 @@ class Mahasiswa extends Model
 
     public function punyaTim()
     {
-        return !is_null($this->mahasiswa()->id_proposal);
+        return !is_null($this->id_proposal);
     }
 
     public function ketua()
@@ -91,7 +92,7 @@ class Mahasiswa extends Model
 
     public function bisaKirimUndanganTim($penerima = null)
     {
-        return (($this->isAnggota() && !$this->punyaTim()) || ($this->isKetua() && $this->jumlahAnggotaTim() < 3));
+        return (($this->pengguna()->isAnggota() && !$this->punyaTim()) || ($this->pengguna()->isKetua() && $this->jumlahAnggotaTim() < 3));
     }
 
     public function bisaTerimaUndanganTim($pengirim = null)
