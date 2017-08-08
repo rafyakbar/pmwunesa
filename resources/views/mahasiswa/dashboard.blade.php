@@ -6,7 +6,7 @@
     <p>Anggota tim anda : </p>
     <ul>
     @foreach(\PMW\Models\Mahasiswa::where('id_proposal',Auth::user()->mahasiswa()->id_proposal)->cursor() as $anggota)
-        <li>{{ $anggota->pengguna()->nama }} @if($anggota->pengguna()->hasRole(\PMW\User::KETUA_TIM)) <b>(Ketua)</b> @endif</li>
+        <li>{{ $anggota->pengguna()->nama }} @if($anggota->pengguna()->isKetua()) <b>(Ketua)</b> @endif</li>
     @endforeach
     </ul>
 @endif

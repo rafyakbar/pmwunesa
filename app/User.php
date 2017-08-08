@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PMW\Models\HakAkses;
-use PMW\Models\Laporan;
-use PMW\Models\Mahasiswa;
 use PMW\Support\RequestStatus;
 use Illuminate\Support\Facades\DB;
 
@@ -15,20 +13,6 @@ class User extends Authenticatable
 {
 
     use Notifiable;
-
-    const KETUA_TIM = 'Ketua Tim';
-
-    const ANGGOTA = 'Anggota';
-
-    const REVIEWER = 'Reviewer';
-
-    const ADMIN_FAKULTAS = 'Admin Fakultas';
-
-    const ADMIN_UNIVERSITAS = 'Admin Universitas';
-
-    const DOSEN_PEMBIMBING = 'Dosen Pembimbing';
-
-    const SUPER_ADMIN = 'Super Admin';
 
     protected $table = 'pengguna';
 
@@ -162,12 +146,12 @@ class User extends Authenticatable
 
     public function isKetua()
     {
-        return ($this->hasRole(static::KETUA_TIM));
+        return ($this->hasRole(HakAkses::KETUA_TIM));
     }
 
     public function isAnggota()
     {
-        return ($this->hasRole(static::ANGGOTA));
+        return ($this->hasRole(HakAkses::ANGGOTA));
     }
 
     public function isMahasiswa()
@@ -177,17 +161,17 @@ class User extends Authenticatable
 
     public function isSuperAdmin()
     {
-        return ($this->hasRole(static::SUPER_ADMIN));
+        return ($this->hasRole(HakAkses::SUPER_ADMIN));
     }
 
     public function isDosenPembimbing()
     {
-        return $this->hasRole(static::DOSEN_PEMBIMBING);
+        return $this->hasRole(HakAkses::DOSEN_PEMBIMBING);
     }
 
     public function isReviewer()
     {
-        return $this->hasRole(static::REVIEWER);
+        return $this->hasRole(HakAkses::REVIEWER);
     }
 
     public function requestingHakAkses($hakAkses)

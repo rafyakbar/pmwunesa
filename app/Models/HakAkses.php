@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class HakAkses extends Model
 {
+
+    const KETUA_TIM = 'Ketua Tim';
+
+    const ANGGOTA = 'Anggota';
+
+    const REVIEWER = 'Reviewer';
+
+    const ADMIN_FAKULTAS = 'Admin Fakultas';
+
+    const ADMIN_UNIVERSITAS = 'Admin Universitas';
+
+    const DOSEN_PEMBIMBING = 'Dosen Pembimbing';
+
+    const SUPER_ADMIN = 'Super Admin';
+
     protected $table = 'hak_akses';
 
     public $timestamps = false;

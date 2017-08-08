@@ -3,6 +3,7 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
+use PMW\Models\HakAkses;
 use PMW\User;
 
 class AuthReviewer
@@ -16,7 +17,7 @@ class AuthReviewer
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hasRole(User::REVIEWER))
+        if($request->user()->hasRole(HakAkses::REVIEWER))
             return redirect()->route('dashboard');
         return $next($request);
     }

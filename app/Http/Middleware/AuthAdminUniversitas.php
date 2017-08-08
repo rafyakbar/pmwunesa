@@ -15,7 +15,7 @@ class AuthAdminUniversitas
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hak_akses != User::ADMIN_UNIVERSITAS)
+        if($request->user()->hak_akses != HakAkses::ADMIN_UNIVERSITAS)
             return redirect()->route('dashboard');
         return $next($request);
     }

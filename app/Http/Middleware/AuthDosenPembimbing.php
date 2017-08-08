@@ -3,6 +3,7 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
+use PMW\Models\HakAkses;
 
 class AuthDosenPembimbing
 {
@@ -15,7 +16,7 @@ class AuthDosenPembimbing
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hasRole(User::DOSEN_PEMBIMBING))
+        if(!$request->user()->hasRole(HakAkses::DOSEN_PEMBIMBING))
             return redirect()->route('dashboard');
             
         return $next($request);

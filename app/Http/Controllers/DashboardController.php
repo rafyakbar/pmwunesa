@@ -3,19 +3,19 @@
 namespace PMW\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
-use PMW\User;
 
 class DashboardController extends Controller
 {
     
     public function index()
     {
-        if(Auth::user()->hasRole(User::SUPER_ADMIN))
+        if(Auth::user()->hasRole(HakAkses::SUPER_ADMIN))
             return $this->superAdmin();
-        else if(Auth::user()->hasRole(User::ADMIN_UNIVERSITAS))
+        else if(Auth::user()->hasRole(HakAkses::ADMIN_UNIVERSITAS))
             return $this->adminUniversitas();
-        else if(Auth::user()->hasRole(User::ADMIN_FAKULTAS))
+        else if(Auth::user()->hasRole(HakAkses::ADMIN_FAKULTAS))
             return $this->adminFakultas();
         else if(Auth::user()->isDosen())
             return $this->dosen();

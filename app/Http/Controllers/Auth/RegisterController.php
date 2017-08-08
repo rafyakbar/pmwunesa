@@ -105,7 +105,7 @@ class RegisterController extends Controller
 
             User::find($data['id'])
                 ->hakAksesPengguna()
-                ->attach(HakAkses::where('nama',User::ANGGOTA)->first());
+                ->attach(HakAkses::where('nama',HakAkses::ANGGOTA)->first());
         }
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Auth::user()->bolehUndangDosen())
+    @if(Auth::user()->bisaKirimUndanganDosen())
         <form action="{{ route('undang.dosen') }}" method="post">
             {{ csrf_field() }}
             <input type="text" name="dosen"/>

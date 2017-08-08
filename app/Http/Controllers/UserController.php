@@ -13,7 +13,7 @@ class UserController extends Controller
     
     public function editProfil(Request $request)
     {
-        if(Auth::user()->hasAnyRole([User::KETUA_TIM,User::ANGGOTA])){
+        if(Auth::user()->hasAnyRole([HakAkses::KETUA_TIM,HakAkses::ANGGOTA])){
             $this->validate($request,[
                 'nama' => 'required',
                 'id_prodi' => 'required|numeric',
@@ -42,7 +42,7 @@ class UserController extends Controller
             'no_telepon' => $request->no_telepon
         ]);
 
-        if(Auth::user()->hasAnyRole([User::KETUA_TIM,User::ANGGOTA])){
+        if(Auth::user()->hasAnyRole([HakAkses::KETUA_TIM,HakAkses::ANGGOTA])){
             Auth::user()->mahasiswa()->update([
                 'ipk' => $request->ipk
             ]);
@@ -78,21 +78,21 @@ class UserController extends Controller
     {
         $nama = $request->nama;
 
-        return User::cari('nama',$nama,[User::KETUA_TIM,User::ANGGOTA]);
+        return User::cari('nama',$nama,[HakAkses::KETUA_TIM,HakAkses::ANGGOTA]);
     }
 
     public function cariDosen(Request $request)
     {
         $nama = $request->nama;
 
-        return User::cari('nama',$nama,User::DOSEN_PEMBIMBING);
+        return User::cari('nama',$nama,HakAkses::DOSEN_PEMBIMBING);
     }
 
     public function cariReviewer(Request $request)
     {
         $nama = $request->nama;
 
-        return User::cari('nama',$nama,User::REVIEWER);
+        return User::cari('nama',$nama, HakAkses::REVIEWER);
     }
 
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\User;
 use PMW\Models\Proposal;
+use PMW\Models\HakAkses;
 
 class UndanganTimController extends Controller
 {
@@ -80,7 +81,7 @@ class UndanganTimController extends Controller
                     'id_proposal' => $proposal->id
                 ]);
 
-                if ($dari->hasRole(User::ANGGOTA))
+                if ($dari->hasRole(HakAkses::ANGGOTA))
                     $dari->jadikanKetua();
 
                 // Menambahkan id proposal pada user
