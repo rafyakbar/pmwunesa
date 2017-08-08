@@ -11,3 +11,7 @@ Route::get('/loginz', function(){
 Route::get('/utama', function(){
     return view('main');
 })->name('utama');
+
+Route::get('/cari', function(){
+    return view('mahasiswa/carimahasiswa');
+})->name('cari');
