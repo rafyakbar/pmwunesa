@@ -81,7 +81,7 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/web/mahasiswa.php'));
 
-        Route::middleware('web','profil','ketuatim')
+        Route::middleware('web','auth','profil','ketuatim')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/ketua.php'));
 
@@ -89,19 +89,19 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/web/dosen.php'));
 
-        Route::middleware('web','profil','reviewer')
+        Route::middleware('web','auth','profil','reviewer')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/reviewer.php'));
 
-        Route::middleware('web','profil','adminfakultas')
+        Route::middleware('web','auth','profil','adminfakultas')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/adminfakultas.php'));
 
-        Route::middleware('web','profil','adminuniv')
+        Route::middleware('web','auth','profil','adminuniv')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/adminuniv.php'));
 
-        Route::middleware('web','profil','superadmin')
+        Route::middleware('web','auth','profil','superadmin')
             ->namespace($this->namespace)
             ->group(base_path('routes/web/superadmin.php'));
     }

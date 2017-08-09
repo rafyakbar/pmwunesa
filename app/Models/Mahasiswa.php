@@ -3,6 +3,8 @@
 namespace PMW\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use PMW\User;
 
 class Mahasiswa extends Model
 {
@@ -85,9 +87,12 @@ class Mahasiswa extends Model
 
     public function jumlahAnggotaTim()
     {
+        if(!$this->punyaProposal())
+            return 0;
+
         $proposal = $this->proposal();
 
-        return Mahasiswa::where('id_proposal', $proposal->id)->count();
+        return static::where('id_proposal', $proposal->id)->count();
     }
 
     public function bisaKirimUndanganTim($penerima = null)
@@ -117,6 +122,20 @@ class Mahasiswa extends Model
         $proposal = $this->proposal();
 
         return ($proposal->mahasiswa()->count() == 3);
+    }
+
+    /**
+     * Memeriksa apakah user memiliki undangan dari pengirim tertentu
+     *
+     * @param User $pengirim
+     * @return bool
+     */
+    public function punyaUndanganTim($pengirim)
+    {
+        return ($pengirim->mahasiswa()
+                ->undanganTimKetua()
+                ->where('id_anggota',$this->id_pengguna)
+                ->count() > 0);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AuthAdminUniversitas
 {
@@ -15,7 +16,7 @@ class AuthAdminUniversitas
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hak_akses != HakAkses::ADMIN_UNIVERSITAS)
+        if(Auth::check() && Auth::user()->hak_akses != HakAkses::ADMIN_UNIVERSITAS)
             return redirect()->route('dashboard');
         return $next($request);
     }

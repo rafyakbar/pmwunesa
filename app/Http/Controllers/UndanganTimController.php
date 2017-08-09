@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\User;
 use PMW\Models\Proposal;
-use PMW\Models\HakAkses;
 
 class UndanganTimController extends Controller
 {
@@ -20,18 +19,26 @@ class UndanganTimController extends Controller
      */
     public function buatUndangan(Request $request)
     {
-        $dari = Auth::user()->id;
-        $untuk = $request->untuk;
+        $dari = Auth::user();
+        $untuk = User::find($request->untuk);
         
-        if(User::findOrFail($untuk) && $dari != $untuk)
+        if(!is_null($untuk) && $dari->id != $untuk->id)
         {
             if(!Auth::user()->mahasiswa()->punyaTim())
             {
-                Auth::user()->mahasiswa()->undanganTimKetua()->attach(User::find($untuk)->mahasiswa());
-                return response()->json([
-                    'message' => 'Berhasil mengirim undangan !',
-                    'error' => 0
-                ]);
+                if(!$untuk->mahasiswa()->punyaUndanganTim($dari)) {
+                    Auth::user()->mahasiswa()->undanganTimKetua()->attach($untuk->mahasiswa());
+                    return response()->json([
+                        'message' => 'Berhasil mengirim undangan !',
+                        'error' => 0
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'message' => 'Anda telah mengirim undangan ke mahasiswa ini !',
+                        'error' => 3
+                    ]);
+                }
             }
             else
             {
@@ -68,9 +75,9 @@ class UndanganTimController extends Controller
             if(!$dari->mahasiswa()->timLengkap()) {
 
                 // Terima undangan
-                if ($dari->mahasiswa()->punyaProposal()) {
+                if ($dari->mahasiswa()->punyaProposal())
                     $proposal = $dari->mahasiswa()->proposal();
-                } else {
+                 else {
                     $proposal = Proposal::create([
                         'lolos' => false
                     ]);
@@ -81,8 +88,7 @@ class UndanganTimController extends Controller
                     'id_proposal' => $proposal->id
                 ]);
 
-                if ($dari->hasRole(HakAkses::ANGGOTA))
-                    $dari->jadikanKetua();
+                $dari->jadikanKetua();
 
                 // Menambahkan id proposal pada user
                 $untuk->mahasiswa()->update([
@@ -130,6 +136,8 @@ class UndanganTimController extends Controller
     }
 
     /**
+     * Menghapus undangan
+     *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
