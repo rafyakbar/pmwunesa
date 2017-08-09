@@ -43,7 +43,7 @@
         </nav>
         @endif
 
-        <div class="content">
+        <div class="content" style="width: 100%">
             <div class="container-fluid">
                 @yield('content')
             </div>

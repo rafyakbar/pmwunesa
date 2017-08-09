@@ -42,7 +42,7 @@
 								<form id="formLogin" role="form" action="/pmw/login.php" method="post" autocomplete="off">
 									<fieldset>
 										<div class="form-group">
-											<label>NIM</label>
+											<label>NIM/NIP</label>
 											<input required="" class="form-control nim" placeholder="NIM/NIP" name="id_unesa" type="text" autocomplete="on">
 										</div>
 										<div class="form-group">
@@ -50,7 +50,20 @@
 											<input name="form" type="hidden" value="login">
 											<input required="" class="form-control" placeholder="Password" name="password" type="password">
 										</div>
-										<button type="submit" id="submit_button" class="btn btn-primary">Login</button>
+										<div class="form-group">
+											<div class="col-lg-6">
+												<div class="checkbox">
+													<label>
+                                        				<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                    				</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-lg-offset-4 col-lg-2">
+												<button type="submit" id="submit_button" class="btn btn-primary">Login</button>
+											</div>
+										</div>
 									</fieldset>
 								</form>
 							</div>
@@ -62,7 +75,7 @@
 								<form role="form" action="{{ route('loginz') }}" method="post">
 									<fieldset>
 										<div class="form-group">
-											<label>NIM</label>
+											<label>NIM/NIP</label>
 											<input required="" class="form-control nim" placeholder="NIM/NIP" name="id_unesa" type="text" autofocus="" autocomplete="on">
 										</div>
 										<div class="form-group">

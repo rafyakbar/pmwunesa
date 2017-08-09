@@ -24,11 +24,11 @@
                 </li>
             </ul>
         </nav> -->
-        <p class="copyright pull-right">
+        <!-- <p class="copyright pull-right">
             &copy;
             <script>document.write(new Date().getFullYear())</script>
             <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
-        </p>
+        </p> -->
     </div>
 </footer>
 </div>

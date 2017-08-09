@@ -1973,7 +1973,7 @@ label.control-label {
 .form-group label {
   font-size: 14px;
   line-height: 1.42857;
-  color: #AAAAAA;
+  color: #333333;
   font-weight: 400;
 }
 .form-group label.control-label {
@@ -2444,7 +2444,7 @@ fieldset[disabled] .form-group.is-focused .checkbox label {
   opacity: 0.2;
 }
 .checkbox input[type=checkbox]:checked + .checkbox-material .check {
-  background: #9c27b0;
+  background: #2874A6;
 }
 .checkbox input[type=checkbox]:checked + .checkbox-material .check:before {
   color: #FFFFFF;
@@ -3823,7 +3823,7 @@ footer .btn {
 .nav-tabs > li > a, .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
   background-color: transparent;
   border: 0 !important;
-  color: #FFFFFF !important;
+  color: #111111 !important;
   font-weight: 500;
 }
 .nav-tabs > li.disabled > a, .nav-tabs > li.disabled > a:hover {
@@ -3833,7 +3833,7 @@ footer .btn {
   margin: -1px 5px 0 0;
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(100, 100, 100, 0.2);
   transition: background-color .1s .2s;
 }
 
