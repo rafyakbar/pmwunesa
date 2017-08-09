@@ -59,7 +59,7 @@ class TabelPMWUNESA extends Migration
             $table->string('alamat_tinggal')->nullable();
             $table->string('no_telepon', 15)->nullable();
             $table->string('password')->nullable();
-            $table->boolean('request');
+            $table->boolean('request')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -105,7 +105,7 @@ class TabelPMWUNESA extends Migration
                 ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->float('ipk', 4, 2);
+            $table->float('ipk', 4, 2)->default('0');
         });
 
         Schema::create('undangan_tim', function (Blueprint $table){
