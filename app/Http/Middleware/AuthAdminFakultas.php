@@ -16,8 +16,9 @@ class AuthAdminFakultas
      */
     public function handle($request, Closure $next)
     {
-        if($request->user()->hasRole(HakAkses::ADMIN_FAKULTAS))
-            return redirect()->route('dashboard');
-        return $next($request);
+        if($request->user()->isAdminFakultas())
+            return $next($request);
+
+        return redirect()->route('dashboard');
     }
 }

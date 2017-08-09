@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use PMW\Models\HakAkses;
 use PMW\Mail\RegisterMail;
+use PMW\Models\Mahasiswa;
 use PMW\User;
 
 class UserController extends Controller
@@ -78,26 +79,14 @@ class UserController extends Controller
             'request'   => true
         ]);
 
-        if (isset($request->SuperAdmin))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::SUPER_ADMIN)->first(), ['status_request' => 'Approved']);
-
-        if (isset($request->AdminUniversitas))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::ADMIN_UNIVERSITAS)->first(), ['status_request' => 'Approved']);
-
-        if (isset($request->AdminFakultas))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::ADMIN_FAKULTAS)->first(), ['status_request' => 'Approved']);
-
-        if (isset($request->Reviewer))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::REVIEWER)->first(), ['status_request' => 'Approved']);
-
-        if (isset($request->DosenPembimbing))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::DOSEN_PEMBIMBING)->first(), ['status_request' => 'Approved']);
-
-        if (isset($request->KetuaTim))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::KETUA_TIM)->first(), ['status_request' => 'Approved']);
-
-        if (isset($request->Anggota))
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::ANGGOTA)->first(), ['status_request' => 'Approved']);
+        foreach ($request->hakakses as $value){
+            if ($value == 'anggota'){
+                Mahasiswa::create([
+                    'id_pengguna' => $request->id
+                ]);
+            }
+            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::SUPER_ADMIN)->first(), ['status_request' => $value]);
+        }
 
         Mail::to($request->email)->send(new RegisterMail(User::find($request->id), $password));
     }
