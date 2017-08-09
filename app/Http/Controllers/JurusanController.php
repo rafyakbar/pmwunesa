@@ -3,15 +3,16 @@
 namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
-use PMW\Models\Fakultas;
+use PMW\Models\Jurusan;
 
-class FakultasController extends Controller
+class JurusanController extends Controller
 {
     public function tambah(Request $request)
     {
         foreach (explode(PHP_EOL, $request->nama) as $item){
-            Fakultas::create([
-               'nama' => $item
+            Jurusan::create([
+                'nama'          => $item,
+                'id_fakultas'   => $request->id_fakultas
             ]);
         }
     }

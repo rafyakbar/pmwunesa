@@ -23,9 +23,9 @@ class HakAksesSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->hakakses as $hakakses){
+        foreach($this->hakakses as $hakakse){
             HakAkses::create([
-                'nama' => $hakakses
+                'nama' => $hakakse
             ]);
         }
     }
