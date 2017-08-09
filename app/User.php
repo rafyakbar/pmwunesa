@@ -159,6 +159,16 @@ class User extends Authenticatable
         return ($this->isKetua() || $this->isAnggota());
     }
 
+    public function isAdminFakultas()
+    {
+        return ($this->hasRole(HakAkses::ADMIN_FAKULTAS));
+    }
+
+    public function isAdminUniversitas()
+    {
+        return ($this->hasRole(HakAkses::ADMIN_UNIVERSITAS));
+    }
+
     public function isSuperAdmin()
     {
         return ($this->hasRole(HakAkses::SUPER_ADMIN));
@@ -204,9 +214,9 @@ class User extends Authenticatable
     public function jadikanKetua()
     {
         // Menghapus hak akses sebagai anggota dari pengirim undangan
-        $this->hakAksesPengguna()->detach(HakAkses::where('nama', User::ANGGOTA)->first());
+        $this->hakAksesPengguna()->detach(HakAkses::where('nama', HakAkses::ANGGOTA)->first());
         // menjadikan pengirim undangan sebagai ketua
-        $this->hakAksesPengguna()->attach(HakAkses::where('nama', User::KETUA_TIM)->first(), ['status_request' => 'Approved']);
+        $this->hakAksesPengguna()->attach(HakAkses::where('nama', HakAkses::KETUA_TIM)->first(), ['status_request' => 'Approved']);
     }
 
 }

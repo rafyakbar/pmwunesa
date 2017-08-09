@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Auth::user()->logbook()->count() > 0)
-        @foreach(Auth::user()->logbook()->get() as $logbook)
+    @if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0)
+        @foreach(Auth::user()->mahasiswa()->proposal()->logbook()->get() as $logbook)
             {{ $logbook }} <br/>
         @endforeach
 
