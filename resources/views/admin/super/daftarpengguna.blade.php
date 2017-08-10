@@ -2,11 +2,17 @@
 
 @section('content')
     <ul>
-        @foreach($user as $u)
-            <li>{{ $u->nama }},
-                @foreach($u->hakAksesPengguna()->cursor() as $item)
-                    {{ $item->nama  }}
+        @foreach($user as $item)
+            <li>{{ $item->nama }},
+                @foreach($item->hakAksesPengguna()->cursor() as $value)
+                    {{ $value->nama  }}
                 @endforeach
+                <form action="{{ route('hapus.pengguna') }}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field('put') }}
+                    <input type="hidden" name="id" value="{{ $item->id }}">
+                    <input type="submit" name="submit" value="hapus">
+                </form>
             </li>
         @endforeach
     </ul>

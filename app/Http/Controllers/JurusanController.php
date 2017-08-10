@@ -15,5 +15,14 @@ class JurusanController extends Controller
                 'id_fakultas'   => $request->id_fakultas
             ]);
         }
+
+        return back();
+    }
+
+    public function hapus(Request $request)
+    {
+        Jurusan::where('id', $request->id)->delete();
+
+        return back();
     }
 }

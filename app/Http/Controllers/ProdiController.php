@@ -12,8 +12,17 @@ class ProdiController extends Controller
         foreach (explode(PHP_EOL, $request->nama) as $item){
             Prodi::create([
                 'nama'          => $item,
-                'id_fakultas'   => $request->id_jurusan
+                'id_jurusan'    => $request->id_jurusan
             ]);
         }
+
+        return back();
+    }
+
+    public function hapus(Request $request)
+    {
+        Prodi::where('id', $request->id)->delete();
+
+        return back();
     }
 }

@@ -91,6 +91,13 @@ class UserController extends Controller
         Mail::to($request->email)->send(new RegisterMail(User::find($request->id), $password));
     }
 
+    public function hapus(Request $request)
+    {
+        User::find($request->id)->delete();
+
+        return back();
+    }
+
     public function cariMahasiswa(Request $request)
     {
         $nama = $request->nama;

@@ -14,5 +14,14 @@ class FakultasController extends Controller
                'nama' => $item
             ]);
         }
+
+        return back();
+    }
+
+    public function hapus(Request $request)
+    {
+        Fakultas::where('id', $request->id)->delete();
+
+        return back();
     }
 }

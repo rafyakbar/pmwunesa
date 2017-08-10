@@ -20,6 +20,9 @@ class FakultasProdiSeeder extends Seeder
             'S1 PG - PAUD'
         ],
         'Bahasa & Seni' => [
+            'Bahasa dan Sastra Indonesia' => [
+
+            ],
             'S1 Desain Komunikasi Visual',
             'S1 Pendidikan Bahasa Mandarin',
             'S1 Seni Musik',
