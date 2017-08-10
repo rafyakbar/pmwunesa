@@ -25,4 +25,13 @@ class ProdiController extends Controller
 
         return back();
     }
+
+    public function edit(Request $request)
+    {
+        $data = Prodi::find($request->id);
+        $data->nama = $request->nama;
+        $data->save();
+
+        return back();
+    }
 }

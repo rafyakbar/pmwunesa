@@ -18,29 +18,29 @@ class UserController extends Controller
     {
         if (Auth::user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA])) {
             $this->validate($request, [
-                'nama' => 'required',
-                'id_prodi' => 'required|numeric',
-                'alamat_asal' => 'required',
-                'alamat_tinggal' => 'required',
-                'no_telepon' => 'required|numeric',
-                'ipk' => 'required'
+                'nama'          => 'required',
+                'id_prodi'      => 'required|numeric',
+                'alamat_asal'   => 'required',
+                'alamat_tinggal'=> 'required',
+                'no_telepon'    => 'required|numeric',
+                'ipk'           => 'required'
             ]);
         } else {
             $this->validate($request, [
-                'nama' => 'required',
-                'id_prodi' => 'required|numeric',
-                'alamat_asal' => 'required',
-                'alamat_tinggal' => 'required',
-                'no_telepon' => 'required|numeric'
+                'nama'          => 'required',
+                'id_prodi'      => 'required|numeric',
+                'alamat_asal'   => 'required',
+                'alamat_tinggal'=> 'required',
+                'no_telepon'    => 'required|numeric'
             ]);
         }
 
         Auth::user()->update([
-            'nama' => $request->nama,
-            //'id_prodi' => $request->id_prodi,
-            'alamat_asal' => $request->alamat_asal,
-            'alamat_tinggal' => $request->alamat_tinggal,
-            'no_telepon' => $request->no_telepon
+            'nama'          => $request->nama,
+            //'id_prodi'      => $request->id_prodi,
+            'alamat_asal'   => $request->alamat_asal,
+            'alamat_tinggal'=> $request->alamat_tinggal,
+            'no_telepon'    => $request->no_telepon
         ]);
 
         if (Auth::user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA])) {

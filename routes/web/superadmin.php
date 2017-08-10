@@ -49,3 +49,22 @@ Route::group(['prefix'=>'hapus'], function (){
         'as'    => 'hapus.pengguna'
     ]);
 });
+
+Route::group(['prefix'=>'edit'], function (){
+
+    Route::put('fakultas',[
+        'uses'   => 'FakultasController@edit',
+        'as'     => 'edit.fakultas'
+    ]);
+
+    Route::put('jurusan',[
+        'uses'   => 'JurusanController@edit',
+        'as'     => 'edit.jurusan'
+    ]);
+
+    Route::put('prodi',[
+        'uses'   => 'ProdiController@edit',
+        'as'     => 'edit.prodi'
+    ]);
+
+});

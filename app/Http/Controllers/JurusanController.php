@@ -25,4 +25,13 @@ class JurusanController extends Controller
 
         return back();
     }
+
+    public function edit(Request $request)
+    {
+        $data = Jurusan::find($request->id);
+        $data->nama = $request->nama;
+        $data->save();
+
+        return back();
+    }
 }

@@ -9,9 +9,9 @@ class FakultasController extends Controller
 {
     public function tambah(Request $request)
     {
-        foreach (explode(PHP_EOL, $request->nama) as $item){
+        foreach (explode(PHP_EOL, $request->nama) as $item) {
             Fakultas::create([
-               'nama' => $item
+                'nama' => $item
             ]);
         }
 
@@ -21,6 +21,15 @@ class FakultasController extends Controller
     public function hapus(Request $request)
     {
         Fakultas::where('id', $request->id)->delete();
+
+        return back();
+    }
+
+    public function edit(Request $request)
+    {
+        $data = Fakultas::find($request->id);
+        $data->nama = $request->nama;
+        $data->save();
 
         return back();
     }
