@@ -119,6 +119,9 @@ class Mahasiswa extends Model
 
     public function timLengkap()
     {
+        if(!$this->punyaProposal())
+            return false;
+
         $proposal = $this->proposal();
 
         return ($proposal->mahasiswa()->count() == 3);

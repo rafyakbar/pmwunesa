@@ -57,7 +57,7 @@ class Proposal extends Model
 
     public function mahasiswa()
     {
-        return $this->hasMany('PMW\Models\Mahasiswa');
+        return $this->hasMany('PMW\Models\Mahasiswa','id_proposal');
     }
 
     public function ketua()

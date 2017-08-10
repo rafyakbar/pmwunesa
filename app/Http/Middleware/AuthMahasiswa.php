@@ -3,8 +3,6 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
-use PMW\Models\HakAkses;
-use Illuminate\Support\Facades\Auth;
 
 class AuthMahasiswa
 {
@@ -17,10 +15,9 @@ class AuthMahasiswa
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && $request->user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA]))
-        {
+        if($request->user()->isMahasiswa())
             return $next($request);
-        }
+
         return redirect()->route('dashboard');
     }
 }

@@ -10,14 +10,16 @@ class AuthKetuaTim
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if(!$request->user()->hasRole(HakAkses::KETUA_TIM))
-            return redirect()->route('dashboard');
-        return $next($request);
+        if ($request->user()->isKetua())
+            return $next($request);
+
+        return redirect()->route('dashboard');
+
     }
 }

@@ -7,8 +7,6 @@
             <div class="form-group">
                 <form class="card-content" action="{{ route('cari') }}" method="get">
 
-                    {{ csrf_field() }} {{ method_field('put') }}
-
                     <input class="form-control" type="text" name="cari" placeholder="Cari Mahasiswa" />
 
                     <button class="btn btn-primary" type="submit" style="float: right; font-size: 14px">Cari</button>
