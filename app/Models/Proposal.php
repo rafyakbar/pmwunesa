@@ -57,7 +57,7 @@ class Proposal extends Model
 
     public function mahasiswa()
     {
-        return $this->hasMany('PMW\Models\Mahasiswa','id_proposal');
+        return $this->hasMany('PMW\Models\Mahasiswa', 'id_proposal');
     }
 
     public function ketua()
@@ -85,11 +85,32 @@ class Proposal extends Model
         return ($this->lolos);
     }
 
+    public function sudahDinilaiOleh($reviewer,$tahap = null)
+    {
+        $query = DB::table(DB::raw('pengguna, penilaian, review'))
+            ->whereRaw('pengguna.id = \''.$reviewer.'\'')
+            ->whereRaw('review.id_pengguna = pengguna.id')
+            ->whereRaw('penilaian.id_review = review.id')
+            ->whereRaw('review.id_proposal = ' . $this->id);
+
+        if(!is_null($tahap))
+            $query = $query->whereRaw('review.tahap = ' . $tahap);
+
+        return ($query->count('penilaian.nilai') > 0);
+    }
+
+    public function penilaian()
+    {
+        $review = Review::find($this->pivot->id)->penilaian();
+
+        return $review;
+    }
+
     public function tambahPembimbing($dosen)
     {
         $this->bimbingan()->detach($dosen);
 
-        $this->bimbingan()->attach($dosen,[
+        $this->bimbingan()->attach($dosen, [
             'status_request' => RequestStatus::APPROVED
         ]);
     }
