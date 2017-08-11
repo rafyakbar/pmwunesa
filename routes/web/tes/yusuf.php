@@ -15,3 +15,4 @@ Route::get('/utama', function(){
 Route::get('/cari', function(){
     return view('mahasiswa/carimahasiswa');
 })->name('cari');
+

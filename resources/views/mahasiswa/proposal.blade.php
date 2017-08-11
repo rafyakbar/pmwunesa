@@ -2,6 +2,8 @@
 
 @section('content')
 
+@section('brand',"Proposal")
+
     @if(Auth::user()->mahasiswa()->punyaProposal())
         Timmu telah mengunggah proposal. <a href="{{ route('unduh.proposal') }}" onclick="event.preventDefault();document.getElementById('unduh-proposal').submit();">Unduh Proposal</a>
     @else

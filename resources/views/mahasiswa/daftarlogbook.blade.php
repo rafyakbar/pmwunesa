@@ -1,29 +1,60 @@
 @extends('layouts.app')
 
-@section('content')
-    @if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0)
-        @foreach(Auth::user()->mahasiswa()->proposal()->logbook()->get() as $logbook)
-            {{ $logbook }} <br/>
-        @endforeach
+@section('content') 
 
-        @if(Auth::user()->isKetua())
-            <form action="{{ route('tambah.logbook') }}" method="post">
+@section('brand', "Logbook")
 
-                {{ csrf_field() }}
+<h2>Logbook</h2>
 
-                {{ method_field('put') }}
+{{--@if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0) 
+    @foreach(
+        Auth::user()->mahasiswa()->proposal()->logbook()->get() as $logbook) 
+{{ $logbook }} <br/> 
+@endforeach--}} 
+@if(Auth::user()->isKetua())
+<form action="{{ route('tambah.logbook') }}" method="post">
 
-                Catatan<br/>
-                <textarea name="catatan"></textarea><br/>
+    {{ csrf_field() }} {{ method_field('put') }} Catatan
 
-                Biaya<br/>
-                <input type="number" name="biaya"/><br/>
+    <br/>
+    <textarea name="catatan"></textarea><br/> Biaya
 
-                <input type="submit" value="Tambah"/>
+    <br/>
+    <input type="number" name="biaya" /><br/>
 
-            </form>
-        @endif
-    @else
-        Anda belum memiliki logbook.<br/>
-    @endif
+    <input type="submit" value="Tambah" />
+
+</form>
+@endif {{--@else Anda belum memiliki logbook.<br/> @endif--}}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-content table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No. </th>
+                            <th>Tanggal</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. </td>
+                            <td>Tanggalnya</td>
+                            <td>Deskripsinya ...........</td>
+                        </tr>
+                        <tr>
+                            <td>2. </td>
+                            <td>Tanggalnya</td>
+                            <td>Deskripsinya ...........</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
