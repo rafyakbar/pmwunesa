@@ -77,6 +77,12 @@ Route::group(['prefix' => 'unduh'],function (){
 
 });
 
+Route::get('lihat/proposal/{id}',function ($id){
+    return view('proposaldetail',[
+        'proposal' => \PMW\Models\Proposal::find($id)
+    ]);
+})->name('lihat.proposal');
+
 /*
 |---------------------------------------------
 | Autentikasi bawaan dari Laravel

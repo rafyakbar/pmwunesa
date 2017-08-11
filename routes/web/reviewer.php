@@ -2,14 +2,14 @@
 
 Route::group(['prefix' => 'tambah'],function (){
 
-    Route::get('review/{idproposal}/{tahap}',[
-        'uses' => 'Page\DosenController@tambahReview',
+    Route::get('review/{id}',[
+        'uses' => 'Page\ReviewerController@tambahReview',
         'as' => 'tambah.review'
     ]);
 
-    Route::put('review/{idproposal}/{tahap}',[
+    Route::put('review/{id}',[
         'uses' => 'ReviewController@tambah',
-        'as' => 'tambah.review'
+        'as' => 'tambah.nilai.review'
     ]);
 
 });
@@ -19,6 +19,29 @@ Route::group(['prefix' => 'daftar'],function (){
     Route::get('proposal',[
         'uses' => 'Page\ReviewerController@daftarProposal',
         'as' => 'daftar.proposal.reviewer'
+    ]);
+
+});
+
+Route::group(['prefix' => 'lihat'],function (){
+
+    Route::get('nilai/review/{id}',[
+        'uses' => 'Page\ReviewerController@lihatNilaiReview',
+        'as' => 'lihat.nilai.review'
+    ]);
+
+});
+
+Route::group(['prefix' => 'edit'],function (){
+
+    Route::get('nilai/review/{id}',[
+        'uses' => 'Page\ReviewerController@editNilaiReview',
+        'as' => 'edit.nilai.review'
+    ]);
+
+    Route::patch('nilai/review/{id}',[
+        'uses' => 'ReviewController@edit',
+        'as' => 'edit.nilai.review'
     ]);
 
 });
