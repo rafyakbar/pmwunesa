@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/radio.css') }}"/>
+@endpush
+
 @section('content')
 
     <div class="card">
@@ -35,8 +39,8 @@
                                     <td>{{ $aspek->nama }}</td>
                                     <td>
                                         @for($i = 1;$i <= 5;$i++)
-                                            {{ $i }}<input type="radio" name="nilai[{{ $aspek->id }}]"
-                                                           value="{{ $i }}" {{ $type == 'edit' && $penilaian->get()[$index]->pivot->nilai == $i ? 'checked' : '' }}/>
+                                            <input id="{{ $aspek->nama . $i }}" type="radio" name="nilai[{{ $aspek->id }}]"
+                                                           value="{{ $i }}" {{ $type == 'edit' && $penilaian->get()[$index]->pivot->nilai == $i ? 'checked' : '' }}/><label for="{{ $aspek->nama . $i }}"><span></span>{{ $i }}</label>
                                             &nbsp;
                                         @endfor
                                     </td>
