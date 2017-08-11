@@ -21,8 +21,8 @@
                 <div class="panel-heading">
                     <h3>Proposal</h3>
                 </div>
-                <div class="panel-body" style="background-color: #CCCCCC">
-                    <form action="" method="">
+                <div class="panel-body">
+                    <form action="" method="" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Judul</label>
                             <input class="form-control" type="text" name="judul" placeholder="Judul">
@@ -30,6 +30,11 @@
                         <div class="form-group">
                             <label>Jenis Usaha</label>
                             <input class="form-control" type="text" name="jenis" placeholder="Jenis">
+                        </div>
+                        <div class="form-group">
+                            <label>File Proposal</label><br>
+                            <button class="btn btn-primary">Unggah Proposal <input type="file" name="file"></button>
+                            <button class="btn btn-warning">Lihat Proposal</button>
                         </div>
                     </form>
                 </div>
@@ -38,9 +43,9 @@
         <div class="col-lg-6">
             <div class="panel-default">
                 <div class="panel-heading">
-                    <h3>Proposal</h3>
+                    <h3>Proposal Final</h3>
                 </div>
-                <div class="panel-body" style="background-color: #CCCCCC">
+                <div class="panel-body">
                     <form action="" method="">
                         <div class="form-group">
                             <label>Judul</label>
@@ -49,6 +54,11 @@
                         <div class="form-group">
                             <label>Jenis Usaha</label>
                             <input class="form-control" type="text" name="jenis" placeholder="Jenis">
+                        </div>
+                        <div class="form-group">
+                            <label>File Proposal</label><br>
+                            <button class="btn btn-primary">Unggah Proposal <input type="file" name="file"></button>
+                            <button class="btn btn-warning">Lihat Proposal</button>
                         </div>
                     </form>
                 </div>
