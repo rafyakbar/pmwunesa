@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('js')
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}"/>
+@endpush
+
 @section('content')
 
     <div class="card card-nav-tabs">
@@ -26,30 +30,30 @@
             </div>
         </div>
 
-        <div class="card-content">
+        <div class="card-content no-padding">
             <div class="tab-content">
                 <div class="tab-pane active" id="daftar">
                     <table class="table table-hover">
                         <thead class="text-warning">
                             <tr>
                                 <th>Judul proposal</th>
-                                <th>Jenis produk</th>
-                                <th>Usulan dana</th>
+                                <th class="hidden-sm hidden-xs">Jenis produk</th>
+                                <th class="hidden-sm hidden-xs">Usulan dana</th>
                                 <th>Tahap</th>
-                                <th>Status Nilai</th>
-                                <th>Aksi</th>
+                                <th class="hidden-sm hidden-xs">Status Nilai</th>
+                                <th class="hidden-sm hidden-xs">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($daftarproposal->get() as $proposal)
                                 <tr>
-                                    <td><a href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}"> {{ $proposal->judul }}</a></td>
-                                    <td>{{ $proposal->jenis_usaha }}</td>
-                                    <td>{{ $proposal->usulan_dana }}</td>
+                                    <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}"> <strong>{{ $proposal->judul }}</strong><sup><i class="fa fa-external-link"></i></sup></a></td>
+                                    <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
+                                    <td class="hidden-sm hidden-xs">{{ $proposal->usulan_dana }}</td>
                                     <td>{{ $proposal->pivot->tahap }}</td>
-                                    <td>{{ $proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap) ? 'Sudah dinilai' : 'Belum dinilai' }}</td>
-                                    <td>
-                                        <div class="btn-group">
+                                    <td class="hidden-sm hidden-xs">{{ $proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap) ? 'Sudah dinilai' : 'Belum dinilai' }}</td>
+                                    <td class="hidden-sm hidden-xs">
+                                        <div class="btn-group btn-group-sm">
                                             <a href="{{ route('lihat.nilai.review',['id' => $proposal->pivot->id]) }}"class="btn btn-primary">Lihat Nilai</a>
                                             <a href="{{ route('edit.nilai.review',['id' => $proposal->pivot->id]) }}"class="btn btn-primary">Edit</a>
                                         </div>

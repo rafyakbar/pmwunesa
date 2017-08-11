@@ -7,22 +7,21 @@
         <div class="card-header" data-background-color="red">
 
             <h4>{{ $type == 'edit' ? 'Edit' : 'Beri' }} Nilai pada proposal <strong>{{ $proposal->judul }}</strong></h4>
-            <span>Tahap {{ $proposal->pivot->tahap }}</span>
+            <span><b>Tahap {{ $proposal->pivot->tahap }}</b></span>
 
         </div>
 
         <div class="card-content">
 
-            <div class="row">
+            <form action="{{ $type == 'edit' ? route('edit.nilai.review',['id'=>$proposal->pivot->id]) : route('tambah.nilai.review',['id'=>$proposal->pivot->id]) }}"
+                  method="post">
 
-                <div class="col-lg-6">
+                {{ csrf_field() }}
 
-                    <form action="{{ $type == 'edit' ? route('edit.nilai.review',['id'=>$proposal->pivot->id]) : route('tambah.nilai.review',['id'=>$proposal->pivot->id]) }}" method="post">
+                {{ $type == 'edit' ? method_field('patch') : method_field('put') }}
 
-                        {{ csrf_field() }}
-
-                        {{ $type == 'edit' ? method_field('patch') : method_field('put') }}
-
+                <div class="row">
+                    <div class="col-lg-6">
                         <table class="table">
                             <thead class="text-danger">
                             <tr>
@@ -36,27 +35,44 @@
                                     <td>{{ $aspek->nama }}</td>
                                     <td>
                                         @for($i = 1;$i <= 5;$i++)
-                                            {{ $i }}<input type="radio" name="nilai[{{ $aspek->id }}]" value="{{ $i }}" {{ $type == 'edit' && $penilaian->get()[$index]->pivot->nilai == $i ? 'checked' : '' }}/>&nbsp;
+                                            {{ $i }}<input type="radio" name="nilai[{{ $aspek->id }}]"
+                                                           value="{{ $i }}" {{ $type == 'edit' && $penilaian->get()[$index]->pivot->nilai == $i ? 'checked' : '' }}/>
+                                            &nbsp;
                                         @endfor
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
-
-                        <textarea placeholder="Komentar" class="form-control" name="komentar">{{ $type == 'edit' ? $proposal->pivot->komentar : '' }}</textarea>
-
-                        <input class="btn btn-danger" type="submit" value="Kirim"/>
-
-                    </form>
-
-
+                    </div>
+                    <div class="col-lg-6">
+                                <textarea placeholder="Komentar" class="form-control"
+                                          name="komentar">{{ $type == 'edit' ? $proposal->pivot->komentar : '' }}</textarea>
+                    </div>
                 </div>
 
-            </div>
+                <div class="row">
+                    <div class="col-lg-2 col-lg-offset-5">
+                        <input style="width: 100%" class="btn btn-danger" type="submit" value="Kirim"/>
+                    </div>
+                </div>
+
+            </form>
 
         </div>
 
     </div>
 
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            menubar : false,
+            toolbar : 'bold italic underline',
+            height : 200
+        })
+    </script>
+@endpush

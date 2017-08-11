@@ -26,9 +26,9 @@
             </table>
 
             <h4>Komentar anda terhadap proposal tersebut</h4>
-            <p class="alert alert-primary">
-                {{ $proposal->pivot->komentar }}
-            </p>
+            <div class="alert alert-primary">
+                {!! $proposal->pivot->komentar !!}
+            </div>
 
         </div>
     </div>

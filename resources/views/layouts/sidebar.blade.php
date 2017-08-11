@@ -30,6 +30,9 @@
                 @include('layouts.menus.reviewer')
 
             @endif
+            <li {{ Route::currentRouteName() === 'pengaturan' ? 'class=active' : '' }}>
+                <a href="{{ route('pengaturan') }}"><i class="material-icons">face</i><p>Profil</p></a>
+            </li>
             <li>
                 <a href="{{ route('logout') }}"
                    onclick="event.preventDefault();
