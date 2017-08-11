@@ -26,7 +26,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
           type='text/css'>
 
-    <link href="{{asset('css/custom.css')}}"
+    <link href="{{asset('css/custom.css')}}" rel="stylesheet"/>
     @stack('css')
 
 </head>
