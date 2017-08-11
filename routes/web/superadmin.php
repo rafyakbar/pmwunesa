@@ -4,6 +4,8 @@ Route::get('pengguna', 'Page\SuperAdminController@tampilDataPengguna');
 
 Route::get('fakultas', 'Page\SuperAdminController@tampilDataFakultas');
 
+Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek');
+
 Route::group(['prefix'=>'tambah'], function (){
 
    Route::put('fakultas',[
@@ -25,6 +27,11 @@ Route::group(['prefix'=>'tambah'], function (){
        'uses'   => 'UserController@tambah',
        'as'     => 'tambah.user'
    ]);
+
+    Route::put('aspek',[
+        'uses'   => 'AspekController@tambah',
+        'as'     => 'tambah.aspek'
+    ]);
 
 });
 
@@ -48,6 +55,11 @@ Route::group(['prefix'=>'hapus'], function (){
         'uses'  => 'UserController@hapus',
         'as'    => 'hapus.pengguna'
     ]);
+
+    Route::put('aspek',[
+        'uses'   => 'AspekController@hapus',
+        'as'     => 'hapus.aspek'
+    ]);
 });
 
 Route::group(['prefix'=>'edit'], function (){
@@ -65,6 +77,11 @@ Route::group(['prefix'=>'edit'], function (){
     Route::put('prodi',[
         'uses'   => 'ProdiController@edit',
         'as'     => 'edit.prodi'
+    ]);
+
+    Route::put('aspek',[
+        'uses'   => 'AspekController@edit',
+        'as'     => 'edit.aspek'
     ]);
 
 });

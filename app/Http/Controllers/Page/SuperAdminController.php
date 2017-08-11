@@ -4,6 +4,7 @@ namespace PMW\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
 use PMW\Http\Controllers\Controller;
+use PMW\Models\Aspek;
 use PMW\Models\Fakultas;
 use PMW\Models\Jurusan;
 use PMW\Models\Prodi;
@@ -22,8 +23,15 @@ class SuperAdminController extends Controller
     {
         return view('admin.super.daftarfakultas', [
             'fakultas'  => Fakultas::all(),
-            'jurusan'   => Jurusan::all(),  //hanya untuk tes
-            'prodi'     => Prodi::all()     //hanya untuk tes
+            'jurusan'   => Jurusan::all(),
+            'prodi'     => Prodi::all()
+        ]);
+    }
+
+    public function tampilDataAspek()
+    {
+        return view('admin.super.daftaraspek', [
+            'aspek' => Aspek::all()
         ]);
     }
 
