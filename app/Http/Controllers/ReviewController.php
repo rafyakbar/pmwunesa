@@ -11,15 +11,9 @@ use PMW\Models\Review;
 class ReviewController extends Controller
 {
 
-    public function tambah(Request $request, $idproposal, $tahap)
+    public function tambah(Request $request, $idreview)
     {
-        $proposal = Proposal::find($idproposal);
-        $reviewer = Auth::user();
-        $review = $reviewer->review()
-            ->where('id_proposal', $proposal->id)
-            ->where('tahap', $tahap)
-            ->first();
-        $review = Review::find($review->pivot->id);
+        $review = Review::find($idreview);
 
         $daftarAspek = Aspek::all();
 
@@ -40,15 +34,9 @@ class ReviewController extends Controller
         }
     }
 
-    public function edit(Request $request, $idproposal, $tahap)
+    public function edit(Request $request, $idreview)
     {
-        $proposal = Proposal::find($idproposal);
-        $reviewer = Auth::user();
-        $review = $reviewer->review()
-            ->where('id_proposal', $proposal->id)
-            ->where('tahap', $tahap)
-            ->first();
-        $review = Review::find($review->pivot->id);
+        $review = Review::find($idreview);
 
         $daftarAspek = Aspek::all();
 
@@ -65,6 +53,8 @@ class ReviewController extends Controller
                 'komentar' => $request->komentar
             ]);
         }
+
+        return back();
     }
 
 }

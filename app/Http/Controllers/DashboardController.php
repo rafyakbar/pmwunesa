@@ -11,14 +11,16 @@ class DashboardController extends Controller
     
     public function index()
     {
-        if(Auth::user()->hasRole(HakAkses::SUPER_ADMIN))
+        if(Auth::user()->isSuperAdmin())
             return $this->superAdmin();
-        else if(Auth::user()->hasRole(HakAkses::ADMIN_UNIVERSITAS))
+        else if(Auth::user()->isAdminUniversitas())
             return $this->adminUniversitas();
-        else if(Auth::user()->hasRole(HakAkses::ADMIN_FAKULTAS))
+        else if(Auth::user()->isAdminFakultas())
             return $this->adminFakultas();
         else if(Auth::user()->isDosenPembimbing())
             return $this->dosen();
+        else if(Auth::user()->isReviewer())
+            return $this->reviewer();
         else
             return $this->mahasiswa();
     }
@@ -28,6 +30,11 @@ class DashboardController extends Controller
         return view('mahasiswa.dashboard',[
             'undangan' => Auth::user()->mahasiswa()->undanganTimAnggota(),
         ]);
+    }
+
+    public function reviewer()
+    {
+        return view('dosen.reviewer.dashboard');
     }
 
     public function dosen()
