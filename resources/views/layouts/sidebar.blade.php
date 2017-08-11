@@ -6,7 +6,7 @@
     -->
 
     <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text">
+        <a href="{{ route('dashboard') }}" class="simple-text">
             PMW Unesa
         </a>
     </div>
@@ -19,6 +19,25 @@
                     <p>Dashboard</p>
                 </a>
             </li>
+
+            @if (Auth::user()->isSuperAdmin())
+
+                @include('layouts.menus.adminuniversitas')
+
+            @endif
+
+            @if (Auth::user()->isAdminUniversitas())
+
+                @include('layouts.menus.adminuniversitas')
+
+            @endif
+
+            @if (Auth::user()->isAdminFakultas())
+
+                @include('layouts.menus.adminuniversitas')
+
+            @endif
+
             @if(Auth::user()->isMahasiswa())
 
                 @include('layouts.menus.mahasiswa')
@@ -26,6 +45,12 @@
             @endif
 
             @if(Auth::user()->isReviewer())
+
+                @include('layouts.menus.reviewer')
+
+            @endif
+
+            @if(Auth::user()->isDosenPembimbing())
 
                 @include('layouts.menus.reviewer')
 
