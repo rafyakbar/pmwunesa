@@ -41,9 +41,6 @@
 <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>
 
-<!--  Charts Plugin -->
-<script src="{{ asset('js/chartist.min.js') }}"></script>
-
 <!--  Notifications Plugin    -->
 <script src="{{ asset('js/bootstrap-notify.js') }}"></script>
 
@@ -51,16 +48,8 @@
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
 
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="{{ asset('js/demo.js') }}"></script>
+{{--<script src="{{ asset('js/demo.js') }}"></script>--}}
 
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-    });
-</script>
 
 @stack('js')
 
