@@ -41,12 +41,13 @@
                 </div>
             </div>
         </nav>
-        @endif
+    </div>
+@endif
 
-        <div class="content" style="width: 100%">
-            <div class="container-fluid">
-                @yield('content')
-            </div>
-        </div>
+<div class="content" style="width: 100%">
+    <div class="container-fluid">
+        @yield('content')
+    </div>
+</div>
 
-    @include('layouts.footer')
+@include('layouts.footer')

@@ -1,10 +1,10 @@
 <?php
 
-Route::get('pengguna', 'Page\SuperAdminController@tampilDataPengguna');
+Route::get('pengguna', 'Page\SuperAdminController@tampilDataPengguna')->name('pengguna');
 
-Route::get('fakultas', 'Page\SuperAdminController@tampilDataFakultas');
+Route::get('fakultas', 'Page\SuperAdminController@tampilDataFakultas')->name('fakultas');
 
-Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek');
+Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek')->name('aspek');
 
 Route::group(['prefix'=>'tambah'], function (){
 
