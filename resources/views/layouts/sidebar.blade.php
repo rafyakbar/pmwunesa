@@ -22,7 +22,7 @@
 
             @if (Auth::user()->isSuperAdmin())
 
-                @include('layouts.menus.adminuniversitas')
+                @include('layouts.menus.superadmin')
 
             @endif
 
