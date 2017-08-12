@@ -112,14 +112,19 @@ class User extends Authenticatable
      *
      * @return BelongsToMany
      */
-    public function bimbingan()
+    public function bimbingan($status = null)
     {
-        return $this->belongsToMany(
+        $bimbingan = $this->belongsToMany(
             'PMW\Models\Proposal',
             'bimbingan',
             'id_pengguna',
             'id_tim')
             ->withPivot('status_request');
+
+        if(!is_null($status))
+            $bimbingan = $bimbingan->where('status_request',$status);
+
+        return $bimbingan;
     }
 
     /**

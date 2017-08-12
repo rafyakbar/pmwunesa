@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PMW\User;
 use PMW\Models\Laporan;
+use PMW\Support\RequestStatus;
 
 class Proposal extends Model
 {
