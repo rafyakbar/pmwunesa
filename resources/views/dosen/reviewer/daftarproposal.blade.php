@@ -49,7 +49,7 @@
                                 <tr>
                                     <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}"> <strong>{{ $proposal->judul }}</strong><sup><i class="fa fa-external-link"></i></sup></a></td>
                                     <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
-                                    <td class="hidden-sm hidden-xs">{{ $proposal->usulan_dana }}</td>
+                                    <td class="hidden-sm hidden-xs">{{ Dana::format($proposal->usulan_dana) }}</td>
                                     <td>{{ $proposal->pivot->tahap }}</td>
                                     <td class="hidden-sm hidden-xs">{{ $proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap) ? 'Sudah dinilai' : 'Belum dinilai' }}</td>
                                     <td class="hidden-sm hidden-xs">
