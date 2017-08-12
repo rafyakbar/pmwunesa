@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    
+
     /**
      * Bootstrap any application services.
      *
@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+
     }
 
     /**
@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('ExcelExport','PMW\Support\ExcelExport');
+        $this->app->bind('Dana','PMW\Support\Dana');
     }
 
 }
