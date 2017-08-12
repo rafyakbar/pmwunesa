@@ -21,6 +21,21 @@ Route::group(['prefix' => 'daftar'],function (){
         'as' => 'daftar.proposal.reviewer'
     ]);
 
+    Route::get('proposal/final',[
+        'uses' => 'Page\ReviewerController@daftarProposalFinal',
+        'as' => 'daftar.proposal.final'
+    ]);
+
+    Route::get('laporan/kemajuan',[
+        'uses' => 'Page\ReviewerController@daftarLaporanKemajuan',
+        'as' => 'daftar.laporan.kemajuan'
+    ]);
+    
+    Route::get('laporan/akhir',[
+        'uses' => 'Page\ReviewerController@daftarLaporanAkhir',
+        'as' => 'daftar.laporan.akhir'
+    ]);
+
 });
 
 Route::group(['prefix' => 'lihat'],function (){
