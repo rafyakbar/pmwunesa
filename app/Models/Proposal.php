@@ -5,6 +5,7 @@ namespace PMW\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use PMW\User;
+use PMW\Models\Laporan;
 
 class Proposal extends Model
 {
@@ -50,7 +51,7 @@ class Proposal extends Model
         return $this->laporan()->where('jenis', Laporan::AKHIR)->first();
     }
 
-    public function laporanKemjuan()
+    public function laporanKemajuan()
     {
         return $this->laporan()->where('jenis', Laporan::KEMAJUAN)->first();
     }

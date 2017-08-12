@@ -8,7 +8,7 @@ class Laporan extends Model
 {
     public $table = 'laporan';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     const KEMAJUAN = 'kemajuan';
 
@@ -28,7 +28,7 @@ class Laporan extends Model
      */
     public function proposal()
     {
-        return $this->belongsTo('PMW\Models\Proposal')->first();
+        return $this->belongsTo('PMW\Models\Proposal','id_proposal')->first();
     }
 
     public function kemajuan()
