@@ -8,7 +8,7 @@ use PMW\Support\RequestStatus;
 
 class DashboardController extends Controller
 {
-    
+
     public function index()
     {
         if(Auth::user()->isSuperAdmin())
@@ -40,7 +40,8 @@ class DashboardController extends Controller
     public function dosen()
     {
         return view('dosen.dashboard',[
-            'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING)
+            'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING),
+            'bimbingan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::APPROVED)
         ]);
     }
 
