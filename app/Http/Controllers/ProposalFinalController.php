@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\Support\FileHandler;
 use PMW\User;
+use PMW\Models\Proposal;
 
 class ProposalFinalController extends Controller
 {
@@ -22,7 +23,7 @@ class ProposalFinalController extends Controller
     private $dir = 'proposal/final';
 
     use FileHandler;
-    
+
     public function unggah(Request $request)
     {
         if($this->bolehUnggah())
@@ -42,7 +43,7 @@ class ProposalFinalController extends Controller
 
     public function hapus(Request $request)
     {
-        
+
     }
 
     public function unduh(Request $request)

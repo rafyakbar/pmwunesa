@@ -60,7 +60,7 @@ class LaporanController extends Controller
      */
     public function unduh(Request $request)
     {
-        if (!is_null($request->id_proposal))
+        if ($request->has('id_proposal'))
             $laporan = Proposal::find($request->id_proposal)->laporanKemajuan();
 
         if (Auth::user()->isMahasiswa())

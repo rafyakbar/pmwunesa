@@ -82,8 +82,6 @@ class ProposalController extends Controller
         }
     }
 
-
-
     public function edit(Request $request)
     {
         $this->validate($request,$this->validationArr);
