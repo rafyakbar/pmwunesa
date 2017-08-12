@@ -5,6 +5,7 @@ namespace PMW\Http\Controllers\Page;
 use PMW\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Aspek;
+use PMW\Models\Laporan;
 
 class ReviewerController extends Controller
 {
@@ -13,6 +14,27 @@ class ReviewerController extends Controller
     {
         return view('dosen.reviewer.daftarproposal',[
             'daftarproposal' => Auth::user()->review()
+        ]);
+    }
+
+    public function daftarProposalFinal()
+    {
+        return view('dosen.reviewer.daftarproposalfinal',[
+            'daftarproposal' => Auth::user()->review()->where('direktori_final','!=','')
+        ]);
+    }
+
+    public function daftarLaporanKemajuan()
+    {
+        return view('dosen.reviewer.daftarlaporan',[
+            'daftarlaporan' => Laporan::where('jenis',Laporan::KEMAJUAN)
+        ]);
+    }
+
+    public function daftarLaporanAkhir()
+    {
+        return view('dosen.reviewer.daftarlaporan',[
+            'daftarlaporan' => Laporan::where('jenis',Laporan::AKHIR)
         ]);
     }
 
