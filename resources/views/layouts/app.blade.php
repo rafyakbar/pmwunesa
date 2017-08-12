@@ -1,6 +1,7 @@
 @include('layouts.header')
 
 @if(Auth::check())
+
     @include('layouts.sidebar')
 
     <div class="main-panel">
@@ -41,7 +42,6 @@
                 </div>
             </div>
         </nav>
-    </div>
 @endif
 
 <div class="content" style="width: 100%">
