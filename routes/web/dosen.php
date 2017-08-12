@@ -9,6 +9,11 @@ Route::group(['prefix' => 'terima'],function (){
 
 });
 
+Route::get('bimbingan',[
+    'uses' => 'Page\DosenController@bimbingan',
+    'as' => 'bimbingan'
+]);
+
 Route::post('request/reviewer',[
     'uses' => 'HakAksesController@requestHakAkses',
     'as' => 'request.reviewer'
