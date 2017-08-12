@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+<div class="sidebar" data-color="blue" data-image="{{ asset('img/sidebar-3.jpg') }}">
     <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
@@ -13,7 +13,7 @@
 
     <div class="sidebar-wrapper">
         <ul class="nav">
-            <li @if(Route::currentRouteName() === 'dashboard' ) class="active" @endif>
+            <li {{ Route::currentRouteName() === 'dashboard' ? 'class=active' : '' }}>
                 <a href="{{ route('dashboard') }}">
                     <i class="material-icons">dashboard</i>
                     <p>Dashboard</p>
@@ -52,7 +52,7 @@
 
             @if(Auth::user()->isDosenPembimbing())
 
-                @include('layouts.menus.reviewer')
+                @include('layouts.menus.dosen')
 
             @endif
             <li {{ Route::currentRouteName() === 'pengaturan' ? 'class=active' : '' }}>
