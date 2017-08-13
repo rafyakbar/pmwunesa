@@ -15,6 +15,6 @@ Route::get('bimbingan',[
 ]);
 
 Route::post('request/reviewer',[
-    'uses' => 'HakAksesController@requestHakAkses',
+    'uses' => 'HakAksesController@requestReviewer',
     'as' => 'request.reviewer'
 ]);

@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function(){
         ]);
 
         Route::group(['prefix' => 'cari'], function(){
-            
+
             Route::get('carimahasiswa',[
                 'uses' => 'UserController@cariMahasiswa',
                 'as' => 'cari.mahasiswa'
@@ -48,8 +48,13 @@ Route::group(['middleware' => 'auth'], function(){
             'uses' => 'UserController@editProfil',
             'as' => 'ubah.profil'
         ]);
-        
+
     });
+
+    Route::get('request/pembimbing',[
+        'uses' => 'HakAksesController@requestDosenPembimbing',
+        'as' => 'request.pembimbing'
+    ]);
 
 });
 
@@ -78,8 +83,10 @@ Route::group(['prefix' => 'unduh'],function (){
 });
 
 Route::get('lihat/proposal/{id}',function ($id){
-    return view('proposaldetail',[
-        'proposal' => \PMW\Models\Proposal::find($id)
+    return view('proposaldetail', [
+        'proposal' => \PMW\Models\Proposal::find($id),
+        'anggota' => \PMW\Models\Proposal::find($id)->mahasiswa(),
+        'ketua' => \PMW\Models\Proposal::find($id)->ketua()
     ]);
 })->name('lihat.proposal');
 
