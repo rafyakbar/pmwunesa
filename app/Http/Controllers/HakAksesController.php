@@ -62,7 +62,7 @@ class HakAksesController extends Controller
         $permintaan = $pengguna->hakAksesPengguna($hakAkses);
 
         // Menerima permintaan
-        $permintaan->update([
+        $permintaan->hakAksesPengguna()->updateExistingPivot($hakAkses->id, [
             'status_request' => RequestStatus::APPROVED
         ]);
     }
@@ -70,9 +70,9 @@ class HakAksesController extends Controller
     public function tolakRequest(Request $request)
     {
         $pengguna = User::find($request->id_pengguna);
-        $idHakAkses = HakAkses::find($request->id_hak_akses);
+        $hakAkses = HakAkses::find($request->id_hak_akses);
 
-        $pengguna->hakAksesPengguna()->where('id_hak_akses', $idHakAkses->id)->update([
+        $pengguna->hakAksesPengguna()->updateExistingPivot($hakAkses, [
             'status_request' => RequestStatus::REJECTED
         ]);
     }
