@@ -107,6 +107,7 @@
     $('#save').click(function(){
         $('#kelolatahap1').submit()
     })
+
     // Chooser
     $('.chooser').find('.dropdown-menu li').click(function(e){
         e.preventDefault()
@@ -139,7 +140,7 @@
 
             var val = target.val().split(',')
 
-            val.pop(li.attr('id'))
+            val.splice(val.indexOf(li.attr('id')),1)
 
             target.val(val)
 
@@ -147,6 +148,27 @@
 
             $(this).parent().remove();
         })
+    })
+
+    $('.chooser').find('.close').click(function(){
+
+        var dropdown = $(this).parent().parent().find('.dropdown-menu')
+
+        var li = $('#' + $(this).parent().attr('data-index'))
+
+        var target = $(dropdown.attr('data-target'))
+
+        li.show()
+
+        var val = target.val().split(',')
+
+        val.splice(val.indexOf(li.attr('id')),1)
+
+        target.val(val)
+
+        console.log(val)
+
+        $(this).parent().remove();
     })
 })
     </script>

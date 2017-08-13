@@ -19,7 +19,7 @@ class ReviewerController extends Controller
         $daftarCalonReviewer = explode(',', $request->daftar_pengguna);
 
         // Daftar reviewer lama
-        $daftarReviewerLama = $proposal->reviewer()->where('tahap',$tahap)->pluck('id_pengguna')->toArray();
+        $daftarReviewerLama = $proposal->reviewer()->wherePivot('tahap',$tahap)->pluck('id_pengguna')->toArray();
 
         // Daftar reviewer yang nantinya akan di hapus
         $daftarReviewerLengser = array_diff($daftarReviewerLama, $daftarCalonReviewer);
@@ -30,7 +30,7 @@ class ReviewerController extends Controller
         // Menghapus reviewer dari proposal tertentu
         foreach ($daftarReviewerLengser as $index => $idpengguna) {
             $pengguna = User::find($idpengguna);
-            $proposal->reviewer()->where('tahap',$tahap)->detach($pengguna);
+            $proposal->reviewer()->wherePivot('tahap',$tahap)->detach($pengguna);
         }
 
         // Menambah reviewer ke proposal tertentu
