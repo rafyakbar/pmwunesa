@@ -76,7 +76,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'id' => 'required|min:12|unique:pengguna|numeric',
-            'email' => 'required|unique:pengguna|email' 
+            'email' => 'required|unique:pengguna|email'
         ]);
     }
 
@@ -89,15 +89,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $this->generatedPassword = str_random(8);
+        $this->generatedPassword = 'secret';
 
         User::create([
             'id' => $data['id'],
             'email' => $data['email'],
-            'password' => bcrypt($this->generatedPassword)
+            'password' => bcrypt($this->generatedPassword),
+            'request' => false
         ]);
 
         // Set user sebagai mahasiswa
-        if(count($data['id']) == 11)
+        if(strlen($data['id']) == 11)
         {
             Mahasiswa::create([
                 'id_pengguna' => $data['id'],
@@ -107,5 +109,13 @@ class RegisterController extends Controller
                 ->hakAksesPengguna()
                 ->attach(HakAkses::where('nama',HakAkses::ANGGOTA)->first());
         }
+        // jika panjang id sesuai panjang nip
+        else if(strlen($data['id']) == 20)
+        {
+            User::find($data['id'])->update([
+                'request' => true
+            ]);
+        }
     }
+
 }
