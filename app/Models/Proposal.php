@@ -36,7 +36,7 @@ class Proposal extends Model
         return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')->withPivot('status_request');
     }
 
-    public function review()
+    public function reviewer()
     {
         return $this->belongsToMany('PMW\User', 'review', 'id_proposal', 'id_pengguna')->withPivot('id', 'tahap', 'komentar');
     }
@@ -49,6 +49,11 @@ class Proposal extends Model
     public function laporan()
     {
         return $this->hasMany('PMW\Models\Laporan', 'id_proposal');
+    }
+
+    public function punyaProposalFinal()
+    {
+        return (!is_null($this->direktori_final));
     }
 
     public function laporanAkhir()

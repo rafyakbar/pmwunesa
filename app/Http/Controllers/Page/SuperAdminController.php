@@ -69,13 +69,16 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function editReviewer(Request $request)
+    public function editReviewer($idproposal)
     {
         return view('admin.super.setreviewer',[
-            'reviewer'      => HakAkses::where('nama',HakAkses::REVIEWER)->first()->pengguna()->get(),
-            'id_proposal'   => $request->id_proposal,
-            'judul'         => $request->judul,
-            'oldreviewer'   => Proposal::where('id', $request->id_proposal)->first()->review()->pluck('pengguna.id')
+            'daftarreviewer' => HakAkses::where('nama',HakAkses::REVIEWER)->first()->pengguna()->get(),
+            'proposal' => Proposal::find($idproposal),
+            'oldreviewer' => [
+                'tahap1' => Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap',1),
+                'tahap2' => Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap',2)
+            ]
         ]);
     }
+
 }

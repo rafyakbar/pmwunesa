@@ -5,6 +5,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png"/>
     <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
     <title>@yield('title')</title>
 
@@ -26,7 +27,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
           type='text/css'>
 
-    <link href="{ {asset('css/custom.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom.css') }} " rel="stylesheet"/>
     @stack('css')
 
 </head>

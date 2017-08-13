@@ -19,22 +19,22 @@ class ReviewerController extends Controller
 
     public function daftarProposalFinal()
     {
-        return view('dosen.reviewer.daftarproposalfinal',[
+        return view('dosen.reviewer.daftarproposalfinal', [
             'daftarproposal' => Auth::user()->review()->where('direktori_final','!=','')
         ]);
     }
 
     public function daftarLaporanKemajuan()
     {
-        return view('dosen.reviewer.daftarlaporan',[
-            'daftarlaporan' => Laporan::where('jenis',Laporan::KEMAJUAN)
+        return view('dosen.reviewer.daftarlaporan', [
+            'daftarlaporan' => Laporan::where('jenis',Laporan::KEMAJUAN)->whereIn('id_proposal', Auth::user()->review()->get()->pluck('id'))
         ]);
     }
 
     public function daftarLaporanAkhir()
     {
         return view('dosen.reviewer.daftarlaporan',[
-            'daftarlaporan' => Laporan::where('jenis',Laporan::AKHIR)
+            'daftarlaporan' => Laporan::where('jenis',Laporan::AKHIR)->whereIn('id_proposal', Auth::user()->review()->get()->pluck('id'))
         ]);
     }
 
@@ -69,7 +69,7 @@ class ReviewerController extends Controller
 
         if(is_null($proposal))
             return redirect()->route('dashboard');
-            
+
         $penilaian = $proposal->penilaian();
 
         return view('dosen.reviewer.kelolareview',[

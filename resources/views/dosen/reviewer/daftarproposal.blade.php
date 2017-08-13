@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('js')
+@push('css')
     <link rel="stylesheet" href="{{ asset('css/table.css') }}"/>
 @endpush
 
@@ -41,7 +41,7 @@
         <div class="card-content no-padding">
             <div class="tab-content">
                 <div class="tab-pane active" id="daftar">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-expand">
                         <thead class="text-warning">
                             <tr>
                                 <th>Judul proposal</th>
@@ -54,7 +54,7 @@
                         </thead>
                         <tbody>
                             @foreach($daftarproposal->get() as $proposal)
-                                <tr>
+                                <tr data-proposal="{{ $proposal->id }}">
                                     <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}"> <strong>{{ $proposal->judul }}</strong><sup><i class="fa fa-external-link"></i></sup></a></td>
                                     <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
                                     <td class="hidden-sm hidden-xs">{{ Dana::format($proposal->usulan_dana) }}</td>
@@ -71,57 +71,12 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr class="expand">
+                                    <td colspan="6">
+                                        hello
+                                    </td>
+                                </tr>
                                 @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane" id="messages">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes" checked=""><span
-                                                class="checkbox-material"><span class="check"></span></span>
-                                    </label>
-                                </div>
-                            </td>
-                            <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain
-                                swept through metro Detroit
-                            </td>
-                            <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs"
-                                        data-original-title="Edit Task">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                                <button type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs"
-                                        data-original-title="Remove">
-                                    <i class="material-icons">close</i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span
-                                                    class="check"></span></span>
-                                    </label>
-                                </div>
-                            </td>
-                            <td>Sign contract for "What are conference organizers afraid of?"</td>
-                            <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" title="" class="btn btn-primary btn-simple btn-xs"
-                                        data-original-title="Edit Task">
-                                    <i class="material-icons">edit</i>
-                                </button>
-                                <button type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs"
-                                        data-original-title="Remove">
-                                    <i class="material-icons">close</i>
-                                </button>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -130,3 +85,33 @@
     </div>
 
 @endsection
+
+@push('js')
+    <script>
+        $('.table-expand').find('tbody').find('tr:not(".expand")').click(function(e){
+            $(this).prevUntil('.table-expand','.expand').hide()
+            $(this).next().nextUntil('.table-expand','.expand').hide()
+            $(this).next().toggle()
+
+            var elem = $(this).next()
+
+            $.ajax({
+                url : "{{ route('data.proposal.ajax') }}",
+                type : 'get',
+                data : 'id=' + $(this).attr('data-proposal'),
+                success : function(response){
+                    createExpandedTable(response, elem)
+                }
+            })
+        })
+
+        /**
+         * Membuat data expand pada tabel ketika sebuah baris pada tabel di klik
+         * @param  json data
+         * @return void
+         */
+        var createExpandedTable = function (data, elem){
+            elem.html('<td colspan="6">' + data + '</td>')
+        }
+    </script>
+@endpush

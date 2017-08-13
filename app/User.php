@@ -122,7 +122,7 @@ class User extends Authenticatable
             ->withPivot('status_request');
 
         if(!is_null($status))
-            $bimbingan = $bimbingan->where('status_request',$status);
+            $bimbingan = $bimbingan->wherePivot('status_request',$status);
 
         return $bimbingan;
     }
@@ -191,7 +191,7 @@ class User extends Authenticatable
 
     public function requestingHakAkses($hakAkses)
     {
-        return $this->hakAksesPengguna()->where('nama', $hakAkses)->count() == 1;
+        return $this->hakAksesPengguna()->where('nama', $hakAkses)->wherePivot('status_request',RequestStatus::REQUESTING)->count() == 1;
     }
 
     public function bisaRequestHakAkses($role)

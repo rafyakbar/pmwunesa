@@ -8,8 +8,6 @@ Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek')->name('aspek');
 
 Route::get('proposal', 'Page\SuperAdminController@tampilDataProposal')->name('proposal');
 
-Route::put('editreviewer', 'Page\SuperAdminController@editReviewer')->name('editreviewer');
-
 Route::group(['prefix' => 'permintaan'], function (){
 
     Route::get('hakakses', [
@@ -105,6 +103,16 @@ Route::group(['prefix' => 'edit'], function (){
     Route::put('tolakhakakses',[
         'uses'  => 'HakAksesController@tolakRequest',
         'as'    => 'set.tolakhakakses'
+    ]);
+
+    Route::get('reviewer/{idproposal}', [
+        'uses' => 'Page\SuperAdminController@editReviewer',
+        'as' => 'edit.reviewer'
+    ]);
+
+    Route::patch('reviewer/{idproposal}', [
+        'uses' => 'ReviewerController@kelola',
+        'as' => 'edit.reviewer'
     ]);
 
 });
