@@ -14,7 +14,7 @@ class ProposalSeeder extends Seeder
      */
     public function run()
     {
-        factory(Proposal::class, HakAkses::where('nama',User::KETUA_TIM)->count())->create()->each(function ($seed) {
+        factory(Proposal::class, HakAkses::where('nama','Ketua Tim')->count())->create()->each(function ($seed) {
             $seed->make();
         });
     }
