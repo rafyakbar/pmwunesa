@@ -62,7 +62,7 @@ class HakAksesController extends Controller
         $permintaan = $pengguna->hakAksesPengguna($hakAkses);
 
         // Menerima permintaan
-        $permintaan->hakAksesPengguna()->updateExistingPivot($hakAkses->id, [
+        $permintaan->updateExistingPivot($hakAkses->id, [
             'status_request' => RequestStatus::APPROVED
         ]);
     }
