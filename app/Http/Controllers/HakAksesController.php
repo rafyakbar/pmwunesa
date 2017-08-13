@@ -72,7 +72,7 @@ class HakAksesController extends Controller
         $pengguna = User::find($request->id_pengguna);
         $hakAkses = HakAkses::find($request->id_hak_akses);
 
-        $pengguna->hakAksesPengguna()->updateExistingPivot($hakAkses, [
+        $pengguna->hakAksesPengguna()->updateExistingPivot($hakAkses->id, [
             'status_request' => RequestStatus::REJECTED
         ]);
     }

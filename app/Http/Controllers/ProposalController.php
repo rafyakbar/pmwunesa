@@ -124,4 +124,11 @@ class ProposalController extends Controller
         ]);
     }
 
+    public function dataAjax(Request $request)
+    {
+        $proposal = Proposal::find($request->id);
+
+        return response()->json($proposal->toJson());
+    }
+
 }
