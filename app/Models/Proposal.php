@@ -27,6 +27,10 @@ class Proposal extends Model
         'updated_at'
     ];
 
+    /**
+     * Mendapatkan pembmbing dari proposal terkait
+     * @return BelongsToMany
+     */
     public function bimbingan()
     {
         return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')->withPivot('status_request');

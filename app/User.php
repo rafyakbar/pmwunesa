@@ -194,6 +194,11 @@ class User extends Authenticatable
         return $this->hakAksesPengguna()->where('nama', $hakAkses)->count() == 1;
     }
 
+    public function bisaRequestHakAkses($role)
+    {
+        return (!$this->hasRole($role) && !$this->requestingHakAkses($role));
+    }
+
     public static function cari($column, $value, $roles, $logic = 'OR')
     {
         $qualifier = '';
