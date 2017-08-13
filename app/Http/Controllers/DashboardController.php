@@ -21,8 +21,10 @@ class DashboardController extends Controller
             return $this->dosen();
         else if(Auth::user()->isReviewer())
             return $this->reviewer();
-        else
+        else if(Auth::user()->isMahasiswa())
             return $this->mahasiswa();
+        else
+            return $this->tanpaHakAkses();
     }
 
     public function mahasiswa()
@@ -58,6 +60,11 @@ class DashboardController extends Controller
     public function superAdmin()
     {
         return view('admin.super.dashboard');
+    }
+
+    public function tanpaHakAkses()
+    {
+        return view('dashboard');
     }
 
 }

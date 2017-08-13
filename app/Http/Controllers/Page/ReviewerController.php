@@ -53,15 +53,23 @@ class ReviewerController extends Controller
     {
         $proposal = Auth::user()->review()->wherePivot('id',$id)->first();
 
-        return view('dosen.reviewer.tambahreview',[
+        if(is_null($proposal))
+            return redirect()->route('dashboard');
+
+        return view('dosen.reviewer.kelolareview',[
             'proposal' => $proposal,
-            'daftarAspek' => Aspek::all()
+            'daftaraspek' => Aspek::all(),
+            'type' => 'tambah'
         ]);
     }
 
     public function editNilaiReview($id)
     {
         $proposal = Auth::user()->review()->wherePivot('id',$id)->first();
+
+        if(is_null($proposal))
+            return redirect()->route('dashboard');
+            
         $penilaian = $proposal->penilaian();
 
         return view('dosen.reviewer.kelolareview',[

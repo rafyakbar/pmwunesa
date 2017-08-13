@@ -10,9 +10,27 @@ use PMW\Support\RequestStatus;
 class HakAksesController extends Controller
 {
 
-    public function requestHakAkses(Request $request)
+    public function requestReviewer()
     {
-        $hakAkses = HakAkses::find($request->hak_akses);
+        $reviewer = HakAkses::find(HakAkses::REVIEWER);
+
+        return $this->requestHakAkses($reviewer);
+    }
+
+    public function requestDosenPembimbing()
+    {
+        $pembimbing = HakAkses::find(HakAkses::DOSEN_PEMBIMBING);
+
+        return $this->requestHakAkses($pembimbing);
+    }
+
+    /**
+     * Melakukan request untuk hak akses tertentu
+     * @param  $hakAkses
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function requestHakAkses($hakAkses)
+    {
         $pengguna = Auth::user();
 
         // Jika user telah memiliki hak akses tersebut
