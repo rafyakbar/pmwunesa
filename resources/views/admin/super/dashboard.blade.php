@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-tes
+    <h1>Ini Dashboard Super Admin</h1>
 @endsection

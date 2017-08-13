@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use PMW\Models\HakAkses;
 use PMW\Mail\RegisterMail;
 use PMW\Models\Mahasiswa;
+use PMW\Support\RequestStatus;
 use PMW\User;
 
 class UserController extends Controller
@@ -80,15 +81,17 @@ class UserController extends Controller
         ]);
 
         foreach ($request->hakakses as $value){
-            if ($value == 'anggota'){
+            if ($value == 'Anggota'){
                 Mahasiswa::create([
                     'id_pengguna' => $request->id
                 ]);
             }
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',HakAkses::SUPER_ADMIN)->first(), ['status_request' => $value]);
+            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',$value)->first(), ['status_request' => RequestStatus::APPROVED]);
         }
 
         Mail::to($request->email)->send(new RegisterMail(User::find($request->id), $password));
+
+        return back();
     }
 
     public function hapus(Request $request)

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
+use PMW\User;
 
 class HakAksesController extends Controller
 {
@@ -58,23 +59,23 @@ class HakAksesController extends Controller
     public function terimaRequest(Request $request)
     {
         $pengguna = User::find($request->id_pengguna);
-        $hakAkses = HakAkses::find($request->id_hak_akses);
-        $permintaan = $pengguna->hakAksesPengguna($hakAkses);
 
-        // Menerima permintaan
-        $permintaan->updateExistingPivot($hakAkses->id, [
+        $pengguna->hakAksesPengguna()->updateExistingPivot($request->id_hak_akses, [
             'status_request' => RequestStatus::APPROVED
-        ]);
+        ], false);
+
+        return back();
     }
 
     public function tolakRequest(Request $request)
     {
         $pengguna = User::find($request->id_pengguna);
-        $hakAkses = HakAkses::find($request->id_hak_akses);
 
-        $pengguna->hakAksesPengguna()->updateExistingPivot($hakAkses->id, [
+        $pengguna->hakAksesPengguna()->updateExistingPivot($request->id_hak_akses, [
             'status_request' => RequestStatus::REJECTED
-        ]);
+        ], false);
+
+        return back();
     }
 
 }
