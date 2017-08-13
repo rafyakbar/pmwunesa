@@ -23,3 +23,10 @@
 .form-group{
     margin-top: 5px;
 }
+.form-control{
+    padding:10px !important;
+}
+.dropdown-menu{
+    max-height:250px;
+    overflow-y: scroll;
+}

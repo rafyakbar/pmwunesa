@@ -37,7 +37,6 @@
 </body>
 
 <!--   Core JS Files   -->
-<!-- <script src="{{ asset('js/app.js') }}jquery-3.1.0.min.js" type="text/javascript"></script>-->
 <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>
 
@@ -47,9 +46,8 @@
 <!-- Material Dashboard javascript methods -->
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
 
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-{{--<script src="{{ asset('js/demo.js') }}"></script>--}}
-
+<!-- Sweet Alert -->
+<script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
 @stack('js')
 

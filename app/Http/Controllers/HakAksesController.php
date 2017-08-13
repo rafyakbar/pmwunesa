@@ -13,14 +13,14 @@ class HakAksesController extends Controller
 
     public function requestReviewer()
     {
-        $reviewer = HakAkses::find(HakAkses::REVIEWER);
+        $reviewer = HakAkses::where('nama',HakAkses::REVIEWER)->first();
 
         return $this->requestHakAkses($reviewer);
     }
 
     public function requestDosenPembimbing()
     {
-        $pembimbing = HakAkses::find(HakAkses::DOSEN_PEMBIMBING);
+        $pembimbing = HakAkses::where('nama',HakAkses::DOSEN_PEMBIMBING)->first();
 
         return $this->requestHakAkses($pembimbing);
     }

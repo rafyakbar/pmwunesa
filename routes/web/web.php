@@ -51,9 +51,14 @@ Route::group(['middleware' => 'auth'], function(){
 
     });
 
-    Route::get('request/pembimbing',[
+    Route::post('request/pembimbing',[
         'uses' => 'HakAksesController@requestDosenPembimbing',
         'as' => 'request.pembimbing'
+    ]);
+
+    Route::post('request/reviewer',[
+        'uses' => 'HakAksesController@requestReviewer',
+        'as' => 'request.reviewer'
     ]);
 
 });
@@ -89,6 +94,11 @@ Route::get('lihat/proposal/{id}',function ($id){
         'ketua' => \PMW\Models\Proposal::find($id)->ketua()
     ]);
 })->name('lihat.proposal');
+
+Route::get('data/proposal',[
+    'uses' => 'ProposalController@dataAjax',
+    'as' => 'data.proposal.ajax'
+]);
 
 /*
 |---------------------------------------------

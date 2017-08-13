@@ -8,6 +8,10 @@
     Bimbingan
 @endsection
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}"/>
+@endpush
+
 @section('content')
 
     <div class="card card-nav-tabs">
@@ -16,9 +20,7 @@
         </div>
 
         <div class="card-content no-padding">
-            <div class="tab-content">
             @if ($bimbingan->count() > 0)
-                <div class="tab-pane">
                     <table class="table table-hover">
                         <thead class="text-warning">
                             <tr>
@@ -43,11 +45,9 @@
                                 @endforeach
                         </tbody>
                     </table>
-                </div>
             @else
                 <p>Anda belum menjadi pembimbing dari sebuah tim.</p>
             @endif
-            </div>
         </div>
     </div>
 

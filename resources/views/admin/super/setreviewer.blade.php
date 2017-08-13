@@ -34,7 +34,7 @@
                                 <ul class="dropdown-menu" data-target="#tahap1">
                                     <input type="text" class="form-control"/>
                                     @foreach ($daftarreviewer as $reviewer)
-                                        <li id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap1']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
+                                        <li data-id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap1']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -62,7 +62,7 @@
                                 <ul class="dropdown-menu" data-target="#tahap2">
                                     <input type="text" class="form-control"/>
                                     @foreach ($daftarreviewer as $reviewer)
-                                        <li id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
+                                        <li data-id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -85,91 +85,87 @@
     <script src="{{ asset('js/jquery.form.js') }}"></script>
     <script>
     $(function(){
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-        }
-    })
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            }
+        })
 
-    $('#kelolatahap1').ajaxForm({
-        success : function(response){
-            console.log('hello')
-            $('#kelolatahap2').submit()
-        }
-    })
+        $('#kelolatahap1').ajaxForm({
+            success : function(response){
+                console.log('hello')
+                $('#kelolatahap2').submit()
+            }
+        })
 
-    $('#kelolatahap2').ajaxForm({
-        success : function(response){
+        $('#kelolatahap2').ajaxForm({
+            success : function(response){
+                swal({
+                    title : 'Berhasil !',
+                    text : 'Anda baru saja memperbarui reviewer !',
+                    type : 'success'},function(){
+                        window.history.back()
+                    })
+            }
+        })
 
-        }
-    })
+        $('#save').click(function(){
+            $('#kelolatahap1').submit()
+        })
 
-    $('#save').click(function(){
-        $('#kelolatahap1').submit()
-    })
-
-    // Chooser
-    $('.chooser').find('.dropdown-menu li').click(function(e){
-        e.preventDefault()
-
-        var btn = $(this).parent().parent()
-
-        var dropdown = $(this).parent()
-
-        var target =  $(dropdown.attr('data-target'))
-
-        var val = target.val() == '' ? [] :  target.val().split(',')
-
-        val.push($(this).attr('id'))
-
-        target.val(val)
-
-        console.log(val)
-
-        btn.before('<div data-index="'+($(this).index()-1)+'" class="choosed"><span>' + $(this).text() + '</span><i class="fa fa-close close"></i></div>')
-
-        $(this).hide()
+        // Chooser
+        $('.chooser').find('.dropdown-menu li').click(function(e){
+            e.preventDefault()
+            var btn = $(this).parent().parent()
+            var dropdown = $(this).parent()
+            var target =  $(dropdown.attr('data-target'))
+            var val = target.val() == '' ? [] :  target.val().split(',')
+            val.push($(this).attr('data-id'))
+            target.val(val)
+            console.log(val)
+            btn.before('<div data-index="'+($(this).attr('data-id'))+'" class="choosed"><span>' + $(this).text() + '</span><i class="fa fa-close close"></i></div>')
+            $(this).hide()
+            $('.chooser').find('.close').click(function(){
+                var dropdown = $(this).parent().parent().find('.dropdown-menu')
+                var li = dropdown.find('li[data-id=' + $(this).parent().attr('data-index') + ']')
+                li.show()
+                var val = target.val().split(',')
+                val.splice(val.indexOf(li.attr('id')),1)
+                target.val(val)
+                console.log(val)
+                $(this).parent().remove();
+            })
+        })
 
         $('.chooser').find('.close').click(function(){
-
             var dropdown = $(this).parent().parent().find('.dropdown-menu')
-
-            var li = $('#' + $(this).parent().attr('data-index'))
-
+            var li = dropdown.find('li[data-id=' + $(this).parent().attr('data-index') + ']')
+            var target = $(dropdown.attr('data-target'))
             li.show()
-
             var val = target.val().split(',')
-
             val.splice(val.indexOf(li.attr('id')),1)
-
             target.val(val)
-
             console.log(val)
-
             $(this).parent().remove();
         })
+
+        $('.dropdown-menu').find('input[type="text"]').on('keyup',function(e){
+            e.preventDefault()
+            var dropdown = $(this).parent().parent()
+            var val = $(this).val()
+            var target = $(dropdown.attr('data-target'))
+            dropdown.find("li").each(function(){
+                console.log('dnjasdn')
+                if($(this).text().toLowerCase().indexOf(val.toLowerCase()) == -1){
+                    $(this).hide()
+                }
+                else{
+                    console.log(target.val().indexOf($(this).attr('data-id')))
+                    if(target.val().indexOf($(this).attr('data-id')) == -1)
+                        $(this).show()
+                }
+            })
+        })
     })
-
-    $('.chooser').find('.close').click(function(){
-
-        var dropdown = $(this).parent().parent().find('.dropdown-menu')
-
-        var li = $('#' + $(this).parent().attr('data-index'))
-
-        var target = $(dropdown.attr('data-target'))
-
-        li.show()
-
-        var val = target.val().split(',')
-
-        val.splice(val.indexOf(li.attr('id')),1)
-
-        target.val(val)
-
-        console.log(val)
-
-        $(this).parent().remove();
-    })
-})
     </script>
 @endpush

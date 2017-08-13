@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+
     @if($bimbingan->count() > 0)
         Anda telah menjadi pembimbing dari mahasiswa berikut :
         <ul>
         @foreach($bimbingan->cursor() as $proposal)
-            <li>{{ \PMW\Models\Proposal::find($proposal->id)->ketua()->nama }}</li>
+            <li>{{ $proposal->ketua()->nama }}</li>
         @endforeach
         </ul>
     @endif
@@ -14,7 +15,7 @@
         Anda diminta untuk menjadi pembimbing dari mahasiswa berikut :<br/>
         <ul>
             @foreach($undangan->cursor() as $proposal)
-                <li>{{ \PMW\Models\Proposal::find($proposal->id)->ketua()->nama }}
+                <li>{{ $proposal->ketua()->nama }}
                     <form action="{{ route('terima.undangan.dosen') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="proposal" value="{{ $proposal->id }}">
