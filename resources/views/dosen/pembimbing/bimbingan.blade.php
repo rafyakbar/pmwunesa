@@ -17,7 +17,8 @@
 
         <div class="card-content no-padding">
             <div class="tab-content">
-                <div class="tab-pane active" id="daftar">
+            @if ($bimbingan->count() > 0)
+                <div class="tab-pane">
                     <table class="table table-hover">
                         <thead class="text-warning">
                             <tr>
@@ -43,6 +44,9 @@
                         </tbody>
                     </table>
                 </div>
+            @else
+                <p>Anda belum menjadi pembimbing dari sebuah tim.</p>
+            @endif
             </div>
         </div>
     </div>

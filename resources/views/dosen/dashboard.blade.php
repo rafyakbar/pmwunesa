@@ -25,12 +25,16 @@
         </ul>
     @endif
 
-    @if(Auth::user()->isDosenPembimbing()&&
-        !Auth::user()->isReviewer() &&
-        !Auth::user()->requestingHakAkses(\PMW\Models\HakAkses::REVIEWER))
+    @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::DOSEN_PEMBIMBING))
+        <form action="{{ route('request.pembimbing') }}" method="post">
+            {{ csrf_field() }}
+            <input type="submit" value="Request menjadi dosen pembimbing"/>
+        </form>
+    @endif
+
+    @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::REVIEWER))
         <form action="{{ route('request.reviewer') }}" method="post">
             {{ csrf_field() }}
-            <input type="hidden" name="hak_akses" value="{{ \PMW\Models\HakAkses::where('nama',\PMW\User::REVIEWER)->first()->id }}">
             <input type="submit" value="Request menjadi reviewer"/>
         </form>
     @endif

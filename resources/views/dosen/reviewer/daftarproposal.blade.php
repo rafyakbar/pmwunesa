@@ -4,6 +4,14 @@
     <link rel="stylesheet" href="{{ asset('css/table.css') }}"/>
 @endpush
 
+@section('title')
+    Daftar Proposal
+@endsection
+
+@section('brand')
+    Daftar Proposal
+@endsection
+
 @section('content')
 
     <div class="card card-nav-tabs">
@@ -54,8 +62,12 @@
                                     <td class="hidden-sm hidden-xs">{{ $proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap) ? 'Sudah dinilai' : 'Belum dinilai' }}</td>
                                     <td class="hidden-sm hidden-xs">
                                         <div class="btn-group btn-group-sm">
+                                            @if($proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap))
                                             <a href="{{ route('lihat.nilai.review',['id' => $proposal->pivot->id]) }}"class="btn btn-primary">Lihat Nilai</a>
                                             <a href="{{ route('edit.nilai.review',['id' => $proposal->pivot->id]) }}"class="btn btn-primary">Edit</a>
+                                        @else
+                                            <a href="{{ route('tambah.nilai.review',['id' => $proposal->pivot->id]) }}"class="btn btn-primary">Beri Nilai</a>
+                                        @endif
                                         </div>
                                     </td>
                                 </tr>
