@@ -52,7 +52,7 @@ class TabelPMWUNESA extends Migration
                 ->references('id')
                 ->on('prodi')
                 ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+                ->onDelete('SET NULL');
             $table->string('nama')->nullable();
             $table->string('email', 50);
             $table->string('alamat_asal')->nullable();
