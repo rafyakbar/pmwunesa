@@ -3,20 +3,66 @@
 @section('content')
     {{--@if(Auth::user()->mahasiswa()->bisaKirimUndanganTim())--}}
 
-        <form action="{{ route('cari.mahasiswa') }}" method="get" id="cari-anggota">
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-6">
+                <div class="form-group">
+                    <form class="card-content" action="{{ route('cari.mahasiswa') }}" method="get" id="cari-anggota">
+
+                        <input class="form-control" type="text" name="nama" placeholder="Cari Mahasiswa" />
+
+                        <button class="btn btn-primary btn-sm" type="submit" style="float: right; font-size: 14px">Cari</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card-header" data-background-color="blue" style="margin-top: 10px">
+            <h4>Hasil Pencarian</h4>
+        </div>
+        <div class="card-content table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No. </th>
+                            <th>Nama</th>
+                            <th>Fakultas</th>
+                            <th>Prodi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. </td>
+                            <td>Namanya</td>
+                            <td>Fakultasnya</td>
+                            <td>Prodinya</td>
+                            <td><button class="btn btn-primary btn-sm">Undang</button></td>
+                        </tr>
+                        <tr>
+                            <td>2. </td>
+                            <td>Namanya</td>
+                            <td>Fakultasnya</td>
+                            <td>Prodinya</td>
+                            <td><button class="btn btn-primary btn-sm">Undang</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            <div id="hasil-pencarian"></div>
+            <form action="{{ route('undang.anggota') }}" method="post" style="display: none" id="undang-anggota">
+                {{ csrf_field() }}
+                <input type="hidden" name="untuk" />
+            </form>
+        </div>
+    </div>
+
+        <!-- <form action="{{ route('cari.mahasiswa') }}" method="get" id="cari-anggota">
 
             <input type="text" name="nama"/>
 
             <input type="submit" value="cari"/>
 
-        </form>
-
-        <div id="hasil-pencarian"></div>
-
-        <form action="{{ route('undang.anggota') }}" method="post" style="display: none" id="undang-anggota">
-            {{ csrf_field() }}
-            <input type="hidden" name="untuk"/>
-        </form>
+        </form> -->
 
         @push('js')
             <script src="{{ asset('js/jquery.form.js') }}"></script>
@@ -38,7 +84,7 @@
                     undangButton = function (id) {
                         var btn = $('<button></button>')
                         btn.attr('id', id)
-                        btn.attr('class', 'undang-anggota')
+                        btn.attr('class', 'undang-anggota btn btn-primary')
                         btn.text('undang')
                         btn.click(function (e) {
                             e.preventDefault()
