@@ -146,7 +146,7 @@
             val.splice(val.indexOf(li.attr('id')),1)
             target.val(val)
             console.log(val)
-            $(this).parent().remove();
+            $(this).parent().remove()
         })
 
         $('.dropdown-menu').find('input[type="text"]').on('keyup',function(e){
@@ -156,9 +156,8 @@
             var target = $(dropdown.attr('data-target'))
             dropdown.find("li").each(function(){
                 console.log('dnjasdn')
-                if($(this).text().toLowerCase().indexOf(val.toLowerCase()) == -1){
+                if($(this).text().toLowerCase().indexOf(val.toLowerCase()) == -1)
                     $(this).hide()
-                }
                 else{
                     console.log(target.val().indexOf($(this).attr('data-id')))
                     if(target.val().indexOf($(this).attr('data-id')) == -1)

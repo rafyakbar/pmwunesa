@@ -213,7 +213,7 @@ class User extends Authenticatable
                     $qualifier .= ($logic == 'OR') ? ' OR ' : 'AND ';
             }
         }
-        $query = DB::table(DB::raw('pengguna JOIN (SELECT * FROM hak_akses_pengguna, hak_akses WHERE '. $qualifier .') AS mhs ON mhs.id_pengguna = pengguna.id'))
+        $query = DB::table(DB::raw('pengguna JOIN (SELECT hak_akses_pengguna.id_pengguna FROM hak_akses_pengguna, hak_akses WHERE hak_akses.nama = '. $qualifier .' AND hak_akses_pengguna.id_hak_akses = hak_akses.id) AS mhs ON mhs.id_pengguna = pengguna.id'))
             ->select(DB::raw('pengguna.*'))
             ->whereRaw('pengguna.'.$column.' LIKE \'%'.$value.'%\'')
             ->distinct();

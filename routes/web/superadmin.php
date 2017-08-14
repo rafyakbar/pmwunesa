@@ -6,7 +6,7 @@ Route::get('fakultas', 'Page\SuperAdminController@tampilDataFakultas')->name('fa
 
 Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek')->name('aspek');
 
-Route::get('proposal', 'Page\SuperAdminController@tampilDataProposal')->name('proposal');
+Route::get('daftar/proposal', 'Page\SuperAdminController@tampilDataProposal')->name('proposal.superadmin');
 
 Route::group(['prefix' => 'permintaan'], function (){
 

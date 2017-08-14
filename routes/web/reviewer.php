@@ -16,7 +16,7 @@ Route::group(['prefix' => 'tambah'],function (){
 
 Route::group(['prefix' => 'daftar'],function (){
 
-    Route::get('proposal',[
+    Route::get('proposal/reviewer',[
         'uses' => 'Page\ReviewerController@daftarProposal',
         'as' => 'daftar.proposal.reviewer'
     ]);
@@ -30,7 +30,7 @@ Route::group(['prefix' => 'daftar'],function (){
         'uses' => 'Page\ReviewerController@daftarLaporanKemajuan',
         'as' => 'daftar.laporan.kemajuan'
     ]);
-    
+
     Route::get('laporan/akhir',[
         'uses' => 'Page\ReviewerController@daftarLaporanAkhir',
         'as' => 'daftar.laporan.akhir'

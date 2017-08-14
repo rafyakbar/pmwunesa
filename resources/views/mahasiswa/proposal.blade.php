@@ -1,23 +1,30 @@
 @extends('layouts.app')
 
-@section('content')
-
 @section('brand',"Proposal")
 
-    @if(Auth::user()->mahasiswa()->punyaProposal())
-        Timmu telah mengunggah proposal. <a href="{{ route('unduh.proposal') }}" onclick="event.preventDefault();document.getElementById('unduh-proposal').submit();">Unduh Proposal</a>
-    @else
-        @if(Auth::user()->isKetua())
-            Anda belum memiliki proposal,
-            <a href="{{ route('unggah.proposal') }}">Tambahkan proposal</a>
-        @endif
+@section('content')
+
+    {{-- Jika user belum punya tim --}}
+    @if(!Auth::user()->mahasiswa()->punyaTim())
+    <div class="card">
+        <div class="card-content">
+            <p class="alert alert-primary">Anda belum memiliki tim</p>
+        </div>
+    </div>
+@else
+    @if(!Auth::user()->mahasiswa()->punyaProposal())
+        <div class="card">
+            <div class="card-content">
+                <p class="alert alert-primary">Tim anda belum mengunggah proposal</p>
+                @if(Auth::user()->isKetua())
+                    <a href="{{ route('unggah.proposal') }}" class="btn btn-primary">Unggah Proposal</a>
+                @endif
+            </div>
+        </div>
+    @endif
     @endif
 
-    <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post" style="display: none;">
-        {{ csrf_field() }}
-    </form>
-
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-6">
             <div class="panel-default">
                 <div class="panel-heading">
@@ -66,6 +73,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 @endsection

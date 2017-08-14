@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 Route::group(['prefix' => 'unduh'],function (){
 
-    Route::post('proposal',[
+    Route::post('proposal', [
         'uses' => 'ProposalController@unduh',
         'as' => 'unduh.proposal',
     ]);
@@ -87,13 +87,10 @@ Route::group(['prefix' => 'unduh'],function (){
 
 });
 
-Route::get('lihat/proposal/{id}',function ($id){
-    return view('proposaldetail', [
-        'proposal' => \PMW\Models\Proposal::find($id),
-        'anggota' => \PMW\Models\Proposal::find($id)->mahasiswa(),
-        'ketua' => \PMW\Models\Proposal::find($id)->ketua()
-    ]);
-})->name('lihat.proposal');
+Route::get('lihat/proposal/{id}',[
+    'uses' => 'Page\PageController@proposalDetail',
+    'as' => 'lihat.proposal'
+]);
 
 Route::get('data/proposal',[
     'uses' => 'ProposalController@dataAjax',

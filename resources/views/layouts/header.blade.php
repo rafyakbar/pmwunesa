@@ -14,7 +14,6 @@
 
     <!-- Bootstrap core CSS     -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
-<!-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" /> -->
 
     <!--  Material Dashboard CSS    -->
     <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet"/>
@@ -24,8 +23,7 @@
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
-          type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'>
 
     <link rel="stylesheet" href="{{ asset('css/sweetalert.css')}}">
 

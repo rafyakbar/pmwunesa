@@ -1,8 +1,9 @@
 <?php
 
-Route::get('proposal', function () {
-    return view('mahasiswa.proposal');
-})->name('proposal');
+Route::get('proposal',[
+    'uses' => 'Page\PageController@proposalDetail',
+    'as' => 'proposal'
+]);
 
 Route::get('logbook', function () {
     return view('mahasiswa.daftarlogbook');

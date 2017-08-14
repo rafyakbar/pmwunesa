@@ -13,9 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'PMW\Events\Event' => [
-            'PMW\Listeners\EventListener',
-        ],
+        'PMW\Support\Events\UserCreated' => [
+            'PMW\Support\Listeners\KirimEmailRegistrasi'
+        ]
     ];
 
     /**

@@ -65,7 +65,7 @@ class Mahasiswa extends Model
 
     public function punyaProposal()
     {
-        return !is_null($this->proposal());
+        return !is_null($this->proposal()->direktori);
     }
 
     public function punyaProposalFinal()

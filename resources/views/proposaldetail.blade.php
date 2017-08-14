@@ -51,6 +51,7 @@
                     </div>
                 </div>
 
+                @if(!Auth::user()->isMahasiswa())
                 <hr style="margin: 20px 0 5px"/>
                 <h6 style="margin: 5px;font-weight:bold">Informasi Pengusul</h6>
                 <hr style="margin: 5px"/>
@@ -59,6 +60,7 @@
                     <li>{{ $value->pengguna()->nama }} {!! $value->pengguna()->nama == $ketua->nama ? '<b>(Ketua)</b>' : '' !!}</li>
                 @endforeach
                 </ol>
+                @endif
             </div>
         </div>
 
@@ -67,10 +69,17 @@
                 <h5>Unduh Berkas</h5>
             </div>
             <div class="card-content">
-                    <a href="#" class="btn btn-primary">Unduh Proposal</a>
+                    <a href="#" class="btn btn-primary" onclick="event.preventDefault();document.getElementById('unduh-proposal').submit();">Unduh Proposal</a>
+                    @if(Auth::user()->mahasiswa()->proposal()->punyaProposalFinal())
                     <a href="#" class="btn btn-primary">Unduh Proposal Final</a>
+                    @endif
+                    @if(!Auth::user()->isMahasiswa())
                     <a href="#" class="btn btn-primary">Unduh Laporan Kemajuan</a>
                     <a href="#" class="btn btn-primary">Unduh Laporan Akhir</a>
+                    @endif
+                    <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
             </div>
         </div>
     </div>

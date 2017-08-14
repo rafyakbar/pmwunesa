@@ -26,8 +26,8 @@
     </a>
 </li>
 
-<li @if(Route::currentRouteName() === 'proposal' ) class="active" @endif>
-    <a href="{{ route('proposal') }}">
+<li @if(Route::currentRouteName() === 'proposal.superadmin' ) class="active" @endif>
+    <a href="{{ route('proposal.superadmin') }}">
         <i class="material-icons">library_books</i>
         <p>Proposal</p>
     </a>

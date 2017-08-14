@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('content') 
+@section('content')
 
 @section('brand', "Logbook")
 
 <h2>Logbook</h2>
 
-{{--@if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0) 
+{{--@if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0)
     @foreach(
-        Auth::user()->mahasiswa()->proposal()->logbook()->get() as $logbook) 
-{{ $logbook }} <br/> 
-@endforeach--}} 
+        Auth::user()->mahasiswa()->proposal()->logbook()->get() as $logbook)
+{{ $logbook }} <br/>
+@endforeach--}}
 @if(Auth::user()->isKetua())
 <form action="{{ route('tambah.logbook') }}" method="post">
 
@@ -27,6 +27,7 @@
 </form>
 @endif {{--@else Anda belum memiliki logbook.<br/> @endif--}}
 
+@if(Auth::user()->mahasiswa()->punyaProposal())
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -36,19 +37,19 @@
                         <tr>
                             <th>No. </th>
                             <th>Tanggal</th>
-                            <th>Deskripsi</th>
+                            <th>Catatan</th>
+                            <th>Biaya</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (Auth::user()->mahasiswa()->proposal()->logbook()->cursor() as $index => $logbook)
+
+                        @endforeach
                         <tr>
-                            <td>1. </td>
-                            <td>Tanggalnya</td>
-                            <td>Deskripsinya ...........</td>
-                        </tr>
-                        <tr>
-                            <td>2. </td>
-                            <td>Tanggalnya</td>
-                            <td>Deskripsinya ...........</td>
+                            <td>{{ $index }}</td>
+                            <td>{{ $logbook->created_at }}</td>
+                            <td>{{ $logbook->catatan }}</td>
+                            <td>{{ $logbook->biaya }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -56,5 +57,6 @@
         </div>
     </div>
 </div>
+@endif
 
 @endsection

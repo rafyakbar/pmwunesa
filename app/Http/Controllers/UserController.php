@@ -105,7 +105,7 @@ class UserController extends Controller
     {
         $nama = $request->nama;
 
-        return User::cari('nama', $nama, [HakAkses::KETUA_TIM, HakAkses::ANGGOTA]);
+        return User::cari('nama', $nama, HakAkses::ANGGOTA);
     }
 
     public function cariDosen(Request $request)

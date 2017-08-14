@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(is_null(Auth::user()->laporanKemajuan()))
+    @if(is_null(Auth::user()->mahasiswa()->proposal()->laporanKemajuan()))
         <form action="{{ route('unggah.laporan.kemajuan') }}" method="post" enctype="multipart/form-data">
 
             {{ csrf_field() }}
