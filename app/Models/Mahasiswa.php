@@ -13,6 +13,8 @@ class Mahasiswa extends Model
 
     public $primaryKey = 'id_pengguna';
 
+    public $incrementing = false;
+
     public $keyType = 'string';
 
     public $timestamps = false;
@@ -65,7 +67,12 @@ class Mahasiswa extends Model
 
     public function punyaProposal()
     {
-        return !is_null($this->proposal()->direktori);
+        if(!is_null($this->proposal()))
+            if(!is_null($this->proposal()->direktori))
+                return true;
+
+        return false;
+
     }
 
     public function punyaProposalFinal()
