@@ -13,8 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'PMW\Support\Events\UserCreated' => [
-            'PMW\Support\Listeners\KirimEmailRegistrasi'
+        'PMW\Events\UserTerdaftar' => [
+            'PMW\Listeners\KirimEmailRegistrasi',
+            'PMW\Listeners\SetHakAkses'
         ]
     ];
 
