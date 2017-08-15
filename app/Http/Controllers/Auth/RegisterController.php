@@ -13,6 +13,7 @@ use PMW\Mail\RegisterMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use PMW\Models\Mahasiswa;
+use PMW\Events\UserTerdaftar;
 
 class RegisterController extends Controller
 {
@@ -43,19 +44,23 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->create($request->all());
 
         $this->registered($request,$user);
 
         Session::flash('message','Berhasil Mendaftar !');
 
+        return $user;
+
         return back();
     }
 
     /**
-     * Melakukan pengiriman email ke pengguna
+     * Melakukan pengiriman email ke pengguna dan mengatur hak akses
+     * yang akan diterima
      *
      * @param Request $request
      * @param Pengguna $user
@@ -63,7 +68,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        Mail::to($user->email)->send(new RegisterMail($user,$this->generatedPassword));
+        event(new UserTerdaftar($user));
     }
 
     /**
@@ -89,33 +94,13 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $this->generatedPassword = str_random(8);
-        $this->generatedPassword = 'secret';
 
-        User::create([
+        return User::create([
             'id' => $data['id'],
             'email' => $data['email'],
             'password' => bcrypt($this->generatedPassword),
             'request' => false
         ]);
-
-        // Set user sebagai mahasiswa
-        if(strlen($data['id']) == 11)
-        {
-            Mahasiswa::create([
-                'id_pengguna' => $data['id'],
-            ]);
-
-            User::find($data['id'])
-                ->hakAksesPengguna()
-                ->attach(HakAkses::where('nama',HakAkses::ANGGOTA)->first());
-        }
-        // jika panjang id sesuai panjang nip
-        else if(strlen($data['id']) == 20)
-        {
-            User::find($data['id'])->update([
-                'request' => true
-            ]);
-        }
     }
 
 }
