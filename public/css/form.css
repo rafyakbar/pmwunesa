@@ -1,0 +1,23 @@
+#cari-anggota{
+    padding: 0;
+    display: table;
+}
+
+#cari-anggota input[type="text"]{
+    border: none;
+    display: table-cell;
+    width:90%
+}
+
+#cari-anggota input[type="text"],
+#cari-anggota button{
+    padding:20px;
+    font-size: 15px;
+}
+
+#cari-anggota button{
+    display: table-cell;
+    background-color: transparent;
+    border: none;
+    width: 10%;
+}
