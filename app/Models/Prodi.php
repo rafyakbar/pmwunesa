@@ -23,7 +23,7 @@ class Prodi extends Model
      */
     public function jurusan()
     {
-        return $this->belongsTo('PMW\Models\Jurusan')->first();
+        return $this->belongsTo('PMW\Models\Jurusan','id_jurusan')->first();
     }
 
     /**

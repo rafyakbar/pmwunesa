@@ -11,8 +11,7 @@ class ProdiController extends Controller
     {
         foreach (explode(PHP_EOL, $request->nama) as $item){
             Prodi::create([
-                'nama'          => $item,
-                'id_jurusan'    => $request->id_jurusan
+                'nama'          => $item
             ]);
         }
 
@@ -30,6 +29,7 @@ class ProdiController extends Controller
     {
         $data = Prodi::find($request->id);
         $data->nama = $request->nama;
+        $data->id_jurusan = $request->id_jurusan;
         $data->save();
 
         return back();

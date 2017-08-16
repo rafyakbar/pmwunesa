@@ -3,6 +3,7 @@
 namespace PMW\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Jurusan extends Model
 {
@@ -36,6 +37,6 @@ class Jurusan extends Model
      */
     public function fakultas()
     {
-        return $this->belongsTo('PMW\Models\Fakultas')->first();
+        return $this->belongsTo('PMW\Models\Fakultas', 'id_fakultas')->first();
     }
 }

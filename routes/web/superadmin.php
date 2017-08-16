@@ -1,12 +1,38 @@
 <?php
 
-Route::get('pengguna', 'Page\SuperAdminController@tampilDataPengguna')->name('pengguna');
+Route::group(['prefix' => 'daftar'], function (){
 
-Route::get('fakultas', 'Page\SuperAdminController@tampilDataFakultas')->name('fakultas');
+    Route::get('pengguna', [
+        'uses'  => 'Page\SuperAdminController@tampilDataPengguna',
+        'as'    => 'daftar.pengguna'
+    ]);
 
-Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek')->name('aspek');
+    Route::get('fakultas', [
+        'uses'  => 'Page\SuperAdminController@tampilDataFakultas',
+        'as'    => 'daftar.fakultas'
+    ]);
 
-Route::get('daftar/proposal', 'Page\SuperAdminController@tampilDataProposal')->name('proposal.superadmin');
+    Route::get('jurusan', [
+        'uses'  => 'Page\SuperAdminController@tampilDataJurusan',
+        'as'    => 'daftar.jurusan'
+    ]);
+
+    Route::get('prodi', [
+        'uses'  => 'Page\SuperAdminController@tampilDataProdi',
+        'as'    => 'daftar.prodi'
+    ]);
+
+    Route::get('aspek', [
+        'uses'  => 'Page\SuperAdminController@tampilDataProposal',
+        'as'    => 'daftar.aspek'
+    ]);
+
+    Route::get('proposal', [
+        'uses'  => 'Page\SuperAdminController@tampilDataProposal',
+        'as'    => 'daftar.proposal'
+    ]);
+
+});
 
 Route::group(['prefix' => 'permintaan'], function (){
 

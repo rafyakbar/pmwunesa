@@ -26,9 +26,23 @@ class SuperAdminController extends Controller
     public function tampilDataFakultas()
     {
         return view('admin.super.daftarfakultas', [
-            'fakultas' => Fakultas::all(),
-            'jurusan' => Jurusan::all(),
-            'prodi' => Prodi::all()
+            'fakultas' => Fakultas::orderBy('nama')->get()
+        ]);
+    }
+
+    public function tampilDataJurusan()
+    {
+        return view('admin.super.daftarjurusan', [
+            'jurusan'   => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get(),
+            'fakultas'  => Fakultas::orderBy('nama')->get()
+        ]);
+    }
+
+    public function tampilDataProdi()
+    {
+        return view('admin.super.daftarprodi', [
+            'prodi'     => Prodi::orderBy('id_jurusan')->orderBy('nama')->get(),
+            'jurusan'   => Jurusan::orderBy('nama')->get()
         ]);
     }
 
@@ -48,25 +62,7 @@ class SuperAdminController extends Controller
 
     public function tampilRequestHakAkses(Request $request)
     {
-        return view('admin.super.daftarrequesthakakses',['pengguna' =>
-            DB::table('pengguna')
-                ->rightJoin(DB::raw('
-                 (
-                    SELECT
-                     id_pengguna,
-                     nama AS hakakses,
-                     id_hak_akses
-                    FROM hak_akses_pengguna
-                     LEFT JOIN hak_akses ON hak_akses_pengguna.id_hak_akses = hak_akses.id
-                    WHERE hak_akses_pengguna.status_request = \'Requesting\'
-                 ) AS status
-                '), function ($join){
-                    $join->on('status.id_pengguna', '=', 'pengguna.id');
-                })
-                ->select('id_pengguna', 'nama', 'hakakses', 'id_hak_akses')
-                ->orderBy('nama')
-                ->get()
-        ]);
+        return view('admin.super.daftarrequesthakakses',['pengguna' => HakAkses::permintaanHakAkses()]);
     }
 
     public function editReviewer($idproposal)

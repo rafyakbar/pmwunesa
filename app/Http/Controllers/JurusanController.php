@@ -11,8 +11,7 @@ class JurusanController extends Controller
     {
         foreach (explode(PHP_EOL, $request->nama) as $item){
             Jurusan::create([
-                'nama'          => $item,
-                'id_fakultas'   => $request->id_fakultas
+                'nama' => $item
             ]);
         }
 
@@ -30,6 +29,7 @@ class JurusanController extends Controller
     {
         $data = Jurusan::find($request->id);
         $data->nama = $request->nama;
+        $data->id_fakultas = $request->id_fakultas;
         $data->save();
 
         return back();
