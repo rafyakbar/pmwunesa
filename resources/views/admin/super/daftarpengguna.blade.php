@@ -4,7 +4,11 @@
     <ul>
         @foreach($user as $item)
             <li>
-                {{ $item->nama }}
+                @if(is_null($item->nama))
+                    "Pengguna ini belum mengatur nama"
+                @else
+                    {{ $item->nama }}
+                @endif
                 <br>
                 @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
                     <form action="{{ route('tambah.hakaksespengguna') }}" method="post">
