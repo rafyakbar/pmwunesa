@@ -70,6 +70,11 @@ Route::group(['prefix' => 'tambah'], function (){
         'as'    => 'tambah.aspek'
     ]);
 
+    Route::put('hakaksespengguna',[
+        'uses'  => 'UserController@editHakAkses',
+        'as'    => 'tambah.hakaksespengguna'
+    ]);
+
 });
 
 Route::group(['prefix' => 'hapus'], function (){
@@ -132,13 +137,13 @@ Route::group(['prefix' => 'edit'], function (){
     ]);
 
     Route::get('reviewer/{idproposal}', [
-        'uses' => 'Page\SuperAdminController@editReviewer',
-        'as' => 'edit.reviewer'
+        'uses'  => 'Page\SuperAdminController@editReviewer',
+        'as'    => 'edit.reviewer'
     ]);
 
     Route::patch('reviewer/{idproposal}', [
-        'uses' => 'ReviewerController@kelola',
-        'as' => 'edit.reviewer'
+        'uses'  => 'ReviewerController@kelola',
+        'as'    => 'edit.reviewer'
     ]);
 
 });

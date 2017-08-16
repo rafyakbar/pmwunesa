@@ -19,7 +19,8 @@ class SuperAdminController extends Controller
     public function tampilDataPengguna()
     {
         return view('admin.super.daftarpengguna', [
-            'user' => User::orderBy('nama')->get()
+            'user'      => User::orderBy('nama')->get(),
+            'hak_akses' => HakAkses::orderBy('id')->get()
         ]);
     }
 
