@@ -46,9 +46,9 @@
     </a>
 </li>
 
-<li @if(Route::currentRouteName() === 'laporankemajuan' ) class="active" @endif>
-    <a href="/">
+<li @if(Route::currentRouteName() === 'pengaturansistem' ) class="active" @endif>
+    <a href="{{ route('pengaturansistem') }}">
         <i class="material-icons">library_books</i>
-        <p>Laporan</p>
+        <p>Pengaturan</p>
     </a>
 </li>

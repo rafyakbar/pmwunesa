@@ -1,5 +1,7 @@
 <?php
 
+Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('pengaturansistem');
+
 Route::group(['prefix' => 'daftar'], function (){
 
     Route::get('pengguna', [
@@ -20,11 +22,6 @@ Route::group(['prefix' => 'daftar'], function (){
     Route::get('prodi', [
         'uses'  => 'Page\SuperAdminController@tampilDataProdi',
         'as'    => 'daftar.prodi'
-    ]);
-
-    Route::get('aspek', [
-        'uses'  => 'Page\SuperAdminController@tampilDataProposal',
-        'as'    => 'daftar.aspek'
     ]);
 
     Route::get('proposal', [

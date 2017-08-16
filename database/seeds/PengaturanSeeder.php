@@ -13,7 +13,7 @@ class PengaturanSeeder extends Seeder
     public function run()
     {
         Pengaturan::create([
-            'nama'      => 'nilai minimum proposal',
+            'nama'      => 'Nilai minimum proposal',
             'keterangan'=> '18'
         ]);
 
@@ -23,8 +23,18 @@ class PengaturanSeeder extends Seeder
         ]);
 
         Pengaturan::create([
-            'nama'      => 'Batas penilaian proposal',
+            'nama'      => 'Batas penilaian proposal tahap 1',
             'keterangan'=> '2017-10-15 23:59:59'
+        ]);
+
+        Pengaturan::create([
+            'nama'      => 'Batas pengumpulan proposal final',
+            'keterangan'=> '2017-09-15 23:59:59'
+        ]);
+
+        Pengaturan::create([
+            'nama'      => 'Batas penilaian proposal tahap 2',
+            'keterangan'=> '2017-09-15 23:59:59'
         ]);
     }
 }

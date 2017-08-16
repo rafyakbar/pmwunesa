@@ -8,6 +8,7 @@ use PMW\Models\Aspek;
 use PMW\Models\Fakultas;
 use PMW\Models\HakAkses;
 use PMW\Models\Jurusan;
+use PMW\Models\Pengaturan;
 use PMW\Models\Prodi;
 use PMW\Models\Proposal;
 use PMW\Support\RequestStatus;
@@ -16,6 +17,14 @@ use Illuminate\Support\Facades\DB;
 
 class SuperAdminController extends Controller
 {
+    public function pengaturan()
+    {
+        return view('admin.super.pengaturan',[
+            'pengaturan'=> Pengaturan::all(),
+            'aspek'     => Aspek::all()
+        ]);
+    }
+
     public function tampilDataPengguna()
     {
         return view('admin.super.daftarpengguna', [
