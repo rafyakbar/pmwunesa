@@ -3,15 +3,10 @@
 @section('content')
     <ul>
         @foreach($user as $item)
-            {{ $isSuperAdmin = false }}
-            <li>{{ $item->nama }},
-                @foreach($item->hakAksesPengguna()->cursor() as $value)
-                    {{ $value->nama  }},
-                    @if($value->nama == 'Super Admin')
-                        {{ $isSuperAdmin = true }}
-                    @endif
-                @endforeach
-                @if(!$isSuperAdmin)
+            <li>
+                {{ $item->nama }}
+                <br>
+                @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
                     <form action="{{ route('tambah.hakaksespengguna') }}" method="post">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
