@@ -97,6 +97,27 @@ class UserController extends Controller
         return back();
     }
 
+    public function editHakAkses(Request $request)
+    {
+        if (is_null($request->hakakses))
+            return back();
+
+        foreach ($request->hakakses as $value){
+            if ($value == 'Ketua Tim')
+                $value = 'Anggota';
+            if (!User::find($request->id)->hasRole($value)){
+                if ($value == 'Anggota' || $value == 'Ketua Tim'){
+                    Mahasiswa::create([
+                        'id_pengguna' => $request->id
+                    ]);
+                }
+                User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',$value)->first(), ['status_request' => RequestStatus::APPROVED]);
+            }
+        }
+
+        return back();
+    }
+
     public function hapus(Request $request)
     {
         User::find($request->id)->delete();

@@ -15,29 +15,29 @@ class TabelPMWUNESA extends Migration
     {
         Schema::create('fakultas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nama', 50);
+            $table->string('nama', 50)->unique();
         });
 
         Schema::create('jurusan', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_fakultas')->unsigned();
+            $table->integer('id_fakultas')->unsigned()->nullable();
             $table->foreign('id_fakultas')
                 ->references('id')
                 ->on('fakultas')
                 ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
-            $table->string('nama', 50);
+                ->onDelete('SET NULL');
+            $table->string('nama', 50)->unique();
         });
 
         Schema::create('prodi', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_jurusan')->unsigned();
+            $table->integer('id_jurusan')->unsigned()->nullable();
             $table->foreign('id_jurusan')
                 ->references('id')
                 ->on('jurusan')
                 ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
-            $table->string('nama', 50);
+                ->onDelete('SET NULL');
+            $table->string('nama', 50)->unique();
         });
 
         Schema::create('hak_akses', function (Blueprint $table){
@@ -175,6 +175,7 @@ class TabelPMWUNESA extends Migration
                 ->on('review')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table->timestamps();
         });
 
         Schema::create('logbook', function (Blueprint $table){
@@ -199,6 +200,13 @@ class TabelPMWUNESA extends Migration
             $table->string('jenis',25);
             $table->text('direktori');
             $table->text('keterangan');
+            $table->timestamps();
+        });
+
+        Schema::create('pengaturan', function (Blueprint $table){
+            $table->increments('id');
+            $table->string('nama');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }

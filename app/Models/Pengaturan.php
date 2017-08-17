@@ -4,16 +4,15 @@ namespace PMW\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Penilaian extends Model
+class Pengaturan extends Model
 {
-    public $table = 'penilaian';
+    public $table = 'pengaturan';
 
     protected $fillable = [
-        'id_review',
-        'id_aspek',
-        'nilai',
+        'id',
+        'nama',
+        'keterangan',
         'created_at',
         'updated_at'
     ];
-
 }

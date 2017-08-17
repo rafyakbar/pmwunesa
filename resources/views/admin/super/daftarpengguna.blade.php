@@ -3,16 +3,30 @@
 @section('content')
     <ul>
         @foreach($user as $item)
-            <li>{{ $item->nama }},
-                @foreach($item->hakAksesPengguna()->cursor() as $value)
-                    {{ $value->nama  }}
-                @endforeach
-                <form action="{{ route('hapus.pengguna') }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
-                    <input type="hidden" name="id" value="{{ $item->id }}">
-                    <input type="submit" name="submit" value="hapus">
-                </form>
+            <li>
+                @if(is_null($item->nama))
+                    "Pengguna ini belum mengatur nama"
+                @else
+                    {{ $item->nama }}
+                @endif
+                <br>
+                @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
+                    <form action="{{ route('tambah.hakaksespengguna') }}" method="post">
+                        {{ csrf_field() }}
+                        {{ method_field('put') }}
+                        <input type="hidden" name="id" value="{{ $item->id }}">
+                        @foreach($hak_akses as $value)
+                            <input type="checkbox" name="hakakses[]" value="{{ $value->nama }}" @if(\PMW\User::find($item->id)->hasRole($value->nama)) checked disabled @endif @if($value->nama == 'Ketua Tim') disabled @endif> {{ $value->nama }}<br>
+                        @endforeach
+                        <input type="submit" name="simpan" value="simpan">
+                    </form>
+                    <form action="{{ route('hapus.pengguna') }}" method="post">
+                        {{ csrf_field() }}
+                        {{ method_field('put') }}
+                        <input type="hidden" name="id" value="{{ $item->id }}">
+                        <input type="submit" name="submit" value="hapus">
+                    </form>
+                @endif
             </li>
         @endforeach
     </ul>

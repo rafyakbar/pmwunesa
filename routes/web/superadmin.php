@@ -1,12 +1,35 @@
 <?php
 
-Route::get('pengguna', 'Page\SuperAdminController@tampilDataPengguna')->name('pengguna');
+Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('pengaturansistem');
 
-Route::get('fakultas', 'Page\SuperAdminController@tampilDataFakultas')->name('fakultas');
+Route::group(['prefix' => 'daftar'], function (){
 
-Route::get('aspek', 'Page\SuperAdminController@tampilDataAspek')->name('aspek');
+    Route::get('pengguna', [
+        'uses'  => 'Page\SuperAdminController@tampilDataPengguna',
+        'as'    => 'daftar.pengguna'
+    ]);
 
-Route::get('daftar/proposal', 'Page\SuperAdminController@tampilDataProposal')->name('proposal.superadmin');
+    Route::get('fakultas', [
+        'uses'  => 'Page\SuperAdminController@tampilDataFakultas',
+        'as'    => 'daftar.fakultas'
+    ]);
+
+    Route::get('jurusan', [
+        'uses'  => 'Page\SuperAdminController@tampilDataJurusan',
+        'as'    => 'daftar.jurusan'
+    ]);
+
+    Route::get('prodi', [
+        'uses'  => 'Page\SuperAdminController@tampilDataProdi',
+        'as'    => 'daftar.prodi'
+    ]);
+
+    Route::get('proposal', [
+        'uses'  => 'Page\SuperAdminController@tampilDataProposal',
+        'as'    => 'daftar.proposal'
+    ]);
+
+});
 
 Route::group(['prefix' => 'permintaan'], function (){
 
@@ -42,6 +65,11 @@ Route::group(['prefix' => 'tambah'], function (){
     Route::put('aspek',[
         'uses'  => 'AspekController@tambah',
         'as'    => 'tambah.aspek'
+    ]);
+
+    Route::put('hakaksespengguna',[
+        'uses'  => 'UserController@editHakAkses',
+        'as'    => 'tambah.hakaksespengguna'
     ]);
 
 });
@@ -106,13 +134,13 @@ Route::group(['prefix' => 'edit'], function (){
     ]);
 
     Route::get('reviewer/{idproposal}', [
-        'uses' => 'Page\SuperAdminController@editReviewer',
-        'as' => 'edit.reviewer'
+        'uses'  => 'Page\SuperAdminController@editReviewer',
+        'as'    => 'edit.reviewer'
     ]);
 
     Route::patch('reviewer/{idproposal}', [
-        'uses' => 'ReviewerController@kelola',
-        'as' => 'edit.reviewer'
+        'uses'  => 'ReviewerController@kelola',
+        'as'    => 'edit.reviewer'
     ]);
 
 });

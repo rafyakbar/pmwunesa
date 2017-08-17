@@ -3,6 +3,7 @@
 namespace PMW\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
 
@@ -59,7 +60,16 @@ class DashboardController extends Controller
 
     public function superAdmin()
     {
-        return view('admin.super.dashboard');
+        return view('admin.super.dashboard',[
+            'database'  => DB::select('
+              SELECT
+                table_schema                                     AS "nama",
+                Round(Sum(data_length + index_length) / 1024, 1) AS "ukuran"
+              FROM information_schema.tables
+              WHERE table_schema = \'pmwunesa\'
+              GROUP BY table_schema;
+            ')
+        ]);
     }
 
     public function tanpaHakAkses()
