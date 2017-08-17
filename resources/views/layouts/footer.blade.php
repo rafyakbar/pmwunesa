@@ -49,6 +49,14 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
+<script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+    }
+})
+</script>
+
 @stack('js')
 
 </html>

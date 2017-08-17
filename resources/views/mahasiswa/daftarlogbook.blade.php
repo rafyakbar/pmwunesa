@@ -1,16 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
-
 @section('brand', "Logbook")
 
-<h2>Logbook</h2>
+@section('content')
 
-{{--@if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0)
-    @foreach(
-        Auth::user()->mahasiswa()->proposal()->logbook()->get() as $logbook)
-{{ $logbook }} <br/>
-@endforeach--}}
+
+@if(Auth::user()->mahasiswa()->punyaTim())
+
 @if(Auth::user()->isKetua())
 <form action="{{ route('tambah.logbook') }}" method="post">
 
@@ -57,6 +53,18 @@
         </div>
     </div>
 </div>
+@endif
+
+@else
+
+    <div class="card">
+
+        <div class="card-content">
+            <p class="alert alert-primary">Anda belum memiliki tim</p>
+        </div>
+
+    </div>
+
 @endif
 
 @endsection

@@ -13,6 +13,7 @@
 #cari-anggota button{
     padding:20px;
     font-size: 15px;
+    box-sizing: border-box;
 }
 
 #cari-anggota button{

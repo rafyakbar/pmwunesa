@@ -17,14 +17,8 @@
     </a>
 </li>
 <li>
-    <a href="{{ route('laporan.kemajuan') }}">
+    <a href="{{ route('laporan') }}">
         <i class="material-icons">assignment</i>
-    <p>Laporan Kemajuan</p>
-    </a>
-</li>
-<li>
-    <a href="{{ route('laporan.akhir') }}">
-        <i class="material-icons">description</i>
-        <p>Laporan Akhir</p>
+    <p>Laporan</p>
     </a>
 </li>

@@ -13,41 +13,53 @@ Route::get('proposal/final', function () {
     return view('mahasiswa.proposalfinal');
 })->name('proposal.final');
 
-Route::group(['prefix' => 'laporan'], function () {
+Route::get('laporan', function(){
+    return view('mahasiswa.laporan');
+})->name('laporan');
 
-    Route::get('kemajuan', function () {
-        return view('mahasiswa.laporankemajuan');
-    })->name('laporan.kemajuan');
-
-    Route::get('akhir', function () {
-        return view('mahasiswa.laporanakhir');
-    })->name('laporan.akhir');
-
-});
+// Route::group(['prefix' => 'laporan'], function () {
+//
+//     Route::get('kemajuan', function () {
+//         return view('mahasiswa.laporankemajuan');
+//     })->name('laporan.kemajuan');
+//
+//     Route::get('akhir', function () {
+//         return view('mahasiswa.laporanakhir');
+//     })->name('laporan.akhir');
+//
+// });
 
 Route::group(['prefix' => 'undang'], function () {
 
     Route::get('anggota', function () {
         return view('mahasiswa.undanganggota');
-    })->middleware('mahasiswa');
+    });
 
     Route::post('anggota', [
         'uses' => 'UndanganTimController@buatUndangan',
         'as' => 'undang.anggota',
-        'middleware' => 'mahasiswa'
     ]);
 
     Route::post('terima', [
         'uses' => 'UndanganTimController@terimaUndangan',
-        'as' => 'terima.undangan.tim',
-        'middleware' => 'mahasiswa'
+        'as' => 'terima.undangan.tim'
+    ]);
+
+    Route::post('tolak', [
+        'uses' => 'UndanganTimController@tolakUndangan',
+        'as' => 'tolak.undangan.tim'
+    ]);
+
+    Route::post('kirimulang', [
+        'uses' => 'UndanganTimController@kirimUlang',
+        'as' => 'kirimulang.undangan.tim'
     ]);
 
 });
 
 Route::group(['prefix' => 'hapus'],function(){
 
-    Route::get('undangan/{id}',[
+    Route::post('undangan',[
         'uses' => 'UndanganTimController@hapusUndangan',
         'as' => 'hapus.undangan.tim'
     ]);

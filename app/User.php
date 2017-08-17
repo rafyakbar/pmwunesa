@@ -234,14 +234,19 @@ class User extends Authenticatable
 
     public static function cariMahasiswaUntukUndanganTim($nama)
     {
-        $eloquent = static::whereHas('hakAksesPengguna',function($query){
+
+        // Daftar undangan yang dikirim oleh user terkait
+        $daftarUndangan = Auth::user()->mahasiswa()->undanganTimKetua()->pluck('id_anggota');
+
+        $eloquent = static::whereHas('hakAksesPengguna', function($query){
             $query->where('nama', HakAkses::ANGGOTA);
         })
         ->whereHas('relasiMahasiswa', function($query){
             $query->whereNull('id_proposal');
         })
         ->where('nama','LIKE','%' . $nama . '%')
-        ->where('id','!=',Auth::user()->id)
+        ->where('id','!=', Auth::user()->id)
+        ->whereNotIn('id', $daftarUndangan)
         ->get();
 
         return $eloquent;

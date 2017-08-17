@@ -42,7 +42,8 @@ class Mahasiswa extends Model
      */
     public function undanganTimKetua()
     {
-        return $this->belongsToMany('PMW\Models\Mahasiswa', 'undangan_tim', 'id_ketua', 'id_anggota');
+        return $this->belongsToMany('PMW\Models\Mahasiswa', 'undangan_tim', 'id_ketua', 'id_anggota')
+            ->withPivot('ditolak');
     }
 
     /**
@@ -52,7 +53,8 @@ class Mahasiswa extends Model
      */
     public function undanganTimAnggota()
     {
-        return $this->belongsToMany('PMW\Models\Mahasiswa', 'undangan_tim', 'id_anggota', 'id_ketua');
+        return $this->belongsToMany('PMW\Models\Mahasiswa', 'undangan_tim', 'id_anggota', 'id_ketua')
+            ->withPivot('ditolak');
     }
 
     /**
@@ -72,7 +74,14 @@ class Mahasiswa extends Model
                 return true;
 
         return false;
+    }
 
+    public function punyaProposalKosong()
+    {
+        if(!is_null($this->proposal()))
+            return true;
+
+        return false;
     }
 
     public function punyaProposalFinal()
@@ -119,7 +128,7 @@ class Mahasiswa extends Model
 
     public function tolakUndanganTim($dari)
     {
-        $dari->mahasiswa()->undanganTimKetua()->where('id_anggota',$this->pengguna()->id)->first()->update([
+        $dari->mahasiswa()->undanganTimKetua()->updateExistingPivot($this->pengguna()->id, [
             'ditolak' => true
         ]);
     }

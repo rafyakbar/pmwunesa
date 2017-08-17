@@ -24,14 +24,22 @@ class UndanganTimController extends Controller
 
         if(!is_null($untuk) && $dari->id != $untuk->id)
         {
-            if(!Auth::user()->mahasiswa()->punyaTim())
+            if(Auth::user()->mahasiswa()->bisaKirimUndanganTim())
             {
                 if(!$untuk->mahasiswa()->punyaUndanganTim($dari)) {
-                    Auth::user()->mahasiswa()->undanganTimKetua()->attach($untuk->mahasiswa());
-                    return response()->json([
-                        'message' => 'Berhasil mengirim undangan !',
-                        'error' => 0
-                    ]);
+                    if(!$dari->mahasiswa()->punyaUndanganTim($untuk)){
+                        Auth::user()->mahasiswa()->undanganTimKetua()->attach($untuk->mahasiswa());
+                        return response()->json([
+                            'message' => 'Berhasil mengirim undangan !',
+                            'error' => 0
+                        ]);
+                    }
+                    else{
+                        return response()->json([
+                            'message' => 'Anda tidak bisa mengirim undangan ke pengguna ini !',
+                            'error' => 4
+                        ]);
+                    }
                 }
                 else{
                     return response()->json([
@@ -75,7 +83,7 @@ class UndanganTimController extends Controller
             if(!$dari->mahasiswa()->timLengkap()) {
 
                 // Terima undangan
-                if ($dari->mahasiswa()->punyaProposal())
+                if ($dari->mahasiswa()->punyaProposalKosong())
                     $proposal = $dari->mahasiswa()->proposal();
                  else {
                     $proposal = Proposal::create([
@@ -143,13 +151,28 @@ class UndanganTimController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function hapusUndangan($id)
+    public function hapusUndangan(Request $request)
     {
-        $penerima = User::find($id)->mahasiswa();
+        $penerima = User::find($request->id)->mahasiswa();
 
         Auth::user()->mahasiswa()->undanganTimKetua()->detach($penerima);
 
-        return back();
+        return response()->json([
+            'message' => 'Undangan telah dihapus !',
+            'error' => 0
+        ]);
+    }
+
+    public function kirimUlang(Request $request)
+    {
+        Auth::user()->mahasiswa()->undanganTimKetua()->updateExistingPivot($request->id,[
+            'ditolak' => false
+        ]);
+
+        return response()->json([
+            'message' => 'Undangan telah dikirim ulang !',
+            'error' => 0
+        ]);
     }
 
 }
