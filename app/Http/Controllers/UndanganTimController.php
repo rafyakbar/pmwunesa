@@ -21,7 +21,7 @@ class UndanganTimController extends Controller
     {
         $dari = Auth::user();
         $untuk = User::find($request->untuk);
-        
+
         if(!is_null($untuk) && $dari->id != $untuk->id)
         {
             if(!Auth::user()->mahasiswa()->punyaTim())
@@ -35,7 +35,7 @@ class UndanganTimController extends Controller
                 }
                 else{
                     return response()->json([
-                        'message' => 'Anda telah mengirim undangan ke mahasiswa ini !',
+                        'message' => 'Anda sudah pernah mengirim undangan ke mahasiswa ini !',
                         'error' => 3
                     ]);
                 }
@@ -119,6 +119,8 @@ class UndanganTimController extends Controller
     }
 
     /**
+     * Melakukan penolakan terhadap undangan pengirim
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -136,16 +138,16 @@ class UndanganTimController extends Controller
     }
 
     /**
-     * Menghapus undangan
+     * Menghapus undangan, namun hanya pengirim yang bisa menghapus undangannya
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function hapusUndangan(Request $request)
+    public function hapusUndangan($id)
     {
-        $untuk = $request->id_pengguna;
+        $penerima = User::find($id)->mahasiswa();
 
-        Auth::user()->mahasiswa()->undanganTimKetua()->detach(User::find($untuk)->mahasiswa());
+        Auth::user()->mahasiswa()->undanganTimKetua()->detach($penerima);
 
         return back();
     }

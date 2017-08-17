@@ -11,6 +11,7 @@ use PMW\Mail\RegisterMail;
 use PMW\Models\Mahasiswa;
 use PMW\Support\RequestStatus;
 use PMW\User;
+use PMW\Events\UserTerdaftar;
 
 class UserController extends Controller
 {
@@ -73,12 +74,14 @@ class UserController extends Controller
     {
         $password = str_random(8);
 
-        User::create([
+        $user = User::create([
             'id'        => $request->id,
             'email'     => $request->email,
             'password'  => bcrypt($password),
             'request'   => true
         ]);
+
+        event(new UserTerdaftar($user));
 
         foreach ($request->hakakses as $value){
             if ($value == 'Anggota'){
@@ -105,7 +108,7 @@ class UserController extends Controller
     {
         $nama = $request->nama;
 
-        return User::cari('nama', $nama, HakAkses::ANGGOTA);
+        return User::cariMahasiswaUntukUndanganTim($nama);
     }
 
     public function cariDosen(Request $request)
