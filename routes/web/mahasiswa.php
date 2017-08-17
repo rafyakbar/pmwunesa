@@ -44,3 +44,12 @@ Route::group(['prefix' => 'undang'], function () {
     ]);
 
 });
+
+Route::group(['prefix' => 'hapus'],function(){
+
+    Route::get('undangan/{id}',[
+        'uses' => 'UndanganTimController@hapusUndangan',
+        'as' => 'hapus.undangan.tim'
+    ]);
+
+});
