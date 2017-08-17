@@ -2,12 +2,14 @@
 
 namespace PMW;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -98,13 +100,22 @@ class User extends Authenticatable
     }
 
     /**
-     * Merelasikan dengan tabel mahasiswa
+     * Merelasikan dengan tabel mahasiswa dan mengambil data pertama
      *
      * @return mixed
      */
     public function mahasiswa()
     {
         return $this->hasOne('PMW\Models\Mahasiswa', 'id_pengguna')->first();
+    }
+
+    /**
+     * Merelasikan dengan tabel mahasiswa
+     * @return HasOne
+     */
+    public function relasiMahasiswa()
+    {
+        return $this->hasOne('PMW\Models\Mahasiswa', 'id_pengguna');
     }
 
     /**
@@ -219,6 +230,21 @@ class User extends Authenticatable
             ->distinct();
 
         return $query->get();
+    }
+
+    public static function cariMahasiswaUntukUndanganTim($nama)
+    {
+        $eloquent = static::whereHas('hakAksesPengguna',function($query){
+            $query->where('nama', HakAkses::ANGGOTA);
+        })
+        ->whereHas('relasiMahasiswa', function($query){
+            $query->whereNull('id_proposal');
+        })
+        ->where('nama','LIKE','%' . $nama . '%')
+        ->where('id','!=',Auth::user()->id)
+        ->get();
+
+        return $eloquent;
     }
 
     public function jadikanKetua()
