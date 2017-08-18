@@ -78,4 +78,17 @@ $(function(){
         }
     })
 
+    $('.ajax-form').ajaxForm({
+        success : function(response){
+            swal({
+                title : (response.error === 0) ? 'Berhasil' : 'Gagal',
+                text : response.message,
+                type : (response.error === 0 ) ? 'success' : 'error'
+            },function(){
+                if(response.error === 0)
+                    window.location.reload()
+            })
+        }
+    })
+
 })

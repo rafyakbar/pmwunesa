@@ -50,9 +50,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function jurusan()
+    public function prodi()
     {
-        return $this->belongsTo('PMW\Models\Prodi');
+        return $this->belongsTo('PMW\Models\Prodi','id_prodi')->first();
     }
 
     /**

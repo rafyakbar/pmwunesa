@@ -1,4 +1,3 @@
-<p class="alert alert-warning">Anda belum memiliki dosen pembimbing</p>
 
 <form class="card cari" action="{{ route('cari.pembimbing') }}" method="post" id="cari-pembimbing">
 

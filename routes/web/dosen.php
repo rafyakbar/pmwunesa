@@ -9,6 +9,11 @@ Route::group(['prefix' => 'terima'],function (){
 
 });
 
+Route::post('tolak/undangan', [
+    'uses' => 'UndanganDosenController@tolak',
+    'as' => 'tolak.undangan.dosen'
+]);
+
 Route::get('bimbingan',[
     'uses' => 'Page\DosenController@bimbingan',
     'as' => 'bimbingan'

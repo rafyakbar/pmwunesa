@@ -75,6 +75,16 @@ Route::group(['prefix' => 'undang'], function () {
         'as' => 'undang.pembimbing'
     ]);
 
+    Route::post('dosen/kirimulang', [
+        'uses' => 'UndanganDosenController@kirimUlang',
+        'as' => 'kirimulang.undangan.pembimbing'
+    ]);
+
+    Route::post('dosen/hapus', [
+        'uses' => 'UndanganDosenController@hapus',
+        'as' => 'hapus.undangan.pembimbing'
+    ]);
+
 });
 
 Route::group(['prefix' => 'cari'], function(){

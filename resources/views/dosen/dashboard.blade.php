@@ -1,42 +1,19 @@
 @extends('layouts.app')
 
+@section('brand','Dasbor')
+
+@section('title','Dasbor ' . Auth::user()->nama)
+
 @section('content')
 
-    @if($bimbingan->count() > 0)
-        Anda telah menjadi pembimbing dari mahasiswa berikut :
-        <ul>
-        @foreach($bimbingan->cursor() as $proposal)
-            <li>{{ $proposal->ketua()->nama }}</li>
-        @endforeach
-        </ul>
-    @endif
-
-    @if($undangan->count() > 0)
-        Anda diminta untuk menjadi pembimbing dari mahasiswa berikut :<br/>
-        <ul>
-            @foreach($undangan->cursor() as $proposal)
-                <li>{{ $proposal->ketua()->nama }}
-                    <form action="{{ route('terima.undangan.dosen') }}" method="post">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="proposal" value="{{ $proposal->id }}">
-                        <input type="submit" value="Terima"/>
-                    </form>
-                </li>
-            @endforeach
-        </ul>
-    @endif
-
-    @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::DOSEN_PEMBIMBING))
-        <form action="{{ route('request.pembimbing') }}" method="post">
-            {{ csrf_field() }}
-            <input type="submit" value="Request menjadi dosen pembimbing"/>
-        </form>
+    @if(Auth::user()->isDosenPembimbing())
+        @include('dosen.pembimbing.part.dashboard')
     @endif
 
     @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::REVIEWER))
-        <form action="{{ route('request.reviewer') }}" method="post">
+        <form action="{{ route('request.reviewer') }}" class="ajax-form" method="post">
             {{ csrf_field() }}
-            <input type="submit" value="Request menjadi reviewer"/>
+            <input type="submit" class="btn btn-warning" value="Request menjadi reviewer"/>
         </form>
     @endif
 
@@ -44,3 +21,8 @@
         Anda sedang menunggu persetujuan untuk menjadi reviewer
     @endif
 @endsection
+
+@push('js')
+    <script src="{{ asset('js/jquery.form.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('js/dosen.js') }}" charset="utf-8"></script>
+@endpush

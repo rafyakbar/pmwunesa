@@ -30,9 +30,10 @@ Route::get('laporan', function(){
 // });
 //
 
-Route::get('infotim', function () {
-    return view('mahasiswa.infotim');
-})->name('info.tim');
+Route::get('infotim', [
+    'uses' => 'Page\MahasiswaController@infoTim',
+    'as' => 'info.tim'
+]);
 
 Route::group(['prefix' => 'undang'], function () {
 
