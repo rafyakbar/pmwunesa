@@ -39,7 +39,7 @@ class UserController extends Controller
 
         Auth::user()->update([
             'nama'          => $request->nama,
-            //'id_prodi'      => $request->id_prodi,
+            'id_prodi'      => $request->id_prodi,
             'alamat_asal'   => $request->alamat_asal,
             'alamat_tinggal'=> $request->alamat_tinggal,
             'no_telepon'    => $request->no_telepon
