@@ -17,7 +17,7 @@
                 <tbody>
                 @foreach($prodi as $item)
                     <tr>
-                        <td class="col-xs-9">
+                        <td class="col-xs-10">
                             <form action="{{ route('edit.prodi') }}" method="post" class="col-xs-11">
                                 {{ csrf_field() }}
                                 {{ method_field('put') }}
@@ -25,10 +25,10 @@
                                 <span class="material-input"></span>
                                 <div class="input-group">
                                     <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md-5">
                                             <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" style="border: 1px">
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-7">
                                             <select name="id_jurusan" class="form-control">
                                                 @if(is_null($item->id_jurusan))
                                                     <option value="">Pilih jurusan</option>
@@ -36,11 +36,11 @@
                                                         <option value="{{ $value->id }}">Jurusan {{ $value->nama }}</option>
                                                     @endforeach
                                                 @else
-                                                    {{ $pJurusan = \PMW\Models\Prodi::find($item->id)->fakultas() }}
-                                                    <option value="{{ $pJurusan->id }}">Jurusan {{ $pJurusan->nama }}</option>
+                                                    {{ $pJurusan = \PMW\Models\Prodi::find($item->id)->jurusan() }}
+                                                    <option value="{{ $pJurusan->id }}">Fakultas {{ \PMW\Models\Jurusan::find($pJurusan->id)->fakultas()->nama }} | Jurusan {{ $pJurusan->nama }}</option>
                                                     @foreach($jurusan as $value)
                                                         @if($value->id !== $pJurusan->id)
-                                                            <option value="{{ $value->id }}">Jurusan {{ $value->nama }}</option>
+                                                            <option value="{{ $value->id }}">Fakultas {{ \PMW\Models\Jurusan::find($value->id)->fakultas()->nama }} | Jurusan {{ $value->nama }}</option>
                                                         @endif
                                                     @endforeach
                                                 @endif
@@ -55,7 +55,7 @@
                                 </div>
                             </form>
                         </td>
-                        <td class="col-xs-2">
+                        <td class="col-xs-1">
                             <form action="{{ route('hapus.prodi') }}" method="post">
                                 {{ csrf_field() }}
                                 {{ method_field('put') }}
