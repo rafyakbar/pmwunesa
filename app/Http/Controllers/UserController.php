@@ -132,11 +132,11 @@ class UserController extends Controller
         return User::cariMahasiswaUntukUndanganTim($nama);
     }
 
-    public function cariDosen(Request $request)
+    public function cariPembimbing(Request $request)
     {
         $nama = $request->nama;
 
-        return User::cari('nama', $nama, HakAkses::DOSEN_PEMBIMBING);
+        return User::cariDosenPembimbing($nama);
     }
 
     public function cariReviewer(Request $request)

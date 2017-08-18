@@ -103,7 +103,7 @@ class Mahasiswa extends Model
 
     public function jumlahAnggotaTim()
     {
-        if(!$this->punyaProposal())
+        if(!$this->punyaProposalKosong())
             return 0;
 
         $proposal = $this->proposal();
@@ -135,7 +135,7 @@ class Mahasiswa extends Model
 
     public function timLengkap()
     {
-        if(!$this->punyaProposal())
+        if(!$this->punyaProposalKosong())
             return false;
 
         $proposal = $this->proposal();

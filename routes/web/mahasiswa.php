@@ -28,12 +28,13 @@ Route::get('laporan', function(){
 //     })->name('laporan.akhir');
 //
 // });
+//
+
+Route::get('infotim', function () {
+    return view('mahasiswa.infotim');
+})->name('info.tim');
 
 Route::group(['prefix' => 'undang'], function () {
-
-    Route::get('anggota', function () {
-        return view('mahasiswa.undanganggota');
-    });
 
     Route::post('anggota', [
         'uses' => 'UndanganTimController@buatUndangan',

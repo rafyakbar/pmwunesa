@@ -19,7 +19,7 @@ class UndanganDosenController extends Controller
     public function kirimUndangan(Request $request)
     {
         $dosen = User::find($request->dosen);
-        $proposal = Auth::user()->proposal();
+        $proposal = Auth::user()->mahasiswa()->proposal();
 
         $dosen->bimbingan()->attach($proposal);
 

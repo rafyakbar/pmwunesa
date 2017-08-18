@@ -252,6 +252,18 @@ class User extends Authenticatable
         return $eloquent;
     }
 
+    public static function cariDosenPembimbing($nama)
+    {
+        $eloquent = static::whereHas('hakAksesPengguna', function($query){
+            $query->where('nama',HakAkses::DOSEN_PEMBIMBING)
+                ->where('status_request',RequestStatus::APPROVED);
+        })
+        ->where('nama','LIKE','%' . $nama . '%')
+        ->get();
+
+        return $eloquent;
+    }
+
     public function jadikanKetua()
     {
         // Menghapus hak akses sebagai anggota dari pengirim undangan

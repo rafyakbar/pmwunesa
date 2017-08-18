@@ -1,6 +1,8 @@
-<form class="card cari" action="{{ route('cari.mahasiswa') }}" method="get" id="cari-anggota">
+<p class="alert alert-warning">Anda belum memiliki dosen pembimbing</p>
 
-    <input  type="text" name="nama" placeholder="Cari Mahasiswa" autofocus/>
+<form class="card cari" action="{{ route('cari.pembimbing') }}" method="post" id="cari-pembimbing">
+
+    <input  type="text" name="nama" placeholder="Cari Pembimbing" autofocus/>
 
     <button type="submit"><i class="fa fa-search"></i></button>
 
@@ -13,7 +15,7 @@
     <div class="card-content table-responsive">
         <div id="belum-cari" style="text-align:center;">
             <i class="fa fa-user fa-5x"></i>
-            <p style="font-size:30px;padding-top:10px;">Mulailah untuk mencari anggota timmu</p>
+            <p style="font-size:30px;padding-top:10px;">Mulailah untuk mencari dosen pembimbingmu</p>
         </div>
         <div id="not-found" style="text-align:center;display:none">
             <i class="fa fa-user-times fa-5x"></i>
@@ -31,9 +33,9 @@
             </tbody>
         </table>
         <div id="hasil-pencarian"></div>
-        <form action="{{ route('undang.anggota') }}" method="post" style="display: none" id="undang-anggota">
+        <form action="{{ route('undang.pembimbing') }}" method="post" style="display: none" id="undang-pembimbing">
             {{ csrf_field() }}
-            <input type="hidden" name="untuk" />
+            <input type="hidden" name="dosen" />
         </form>
     </div>
 </div>

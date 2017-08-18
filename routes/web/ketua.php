@@ -70,14 +70,18 @@ Route::group(['prefix' => 'edit'], function () {
 
 Route::group(['prefix' => 'undang'], function () {
 
-    Route::get('dosen', [
-        'uses' => 'Page\KetuaController@undangDosen',
-        'as' => 'undang.dosen'
-    ]);
-
     Route::post('dosen', [
         'uses' => 'UndanganDosenController@kirimUndangan',
-        'as' => 'undang.dosen'
+        'as' => 'undang.pembimbing'
+    ]);
+
+});
+
+Route::group(['prefix' => 'cari'], function(){
+
+    Route::post('dosen', [
+        'uses' => 'UserController@cariPembimbing',
+        'as' => 'cari.pembimbing'
     ]);
 
 });

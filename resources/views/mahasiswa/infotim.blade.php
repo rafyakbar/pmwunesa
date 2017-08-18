@@ -20,27 +20,16 @@
         </div>
 
     @else
-        <div class="row">
-            <div class="col-lg-5">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Tim Anda</h4>
-                    </div>
-                    <div class="card-content">
-                        <ul>
-                            @foreach(Auth::user()->mahasiswa()->proposal()->mahasiswa()->cursor() as $anggota)
-                                <li>{{ $anggota->pengguna()->nama }} {!! $anggota->pengguna()->isKetua() ? '<b>(Ketua)</b>' : '' !!}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('mahasiswa.part.info_tim')
     @endif
 
     @push('js')
         <script src="{{ asset('js/jquery.form.js') }}"></script>
+        @if(!Auth::user()->mahasiswa()->timLengkap())
         <script src="{{ asset('js/undangantim.js') }}"></script>
+        @else
+        <script src="{{ asset('js/undanganpembimbing.js') }}"></script>
+        @endif
     @endpush
 
 @endsection

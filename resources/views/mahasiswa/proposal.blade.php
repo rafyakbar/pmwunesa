@@ -15,7 +15,11 @@
     @if(!Auth::user()->mahasiswa()->punyaProposal())
         <div class="card">
             <div class="card-content">
-                <p class="alert alert-primary">Tim anda belum mengunggah proposal</p>
+                @if(!Auth::user()->isKetua())
+                    <p class="alert alert-primary">Ketua tim anda belum mengunggah proposal</p>
+                @else
+                    <p class="alert alert-primary">Anda belum mengunggah proposal</p>
+                @endif
                 @if(Auth::user()->isKetua())
                     <a href="{{ route('unggah.proposal') }}" class="btn btn-primary">Unggah Proposal</a>
                 @endif

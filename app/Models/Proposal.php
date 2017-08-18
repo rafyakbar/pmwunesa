@@ -29,11 +29,17 @@ class Proposal extends Model
 
     /**
      * Mendapatkan pembmbing dari proposal terkait
+     *
      * @return BelongsToMany
      */
     public function bimbingan()
     {
         return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')->withPivot('status_request');
+    }
+
+    public function pembimbing()
+    {
+        return $this->bimbingan()->first();
     }
 
     public function reviewer()
@@ -54,6 +60,11 @@ class Proposal extends Model
     public function punyaProposalFinal()
     {
         return (!is_null($this->direktori_final));
+    }
+
+    public function punyaPembimbing()
+    {
+        return (!is_null($this->pembimbing()));
     }
 
     public function laporanAkhir()
