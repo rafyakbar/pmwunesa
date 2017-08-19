@@ -34,7 +34,7 @@
 
             @if (Auth::user()->isAdminFakultas())
 
-                @include('layouts.menus.adminuniversitas')
+                @include('layouts.menus.adminfakultas')
 
             @endif
 
