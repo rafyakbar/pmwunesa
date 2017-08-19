@@ -173,7 +173,7 @@ class FakultasProdiSeeder extends Seeder
             ],
             'Akutansi' => [
                 'S1 Akuntansi',
-                'D III Akuntansi'
+                'DIII Akuntansi'
             ],
             'Ilmu Ekonomi' => [
                 'S1 Ekonomi Islam'
