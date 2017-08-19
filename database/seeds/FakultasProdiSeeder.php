@@ -10,24 +10,30 @@ class FakultasProdiSeeder extends Seeder
 
     const PRODI = [
         'Ilmu Pendidikan' => [
-            'Ilmu Pendidikan' => [
-                'S1 Manajemen Pendidikan',
-                'S1 Teknologi Pendidikan',
-                'S1 Bimbingan Konseling',
-                'S1 Psikologi',
-                'S1 Pendidikan Luar Biasa',
-                'S1 Pendidikan Guru Sekolah Dasar',
-                'S1 Pendidikan Luar Sekolah',
+            'Bimbingan & Konseling' => [
+                'S1 Bimbingan Konseling'
+            ],
+            'Pendidikan Luar Biasa' => [
+                'S1 Pendidikan Luar Biasa'
+            ],
+            'Pendidikan Luar Sekolah' => [
+                'S1 Pendidikan Luar Sekolah'
+            ],
+            'Manajemen Pendidikan' => [
+                'S1 Manajemen Pendidikan'
+            ],
+            'PG -PAUD' => [
                 'S1 PG - PAUD'
             ],
-            'Bimbingan & Konseling' => [],
-            'Pendidikan Luar Biasa' => [],
-            'Pendidikan Luar Sekolah' => [],
-            'Manajemen Pendidikan' => [],
-            'PG -PAUD' => [],
-            'Psikologi' => [],
-            'Teknologi Pendidikan' => [],
-            'Pendidikan Guru Sekolah Dasar' => []
+            'Psikologi' => [
+                'S1 Psikologi'
+            ],
+            'Teknologi Pendidikan' => [
+                'S1 Teknologi Pendidikan'
+            ],
+            'Pendidikan Guru Sekolah Dasar' => [
+                'S1 Pendidikan Guru Sekolah Dasar'
+            ]
         ],
 
         'Bahasa & Seni' => [
