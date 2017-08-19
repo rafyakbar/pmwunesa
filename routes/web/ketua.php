@@ -62,6 +62,11 @@ Route::group(['prefix' => 'edit'], function () {
         'as' => 'edit.proposal'
     ]);
 
+    Route::get('logbook/{id}', [
+        'uses' => 'Page\KetuaController@editLogbook',
+        'as' => 'halaman.edit.logbook'
+    ]);
+
     Route::patch('logbook', [
         'uses' => 'LogBookController@edit',
         'as' => 'edit.logbook'
@@ -102,6 +107,15 @@ Route::group(['prefix' => 'tambah'],function (){
     Route::put('logbook',[
         'uses' => 'LogBookController@tambah',
         'as' => 'tambah.logbook'
+    ]);
+
+});
+
+Route::group(['prefix' => 'hapus'], function(){
+
+    Route::delete('logbook', [
+        'uses' => 'LogBookController@hapus',
+        'as' => 'hapus.logbook'
     ]);
 
 });

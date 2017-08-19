@@ -1,70 +1,109 @@
 @extends('layouts.app')
 
 @section('brand', "Logbook")
+@section('title', "Logbook")
 
 @section('content')
 
+    @if(Auth::user()->mahasiswa()->punyaTim())
+        @if(Auth::user()->mahasiswa()->proposal()->lolos())
 
-@if(Auth::user()->mahasiswa()->punyaTim())
+        <div class="card" id="logbook-header" style="{{ $errors->count() > 0 ? 'display:none' : '' }}">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <h5 style="vertical-align:middle;margin-top:20px">Tim anda
+                            memiliki {{ Auth::user()->mahasiswa()->proposal()->logbook()->count() }} logbook</h5>
+                    </div>
 
-@if(Auth::user()->isKetua())
-<form action="{{ route('tambah.logbook') }}" method="post">
-
-    {{ csrf_field() }} {{ method_field('put') }} Catatan
-
-    <br/>
-    <textarea name="catatan"></textarea><br/> Biaya
-
-    <br/>
-    <input type="number" name="biaya" /><br/>
-
-    <input type="submit" value="Tambah" />
-
-</form>
-@endif {{--@else Anda belum memiliki logbook.<br/> @endif--}}
-
-@if(Auth::user()->mahasiswa()->punyaProposal())
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-content table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>No. </th>
-                            <th>Tanggal</th>
-                            <th>Catatan</th>
-                            <th>Biaya</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Auth::user()->mahasiswa()->proposal()->logbook()->cursor() as $index => $logbook)
-
-                        @endforeach
-                        <tr>
-                            <td>{{ $index }}</td>
-                            <td>{{ $logbook->created_at }}</td>
-                            <td>{{ $logbook->catatan }}</td>
-                            <td>{{ $logbook->biaya }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    @if(Auth::user()->isKetua())
+                        <div class="col-lg-2">
+                            <button id="tampilkan-form-logbook" class="btn btn-primary"
+                                    style="width:100%;text-align:center;padding:12px 0">Tambah Logbook
+                            </button>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
-</div>
-@endif
 
-@else
+        @if(Auth::user()->isKetua())
+            @include('mahasiswa.part.form_tambah_logbook')
+        @endif
 
-    <div class="card">
+        @if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0)
+            @include('mahasiswa.part.daftar_logbook')
+        @endif
 
-        <div class="card-content">
-            <p class="alert alert-primary">Anda belum memiliki tim</p>
+            @else
+
+            <div class="card">
+
+                <div class="card-content">
+                    <p class="alert alert-primary">Tim anda belum dinyatakan lolos</p>
+                </div>
+
+            </div>
+
+        @endif
+
+
+    @else
+
+        <div class="card">
+
+            <div class="card-content">
+                <p class="alert alert-primary">Anda belum memiliki tim</p>
+            </div>
+
         </div>
 
-    </div>
-
-@endif
+    @endif
 
 @endsection
+
+@push('js')
+    <script type="text/javascript">
+        $('#tampilkan-form-logbook').click(function (e) {
+            $('#wrapper-form-logbook').show()
+            $('#logbook-header').hide()
+        })
+
+        $('#batal-tambah-logbook').click(function () {
+            $('#wrapper-form-logbook').hide()
+            $('#logbook-header').show()
+        })
+
+        $('.hapus-logbook').click(function (e) {
+            e.preventDefault()
+            var obj = $(this)
+            swal({
+                    title: "Apa anda yakin ?",
+                    text: "Logbook akan dihapus secara permanen !",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: 'Batal',
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Ya, hapus!",
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                },
+                function () {
+                    $.ajax({
+                        type: 'delete',
+                        url: obj.attr('href'),
+                        data: 'id=' + obj.attr('data-id'),
+                        success: function (response) {
+                            swal({
+                                title: (response.type == 'success') ? 'Berhasil !' : 'Gagal !',
+                                text: response.message,
+                                type: response.type
+                            }, function () {
+                                window.location.reload()
+                            });
+                        }
+                    })
+                });
+        })
+    </script>
+@endpush

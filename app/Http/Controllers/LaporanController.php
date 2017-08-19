@@ -33,23 +33,41 @@ class LaporanController extends Controller
      * Mengunggah laporan kemajuan
      *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function unggah(Request $request)
     {
         $berkas = $request->file('berkas');
 
         if ($this->bolehUnggah()) {
+
+            $this->validate($request,$this->validationArr);
+
             if ($this->berkasValid($berkas)) {
                 $file = $this->unggahBerkas($berkas);
 
                 Laporan::create([
-                    'id_proposal' => Auth::user()->proposal()->id,
+                    'id_proposal' => Auth::user()->mahasiswa()->proposal()->id,
                     'jenis' => Laporan::KEMAJUAN,
                     'direktori' => $file,
                     'keterangan' => $request->keterangan
                 ]);
+
+                return response()->json([
+                   'message' => 'Berhasil mengunggah laporan kemajuan !',
+                   'type' => 'success'
+                ]);
             }
+            return response()->json([
+                'message' => 'Berkas tidak valid !',
+                'type' => 'error'
+            ]);
         }
+
+        return response()->json([
+           'message' => 'Gagal mengunggah laporan kemajuan !',
+           'type' => 'error'
+        ]);
     }
 
     /**

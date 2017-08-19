@@ -27,6 +27,7 @@ class LaporanAkhirController extends Controller
      * Mengunggah laporan akhir
      *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function unggah(Request $request)
     {
@@ -44,8 +45,23 @@ class LaporanAkhirController extends Controller
                     'direktori' => $file,
                     'keterangan' => $request->keterangan
                 ]);
+
+                return response()->json([
+                    'message' => 'Berhasil mengunggah laporan kemajuan !',
+                    'type' => 'success'
+                ]);
             }
+
+            return response()->json([
+                'message' => 'Berkas tidak valid !',
+                'type' => 'error'
+            ]);
         }
+
+        return response()->json([
+            'message' => 'Gagal mengunggah laporan kemajuan !',
+            'type' => 'error'
+        ]);
     }
 
     /**
