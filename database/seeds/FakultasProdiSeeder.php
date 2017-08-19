@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use PMW\Models\Fakultas;
+use PMW\Models\Jurusan;
 use PMW\Models\Prodi;
 
 class FakultasProdiSeeder extends Seeder
@@ -9,94 +10,160 @@ class FakultasProdiSeeder extends Seeder
 
     const PRODI = [
         'Ilmu Pendidikan' => [
-            '' ,
-            'S1 Manajemen Pendidikan',
-            'S1 Teknologi Pendidikan',
-            'S1 Bimbingan Konseling',
-            'S1 Psikologi',
-            'S1 Pendidikan Luar Biasa',
-            'S1 Pendidikan Guru Sekolah Dasar',
-            'S1 Pendidikan Luar Sekolah',
-            'S1 PG - PAUD'
-        ],
-        'Bahasa & Seni' => [
-            'Bahasa dan Sastra Indonesia' => [
-
+            'Ilmu Pendidikan' => [
+                'S1 Manajemen Pendidikan',
+                'S1 Teknologi Pendidikan',
+                'S1 Bimbingan Konseling',
+                'S1 Psikologi',
+                'S1 Pendidikan Luar Biasa',
+                'S1 Pendidikan Guru Sekolah Dasar',
+                'S1 Pendidikan Luar Sekolah',
+                'S1 PG - PAUD'
             ],
-            'S1 Desain Komunikasi Visual',
-            'S1 Pendidikan Bahasa Mandarin',
-            'S1 Seni Musik',
-            'S1 Seni Rupa',
-            'S1 Sastra Inggris',
-            'S1 Pendidikan Bahasa Jerman',
-            'S1 Pendidikan Seni Rupa',
-            'S1 Sastra Jerman',
-            'S1 Pendidikan Bahasa Inggris',
-            'S1 Pendidikan Bahasa dan Sastra Jawa',
-            'S1 Pendidikan Bahasa Jepang',
-            'S1 Sastra Indonesia',
-            'S1 Pendidikan Bahasa dan Sastra Indonesia',
-            'S1 Pendidikan Seni Drama, Tari, dan Musik',
-            'D III Desain Grafis',
-            'D III Bahasa Inggris'
         ],
+
+        'Bahasa & Seni' => [
+            'Bahasa & Sastra Indonesia' => [
+                'S1 Pendidikan Bahasa Indonesia',
+                'S1 Sastra Indonesia'
+            ],
+            'Bahasa & Sastra Inggris' => [
+                'S1 Pendidikan Bahasa Inggris',
+                'S1 Sastra Inggris',
+                'D III Bahasa Inggris'
+            ],
+            'Bahasa & Sastra Daerah' => [
+                'S1 Pendidikan Bahasa Jawa',
+                'S1 Sastra Jawa'
+            ],
+            'Bahasa & Sastra Jerman' => [
+                'S1 Pendidikan Bahasa Jerman',
+                'S1 Sastra Jerman'
+            ],
+            'Bahasa & Sastra Jepang' => [
+                'S1 Pendidikan Bahasa Jepang',
+            ],
+            'Bahasa & Sastra Mandarin' => [
+                'S1 Pendidikan Bahasa Mandarin'
+            ],
+            'Seni Rupa' => [
+                'S1 Pendidikan Seni Rupa',
+                'S1 Seni Rupa'
+            ],
+            'Desain' => [
+                'S1 Desain Komunikasi Visual',
+                'DIII Desain Grafis'
+            ],
+            'Seni Drama, Tari & Musik' => [
+                'S1 Pendidikan Seni Drama, Tari, & Musik',
+                'S1 Seni Musik',
+            ],
+        ],
+
         'Matematika & Ilmu Pengetahuan Alam' => [
-            'S1 Pendidikan Biologi',
-            'S1 Matematika',
-            'S1 Pendidikan Kimia',
-            'S1 Fisika',
-            'S1 Pendidikan Matematika',
-            'S1 Biologi',
-            'S1 Pendidikan Sains',
-            'S1 Pendidikan Fisika',
-            'S1 Kimia'
+            'Matematika' => [
+                'S1 Matematika',
+                'S1 Pendidikan Matematika'
+            ],
+            'Fisika' => [
+                'S1 Fisika',
+                'S1 Pendidikan Fisika'
+            ],
+            'Kimia' => [
+                'S1 Pendidikan Kimia',
+                'S1 Kimia'
+            ],
+            'Biologi' => [
+                'S1 Biologi',
+                'S1 Pendidikan Biologi'
+            ],
+            'Pendidikan IPA' => [
+                'S1 Pendidikan IPA',
+            ],
         ],
+
         'Ilmu Sosial & Hukum' => [
-            'S1 Ilmu Hukum',
-            'S1 Pendidikan Sejarah',
-            'S1 Ilmu Administrasi Negara',
-            'S1 Pendidikan Pancasila dan Kewarganegaraan',
-            'S1 Sosiologi',
-            'S1 Pendidikan Geografi',
-            'S1 Ilmu komunikasi',
-            'D III Administrasi Negara'
+            'PMP-Kn' => [
+                'S1 Pendidikan Pancasila & Kewarganegaraan'
+            ],
+            'Administrasi Publik' => [
+                'S1 Ilmu Administrasi Negara',
+                'D III Administrasi Negara'
+            ],
+            'Hukum' => [
+                'S1 Ilmu Hukum'
+            ],
+            'Pendidikan Geografi' => [
+                'S1 Pendidikan Geografi',
+                'S1 Pendidikan IPS'
+            ],
+            'Pendidikan Sejarah' => [
+                'S1 Pendidikan Sejarah',
+            ],
+            'Ilmu Sosial' => [
+                'S1 Sosiologi',
+                'S1 Ilmu komunikasi'
+            ],
         ],
+
         'Teknik' => [
-            'S1 Teknik Mesin',
-            'D III Manajemen Transportasi',
-            'S1 Teknik Elektro',
-            'S1 Teknik Sipil',
-            'S1 Pend. Teknik Elektro',
-            'DIII Tata Boga',
-            'S1 Pend Teknik Bangunan',
-            'S1 Pendidikan Tata Rias',
-            'S1 Teknik Informatika',
-            'S1 Sistem Informasi',
-            'DIII Teknik Mesin',
-            'DIII Teknik Sipil',
-            'S1 Pendidikan Teknologi Informasi',
-            'D III Manajemen Informatika',
-            'S1 Pendidikan Tata Boga',
-            'DIII Tata Busana',
-            'DIII Teknik Listrik',
-            'S1 Pend Teknik Mesin',
-            'S1 Pendidikan Tata Busana',
-            'S1 Pendidikan Kesejahteraan Keluarga'
+            'Teknik Informatika' => [
+                'S1 Teknik Informatika',
+                'S1 Sistem Informasi',
+                'S1 Pendidikan Teknologi Informasi',
+                'D III Manajemen Informatika'
+            ],
+            'Teknik Mesin' => [
+                'S1 Teknik Mesin',
+                'DIII Teknik Mesin',
+                'S1 Pend Teknik Mesin'
+            ],
+            'Teknik Elektro' => [
+                'S1 Teknik Elektro',
+                'S1 Pend. Teknik Elektro',
+                'DIII Teknik Listrik',
+            ],
+            'Teknik Sipil' => [
+                'S1 Teknik Sipil',
+                'S1 Pend Teknik Bangunan',
+                'DIII Teknik Sipil',
+                'DIII Manajemen Transportasi'
+            ],
+            'Pendidikan Kesejahteraan Keluarga' => [
+                'S1 Pendidikan Tata Busana',
+                'S1 Pendidikan Kesejahteraan Keluarga',
+                'S1 Pendidikan Tata Rias',
+                'S1 Pendidikan Tata Boga',
+                'DIII Tata Boga',
+                'DIII Tata Busana'
+            ]
         ],
+
         'Ilmu Keolahragaan' => [
-            'S1 Pendidikan Kepelatihan Olahraga',
-            'S1 Ilmu Keolahragaan',
-            'S1 Pend. Jasmani, Kesehatan, dan Rekreasi'
+            'Ilmu Keolahragaan' => [
+                'S1 Pendidikan Kepelatihan Olahraga',
+                'S1 Ilmu Keolahragaan',
+                'S1 Pend. Jasmani, Kesehatan, & Rekreasi'
+            ]
         ],
+
         'Ekonomi' => [
-            'S1 Pendidikan Akuntansi',
-            'S1 Pendidikan Tata Niaga',
-            'S1 Pendidikan Administrasi Perkantoran',
-            'D III Akuntansi',
-            'S1 Manajemen',
-            'S1 Pend. Ekonomi',
-            'S1 Ekonomi Islam',
-            'S1 Akuntansi'
+            'Pendidikan Ekonomi' => [
+                'S1 Pendidikan Ekonomi',
+                'S1 Pendidikan Administrasi Perkantoran',
+                'S1 Pendidikan Akuntansi',
+                'S1 Pendidikan Tata Niaga',
+            ],
+            'Manajemen' => [
+                'S1 Manajemen',
+            ],
+            'Akutansi' => [
+                'S1 Akuntansi',
+                'D III Akuntansi'
+            ],
+            'Ilmu Ekonomi' => [
+                'S1 Ekonomi Islam'
+            ]
         ]
     ];
 
@@ -107,17 +174,26 @@ class FakultasProdiSeeder extends Seeder
      */
     public function run()
     {
-        foreach (static::PRODI as $fakultas => $daftarProdi)
+        foreach (static::PRODI as $fakultas => $daftarJurusan)
         {
             $idfakultas = Fakultas::create([
                 'nama' => $fakultas
             ]);
-            foreach ($daftarProdi as $prodi)
+
+            foreach ($daftarJurusan as $jurusan => $daftarProdi)
             {
-                Prodi::create([
-                    'nama' => $prodi,
-                    ''
+                $idJurusan = Jurusan::create([
+                    'nama'          => $jurusan,
+                    'id_fakultas'   => $idfakultas->id
                 ]);
+
+                foreach ($daftarProdi as $prodi)
+                {
+                    Prodi::create([
+                        'nama'      => $prodi,
+                        'id_jurusan'=> $idJurusan->id
+                    ]);
+                }
             }
         }
     }
