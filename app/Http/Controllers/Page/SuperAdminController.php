@@ -52,7 +52,7 @@ class SuperAdminController extends Controller
     {
         return view('admin.super.daftarprodi', [
             'prodi'     => Prodi::orderBy('id_jurusan')->orderBy('nama')->get(),
-            'jurusan'   => Jurusan::orderBy('nama')->get()
+            'jurusan'   => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get()
         ]);
     }
 

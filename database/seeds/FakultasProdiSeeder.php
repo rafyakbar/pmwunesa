@@ -20,6 +20,14 @@ class FakultasProdiSeeder extends Seeder
                 'S1 Pendidikan Luar Sekolah',
                 'S1 PG - PAUD'
             ],
+            'Bimbingan & Konseling' => [],
+            'Pendidikan Luar Biasa' => [],
+            'Pendidikan Luar Sekolah' => [],
+            'Manajemen Pendidikan' => [],
+            'PG -PAUD' => [],
+            'Psikologi' => [],
+            'Teknologi Pendidikan' => [],
+            'Pendidikan Guru Sekolah Dasar' => []
         ],
 
         'Bahasa & Seni' => [

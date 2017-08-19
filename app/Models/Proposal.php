@@ -107,15 +107,15 @@ class Proposal extends Model
         return ($this->lolos);
     }
 
-    public function sudahDinilaiOleh($reviewer,$tahap = null)
+    public function sudahDinilaiOleh($reviewer, $tahap = null)
     {
         $query = DB::table(DB::raw('pengguna, penilaian, review'))
-            ->whereRaw('pengguna.id = \''.$reviewer.'\'')
+            ->whereRaw('pengguna.id = \'' . $reviewer . '\'')
             ->whereRaw('review.id_pengguna = pengguna.id')
             ->whereRaw('penilaian.id_review = review.id')
             ->whereRaw('review.id_proposal = ' . $this->id);
 
-        if(!is_null($tahap))
+        if (!is_null($tahap))
             $query = $query->whereRaw('review.tahap = ' . $tahap);
 
         return ($query->count('penilaian.nilai') > 0);
@@ -135,5 +135,27 @@ class Proposal extends Model
         $this->bimbingan()->attach($dosen, [
             'status_request' => RequestStatus::APPROVED
         ]);
+    }
+
+    public static function proposalPerFakultas($idfakultas)
+    {
+        return DB::table(DB::raw("proposal, (
+            SELECT
+              hak_akses_pengguna.id_pengguna AS id_ketua,
+              pengguna.nama AS nama_ketua,
+              id_fakultas
+            FROM
+              (
+                SELECT hak_akses.id
+                FROM hak_akses
+                WHERE hak_akses.nama = 'Ketua Tim'
+              ) AS hakakses,
+              hak_akses_pengguna
+              LEFT JOIN (pengguna
+              LEFT JOIN (prodi
+                LEFT JOIN jurusan ON prodi.id_jurusan = jurusan.id) ON pengguna.id_prodi = prodi.id)
+                ON pengguna.id = hak_akses_pengguna.id_pengguna
+            WHERE hak_akses_pengguna.id_hak_akses = hakakses.id AND jurusan.id_fakultas = ".$idfakultas."
+          ) AS ketua, mahasiswa"))->select(DB::raw('*'))->whereRaw('mahasiswa.id_pengguna = ketua.id_ketua AND proposal.id=mahasiswa.id_proposal')->get();
     }
 }
