@@ -4,6 +4,8 @@ namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use PMW\Models\Proposal;
 use PMW\Support\FileHandler;
 
@@ -19,7 +21,7 @@ class ProposalController extends Controller
         'pdf', 'doc', 'docx'
     ];
 
-    private $dir = 'proposal';
+    private $dir = 'proposal/awal';
 
     private $validationArr = [
         'usulan_dana'   => 'required|numeric',
@@ -43,7 +45,7 @@ class ProposalController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function tambah(Request $request)
+    public function unggah(Request $request)
     {
         if($this->bolehUnggah()) {
             // Validasi
@@ -51,6 +53,9 @@ class ProposalController extends Controller
 
             // Mengunggah proposal ke storage
             if ($this->berkasValid($request->file('berkas'))) {
+
+                $this->hapusProposalSebelumnya();
+
                 // Mengunggah
                 $file = $this->unggahBerkas($request->file('berkas'));
 
@@ -64,7 +69,7 @@ class ProposalController extends Controller
                 ]);
 
                 return response()->json([
-                    'message' => 'Berhasil membuat proposal !',
+                    'message' => 'Berhasil mengunggah proposal !',
                     'error' => 0
                 ]);
             } else {
@@ -112,7 +117,7 @@ class ProposalController extends Controller
             $proposal = Auth::user()->mahasiswa()->proposal();
 
         // proses unduh
-        return response()->download(storage_path('app/public/proposal/' . $proposal->direktori));
+        return response()->download(storage_path('app/public/' . $this->dir . '/' . $proposal->direktori));
     }
 
     public function loloskan(Request $request)
@@ -129,6 +134,16 @@ class ProposalController extends Controller
         $proposal = Proposal::find($request->id);
 
         return response()->json($proposal->toJson());
+    }
+
+    private function hapusProposalSebelumnya()
+    {
+        $proposal = Auth::user()->mahasiswa()->proposal();
+
+        // Jika pernah mengunggah proposal
+        if(!is_null($proposal->direktori)){
+            Storage::delete('public/' . $this->dir . '/' . $proposal->direktori);
+        }
     }
 
 }

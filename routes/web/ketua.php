@@ -6,12 +6,13 @@
 
 Route::group(['prefix' => 'unggah'], function () {
 
-    Route::get('proposal', function () {
-        return view('mahasiswa.unggahproposal');
-    })->name('unggah.proposal');
+    Route::get('proposal', [
+        'uses' => 'Page\KetuaController@unggahProposal',
+        'as' => 'unggah.proposal'
+    ]);
 
-    Route::put('proposal', [
-        'uses' => 'ProposalController@tambah',
+    Route::patch('proposal', [
+        'uses' => 'ProposalController@unggah',
         'as' => 'unggah.proposal'
     ]);
 

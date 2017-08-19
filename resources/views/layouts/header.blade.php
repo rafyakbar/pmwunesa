@@ -18,8 +18,10 @@
     <!--  Material Dashboard CSS    -->
     <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet"/>
 
+    <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet"/>
+
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="{{ asset('css/demo.css') }}" rel="stylesheet"/>
+    {{-- <link href="{{ asset('css/demo.css') }}" rel="stylesheet"/> --}}
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
