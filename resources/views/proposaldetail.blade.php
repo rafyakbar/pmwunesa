@@ -61,6 +61,10 @@
                 @endforeach
                 </ol>
                 @endif
+
+                @if(Auth::user()->isKetua())
+                    <a href="{{ route('edit.proposal') }}" class="btn btn-warning btn-sm">Edit Proposal</a>
+                @endif
             </div>
         </div>
 
@@ -96,7 +100,7 @@
                         <strong>Keyword</strong>
                     </div>
                     <div class="col-lg-9">
-                        {{ $proposal->keyword }}
+                        {{ str_replace('|', ', ', $proposal->keyword) }}
                     </div>
                 </div>
                 <div class="row">
@@ -104,7 +108,7 @@
                         <strong>Abstrak</strong>
                     </div>
                     <div class="col-lg-9">
-                        {{ $proposal->abstrak }}
+                        {!! $proposal->abstrak !!}
                     </div>
                 </div>
             </div>

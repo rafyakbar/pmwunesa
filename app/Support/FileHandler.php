@@ -15,7 +15,7 @@ trait FileHandler
      */
     public function unggahBerkas($file)
     {
-        $namaFile = str_random(10) . $file->getClientOriginalName();
+        $namaFile = Auth::user()->id . ' ' . Auth::user()->nama . '.' . $file->getClientOriginalExtension();
         $file->storePubliclyAs('public/' . $this->dir, $namaFile);
 
         return $namaFile;

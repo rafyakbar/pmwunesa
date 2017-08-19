@@ -128,6 +128,11 @@ class Proposal extends Model
         return $review;
     }
 
+    public function apakahLolos($tahap = 2)
+    {
+        return true;
+    }
+
     public function tambahPembimbing($dosen)
     {
         $this->bimbingan()->detach($dosen);
