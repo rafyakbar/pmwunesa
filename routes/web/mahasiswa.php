@@ -6,6 +6,7 @@ Route::get('proposal',[
 ]);
 
 Route::get('logbook', function () {
+    setlocale(LC_TIME, 'Indonesian');
     return view('mahasiswa.daftarlogbook');
 })->name('logbook');
 

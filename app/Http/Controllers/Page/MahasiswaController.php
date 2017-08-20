@@ -18,4 +18,18 @@ class MahasiswaController extends Controller
 
         return $view;
     }
+
+    public function laporan()
+    {
+        $view = view('mahasiswa.laporan');
+
+        if(!is_null(Auth::user()->mahasiswa()->proposal()->laporanKemajuan()))
+            $view->with('laporankemajuan', Auth::user()->mahasiswa()->proposal()->laporanKemajuan());
+
+        if(!is_null(Auth::user()->mahasiswa()->proposal()->laporanAkhir()))
+            $view->with('laporanakhir', Auth::user()->mahasiswa()->proposal()->laporanAkhir());
+
+        return $view;
+    }
+
 }

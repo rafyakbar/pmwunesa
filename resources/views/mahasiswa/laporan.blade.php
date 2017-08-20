@@ -6,18 +6,24 @@
 
 @section('content')
 
-@if(Auth::user()->mahasiswa()->punyaTim())
-@if(!is_null(Auth::user()->mahasiswa()->proposal()->laporanKemajuan()))
+    @if(Auth::user()->mahasiswa()->punyaTim())
+        @if(Auth::user()->mahasiswa()->proposal()->lolos())
+            @include('mahasiswa.part.info_laporan')
+        @else
+            <div class="card">
+                <div class="card-content">
+                    <p class="alert alert-primary">Proposal tim anda belum lolos</p>
+                </div>
+            </div>
+        @endif
+    @else
 
-@endif
-@else
-
-    <div class="card">
-        <div class="card-content">
-            <p class="alert alert-primary">Anda belum memiliki tim</p>
+        <div class="card">
+            <div class="card-content">
+                <p class="alert alert-primary">Anda belum memiliki tim</p>
+            </div>
         </div>
-    </div>
 
-@endif
+    @endif
 
 @endsection

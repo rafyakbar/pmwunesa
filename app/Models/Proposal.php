@@ -4,6 +4,7 @@ namespace PMW\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PMW\User;
 use PMW\Models\Laporan;
 use PMW\Support\RequestStatus;

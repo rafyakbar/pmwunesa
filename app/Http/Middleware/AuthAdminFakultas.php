@@ -3,7 +3,6 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
-use PMW\Models\HakAkses;
 
 class AuthAdminFakultas
 {

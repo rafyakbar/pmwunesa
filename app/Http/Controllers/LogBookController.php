@@ -12,7 +12,7 @@ class LogBookController extends Controller
 
     private $validationArr = [
         'catatan' => 'required',
-        'biaya' => 'required'
+        'biaya' => 'required|numeric'
     ];
 
     /**
@@ -34,10 +34,7 @@ class LogBookController extends Controller
                 'biaya' => $request->biaya,
                 'id_proposal' => Auth::user()->mahasiswa()->proposal()->id
             ]);
-            if (is_null($tambah)) {
-                Session::flash('message', 'Gagal menambah Logbook. Coba beberapa saat lagi !');
-                return back()->withInput();
-            }
+            Session::flash('message', 'Berhasil menambah logbook !');
             return redirect()->route('logbook');
         }
 
@@ -58,7 +55,9 @@ class LogBookController extends Controller
             'catatan' => $request->catatan,
             'biaya' => $request->biaya,
         ]);
-        return back();
+
+        Session::flash('message','Berhasil mengubah logbook !');
+        return redirect()->route('logbook');
     }
 
     /**
@@ -68,13 +67,32 @@ class LogBookController extends Controller
     public function hapus(Request $request)
     {
         $logbook = LogBook::find($request->id);
+
+        if(is_null($logbook)){
+            return response()->json([
+                'message' => 'Anda tidak bisa menghapus logbook tersebut !',
+                'type' => 'error'
+            ]);
+        }
+
+        if($logbook->id_proposal !== Auth::user()->mahasiswa()->proposal()->id){
+            return response()->json([
+                'message' => 'Anda tidak bisa menghapus logbook tersebut !',
+                'type' => 'error'
+            ]);
+        }
+
         $logbook->delete();
 
-        return back();
+        return response()->json([
+            'message' => 'Berhasil menghapus logbook !',
+            'type' => 'success'
+        ]);
     }
 
     private function bolehTambahLogBook()
     {
+        return true;
         return (Auth::user()->isKetua() && Auth::user()->mahasiswa()->proposal()->lolos());
     }
 
