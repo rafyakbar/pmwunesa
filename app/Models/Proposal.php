@@ -305,7 +305,7 @@ class Proposal extends Model
               LEFT JOIN (prodi
                 LEFT JOIN jurusan ON prodi.id_jurusan = jurusan.id) ON pengguna.id_prodi = prodi.id)
                 ON pengguna.id = hak_akses_pengguna.id_pengguna
-            WHERE hak_akses_pengguna.id_hak_akses = hakakses.id AND jurusan.id_fakultas = " . $idfakultas . "
-          ) AS ketua, mahasiswa"))->select(DB::raw('*'))->whereRaw('mahasiswa.id_pengguna = ketua.id_ketua AND proposal.id=mahasiswa.id_proposal')->get();
+            WHERE hak_akses_pengguna.id_hak_akses = hakakses.id AND jurusan.id_fakultas = ".$idfakultas."
+          ) AS ketua, mahasiswa"))->select(DB::raw('DISTINCT id_proposal, id_ketua, nama_ketua, judul, lolos, direktori, direktori_final, usulan_dana, abstrak, keyword, jenis_usaha, created_at, updated_at'))->whereRaw('mahasiswa.id_pengguna = ketua.id_ketua AND proposal.id=mahasiswa.id_proposal')->get();
     }
 }
