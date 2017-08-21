@@ -10,10 +10,11 @@ use PMW\Models\Laporan;
 class ReviewerController extends Controller
 {
 
-    public function daftarProposal()
+    public function daftarProposal($tahap = 1)
     {
         return view('dosen.reviewer.daftarproposal',[
-            'daftarproposal' => Auth::user()->review()
+            'daftarproposal' => Auth::user()->review()->where('tahap',$tahap),
+            'tahap' => $tahap
         ]);
     }
 

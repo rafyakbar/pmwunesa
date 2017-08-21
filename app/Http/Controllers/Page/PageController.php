@@ -29,4 +29,17 @@ class PageController extends Controller
         return $view;
     }
 
+    public function lihatHasilReview($id)
+    {
+        $proposal = Proposal::find($id);
+
+        return view('hasilreview',[
+            'review' => [
+                'tahap1' => $proposal->penilaian(1)->whereNotNull('komentar'),
+                'tahap2' => $proposal->penilaian(2)->WhereNotNull('komentar')
+            ],
+            'proposal' => $proposal
+        ]);
+    }
+
 }

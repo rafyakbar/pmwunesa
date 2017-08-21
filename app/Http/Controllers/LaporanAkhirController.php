@@ -76,7 +76,7 @@ class LaporanAkhirController extends Controller
             $laporan = Proposal::find($request->id_proposal)->laporanAkhir();
 
         if(Auth::user()->isMahasiswa())
-            $laporan = Auth::user()->laporanAkhir();
+            $laporan = Auth::user()->mahasiswa()->proposal()->laporanAkhir();
 
         return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
     }

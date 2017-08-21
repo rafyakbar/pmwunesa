@@ -20,51 +20,85 @@
         </div>
 
         <div class="card-content no-padding">
-            @if ($bimbingan->count() > 0)
-                    <table class="table table-hover">
-                        <thead class="text-warning">
-                            <tr>
-                                <th>Judul proposal</th>
-                                <th class="hidden-sm hidden-xs">Jenis produk</th>
-                                <th class="hidden-sm hidden-xs">Usulan dana</th>
-                                <th class="hidden-sm hidden-xs">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($bimbingan->get() as $proposal)
-                                <tr>
-                                    <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}"> <strong>{{ $proposal->judul }}</strong><sup><i class="fa fa-external-link"></i></sup></a></td>
-                                    <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
-                                    <td>{{ Dana::format($proposal->usulan_dana) }}</td>
-                                    <td class="hidden-sm hidden-xs">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="{{ route('unduh.proposal') }}" class="btn btn-primary unduh-proposal" data-id="{{ $proposal->id }}">Unduh Proposal</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                        </tbody>
-                    </table>
+
+            @if($jumlahProposalKosong > 0)
+                <p style="margin:10px" class="alert alert-primary">Terdapat {{ $jumlahProposalKosong }} tim yang belum
+                    mengunggah proposal</p>
+            @endif
+
+
+            @if ($daftarProposal->count() > 0)
+                <table class="table table-hover table-expand">
+                    <thead class="text-warning">
+                    <tr>
+                        <th>Judul proposal</th>
+                        <th class="hidden-sm hidden-xs">Jenis produk</th>
+                        <th class="hidden-sm hidden-xs">Usulan dana</th>
+                        <th class="hidden-sm hidden-xs">Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($daftarProposal->get() as $proposal)
+                        <tr data-proposal="{{ $proposal->id }}">
+                            <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}">
+                                    <strong>{{ $proposal->judul }}</strong><sup><i
+                                                class="fa fa-external-link"></i></sup></a></td>
+                            <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
+                            <td>{{ Dana::format($proposal->usulan_dana) }}</td>
+                            <td class="hidden-sm hidden-xs">
+                                <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="id" value="{{ $proposal->id }}"/>
+                                    <button class="btn btn-primary btn-sm" type="submit">Unduh Proposal</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="expand">
+                            <td colspan="6">
+                                Sedang memuat...
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             @else
-                <p>Anda belum menjadi pembimbing dari sebuah tim.</p>
+                <p class="alert alert-warning" style="margin:10px">Anda belum menjadi pembimbing dari sebuah tim.</p>
             @endif
         </div>
     </div>
-
-    <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post" style="display: none;">
-        {{ csrf_field() }}
-        <input type="hidden" name="id"/>
-    </form>
 
 @endsection
 
 @push('js')
     <script>
-        $('.unduh-proposal').click(function(e){
+
+        $('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {
+            console.log(e.target)
+            $(this).prevUntil('.table-expand', '.expand').hide()
+            $(this).next().nextUntil('.table-expand', '.expand').hide()
+            $(this).next().toggle()
+
+            var elem = $(this).next()
+
+            $.ajax({
+                url: "{{ route('data.proposal.ajax') }}",
+                type: 'get',
+                data: 'id=' + $(this).attr('data-proposal'),
+                success: function (response) {
+                    createExpandedTable(response, elem)
+                }
+            })
+        })
+
+        $('.unduh-proposal').click(function (e) {
             e.preventDefault()
             form = $('#unduh-proposal')
             form.find('input[name="id"]').val($(this).attr('data-id'))
             form.submit()
         });
+
+        var createExpandedTable = function (data, elem) {
+            elem.html('<td colspan="6">' + data + '</td>')
+        }
     </script>
 @endpush

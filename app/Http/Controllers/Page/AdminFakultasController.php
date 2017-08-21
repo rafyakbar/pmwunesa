@@ -13,9 +13,8 @@ class AdminFakultasController extends Controller
 {
     public function daftarProposal()
     {
-//        return view('admin.fakultas.daftarproposal',[
-//            'proposal' => Proposal::proposalPerFakultas(Auth::user()->prodi()->id_fakultas)
-//        ]);
-        return Auth::user()->prodi()->jurusan()->id_fakultas;
+        return view('admin.fakultas.daftarproposal',[
+            'proposal' => Proposal::proposalPerFakultas(Auth::user()->prodi()->jurusan()->id_fakultas)
+        ]);
     }
 }

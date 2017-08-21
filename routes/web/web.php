@@ -87,15 +87,24 @@ Route::group(['prefix' => 'unduh'],function (){
 
 });
 
-Route::get('lihat/proposal/{id}',[
-    'uses'  => 'Page\PageController@proposalDetail',
-    'as'    => 'lihat.proposal'
-]);
-
 Route::get('data/proposal',[
     'uses'  => 'ProposalController@dataAjax',
     'as'    => 'data.proposal.ajax'
 ]);
+
+Route::group(['prefix' => 'lihat'], function (){
+
+    Route::get('proposal/{id}',[
+        'uses'  => 'Page\PageController@proposalDetail',
+        'as'    => 'lihat.proposal'
+    ]);
+
+    Route::get('review/{id}',[
+        'uses' => 'Page\PageController@lihatHasilReview',
+        'as' => 'lihat.hasil.review'
+    ]);
+
+});
 
 /*
 |---------------------------------------------

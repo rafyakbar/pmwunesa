@@ -7,12 +7,12 @@
 @section('content')
 
     @if(Auth::user()->mahasiswa()->punyaTim())
-        @if(Auth::user()->mahasiswa()->proposal()->lolos())
+        @if(!Auth::user()->mahasiswa()->proposal()->lolos())
             @include('mahasiswa.part.info_laporan')
         @else
             <div class="card">
                 <div class="card-content">
-                    <p class="alert alert-primary">Proposal tim anda belum lolos</p>
+                    <p class="alert alert-primary">Tim anda belum dinyatakan lolos</p>
                 </div>
             </div>
         @endif

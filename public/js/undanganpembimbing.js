@@ -68,9 +68,9 @@ $(function(){
     undangPembimbing.ajaxForm({
         success : function (response) {
             swal({
-                title : response.error == 0 ? 'Berhasil' : 'Gagal',
+                title : response.error === 0 ? 'Berhasil' : 'Gagal',
                 text : response.message,
-                type : response.error == 0 ? 'success' : 'error'
+                type : response.error === 0 ? 'success' : 'error'
             }, function(){
                 if(response.error === 0)
                     window.location.reload()
@@ -79,6 +79,22 @@ $(function(){
     })
 
     $('.ajax-form').ajaxForm({
+        beforeSend : function(){
+            var hapus = false;
+            swal({
+                title: "Apa anda yakin ?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, hapus!",
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {
+                hapus = true
+            })
+            return hapus
+        },
         success : function(response){
             swal({
                 title : (response.error === 0) ? 'Berhasil' : 'Gagal',

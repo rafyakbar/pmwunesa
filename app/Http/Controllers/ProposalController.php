@@ -133,6 +133,9 @@ class ProposalController extends Controller
     {
         $proposal = Proposal::find($request->id);
 
+        return view('ajax.dataproposal',[
+            'proposal' => $proposal
+        ]);
         return response()->json($proposal->toJson());
     }
 

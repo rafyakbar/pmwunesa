@@ -138,6 +138,16 @@ class User extends Authenticatable
         return $bimbingan;
     }
 
+    public function punyaUndanganBimbingan()
+    {
+        return ($this->bimbingan(RequestStatus::REQUESTING)->count() > 0);
+    }
+
+    public function punyaBimbingan()
+    {
+        return ($this->bimbingan(RequestStatus::APPROVED)->count() > 0);
+    }
+
     /**
      * Mengecek apakah user terkait memiliki salah satu diantara beberapa role yang diinginkan
      *
@@ -208,28 +218,6 @@ class User extends Authenticatable
     public function bisaRequestHakAkses($role)
     {
         return (!$this->hasRole($role) && !$this->requestingHakAkses($role));
-    }
-
-    public static function cari($column, $value, $roles, $logic = 'OR')
-    {
-        $qualifier = '';
-        if(is_string($roles))
-            $qualifier .= 'hak_akses.nama = \'' . $roles . '\'';
-        elseif (is_array($roles))
-        {
-            foreach ($roles as $index => $role)
-            {
-                $qualifier .= 'hak_akses.nama = \'' . $role . '\'';
-                if($index < count($roles)-1)
-                    $qualifier .= ($logic == 'OR') ? ' OR ' : 'AND ';
-            }
-        }
-        $query = DB::table(DB::raw('pengguna JOIN (SELECT hak_akses_pengguna.id_pengguna FROM hak_akses_pengguna, hak_akses WHERE '. $qualifier .' AND hak_akses_pengguna.id_hak_akses = hak_akses.id) AS user ON user.id_pengguna = pengguna.id'))
-            ->select(DB::raw('pengguna.*'))
-            ->whereRaw('pengguna.'.$column.' LIKE \'%'.$value.'%\'')
-            ->distinct();
-
-        return $query->get();
     }
 
     public static function cariMahasiswaUntukUndanganTim($nama)

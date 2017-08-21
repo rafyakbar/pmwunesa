@@ -16,7 +16,7 @@ Route::group(['prefix' => 'tambah'],function (){
 
 Route::group(['prefix' => 'daftar'],function (){
 
-    Route::get('proposal/reviewer',[
+    Route::get('proposal/reviewer/{tahap?}',[
         'uses' => 'Page\ReviewerController@daftarProposal',
         'as' => 'daftar.proposal.reviewer'
     ]);

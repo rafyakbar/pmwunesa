@@ -38,51 +38,111 @@ class Proposal extends Model
         return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')->withPivot('status_request');
     }
 
+    /**
+     * Mendapatkan pembimbing dari proposal terkait
+     *
+     * @return mixed
+     */
     public function pembimbing()
     {
         return $this->bimbingan()->first();
     }
 
+    /**
+     * Mendapatkan daftar reviewer dari proposal terkait
+     *
+     * @return BelongsToMany
+     */
     public function reviewer()
     {
         return $this->belongsToMany('PMW\User', 'review', 'id_proposal', 'id_pengguna')->withPivot('id', 'tahap', 'komentar');
     }
 
+    /**
+     * Mendapatkan daftar logbook dari proposal terkait
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function logbook()
     {
         return $this->hasMany('PMW\Models\LogBook', 'id_proposal');
     }
 
-    public function laporan()
+    /**
+     * Mendapatkan laporan dari proposal terkait
+     *
+     * @param null $type
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|null
+     */
+    public function laporan($type = null)
     {
-        return $this->hasMany('PMW\Models\Laporan', 'id_proposal');
+        $relasi = $this->hasMany('PMW\Models\Laporan', 'id_proposal');
+        if (is_null($type))
+            return $relasi;
+        else if ($type == 'kemajuan')
+            return $relasi->where('jenis', 'kemajuan')->first();
+        else if ($type == 'akhir')
+            return $relasi->where('jenis', 'akhir')->first();
+
+        return null;
     }
 
+    /**
+     * Mengecek apakah proposal memiliki proposal final
+     *
+     * @return bool
+     */
     public function punyaProposalFinal()
     {
         return (!is_null($this->direktori_final));
     }
 
+    /**
+     * Mengeek apakah proposal/tim telah memiliki pembimbing
+     *
+     * @return bool
+     */
     public function punyaPembimbing()
     {
         return (!is_null($this->pembimbing()));
     }
 
+    /**
+     * Mendapatakan laporan akhir dari tim terkait
+     *
+     * @return mixed
+     */
     public function laporanAkhir()
     {
         return $this->laporan()->where('jenis', Laporan::AKHIR)->first();
     }
 
+    /**
+     * Mendapatakan laporan kemajuan
+     *
+     * @return mixed
+     */
     public function laporanKemajuan()
     {
         return $this->laporan()->where('jenis', Laporan::KEMAJUAN)->first();
     }
 
+    /**
+     * Mendapatkan daftar mahasiswa yang merupakan anggota tim dari proposal
+     * terkait
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function mahasiswa()
     {
         return $this->hasMany('PMW\Models\Mahasiswa', 'id_proposal');
     }
 
+    /**
+     * Mendapatkan ketua dari proposal tertentu
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|Model|null|static|static[]
+     */
     public function ketua()
     {
         $tim = DB::table('mahasiswa')
@@ -103,11 +163,53 @@ class Proposal extends Model
         return User::find($idketua->id_pengguna);
     }
 
-    public function lolos()
+    /**
+     * Mengecek apakah proposal lolos pada tahap tertentu
+     *
+     * @param int $tahap
+     * @return bool
+     */
+    public function lolos($tahap = 2)
     {
-        return ($this->lolos);
+        if (!is_null($tahap)) {
+            if ($this->nilai($tahap) === 25)
+                return true;
+        }
+
+        if ($this->lolos)
+            return true;
+
+        return false;
     }
 
+    /**
+     * Mendapatkan total nilai dari proposal tertentu
+     *
+     * @param $tahap
+     * @return int|null
+     */
+    public function nilai($tahap)
+    {
+        if(!is_null($this->penilaian($tahap))){
+            $sum = 0;
+            foreach ($this->penilaian($tahap)->get() as $nilai){
+                $sum += $nilai->penilaian()->sum('nilai');
+            }
+
+            return $sum;
+        }
+
+        return null;
+    }
+
+    /**
+     * Mengecek apakah proposal telah dinilai oleh user tertentu dan dalam
+     * tahap tertentu
+     *
+     * @param $reviewer
+     * @param null $tahap
+     * @return bool
+     */
     public function sudahDinilaiOleh($reviewer, $tahap = null)
     {
         $query = DB::table(DB::raw('pengguna, penilaian, review'))
@@ -122,23 +224,65 @@ class Proposal extends Model
         return ($query->count('penilaian.nilai') > 0);
     }
 
-    public function penilaian()
+    /**
+     * Mengecek apakah proposal sedang dalam proses penilaian pada tahap
+     * tertentu
+     *
+     * @param int $tahap
+     * @return bool
+     */
+    public function dalamProsesPenilaian($tahap = 2)
     {
-        $review = Review::find($this->pivot->id)->penilaian();
+        if (!is_null($this->penilaian($tahap))) {
+            foreach ($this->penilaian($tahap) as $penilaian){
+                if($penilaian->penilaian()->count() > 0)
+                    return true;
+            }
+        }
 
-        return $review;
+        return false;
     }
 
-    public function apakahLolos($tahap = 2)
+    /**
+     * Mendapatkan instance Review dari proposal tertentu
+     *
+     * @param $tahap
+     * @return Review|null
+     */
+    public function penilaian($tahap)
     {
-        return true;
+        $review = Review::where('id_proposal', $this->id)
+            ->where('tahap', $tahap);
+
+        if ($review->count() > 0)
+            return $review;
+
+        return null;
     }
 
+    /**
+     * Mengecek apakah proposal memiliki nilai
+     *
+     * @return bool
+     */
+    public function punyaNilai()
+    {
+        if ($this->dalamProsesPenilaian(1) ||
+            $this->dalamProsesPenilaian(2) ||
+            $this->lolos())
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Menambah pembimbing dari proposal
+     *
+     * @param User $dosen
+     */
     public function tambahPembimbing($dosen)
     {
-        $this->bimbingan()->detach($dosen);
-
-        $this->bimbingan()->attach($dosen, [
+        $this->bimbingan()->updateExistingPivot($dosen->id, [
             'status_request' => RequestStatus::APPROVED
         ]);
     }
@@ -161,7 +305,7 @@ class Proposal extends Model
               LEFT JOIN (prodi
                 LEFT JOIN jurusan ON prodi.id_jurusan = jurusan.id) ON pengguna.id_prodi = prodi.id)
                 ON pengguna.id = hak_akses_pengguna.id_pengguna
-            WHERE hak_akses_pengguna.id_hak_akses = hakakses.id AND jurusan.id_fakultas = ".$idfakultas."
+            WHERE hak_akses_pengguna.id_hak_akses = hakakses.id AND jurusan.id_fakultas = " . $idfakultas . "
           ) AS ketua, mahasiswa"))->select(DB::raw('*'))->whereRaw('mahasiswa.id_pengguna = ketua.id_ketua AND proposal.id=mahasiswa.id_proposal')->get();
     }
 }
