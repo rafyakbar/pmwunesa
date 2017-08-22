@@ -179,6 +179,7 @@ class TabelPMWUNESA extends Migration
         });
 
         Schema::create('logbook', function (Blueprint $table){
+            $table->bigIncrements('id');
             $table->bigInteger('id_proposal')->unsigned();
             $table->foreign('id_proposal')
                 ->references('id')
@@ -191,6 +192,7 @@ class TabelPMWUNESA extends Migration
         });
 
         Schema::create('laporan', function (Blueprint $table){
+            $table->bigIncrements('id');
             $table->bigInteger('id_proposal')->unsigned();
             $table->foreign('id_proposal')
                 ->references('id')
