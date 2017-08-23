@@ -78,33 +78,70 @@ $(function(){
         }
     })
 
-    $('.ajax-form').ajaxForm({
-        beforeSend : function(){
-            var hapus = false;
-            swal({
-                title: "Apa anda yakin ?",
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: 'Batal',
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Ya, hapus!",
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true
-            }, function () {
-                hapus = true
+    $('.ajax-form').submit(function (e) {
+        e.preventDefault()
+
+        var url = $(this).attr('action')
+        var dosen = $(this).find('input[name="dosen"]').val()
+        var hapus = false
+
+        swal({
+            title: "Apa anda yakin ?",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Ya, hapus!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true
+        }, function () {
+            $.ajax({
+                type : 'post',
+                url : url,
+                data : 'dosen=' + dosen,
+                success : function(response){
+                    swal({
+                        title : (response.error === 0) ? 'Berhasil' : 'Gagal',
+                        text : response.message,
+                        type : (response.error === 0 ) ? 'success' : 'error'
+                    },function(){
+                        if(response.error === 0)
+                            window.location.reload()
+                    })
+                }
             })
-            return hapus
-        },
-        success : function(response){
-            swal({
-                title : (response.error === 0) ? 'Berhasil' : 'Gagal',
-                text : response.message,
-                type : (response.error === 0 ) ? 'success' : 'error'
-            },function(){
-                if(response.error === 0)
-                    window.location.reload()
-            })
-        }
+        })
+
     })
+
+    // $('.ajax-form').ajaxForm({
+    //     beforeSend : function(){
+    //         var hapus = false;
+    //         swal({
+    //             title: "Apa anda yakin ?",
+    //             type: "warning",
+    //             showCancelButton: true,
+    //             cancelButtonText: 'Batal',
+    //             confirmButtonColor: "#DD6B55",
+    //             confirmButtonText: "Ya, hapus!",
+    //             closeOnConfirm: false,
+    //             showLoaderOnConfirm: true
+    //         }, function () {
+    //             hapus = true
+    //         })
+    //         console.log(hapus)
+    //         return hapus
+    //     },
+    //     success : function(response){
+    //         swal({
+    //             title : (response.error === 0) ? 'Berhasil' : 'Gagal',
+    //             text : response.message,
+    //             type : (response.error === 0 ) ? 'success' : 'error'
+    //         },function(){
+    //             if(response.error === 0)
+    //                 window.location.reload()
+    //         })
+    //     }
+    // })
 
 })

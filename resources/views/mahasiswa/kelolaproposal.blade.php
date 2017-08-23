@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@if(!is_null($proposal))
+@if(isset($proposal))
     @section('brand','Edit Proposal')
     @section('title','Edit Proposal')
 @else
@@ -16,7 +16,7 @@
 
     <div class="panel-default">
         <div class="panel-heading">
-            <h3>{{ !is_null($proposal) ? 'Edit' : 'Unggah' }} Proposal</h3>
+            <h3>{{ isset($proposal) ? 'Edit' : 'Unggah' }} Proposal</h3>
         </div>
         <div class="panel-body">
 
@@ -32,15 +32,15 @@
 
                         <div class="form-group">
                             <label>Judul</label>
-                            <input class="form-control" type="text" name="judul" placeholder="Judul" value="{{ !is_null($proposal) ? $proposal->judul : '' }}">
+                            <input class="form-control" type="text" name="judul" placeholder="Judul" value="{{ isset($proposal) ? $proposal->judul : '' }}">
                         </div>
                         <div class="form-group">
                             <label>Jenis Usaha</label>
                         </div>
                         <div class="btn-group">
-                            <input type="hidden" id="jenis_usaha" name="jenis_usaha" value="{{ !is_null($proposal) ? $proposal->jenis_usaha : '' }}"/>
+                            <input type="hidden" id="jenis_usaha" name="jenis_usaha" value="{{ isset($proposal) ? $proposal->jenis_usaha : '' }}"/>
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span>{{ !is_null($proposal) ? $proposal->jenis_usaha :  'Pilih Jenis Usaha' }}</span> <span class="caret"></span>
+                                <span>{{ isset($proposal) ? $proposal->jenis_usaha :  'Pilih Jenis Usaha' }}</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" data-target="#jenis_usaha">
                                 <li data-value="barang"><a href="#">Barang</a></li>
@@ -50,13 +50,13 @@
                         </div>
                         <div class="form-group">
                             <label>Usulan Dana</label>
-                            <input class="form-control" type="number" name="usulan_dana" placeholder="Usulan dana (Rp)" value="{{ !is_null($proposal) ? $proposal->usulan_dana : '' }}"/>
+                            <input class="form-control" type="number" name="usulan_dana" placeholder="Usulan dana (Rp)" value="{{ isset($proposal) ? $proposal->usulan_dana : '' }}"/>
                         </div>
                         <div class="form-group">
                             <label>Keyword</label>
-                            <input type="hidden" name="keyword" id="keyword" value="{{ !is_null($proposal) ? $proposal->keyword : '' }}"/>
+                            <input type="hidden" name="keyword" id="keyword" value="{{ isset($proposal) ? $proposal->keyword : '' }}"/>
                             <div class="tagger">
-                                @if(!is_null($proposal))
+                                @if(isset($proposal))
                                     @foreach (explode('|',$proposal->keyword) as $value)
                                         <div class="tag"><span>{{ $value }}</span><i class="fa fa-close close"></i></div>
                                     @endforeach
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label>Abstrak</label>
                         </div>
-                        <textarea name="abstrak" id="abstrak">{!! !is_null($proposal) ? $proposal->abstrak : '' !!}</textarea>
+                        <textarea name="abstrak" id="abstrak">{!! isset($proposal) ? $proposal->abstrak : '' !!}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -78,8 +78,8 @@
                         <button class="btn btn-primary">Pilih Berkas <input type="file" name="berkas"></button>
                     </div>
 
-                    <button type="submit" class="btn btn-warning"><i class="fa fa-save jarak"></i>{{ !is_null($proposal) ? 'Simpan' : 'Unggah' }} Proposal</button>
-                    @if(!is_null($proposal))
+                    <button type="submit" class="btn btn-warning"><i class="fa fa-save jarak"></i>{{ isset($proposal) ? 'Simpan' : 'Unggah' }} Proposal</button>
+                    @if(isset($proposal))
                         <a href="{{ route('proposal') }}" class="btn btn-primary">Batal</a>
                     @endif
                 </form>

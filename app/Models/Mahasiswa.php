@@ -2,6 +2,7 @@
 
 namespace PMW\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use PMW\User;
@@ -155,6 +156,16 @@ class Mahasiswa extends Model
                 ->undanganTimKetua()
                 ->where('id_anggota',$this->id_pengguna)
                 ->count() > 0);
+    }
+
+    public function bisaUnggahProposal()
+    {
+        if(Carbon::now()->diffInDays(
+            Carbon::parse(Pengaturan::batasUnggahProposal()
+            ),false) >= 0){
+            return true;
+        }
+        return false;
     }
 
 }

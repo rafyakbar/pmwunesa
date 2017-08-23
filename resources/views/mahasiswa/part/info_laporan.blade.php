@@ -8,9 +8,13 @@
             </div>
 
             <div class="card-content">
-                @include('mahasiswa.part.form_laporan',[
-                'type' => 'kemajuan'
-                ])
+                @if(Auth::user()->mahasiswa()->proposal()->lolos())
+                    @include('mahasiswa.part.form_laporan',[
+                    'type' => 'kemajuan'
+                    ])
+                @else
+                    <p class="alert alert-warning">Proposal tim anda belum lolos</p>
+                @endif
             </div>
         </div>
     </div>
@@ -25,9 +29,13 @@
             </div>
 
             <div class="card-content">
-                @include('mahasiswa.part.form_laporan',[
-                    'type' => 'akhir'
-                ])
+                @if(Auth::user()->mahasiswa()->proposal()->lolos())
+                    @include('mahasiswa.part.form_laporan',[
+                        'type' => 'akhir'
+                    ])
+                @else
+                    <p class="alert alert-warning">Proposal tim anda belum lolos</p>
+                @endif
             </div>
         </div>
     </div>
