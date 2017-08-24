@@ -190,9 +190,9 @@ class Proposal extends Model
      */
     public function nilai($tahap)
     {
-        if(!is_null($this->penilaian($tahap))){
+        if(!is_null($this->daftarReview($tahap))){
             $sum = 0;
-            foreach ($this->penilaian($tahap)->get() as $nilai){
+            foreach ($this->daftarReview($tahap)->get() as $nilai){
                 $sum += $nilai->penilaian()->sum('nilai');
             }
 
@@ -233,8 +233,8 @@ class Proposal extends Model
      */
     public function dalamProsesPenilaian($tahap = 2)
     {
-        if (!is_null($this->penilaian($tahap))) {
-            foreach ($this->penilaian($tahap) as $penilaian){
+        if (!is_null($this->daftarReview($tahap))) {
+            foreach ($this->daftarReview($tahap) as $penilaian){
                 if($penilaian->penilaian()->count() > 0)
                     return true;
             }
@@ -249,7 +249,7 @@ class Proposal extends Model
      * @param $tahap
      * @return Review|null
      */
-    public function penilaian($tahap)
+    public function daftarReview($tahap)
     {
         $review = Review::where('id_proposal', $this->id)
             ->where('tahap', $tahap);
@@ -258,6 +258,13 @@ class Proposal extends Model
             return $review;
 
         return null;
+    }
+
+    public function penilaian($idreview)
+    {
+        $review = Review::find($idreview);
+
+        return $this->daftarReview($review->tahap)->first()->penilaian();
     }
 
     /**

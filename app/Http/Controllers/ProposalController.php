@@ -136,7 +136,6 @@ class ProposalController extends Controller
         return view('ajax.dataproposal',[
             'proposal' => $proposal
         ]);
-        return response()->json($proposal->toJson());
     }
 
     private function hapusProposalSebelumnya()

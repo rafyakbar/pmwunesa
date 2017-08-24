@@ -13,7 +13,7 @@ class DosenController extends Controller
     public function bimbingan()
     {
         return view('dosen.pembimbing.bimbingan',[
-            'daftarProposal' => Auth::user()->bimbingan(RequestStatus::APPROVED)->whereNotNull('judul'),
+            'daftarProposal' => Auth::user()->bimbingan(RequestStatus::APPROVED)->whereNotNull('judul')->paginate(15),
             'jumlahProposalKosong' => Auth::user()->bimbingan(RequestStatus::APPROVED)->whereNull('judul')->count()
         ]);
     }

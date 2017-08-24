@@ -12,8 +12,9 @@ class ReviewerController extends Controller
 
     public function daftarProposal($tahap = 1)
     {
+        $daftarProposal = Auth::user()->review()->where('tahap',$tahap)->paginate(1);
         return view('dosen.reviewer.daftarproposal',[
-            'daftarproposal' => Auth::user()->review()->where('tahap',$tahap),
+            'daftarproposal' => $daftarProposal,
             'tahap' => $tahap
         ]);
     }
@@ -41,8 +42,19 @@ class ReviewerController extends Controller
 
     public function lihatNilaiReview($id)
     {
-        $proposal = Auth::user()->review()->wherePivot('id',$id)->first();
-        $penilaian = $proposal->penilaian();
+        // Mengambil proposal sesuai id dari review
+        $proposal = Auth::user()->review()
+            ->wherePivot('id',$id)
+            ->first();
+
+        if(is_null($proposal))
+            return view('errors.404');
+
+        // Mengambil nilai dari proposal sesuai dengan id reviewer
+        $penilaian = $proposal->daftarReview($proposal->pivot->tahap)
+            ->where('id_pengguna',Auth::user()->id)
+            ->first()
+            ->penilaian();
 
         return view('dosen.reviewer.nilaiproposal',[
             'penilaian' => $penilaian,
@@ -69,9 +81,9 @@ class ReviewerController extends Controller
         $proposal = Auth::user()->review()->wherePivot('id',$id)->first();
 
         if(is_null($proposal))
-            return redirect()->route('dashboard');
+            return view('404');
 
-        $penilaian = $proposal->penilaian();
+        $penilaian = $proposal->penilaian($id);
 
         return view('dosen.reviewer.kelolareview',[
             'penilaian' => $penilaian,

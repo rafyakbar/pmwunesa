@@ -35,8 +35,8 @@ class PageController extends Controller
 
         return view('hasilreview',[
             'review' => [
-                'tahap1' => $proposal->penilaian(1)->whereNotNull('komentar'),
-                'tahap2' => $proposal->penilaian(2)->WhereNotNull('komentar')
+                'tahap1' => $proposal->daftarReview(1)->whereNotNull('komentar'),
+                'tahap2' => $proposal->daftarReview(2)->WhereNotNull('komentar')
             ],
             'proposal' => $proposal
         ]);

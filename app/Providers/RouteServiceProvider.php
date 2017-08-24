@@ -60,17 +60,17 @@ class RouteServiceProvider extends ServiceProvider
          * pastikan konfigurasi APP_STATUS bukan deployed jika ingin
          * menjalankan route ini
          */
-        if($_ENV['APP_STATUS'] != 'deployed'){
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/tes/yusuf.php'));
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/tes/bagas.php'));
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web/tes/rafy.php'));
-        }
+//        if($_ENV['APP_STATUS'] != 'deployed'){
+//            Route::middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/tes/yusuf.php'));
+//            Route::middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/tes/bagas.php'));
+//            Route::middleware('web')
+//                ->namespace($this->namespace)
+//                ->group(base_path('routes/web/tes/rafy.php'));
+//        }
         
         /**
          * Berikut adalah route berdasarkan jenis role

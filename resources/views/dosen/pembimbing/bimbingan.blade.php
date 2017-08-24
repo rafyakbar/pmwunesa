@@ -38,7 +38,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($daftarProposal->get() as $proposal)
+                    @foreach($daftarProposal as $proposal)
                         <tr data-proposal="{{ $proposal->id }}">
                             <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}">
                                     <strong>{{ $proposal->judul }}</strong><sup><i
@@ -61,6 +61,10 @@
                     @endforeach
                     </tbody>
                 </table>
+
+                <div style="margin-left: 10px">
+                    {{ $daftarProposal->links() }}
+                </div>
             @else
                 <p class="alert alert-warning" style="margin:10px">Anda belum menjadi pembimbing dari sebuah tim.</p>
             @endif

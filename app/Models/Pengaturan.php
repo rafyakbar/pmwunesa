@@ -19,22 +19,26 @@ class Pengaturan extends Model
 
     public static function batasUnggahProposal()
     {
-        return static::where('nama','Batas pengumpulan proposal')->first()->keterangan;
+        return static::where('nama', 'Batas pengumpulan proposal')->first()->keterangan;
     }
 
     public static function batasPenilaian($tahap)
     {
-        return static::where('nama','Batas penilaian proposal tahap ' . $tahap)->first()->keterangan;
+        return static::where('nama', 'Batas penilaian proposal tahap ' . $tahap)->first()->keterangan;
     }
 
-    public function melewatiBatasUnggahProposal()
+    public static function melewatiBatasUnggahProposal()
     {
-        return (Carbon::now()->diffInDays(Carbon::parse(static::batasUnggahProposal())) >= 0);
+        return (Carbon::now()->diffInDays(
+                Carbon::parse(static::batasUnggahProposal()), false
+            ) <= 0);
     }
 
-    public function melewatiBatasPenilaian($tahap)
+    public static function melewatiBatasPenilaian($tahap)
     {
-        return (Carbon::now()->diffInDays(Carbon::parse(static::batasPenilaian($tahap))) >= 0);
+        return (Carbon::now()->diffInDays(
+                Carbon::parse(static::batasPenilaian($tahap)
+                ), false) <= 0);
     }
 
 }
