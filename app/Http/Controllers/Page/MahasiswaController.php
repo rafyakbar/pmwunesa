@@ -13,7 +13,7 @@ class MahasiswaController extends Controller
     {
         $view = view('mahasiswa.infotim');
 
-        if(Auth::user()->mahasiswa()->proposal()->punyaPembimbing())
+        if(Auth::user()->mahasiswa()->punyaTim() && Auth::user()->mahasiswa()->proposal()->punyaPembimbing())
             $view->with('pembimbing', Auth::user()->mahasiswa()->proposal()->pembimbing());
 
         return $view;

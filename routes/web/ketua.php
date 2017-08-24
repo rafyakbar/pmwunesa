@@ -118,4 +118,9 @@ Route::group(['prefix' => 'hapus'], function(){
         'as' => 'hapus.logbook'
     ]);
 
+    Route::delete('anggota',[
+        'uses' => 'TeamController@hapusAnggota',
+        'as' => 'hapus.anggota'
+    ]);
+
 });

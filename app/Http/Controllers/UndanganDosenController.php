@@ -21,7 +21,9 @@ class UndanganDosenController extends Controller
         $dosen = User::find($request->dosen);
         $proposal = Auth::user()->mahasiswa()->proposal();
 
-        $dosen->bimbingan()->attach($proposal);
+        $dosen->bimbingan()->attach($proposal,[
+            'status_request' => RequestStatus::REQUESTING
+        ]);
 
         return response()->json([
             'message' => 'Berhasil mengirim undangan !',

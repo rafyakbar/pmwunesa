@@ -20,7 +20,7 @@ class UserTerdaftar
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param User $user
      */
     public function __construct(User $user)
     {

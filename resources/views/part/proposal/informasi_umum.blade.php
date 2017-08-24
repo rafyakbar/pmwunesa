@@ -49,7 +49,11 @@
         @endif
 
         @if(Auth::user()->isKetua())
-            <a href="{{ route('edit.proposal') }}" class="btn btn-warning btn-sm">Edit Proposal</a>
+            @if(Auth::user()->mahasiswa()->bisaUnggahProposal())
+                <a href="{{ route('edit.proposal') }}" class="btn btn-warning btn-sm">Edit Proposal</a>
+            @else
+                <p class="alert alert-danger">Anda sudah tidak bisa mengedit proposal.</p>
+            @endif
         @endif
     </div>
 </div>

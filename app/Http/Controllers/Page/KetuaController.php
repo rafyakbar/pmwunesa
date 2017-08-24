@@ -16,6 +16,9 @@ class KetuaController extends Controller
 
     public function unggahProposal()
     {
+        if(!Auth::user()->mahasiswa()->bisaUnggahProposal())
+            return redirect()->route('proposal');
+
         if(Auth::user()->mahasiswa()->punyaProposal())
             return redirect()->route('edit.proposal');
 
@@ -24,6 +27,9 @@ class KetuaController extends Controller
 
     public function editProposal()
     {
+        if(!Auth::user()->mahasiswa()->bisaUnggahProposal())
+            return redirect()->route('proposal');
+
         return view('mahasiswa.kelolaproposal', [
             'proposal' => Auth::user()->mahasiswa()->proposal()
         ]);
