@@ -52,6 +52,7 @@
                             Anda sudah tidak bisa melakukan penilaian untuk tahap {{ $tahap }}
                         </p>
                     @endif
+
                     @if(count($daftarproposal) > 0)
                         <table class="table table-hover table-expand">
                             <thead class="text-warning">
