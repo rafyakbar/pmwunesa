@@ -14,6 +14,7 @@ use PMW\Models\Proposal;
 use PMW\Support\RequestStatus;
 use PMW\User;
 use Illuminate\Support\Facades\DB;
+use PMW\Facades\ExcelExport;
 
 class SuperAdminController extends Controller
 {
@@ -63,10 +64,13 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function tampilDataProposal()
+    public function tampilDataProposal(Request $request)
     {
         return view('admin.super.daftarproposal', [
-            'proposal' => Proposal::all()
+            'proposal'          => Proposal::all(),
+            'daftar_fakultas'   => Fakultas::all(),
+            'fakultas'          => $request->fakultas,
+            'lolos'             => $request->lolos
         ]);
     }
 
@@ -85,6 +89,13 @@ class SuperAdminController extends Controller
                 'tahap2' => Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap',2)
             ]
         ]);
+    }
+
+    public function unduhProposal(Request $request)
+    {
+        $nama_fakultas = ucwords(str_replace('_',' ', $request->fakultas));
+        $fakultas = Fakultas::where('nama', $nama_fakultas)->first();
+        return ExcelExport::unduhProposal((is_null($fakultas))?$fakultas:$fakultas->id, $request->lolos);
     }
 
 }
