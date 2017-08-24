@@ -175,6 +175,7 @@ class TabelPMWUNESA extends Migration
                 ->on('review')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table->integer('nilai')->unsigned()->nullable();
             $table->timestamps();
         });
 

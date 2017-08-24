@@ -1,5 +1,5 @@
-<li @if(Route::currentRouteName() === 'proposal.admin.fakultas' ) class="active" @endif>
-    <a href="{{ route('proposal.admin.fakultas') }}">
+<li @if(Route::currentRouteName() === 'proposaladminfakultas' ) class="active" @endif>
+    <a href="{{ route('proposaladminfakultas',[ 'filter' => 'semua' ]) }}">
         <i class="material-icons">library_books</i>
         <p>Proposal</p>
     </a>
