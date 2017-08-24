@@ -1,5 +1,5 @@
 <?php
 
-Route::get('admin/fakultas/proposal', 'Page\AdminFakultasController@daftarProposal')->name('proposaladminfakultas');
+Route::get('admin/fakultas/proposal/{filter}', 'Page\AdminFakultasController@daftarProposal')->name('proposaladminfakultas');
 
-Route::get('admin/fakultas/proposal/unduh', 'Page\AdminFakultasController@unduhProposal')->name('unduhproposalfakultas');
+Route::get('admin/fakultas/proposal/unduh/{filter}', 'Page\AdminFakultasController@unduhProposal')->name('unduhproposalfakultas');
