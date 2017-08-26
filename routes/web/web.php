@@ -87,15 +87,31 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 
-    Route::get('pengaturan', function () {
-        return view('pengaturan');
-    })->name('pengaturan');
+    Route::get('pengaturan', [
+        'uses' => 'Page\PageController@pengaturan',
+        'as' => 'pengaturan'
+    ]);
+
+    Route::prefix('daftar')->group(function (){
+
+        Route::post('jurusan',[
+            'uses' => 'JurusanController@daftarBerdasarkanFakultas',
+            'as' => 'daftar.jurusan.fakultas'
+        ]);
+
+        Route::post('prodi', [
+            'uses' => 'ProdiController@daftarBerdasarkanJurusan',
+            'as' => 'daftar.prodi.jurusan'
+        ]);
+
+    });
 
     Route::group(['prefix' => 'ubah'], function () {
 
-        Route::get('password', function () {
-            return view('ubahpassword');
-        })->name('ubah.password');
+        Route::patch('password', [
+            'uses' => 'UserController@gantiPassword',
+            'as' => 'ubah.password'
+        ]);
 
         Route::post('profil', [
             'uses' => 'UserController@editProfil',

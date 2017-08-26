@@ -34,4 +34,11 @@ class JurusanController extends Controller
 
         return back();
     }
+
+    public function daftarBerdasarkanFakultas(Request $request)
+    {
+        $jurusan = Jurusan::where('id_fakultas', $request->fakultas)->get();
+
+        return response()->json($jurusan);
+    }
 }

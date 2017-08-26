@@ -11,6 +11,8 @@ use PMW\Models\Penilaian;
 class ReviewerController extends Controller
 {
 
+    private $perPage = 3;
+
     public function daftarProposal($tahap = 1)
     {
         if ($tahap < 1 || $tahap > 2)
@@ -18,7 +20,7 @@ class ReviewerController extends Controller
 
         $daftarProposal = Auth::user()->review()
             ->where('tahap', $tahap)
-            ->paginate(1);
+            ->paginate($this->perPage);
 
         if (!is_null(request()->get('sudahdinilai'))) {
             $daftarReviewPengguna = Auth::user()->review()->pluck('review.id');
@@ -37,7 +39,7 @@ class ReviewerController extends Controller
             $daftarProposal = Auth::user()->review()
                 ->where('tahap', $tahap)
                 ->wherePivotIn('id', $filtered)
-                ->paginate(1);
+                ->paginate($this->perPage);
         }
 
         return view('dosen.reviewer.daftarproposal', [

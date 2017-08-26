@@ -15,7 +15,7 @@
 @section('content')
 
     <div class="card card-nav-tabs">
-        <div class="card-header" data-background-color="orange">
+        <div class="card-header" data-background-color="purple">
             <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
                     <ul class="nav nav-tabs" data-tabs="tabs">
@@ -44,7 +44,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="daftar">
                     @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian($tahap))
-                    <p style="margin: 10px" class="alert alert-primary">
+                    <p style="margin: 10px" class="alert alert-warning">
                         Batas penilaian tahap {{ $tahap }} adalah pada {{ \Carbon\Carbon::parse(\PMW\Models\Pengaturan::batasPenilaian($tahap))->formatLocalized('%A %d %B %Y') }}
                     </p>
                         @else
@@ -52,6 +52,13 @@
                             Anda sudah tidak bisa melakukan penilaian untuk tahap {{ $tahap }}
                         </p>
                     @endif
+
+                    <div style="margin:10px;">
+                        <ul class="nav nav-pills">
+                            <li role="presentation" {{ (is_null(request()->get('sudahdinilai')) || !request()->get('sudahdinilai')) ? 'class=active' : '' }}><a href="{{ route('daftar.proposal.reviewer',['sudahdinilai' => 0,'tahap' => $tahap]) }}">Belum dinilai</a></li>
+                            <li role="presentation" {{ request()->get('sudahdinilai') ? 'class=active' : '' }}><a href="{{ route('daftar.proposal.reviewer',['sudahdinilai' => 1, 'tahap' => $tahap]) }}">Sudah dinilai</a></li>
+                        </ul>
+                    </div>
 
                     @if(count($daftarproposal) > 0)
                         <table class="table table-hover table-expand">

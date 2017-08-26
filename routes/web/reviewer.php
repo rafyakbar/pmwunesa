@@ -14,25 +14,25 @@ Route::group(['prefix' => 'tambah'], function () {
 
 });
 
-Route::group(['prefix' => 'daftar'], function () {
+Route::group(['prefix' => 'daftar', 'namespace' => 'Page'], function () {
 
-    Route::get('proposal/reviewer/{tahap=1}', [
-        'uses' => 'Page\ReviewerController@daftarProposal',
+    Route::get('proposal/reviewer/{tahap?}', [
+        'uses' => 'ReviewerController@daftarProposal',
         'as' => 'daftar.proposal.reviewer'
     ]);
 
     Route::get('proposal/final', [
-        'uses' => 'Page\ReviewerController@daftarProposalFinal',
+        'uses' => 'ReviewerController@daftarProposalFinal',
         'as' => 'daftar.proposal.final'
     ]);
 
     Route::get('laporan/kemajuan', [
-        'uses' => 'Page\ReviewerController@daftarLaporanKemajuan',
+        'uses' => 'ReviewerController@daftarLaporanKemajuan',
         'as' => 'daftar.laporan.kemajuan'
     ]);
 
     Route::get('laporan/akhir', [
-        'uses' => 'Page\ReviewerController@daftarLaporanAkhir',
+        'uses' => 'ReviewerController@daftarLaporanAkhir',
         'as' => 'daftar.laporan.akhir'
     ]);
 
