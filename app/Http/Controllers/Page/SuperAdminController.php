@@ -26,11 +26,16 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function tampilDataPengguna()
+    public function tampilDataPengguna(Request $request)
     {
+        $pengguna = ($request->fakultas == 'semua_fakultas') ? User::orderBy('nama')->get() : User::perFakultas(ucwords(str_replace('_',' ', $request->fakultas)));
         return view('admin.super.daftarpengguna', [
-            'user' => User::orderBy('nama')->get(),
-            'hak_akses' => HakAkses::orderBy('id')->get()
+            'user'              => $pengguna,
+            'hak_akses'         => HakAkses::orderBy('id')->get(),
+            'daftar_fakultas'   => Fakultas::all(),
+            'fakultas'          => $request->fakultas,
+            'role'              => $request->role,
+            'c'                 => 0
         ]);
     }
 
