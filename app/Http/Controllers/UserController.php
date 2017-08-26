@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use PMW\Models\HakAkses;
 use PMW\Mail\RegisterMail;
 use PMW\Models\Mahasiswa;
@@ -20,29 +21,29 @@ class UserController extends Controller
     {
         if (Auth::user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA])) {
             $this->validate($request, [
-                'nama'          => 'required',
-                'id_prodi'      => 'required|numeric',
-                'alamat_asal'   => 'required',
-                'alamat_tinggal'=> 'required',
-                'no_telepon'    => 'required|numeric',
-                'ipk'           => 'required'
+                'nama' => 'required',
+                'id_prodi' => 'required|numeric',
+                'alamat_asal' => 'required',
+                'alamat_tinggal' => 'required',
+                'no_telepon' => 'required|numeric',
+                'ipk' => 'required'
             ]);
         } else {
             $this->validate($request, [
-                'nama'          => 'required',
-                'id_prodi'      => 'required|numeric',
-                'alamat_asal'   => 'required',
-                'alamat_tinggal'=> 'required',
-                'no_telepon'    => 'required|numeric'
+                'nama' => 'required',
+                'id_prodi' => 'required|numeric',
+                'alamat_asal' => 'required',
+                'alamat_tinggal' => 'required',
+                'no_telepon' => 'required|numeric'
             ]);
         }
 
         Auth::user()->update([
-            'nama'          => $request->nama,
-            'id_prodi'      => $request->id_prodi,
-            'alamat_asal'   => $request->alamat_asal,
-            'alamat_tinggal'=> $request->alamat_tinggal,
-            'no_telepon'    => $request->no_telepon
+            'nama' => $request->nama,
+            'id_prodi' => $request->id_prodi,
+            'alamat_asal' => $request->alamat_asal,
+            'alamat_tinggal' => $request->alamat_tinggal,
+            'no_telepon' => $request->no_telepon
         ]);
 
         if (Auth::user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA])) {
@@ -51,21 +52,33 @@ class UserController extends Controller
             ]);
         }
 
+        Sessiob::flash('message', 'Berhasil mengubah profil !');
         return back();
     }
 
     public function gantiPassword(Request $request)
     {
-        if (!Hash::check($request->password_lama, Auth::user()->password)) {
-            $response = ['error' => 1];
+        if (!Hash::check($request->plama, Auth::user()->password)) {
+            return back()->withErrors([
+                'plama' => 'Password tidak sama dengan password anda saat ini'
+            ]);
         } else {
-            if ($request->password_baru != $request->konfirmasipassword) {
-                $response = ['error' => 2];
-            } else {
+            if ($request->pbaru != $request->pbaru_confirm) {
+                return back()->withErrors([
+                    'pbaru' => 'Password tidak sama !'
+                ]);
+            }
+            elseif ($request->pbaru == Auth::user()->password){
+                return back()->withErrors([
+                    'pbaru' => 'Password tidak boleh sama dengan yang lama !'
+                ]);
+            }else {
                 $user = User::find(Auth::user()->id);
-                $user->password = Hash::make($request->password_baru);
+                $user->password = Hash::make($request->pbaru);
                 $user->save();
-                $response = ['error' => 0];
+
+                Session::flash('message', 'Berhasil mengubah password !');
+                return back();
             }
         }
     }
@@ -75,21 +88,21 @@ class UserController extends Controller
         $password = str_random(8);
 
         $user = User::create([
-            'id'        => $request->id,
-            'email'     => $request->email,
-            'password'  => bcrypt($password),
-            'request'   => true
+            'id' => $request->id,
+            'email' => $request->email,
+            'password' => bcrypt($password),
+            'request' => true
         ]);
 
-        event(new UserTerdaftar($user));
+//        event(new UserTerdaftar($user));
 
-        foreach ($request->hakakses as $value){
-            if ($value == 'Anggota'){
+        foreach ($request->hakakses as $value) {
+            if ($value == 'Anggota') {
                 Mahasiswa::create([
                     'id_pengguna' => $request->id
                 ]);
             }
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',$value)->first(), ['status_request' => RequestStatus::APPROVED]);
+            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama', $value)->first(), ['status_request' => RequestStatus::APPROVED]);
         }
 
         Mail::to($request->email)->send(new RegisterMail(User::find($request->id), $password));
@@ -102,16 +115,16 @@ class UserController extends Controller
         if (is_null($request->hakakses))
             return back();
 
-        foreach ($request->hakakses as $value){
+        foreach ($request->hakakses as $value) {
             if ($value == 'Ketua Tim')
                 $value = 'Anggota';
-            if (!User::find($request->id)->hasRole($value)){
-                if ($value == 'Anggota' || $value == 'Ketua Tim'){
+            if (!User::find($request->id)->hasRole($value)) {
+                if ($value == 'Anggota' || $value == 'Ketua Tim') {
                     Mahasiswa::create([
                         'id_pengguna' => $request->id
                     ]);
                 }
-                User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama',$value)->first(), ['status_request' => RequestStatus::APPROVED]);
+                User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama', $value)->first(), ['status_request' => RequestStatus::APPROVED]);
             }
         }
 

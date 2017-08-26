@@ -30,6 +30,11 @@
                 {!! $proposal->pivot->komentar !!}
             </div>
 
+            @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian($proposal->pivot->tahap))
+                <a href="{{ route('edit.nilai.review',['id' => $proposal->pivot->id]) }}"
+                   class="btn btn-primary">Edit</a>
+            @endif
+
         </div>
     </div>
 

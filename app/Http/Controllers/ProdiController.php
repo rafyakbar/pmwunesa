@@ -34,4 +34,11 @@ class ProdiController extends Controller
 
         return back();
     }
+
+    public function daftarBerdasarkanJurusan(Request $request)
+    {
+        $prodi = Prodi::where('id_jurusan',$request->jurusan)->get();
+
+        return response()->json($prodi);
+    }
 }
