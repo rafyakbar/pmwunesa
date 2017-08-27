@@ -60,8 +60,8 @@ class ExcelExport
                 function writeRow($value, $counter)
                 {
                     $hak_akses = '';
-                    foreach (User::find($value->id)->hakAksesPengguna() as $value){
-                        $hak_akses = $hak_akses.$value.', ';
+                    foreach (User::find($value->id)->hakAksesPengguna()->get() as $item){
+                        $hak_akses = $hak_akses.$item->nama.', ';
                     }
                     return [
                         $counter,
@@ -79,7 +79,7 @@ class ExcelExport
                 $counter = 0;
                 foreach ($pengguna as $value) {
                     if ($GLOBALS['role'] != 'semua_hak_akses'){
-                        if ($value->hasRole($GLOBALS['role'])){
+                        if ($value->hasRole(ucwords(str_replace('_',' ', $GLOBALS['role'])))){
                             $sheet->appendRow(writeRow($value, ++$counter));
                         }
                     }
