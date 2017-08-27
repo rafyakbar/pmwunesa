@@ -52,7 +52,7 @@ class UserController extends Controller
             ]);
         }
 
-        Sessiob::flash('message', 'Berhasil mengubah profil !');
+        Session::flash('message', 'Berhasil mengubah profil !');
         return back();
     }
 

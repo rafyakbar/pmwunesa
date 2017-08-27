@@ -3,7 +3,7 @@
 @section('content')
 
     @if(Session::has('message'))
-        <p>{{ Session::get('message') }}</p>
+        <p class="alert alert-success">{{ Session::get('message') }}</p>
     @endif
 
     <div class="row">

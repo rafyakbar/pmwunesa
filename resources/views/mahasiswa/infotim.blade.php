@@ -9,6 +9,9 @@
     @if(!Auth::user()->mahasiswa()->punyaTim() || (Auth::user()->isKetua() && Auth::user()->mahasiswa()->jumlahAnggotaTim() < 3))
         <div class="row">
             <div class="col-lg-4">
+                @if(Auth::user()->mahasiswa()->punyaTim())
+                    @include('mahasiswa.part.daftar_tim')
+                @endif
                 @if(Auth::user()->mahasiswa()->undanganTimAnggota()->count() > 0)
                     @include('mahasiswa.part.undangan_tim_yang_diterima')
                 @endif
