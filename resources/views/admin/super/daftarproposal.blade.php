@@ -23,7 +23,7 @@
             <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'tahap_2']) }}">Lolos Tahap 2</a></li>
         </ul>
     </div>
-    <a href="{{ route('unduh.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
+    <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
     <ul>
         @foreach($proposal as $item)
             @if($lolos != 'semua')

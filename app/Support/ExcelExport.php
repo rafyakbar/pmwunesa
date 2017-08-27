@@ -4,6 +4,8 @@ namespace PMW\Support;
 
 use Maatwebsite\Excel\Facades\Excel;
 use PMW\Models\Fakultas;
+use PMW\Models\Jurusan;
+use PMW\Models\Prodi;
 use PMW\User;
 use PMW\Models\Proposal;
 use PMW\Facades\Dana;
@@ -17,21 +19,76 @@ class ExcelExport
 
     public function daftarUser()
     {
-        Excel::create('tes',function($excel){
-                $excel->sheet('Sheet',function($sheet){
-                    $sheet->setOrientation('landscape');
-                    // $sheet->setAutoSize(false);
+        Excel::create('tes', function ($excel) {
+            $excel->sheet('Sheet', function ($sheet) {
+                $sheet->setOrientation('landscape');
+                // $sheet->setAutoSize(false);
+                $sheet->appendRow([
+                    'Nama', 'NIM'
+                ]);
+                foreach (User::all() as $user) {
                     $sheet->appendRow([
-                        'Nama','NIM'
+                        $user->nama, $user->id
                     ]);
-                    foreach(User::all() as $user)
-                    {
-                        $sheet->appendRow([
-                            $user->nama,$user->id
-                        ]);
+                }
+            });
+        })->export('xls');
+    }
+
+    public function unduhDaftarPengguna($fakultas, $role)
+    {
+        $GLOBALS['fakultas'] = $fakultas;
+        $GLOBALS['role'] = $role;
+        return Excel::create('Daftar Pengguna', function ($excel) {
+            $excel->sheet('Sheet', function ($sheet) {
+                $pengguna = ($GLOBALS['fakultas'] == 'Semua Fakultas') ? User::orderBy('nama')->get() : User::perFakultas($GLOBALS['fakultas']);
+                $sheet->setOrientation('landscape');
+                $sheet->setAutoSize(true);
+                $sheet->appendRow([
+                    'No',
+                    'NIP/NIM',
+                    'Nama',
+                    'Fakultas',
+                    'Jurusan',
+                    'Prodi',
+                    'No Telepon',
+                    'Alamat Asal',
+                    'Alamat Tinggal',
+                    'Hak Akses'
+                ]);
+
+                function writeRow($value, $counter)
+                {
+                    $hak_akses = '';
+                    foreach (User::find($value->id)->hakAksesPengguna() as $value){
+                        $hak_akses = $hak_akses.$value.', ';
                     }
-                });
-            })->export('xls');
+                    return [
+                        $counter,
+                        $value->id,
+                        $value->nama,
+                        Fakultas::find(Jurusan::find(Prodi::find($value->id_prodi)['id_jurusan'])['id_fakultas'])['nama'],
+                        Jurusan::find(Prodi::find($value->id_prodi)['id_jurusan'])['nama'],
+                        Prodi::find($value->id_prodi)['nama'],
+                        $value->no_telepon,
+                        $value->alamat_asal,
+                        $value->alamat_tinggal,
+                        rtrim($hak_akses, ', ')
+                    ];
+                }
+                $counter = 0;
+                foreach ($pengguna as $value) {
+                    if ($GLOBALS['role'] != 'semua_hak_akses'){
+                        if ($value->hasRole($GLOBALS['role'])){
+                            $sheet->appendRow(writeRow($value, ++$counter));
+                        }
+                    }
+                    else {
+                        $sheet->appendRow(writeRow($value, ++$counter));
+                    }
+                }
+            });
+        })->export('xls');
     }
 
     public function unduhProposal($fakultas = null, $tahap = 'semua')
@@ -53,9 +110,9 @@ class ExcelExport
                     'No', 'Ketua Tim', 'Judul', 'Jenis Usaha', 'Usulan Dana', 'Reviewer Tahap 1', 'Reviewer Tahap 2'
                 ]);
                 $counter = 0;
-                $reviewerTahap1 = '';
-                $reviewerTahap2 = '';
                 foreach ($proposal as $item) {
+                    $reviewerTahap1 = '';
+                    $reviewerTahap2 = '';
                     if ($GLOBALS['tahap'] != 'semua') {
                         if (Proposal::find($item->id)->lolos(explode('_', $GLOBALS['tahap'])[1])) {
                             $ketua = Proposal::find($item->id)->ketua();
@@ -110,15 +167,15 @@ class ExcelExport
 
     public function export()
     {
-        Excel::create('tes',function($excel){
-                $excel->sheet('Sheet',function($sheet){
-                    $sheet->setOrientation('landscape');
-                    $sheet->setAutoSize(false);
-                    $sheet->appendRow([
-                        'Nama','NIM','Nama Tim'
-                    ]);
-                });
-            })->export('xls');
+        Excel::create('tes', function ($excel) {
+            $excel->sheet('Sheet', function ($sheet) {
+                $sheet->setOrientation('landscape');
+                $sheet->setAutoSize(false);
+                $sheet->appendRow([
+                    'Nama', 'NIM', 'Nama Tim'
+                ]);
+            });
+        })->export('xls');
     }
 
 }

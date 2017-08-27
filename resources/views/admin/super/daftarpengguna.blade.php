@@ -22,7 +22,7 @@
             Filter&nbsp;&nbsp;Hak Akses&nbsp;&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a href="{{ route('daftar.pengguna',['fakultas' => $fakultas, 'role' => $role]) }}">Semua Hak Akses</a>
+            <li><a href="{{ route('daftar.pengguna',['fakultas' => $fakultas, 'role' => 'semua_hak_akses']) }}">Semua Hak Akses</a>
             </li>
             @foreach($hak_akses as $item)
                 <li>
@@ -31,6 +31,8 @@
             @endforeach
         </ul>
     </div>
+
+    <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role]) }}" class="btn btn-primary">Unduh Daftar Pengguna</a>
 
     <ul>
         @foreach($user as $item)

@@ -149,7 +149,12 @@ Route::group(['prefix' => 'unduh'], function (){
 
     Route::get('proposal/{fakultas}/{lolos}', [
         'uses'  => 'Page\SuperAdminController@unduhProposal',
-        'as'    => 'unduh.proposal'
+        'as'    => 'unduh.filter.proposal'
+    ]);
+
+    Route::get('pengguna/{fakultas}/{role}', [
+        'uses'  => 'Page\SuperAdminController@unduhPengguna',
+        'as'    => 'unduh.filter.pengguna'
     ]);
 
 });
