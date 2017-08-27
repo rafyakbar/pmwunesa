@@ -2,6 +2,7 @@
 
 @section('content')
     <h3>Proposal</h3>
+
     <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
             Filter&nbsp;&nbsp;Fakultas&nbsp;&nbsp;<span class="caret"></span>
@@ -13,6 +14,7 @@
             @endforeach
         </ul>
     </div>
+
     <div class="dropdown">
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
             Filter&nbsp;&nbsp;Tahap&nbsp;&nbsp;<span class="caret"></span>
@@ -23,7 +25,11 @@
             <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'tahap_2']) }}">Lolos Tahap 2</a></li>
         </ul>
     </div>
-    <a href="{{ route('unduh.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
+
+    filter : @if($fakultas!='semua_fakultas') Fakultas @endif {{ ucwords(str_replace('_',' ',$fakultas)) }} | @if($lolos == 'semua') Semua Tahap @else {{ ucwords(str_replace('_',' ',$lolos)) }} @endif
+    <br>
+    <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
+
     <ul>
         @foreach($proposal as $item)
             @if($lolos != 'semua')

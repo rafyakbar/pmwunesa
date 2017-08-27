@@ -105,4 +105,10 @@ class SuperAdminController extends Controller
         return ExcelExport::unduhProposal((is_null($fakultas)) ? $fakultas : $fakultas->id, $request->lolos);
     }
 
+    public function unduhPengguna(Request $request)
+    {
+        $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
+        return ExcelExport::unduhDaftarPengguna($nama_fakultas, $request->role);
+    }
+
 }
