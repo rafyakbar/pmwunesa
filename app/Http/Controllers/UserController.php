@@ -67,12 +67,11 @@ class UserController extends Controller
                 return back()->withErrors([
                     'pbaru' => 'Password tidak sama !'
                 ]);
-            }
-            elseif ($request->pbaru == Auth::user()->password){
+            } elseif ($request->pbaru == Auth::user()->password) {
                 return back()->withErrors([
                     'pbaru' => 'Password tidak boleh sama dengan yang lama !'
                 ]);
-            }else {
+            } else {
                 $user = User::find(Auth::user()->id);
                 $user->password = Hash::make($request->pbaru);
                 $user->save();
@@ -94,18 +93,7 @@ class UserController extends Controller
             'request' => true
         ]);
 
-//        event(new UserTerdaftar($user));
-
-        foreach ($request->hakakses as $value) {
-            if ($value == 'Anggota') {
-                Mahasiswa::create([
-                    'id_pengguna' => $request->id
-                ]);
-            }
-            User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama', $value)->first(), ['status_request' => RequestStatus::APPROVED]);
-        }
-
-        Mail::to($request->email)->send(new RegisterMail(User::find($request->id), $password));
+        event(new UserTerdaftar($user, $request->hakakses, $password));
 
         return back();
     }

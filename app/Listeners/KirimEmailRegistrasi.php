@@ -9,15 +9,6 @@ use Illuminate\Support\Facades\Mail;
 
 class KirimEmailRegistrasi
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Handle the event.
@@ -29,6 +20,7 @@ class KirimEmailRegistrasi
     {
         $user = $event->user;
 
-        // Mail::to($user->email)->send(new RegisterMail($user, $this->generatedPassword));
+        // Mail::to($user->email)->send(new RegisterMail($user, $event->password));
     }
+
 }

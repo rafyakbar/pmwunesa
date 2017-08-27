@@ -15,16 +15,32 @@ class UserTerdaftar
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @var User
+     */
     public $user;
+
+    /**
+     * @var array
+     */
+    public $hakAkses;
+
+    /**
+     * @var string
+     */
+    public $password;
 
     /**
      * Create a new event instance.
      *
      * @param User $user
+     * @param array $hakAkses
      */
-    public function __construct(User $user)
+    public function __construct(User $user, array $hakAkses = [], $password)
     {
         $this->user = $user;
+        $this->hakAkses = $hakAkses;
+        $this->password = $password;
     }
 
     /**

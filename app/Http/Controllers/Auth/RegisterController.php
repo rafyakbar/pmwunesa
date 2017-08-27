@@ -35,7 +35,6 @@ class RegisterController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -53,8 +52,6 @@ class RegisterController extends Controller
 
         Session::flash('message','Berhasil Mendaftar !');
 
-        return $user;
-
         return back();
     }
 
@@ -63,12 +60,12 @@ class RegisterController extends Controller
      * yang akan diterima
      *
      * @param Request $request
-     * @param Pengguna $user
+     * @param User $user
      * @return void
      */
     protected function registered(Request $request, $user)
     {
-        event(new UserTerdaftar($user));
+        event(new UserTerdaftar($user, $password = $this->generatedPassword));
     }
 
     /**
@@ -89,7 +86,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return void
+     * @return User
      */
     protected function create(array $data)
     {
