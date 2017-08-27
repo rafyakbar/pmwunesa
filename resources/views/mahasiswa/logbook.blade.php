@@ -32,7 +32,9 @@
         @endif
 
         @if(Auth::user()->mahasiswa()->proposal()->logbook()->count() > 0)
-            @include('mahasiswa.part.daftar_logbook')
+            @include('mahasiswa.part.daftar_logbook', [
+                'daftarlogbook' => $daftarlogbook
+            ])
         @endif
 
             @else

@@ -100,8 +100,12 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'biaya' => [
+            'required' => 'Biaya tidak boleh kosong',
+            'numeric' => 'Biaya hanya berisi nominal'
+        ],
+        'catatan' => [
+            'required' => 'Catatan tidak boleh kosong',
         ],
     ],
 

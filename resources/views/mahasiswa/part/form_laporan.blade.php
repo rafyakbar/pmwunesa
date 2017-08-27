@@ -1,5 +1,5 @@
 @if(is_null(Auth::user()->mahasiswa()->proposal()->laporan($type)))
-    <p class="alert alert-primary">Tim anda belum mengunggah laporan kemajuan</p>
+    <p class="alert alert-primary">Tim anda belum mengunggah laporan {{ $type }}</p>
 
     @if(Auth::user()->isKetua())
         <h4>Unggah Laporan {{ $type === 'kemajuan' ? 'Kemajuan' : 'Akhir' }}</h4>
@@ -57,10 +57,11 @@
         <textarea name="keterangan" class="form-control" placeholder="Keterangan">{{ Auth::user()->mahasiswa()->proposal()->laporan($type)->keterangan }}</textarea>
 
         <div class="form-group">
-            <div class="btn-group">
+            <div class="btn-group btn-group-sm">
                 <button class="btn btn-primary">Pilih Berkas Laporan <input type="file"
                                                                             name="berkas"></button>
                 <button class="btn btn-success" type="submit">Unggah</button>
+                <button class="btn btn-warning" onclick="$('#form-{{ $type === 'kemajuan' ? 'kemajuan' : 'akhir' }}').hide()" type="button">Batal</button>
             </div>
         </div>
 

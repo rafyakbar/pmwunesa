@@ -1,14 +1,15 @@
 <?php
 
-Route::get('proposal',[
-    'uses' => 'Page\PageController@proposalDetail',
-    'as' => 'proposal'
-]);
-
-Route::get('logbook', function () {
-    setlocale(LC_TIME, 'Indonesian');
-    return view('mahasiswa.daftarlogbook');
-})->name('logbook');
+Route::namespace('Page')->group(function() {
+    Route::get('proposal', [
+        'uses' => 'PageController@proposalDetail',
+        'as' => 'proposal'
+    ]);
+    Route::get('logbook', [
+        'uses' => 'MahasiswaController@logbook',
+        'as' => 'logbook'
+    ]);
+});
 
 Route::get('proposal/final', function () {
     return view('mahasiswa.proposalfinal');

@@ -31,7 +31,7 @@
                             <strong>Prodi</strong>
                         </div>
                         <div class="col-lg-8">
-                            {{-- {{ Auth::user()->mahasiswa()->proposal()->pembimbing()->prodi()->nama }} --}}
+                            {{ Auth::user()->mahasiswa()->proposal()->pembimbing()->prodi()->nama }}, Jurusan {{ Auth::user()->mahasiswa()->proposal()->pembimbing()->prodi()->jurusan()->nama }}, Fakultas {{ Auth::user()->mahasiswa()->proposal()->pembimbing()->prodi()->jurusan()->fakultas()->nama }}
                         </div>
                     </div>
                     <div class="row">
