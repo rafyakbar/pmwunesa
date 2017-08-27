@@ -4,7 +4,7 @@ Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('p
 
 Route::group(['prefix' => 'daftar'], function (){
 
-    Route::get('pengguna', [
+    Route::get('pengguna/{fakultas}/{role}', [
         'uses'  => 'Page\SuperAdminController@tampilDataPengguna',
         'as'    => 'daftar.pengguna'
     ]);
@@ -24,7 +24,7 @@ Route::group(['prefix' => 'daftar'], function (){
         'as'    => 'daftar.prodi'
     ]);
 
-    Route::get('proposal', [
+    Route::get('proposal/{fakultas}/{lolos}', [
         'uses'  => 'Page\SuperAdminController@tampilDataProposal',
         'as'    => 'daftar.proposal'
     ]);
@@ -144,3 +144,13 @@ Route::group(['prefix' => 'edit'], function (){
     ]);
 
 });
+
+Route::group(['prefix' => 'unduh'], function (){
+
+    Route::get('proposal/{fakultas}/{lolos}', [
+        'uses'  => 'Page\SuperAdminController@unduhProposal',
+        'as'    => 'unduh.proposal'
+    ]);
+
+});
+

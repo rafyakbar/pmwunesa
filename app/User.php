@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use PMW\Models\Fakultas;
 use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,7 @@ class User extends Authenticatable
 
     public function prodi()
     {
-        return $this->belongsTo('PMW\Models\Prodi','id_prodi')->first();
+        return $this->belongsTo('PMW\Models\Prodi', 'id_prodi')->first();
     }
 
     /**
@@ -63,7 +64,7 @@ class User extends Authenticatable
      */
     public function hakAksesPengguna($hakAkses = null)
     {
-        if(!is_null($hakAkses)) {
+        if (!is_null($hakAkses)) {
             return $this->belongsToMany(
                 'PMW\Models\HakAkses',
                 'hak_akses_pengguna',
@@ -89,9 +90,9 @@ class User extends Authenticatable
     public function hakAksesDitolak($hakAkses)
     {
         return ($this->hakAksesPengguna()
-            ->where('id_hak_akses',$hakAkses->id)
-            ->where('status_request',RequestStatus::REJECTED)
-            ->count() > 0);
+                ->where('id_hak_akses', $hakAkses->id)
+                ->where('status_request', RequestStatus::REJECTED)
+                ->count() > 0);
     }
 
     public function review()
@@ -132,8 +133,8 @@ class User extends Authenticatable
             'id_tim')
             ->withPivot('status_request');
 
-        if(!is_null($status))
-            $bimbingan = $bimbingan->wherePivot('status_request',$status);
+        if (!is_null($status))
+            $bimbingan = $bimbingan->wherePivot('status_request', $status);
 
         return $bimbingan;
     }
@@ -212,7 +213,7 @@ class User extends Authenticatable
 
     public function requestingHakAkses($hakAkses)
     {
-        return $this->hakAksesPengguna()->where('nama', $hakAkses)->wherePivot('status_request',RequestStatus::REQUESTING)->count() == 1;
+        return $this->hakAksesPengguna()->where('nama', $hakAkses)->wherePivot('status_request', RequestStatus::REQUESTING)->count() == 1;
     }
 
     public function bisaRequestHakAkses($role)
@@ -226,28 +227,28 @@ class User extends Authenticatable
         // Daftar undangan yang dikirim oleh user terkait
         $daftarUndangan = Auth::user()->mahasiswa()->undanganTimKetua()->pluck('id_anggota');
 
-        $eloquent = static::whereHas('hakAksesPengguna', function($query){
+        $eloquent = static::whereHas('hakAksesPengguna', function ($query) {
             $query->where('nama', HakAkses::ANGGOTA);
         })
-        ->whereHas('relasiMahasiswa', function($query){
-            $query->whereNull('id_proposal');
-        })
-        ->where('nama','LIKE','%' . $nama . '%')
-        ->where('id','!=', Auth::user()->id)
-        ->whereNotIn('id', $daftarUndangan)
-        ->get();
+            ->whereHas('relasiMahasiswa', function ($query) {
+                $query->whereNull('id_proposal');
+            })
+            ->where('nama', 'LIKE', '%' . $nama . '%')
+            ->where('id', '!=', Auth::user()->id)
+            ->whereNotIn('id', $daftarUndangan)
+            ->get();
 
         return $eloquent;
     }
 
     public static function cariDosenPembimbing($nama)
     {
-        $eloquent = static::whereHas('hakAksesPengguna', function($query){
-            $query->where('nama',HakAkses::DOSEN_PEMBIMBING)
-                ->where('status_request',RequestStatus::APPROVED);
+        $eloquent = static::whereHas('hakAksesPengguna', function ($query) {
+            $query->where('nama', HakAkses::DOSEN_PEMBIMBING)
+                ->where('status_request', RequestStatus::APPROVED);
         })
-        ->where('nama','LIKE','%' . $nama . '%')
-        ->get();
+            ->where('nama', 'LIKE', '%' . $nama . '%')
+            ->get();
 
         return $eloquent;
     }
@@ -258,6 +259,21 @@ class User extends Authenticatable
         $this->hakAksesPengguna()->detach(HakAkses::where('nama', HakAkses::ANGGOTA)->first());
         // menjadikan pengirim undangan sebagai ketua
         $this->hakAksesPengguna()->attach(HakAkses::where('nama', HakAkses::KETUA_TIM)->first(), ['status_request' => 'Approved']);
+    }
+
+    public static function perFakultas($nama_fakultas)
+    {
+        $idfakultas = Fakultas::where('nama', $nama_fakultas)->first()->id;
+        return DB::table('pengguna')
+            ->leftJoin(DB::raw('
+            (
+              SELECT prodi.id AS id_prodi, jurusan.id_fakultas
+              FROM prodi LEFT JOIN jurusan ON prodi.id_jurusan = jurusan.id
+            ) AS fk'
+            ), 'fk.id_prodi', '=', 'pengguna.id_prodi')
+            ->whereRaw('fk.id_fakultas = '.$idfakultas)
+            ->orderBy('nama')
+            ->get();
     }
 
 }

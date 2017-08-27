@@ -33,14 +33,14 @@
 </li>
 
 <li @if(Route::currentRouteName() === 'daftar.pengguna' ) class="active" @endif>
-    <a href="{{ route('daftar.pengguna') }}">
+    <a href="{{ route('daftar.pengguna', ['fakultas'=>'semua_fakultas', 'role' => 'semua_hak_akses']) }}">
         <i class="material-icons">library_books</i>
         <p>Pengguna</p>
     </a>
 </li>
 
 <li @if(Route::currentRouteName() === 'daftar.proposal' ) class="active" @endif>
-    <a href="{{ route('daftar.proposal') }}">
+    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua']) }}">
         <i class="material-icons">library_books</i>
         <p>Proposal</p>
     </a>
