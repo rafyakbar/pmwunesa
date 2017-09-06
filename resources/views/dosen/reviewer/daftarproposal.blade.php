@@ -20,7 +20,7 @@
                 <div class="nav-tabs-wrapper">
                     <ul class="nav nav-tabs" data-tabs="tabs">
                         <li {{ $tahap == 1 ? 'class=active' : '' }}>
-                            <a href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 1]) }}" data-toggle="tab"
+                            <a style="color:#fff !important;" href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 1]) }}" data-toggle="tab"
                                aria-expanded="true"
                                onclick="window.location.href = '{{ route('daftar.proposal.reviewer',[ 'tahap' => 1]) }}'">
                                 Tahap 1
@@ -28,7 +28,7 @@
                             </a>
                         </li>
                         <li {{ $tahap == 2 ? 'class=active' : '' }}>
-                            <a href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 2]) }}" data-toggle="tab"
+                            <a style="color:#fff !important;" href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 2]) }}" data-toggle="tab"
                                aria-expanded="true"
                                onclick="window.location.href = '{{ route('daftar.proposal.reviewer',[ 'tahap' => 2]) }}'">
                                 Tahap 2
@@ -67,7 +67,6 @@
                                 <th>Judul proposal</th>
                                 <th class="hidden-sm hidden-xs">Jenis produk</th>
                                 <th class="hidden-sm hidden-xs">Usulan dana</th>
-                                <th class="hidden-sm hidden-xs">Status Nilai</th>
                                 <th class="hidden-sm hidden-xs">Aksi</th>
                             </tr>
                             </thead>
@@ -81,7 +80,6 @@
                                     </td>
                                     <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
                                     <td class="hidden-sm hidden-xs">{{ Dana::format($proposal->usulan_dana) }}</td>
-                                    <td class="hidden-sm hidden-xs">{{ $proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap) ? 'Sudah dinilai' : 'Belum dinilai' }}</td>
                                     <td class="hidden-sm hidden-xs">
                                         <div class="btn-group btn-group-sm">
                                             @if($proposal->sudahDinilaiOleh(Auth::user()->id,$proposal->pivot->tahap))

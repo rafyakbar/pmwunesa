@@ -49,13 +49,7 @@
                 <b>Informasi Review</b>
             </div>
             <div class="col-lg-8">
-                @if($proposal->lolos())
-                    <span>Proposal ini telah lolos</span>
-                @elseif($proposal->lolos(1))
-                    <span>Proposal ini telah lolos tahap 1</span>
-                @else
-                    <span>Proposal ini belum lolos</span>
-                @endif
+                {{ $proposal->statusPenilaian() }}
             </div>
         </div>
     </div>
@@ -65,8 +59,8 @@
             <div class="col-lg-2">
                 <b>Abstrak</b>
             </div>
-            <div class="col-lg-10">
-                <span>{!! $proposal->abstrak !!}</span>
+            <div class="col-lg-10" style="word-wrap: break-word">
+                {!! $proposal->abstrak !!}
             </div>
         </div>
     </div>

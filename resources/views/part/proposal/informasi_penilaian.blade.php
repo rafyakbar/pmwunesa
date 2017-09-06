@@ -8,7 +8,7 @@
                 <strong>Status</strong>
             </div>
             <div class="col-lg-7">
-                sfsdfdsf
+                {{ $proposal->statusPenilaian() }}
             </div>
         </div>
 

@@ -13,12 +13,14 @@
 
     <div class="sidebar-wrapper">
         <ul class="nav">
+            @if(!Auth::user()->isReviewer() && !Auth::user()->isDosenPembimbing())
             <li {{ Route::currentRouteName() === 'dashboard' ? 'class=active' : '' }}>
                 <a href="{{ route('dashboard') }}">
                     <i class="material-icons">dashboard</i>
                     <p>Dashboard</p>
                 </a>
             </li>
+            @endif
 
             @if (Auth::user()->isSuperAdmin())
 

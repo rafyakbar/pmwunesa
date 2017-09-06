@@ -17,14 +17,31 @@ class Pengaturan extends Model
         'updated_at'
     ];
 
+    public static function nilaiMinimumProposal()
+    {
+        return static::where(
+            'nama',
+            'Nilai minimum proposal')
+            ->first()
+            ->keterangan;
+    }
+
     public static function batasUnggahProposal()
     {
-        return static::where('nama', 'Batas pengumpulan proposal')->first()->keterangan;
+        return static::where(
+            'nama',
+            'Batas pengumpulan proposal')
+            ->first()
+            ->keterangan;
     }
 
     public static function batasPenilaian($tahap)
     {
-        return static::where('nama', 'Batas penilaian proposal tahap ' . $tahap)->first()->keterangan;
+        return static::where(
+            'nama',
+            'Batas penilaian proposal tahap ' . $tahap)
+            ->first()
+            ->keterangan;
     }
 
     public static function melewatiBatasUnggahProposal()

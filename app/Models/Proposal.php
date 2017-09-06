@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PMW\User;
-use PMW\Models\Laporan;
 use PMW\Support\RequestStatus;
 
 class Proposal extends Model
@@ -172,7 +171,7 @@ class Proposal extends Model
     public function lolos($tahap = 2)
     {
         if (!is_null($tahap)) {
-            if ($this->nilai($tahap) === 25)
+            if ($this->nilaiRataRata($tahap) === Pengaturan::nilaiMinimumProposal())
                 return true;
         }
 
@@ -203,7 +202,25 @@ class Proposal extends Model
     }
 
     /**
-     * Mengecek apakah proposal telah dinilai oleh user tertentu dan dalam
+     * Mendapatkan nilai rata-rata dari proposal pada tahap tertentu
+     *
+     * @param int $tahap
+     * @return float|int
+     */
+    public function nilaiRataRata($tahap = 1)
+    {
+        $jumlahReviewer = Review::where('id_proposal', $this->id)
+            ->where('tahap',$tahap)
+            ->count();
+
+        if($jumlahReviewer !== 0)
+            return ($this->nilai($tahap) / $jumlahReviewer);
+
+        return 0;
+    }
+
+    /**
+     * Mengecek apakah proposal telah dinilai oleh user tertentu pada
      * tahap tertentu
      *
      * @param $reviewer
@@ -234,8 +251,8 @@ class Proposal extends Model
     public function dalamProsesPenilaian($tahap = 2)
     {
         if (!is_null($this->daftarReview($tahap))) {
-            foreach ($this->daftarReview($tahap) as $penilaian){
-                if($penilaian->penilaian()->count() > 0)
+            foreach ($this->daftarReview($tahap)->cursor() as $review){
+                if($review->penilaian()->count() > 0)
                     return true;
             }
         }
@@ -264,7 +281,9 @@ class Proposal extends Model
     {
         $review = Review::find($idreview);
 
-        return $this->daftarReview($review->tahap)->first()->penilaian();
+        return $this->daftarReview($review->tahap)
+            ->first()
+            ->penilaian();
     }
 
     /**
@@ -276,6 +295,7 @@ class Proposal extends Model
     {
         if ($this->dalamProsesPenilaian(1) ||
             $this->dalamProsesPenilaian(2) ||
+            $this->lolos(1) ||
             $this->lolos())
             return true;
 
@@ -315,4 +335,39 @@ class Proposal extends Model
             WHERE hak_akses_pengguna.id_hak_akses = hakakses.id AND jurusan.id_fakultas = ".$idfakultas."
           ) AS ketua, mahasiswa"))->select(DB::raw('DISTINCT id_proposal AS id, judul, lolos, direktori, direktori_final, usulan_dana, abstrak, keyword, jenis_usaha, created_at, updated_at'))->whereRaw('mahasiswa.id_pengguna = ketua.id_ketua AND proposal.id=mahasiswa.id_proposal')->get();
     }
+
+    /**
+     * Mengecek status penilaian/kelolosan sebuah proposal
+     *
+     * @return string
+     */
+    public function statusPenilaian()
+    {
+        if($this->lolos(2)){
+            // jika lolos tahap 2
+            return 'Proposal Lolos';
+        }
+        elseif ($this->dalamProsesPenilaian(2)){
+            return 'Proposal dalam proses penilaian tahap 2';
+        }
+        else{
+            // jika lolos tahap 1 dan belum melewati batas penilaian tahap 2
+            if($this->lolos(1) && !Pengaturan::melewatiBatasPenilaian(2)){
+                return 'Lolos tahap 1';
+            }
+            // jika masih dalam tahap penilaian
+            elseif ($this->dalamProsesPenilaian(1)){
+                return 'Proposal dalam proses penilaian tahap 1';
+            }
+            // jika proposal belum dinilai
+            elseif (!Pengaturan::melewatiBatasPenilaian(1)){
+                return 'Proposal belum dinilai';
+            }
+            // jika proposal tidak lolos
+            else{
+                return 'Proposal tidak lolos';
+            }
+        }
+    }
+
 }

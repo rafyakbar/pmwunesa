@@ -2,6 +2,7 @@
 
 namespace PMW\Http\Controllers\Page;
 
+use Carbon\Carbon;
 use PMW\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Aspek;
@@ -18,29 +19,28 @@ class ReviewerController extends Controller
         if ($tahap < 1 || $tahap > 2)
             return abort(404);
 
+        $sudahDinilai = false;
+        $daftarReviewPengguna = Auth::user()->review()->pluck('review.id');
+        $reviewSudahDinilai = Penilaian::whereIn('id_review', $daftarReviewPengguna)
+            ->distinct()
+            ->pluck('id_review');
+
+        if(!is_null(request()->get('sudahdinilai')) && request()->get('sudahdinilai'))
+            $sudahDinilai = true;
+
+        if ($sudahDinilai)
+            $filtered = $reviewSudahDinilai;
+        else{
+            $filtered = Auth::user()->review()
+                ->whereNotIn('review.id', $reviewSudahDinilai)
+                ->pluck('review.id');
+        }
+
         $daftarProposal = Auth::user()->review()
             ->where('tahap', $tahap)
+            ->wherePivotIn('id', $filtered)
+            ->whereRaw('YEAR(proposal.created_at) = ' . Carbon::now()->year)
             ->paginate($this->perPage);
-
-        if (!is_null(request()->get('sudahdinilai'))) {
-            $daftarReviewPengguna = Auth::user()->review()->pluck('review.id');
-            $reviewSudahDinilai = Penilaian::whereIn('id_review', $daftarReviewPengguna)
-                ->distinct()
-                ->pluck('id_review');
-
-            $filtered = $reviewSudahDinilai;
-
-            if (!request()->get('sudahdinilai')) {
-                $filtered = Auth::user()->review()
-                    ->whereNotIn('review.id', $reviewSudahDinilai)
-                    ->pluck('review.id');
-            }
-
-            $daftarProposal = Auth::user()->review()
-                ->where('tahap', $tahap)
-                ->wherePivotIn('id', $filtered)
-                ->paginate($this->perPage);
-        }
 
         return view('dosen.reviewer.daftarproposal', [
             'daftarproposal' => $daftarProposal,

@@ -44,13 +44,18 @@
                                     <strong>{{ $proposal->judul }}</strong><sup><i
                                                 class="fa fa-external-link"></i></sup></a></td>
                             <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
-                            <td>{{ Dana::format($proposal->usulan_dana) }}</td>
+                            <td class="hidden-sm hidden-xs">{{ Dana::format($proposal->usulan_dana) }}</td>
                             <td class="hidden-sm hidden-xs">
-                                <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post">
+                                <form  style="display: inline" id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="id" value="{{ $proposal->id }}"/>
-                                    <button class="btn btn-primary btn-sm" type="submit">Unduh Proposal</button>
+                                    @if(!is_null($proposal->direktori))
+                                        <button class="btn btn-primary btn-sm" type="submit">Unduh Proposal</button>
+                                    @endif
                                 </form>
+                                @if($proposal->lolos())
+                                    <a href="{{ route('logbook.bimbingan', ['proposal' => $proposal->id]) }}" class="btn btn-primary btn-sm" type="submit">Lihat Logbook</a>
+                                @endif
                             </td>
                         </tr>
                         <tr class="expand">

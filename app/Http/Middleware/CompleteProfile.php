@@ -18,9 +18,9 @@ class CompleteProfile
     {
         if ((($request->user()->isMahasiswa() ||
                     $request->user()->isDosenPembimbing()) &&
-                empty($request->user()->id_prodi)) ||
+                is_null($request->user()->id_prodi)) ||
             ($request->user()->isReviewer() &&
-                empty($request->user()->nama))) {
+                is_null($request->user()->nama))) {
             Session::flash(
                 'message',
                 'Harap melengkapi profil anda terlebih dahulu !');

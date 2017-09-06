@@ -34,11 +34,18 @@ class PageController extends Controller
     {
         $proposal = Proposal::find($id);
 
-        return view('hasilreview', [
-            'review' => [
+        if(!is_null($proposal->daftarReview(1)) && !is_null($proposal->daftarReview(2))) {
+            $review = [
                 'tahap1' => $proposal->daftarReview(1)->whereNotNull('komentar'),
                 'tahap2' => $proposal->daftarReview(2)->WhereNotNull('komentar')
-            ],
+            ];
+        }
+        else{
+            $review = null;
+        }
+
+        return view('hasilreview', [
+            'review' => $review,
             'proposal' => $proposal
         ]);
     }

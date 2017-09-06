@@ -96,6 +96,7 @@
                             </div>
                         @endif
 
+                        @if(Auth::user()->isDosenPembimbing() || Auth::user()->isMahasiswa())
                         <div class="row">
                             <div class="col-lg-3">
                                 <label>Instansi</label>
@@ -138,6 +139,7 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
 
                         <div class="row">
                             <div class="col-lg-3"></div>

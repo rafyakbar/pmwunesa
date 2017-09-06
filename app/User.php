@@ -53,7 +53,10 @@ class User extends Authenticatable
 
     public function prodi()
     {
-        return $this->belongsTo('PMW\Models\Prodi', 'id_prodi')->first();
+        return $this->belongsTo(
+            'PMW\Models\Prodi',
+            'id_prodi')
+            ->first();
     }
 
     /**
@@ -97,7 +100,12 @@ class User extends Authenticatable
 
     public function review()
     {
-        return $this->belongsToMany('PMW\Models\Proposal', 'review', 'id_pengguna', 'id_proposal')->withPivot('tahap', 'komentar', 'id');
+        return $this->belongsToMany(
+            'PMW\Models\Proposal',
+            'review',
+            'id_pengguna',
+            'id_proposal')
+            ->withPivot('tahap', 'komentar', 'id');
     }
 
     /**
@@ -141,12 +149,14 @@ class User extends Authenticatable
 
     public function punyaUndanganBimbingan()
     {
-        return ($this->bimbingan(RequestStatus::REQUESTING)->count() > 0);
+        return ($this->bimbingan(RequestStatus::REQUESTING)
+                ->count() > 0);
     }
 
     public function punyaBimbingan()
     {
-        return ($this->bimbingan(RequestStatus::APPROVED)->count() > 0);
+        return ($this->bimbingan(RequestStatus::APPROVED)
+                ->count() > 0);
     }
 
     /**
@@ -213,7 +223,10 @@ class User extends Authenticatable
 
     public function requestingHakAkses($hakAkses)
     {
-        return $this->hakAksesPengguna()->where('nama', $hakAkses)->wherePivot('status_request', RequestStatus::REQUESTING)->count() == 1;
+        return ($this->hakAksesPengguna()
+                ->where('nama', $hakAkses)
+                ->wherePivot('status_request', RequestStatus::REQUESTING)
+                ->count() == 1);
     }
 
     public function bisaRequestHakAkses($role)
@@ -223,7 +236,6 @@ class User extends Authenticatable
 
     public static function cariMahasiswaUntukUndanganTim($nama)
     {
-
         // Daftar undangan yang dikirim oleh user terkait
         $daftarUndangan = Auth::user()->mahasiswa()->undanganTimKetua()->pluck('id_anggota');
 
@@ -235,6 +247,7 @@ class User extends Authenticatable
             })
             ->where('nama', 'LIKE', '%' . $nama . '%')
             ->where('id', '!=', Auth::user()->id)
+            ->whereNotNull('id_prodi')
             ->whereNotIn('id', $daftarUndangan)
             ->get();
 

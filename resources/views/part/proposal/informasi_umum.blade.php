@@ -43,7 +43,11 @@
             <hr style="margin: 5px"/>
             <ol style="padding: 10px">
                 @foreach ($anggota->cursor() as $value)
-                    <li>{{ $value->pengguna()->nama }} {!! $value->pengguna()->nama == $ketua->nama ? '<b>(Ketua)</b>' : '' !!}</li>
+                    <li>
+                        {{ $value->pengguna()->nama }} {!! $value->pengguna()->nama == $ketua->nama ? '<b>(Ketua)</b>' : '' !!}<br/>
+                        {{ $value->pengguna()->id }}<br/>
+                        {{ !is_null($value->pengguna()->prodi()) ? $value->pengguna()->prodi()->nama : '' }}
+                    </li>
                 @endforeach
             </ol>
         @endif

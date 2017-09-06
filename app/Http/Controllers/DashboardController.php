@@ -37,15 +37,17 @@ class DashboardController extends Controller
 
     public function reviewer()
     {
-        return view('dosen.reviewer.dashboard');
+        return redirect()->route('daftar.proposal.reviewer');
     }
 
     public function dosen()
     {
-        return view('dosen.dashboard',[
-            'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING),
-            'bimbingan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::APPROVED)
-        ]);
+        return redirect()->route('bimbingan');
+
+//        return view('dosen.dashboard',[
+//            'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING),
+//            'bimbingan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::APPROVED)
+//        ]);
     }
 
     public function adminFakultas()
