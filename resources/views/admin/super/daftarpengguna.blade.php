@@ -32,6 +32,9 @@
         </ul>
     </div>
 
+    filter : @if($fakultas!='semua_fakultas') Fakultas @endif {{ ucwords(str_replace('_',' ',$fakultas)) }} | @if($role == 'semua') Semua Hak Akses @else {{ ucwords(str_replace('_',' ',$role)) }} @endif
+    <br>
+
     <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role]) }}" class="btn btn-primary">Unduh Daftar Pengguna</a>
 
     <ul>
