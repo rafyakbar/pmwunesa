@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use PMW\Models\Fakultas;
 use PMW\Models\HakAkses;
 use PMW\Mail\RegisterMail;
+use PMW\Models\Jurusan;
 use PMW\Models\Mahasiswa;
+use PMW\Models\Prodi;
 use PMW\Support\RequestStatus;
 use PMW\User;
 use PMW\Events\UserTerdaftar;
@@ -90,6 +93,7 @@ class UserController extends Controller
             'id' => $request->id,
             'email' => $request->email,
             'password' => bcrypt($password),
+            'id_prodi' => (in_array('Admin Fakultas',$request->hakakses))?Prodi::where('id_jurusan','=',Jurusan::where('id_fakultas','=',$request->idfakultas)->first()->id)->first()->id:'',
             'request' => true
         ]);
 

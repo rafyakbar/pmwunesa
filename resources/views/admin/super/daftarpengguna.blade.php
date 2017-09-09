@@ -111,7 +111,12 @@
         <label>Hak akses</label><br>
         <input type="checkbox" name="hakakses[]" value="Super Admin"> Super Admin<br>
         <input type="checkbox" name="hakakses[]" value="Admin Universitas"> Admin Universitas<br>
-        <input type="checkbox" name="hakakses[]" value="Admin Fakultas"> Admin Fakultas<br>
+        <input type="checkbox" name="hakakses[]" value="Admin Fakultas"> Admin Fakultas
+        <select name="idfakultas">
+            @foreach($daftar_fakultas as $item)
+                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+            @endforeach
+        </select><br>
         <input type="checkbox" name="hakakses[]" value="Reviewer"> Reviewer<br>
         <input type="checkbox" name="hakakses[]" value="Dosen Pembimbing"> Dosen Pembimbing<br>
         <input type="checkbox" name="hakakses[]" value="Anggota"> Mahasiswa<br>
