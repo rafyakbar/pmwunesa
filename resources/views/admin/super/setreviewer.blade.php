@@ -41,34 +41,36 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-lg-6">
-                    <h5>Tahap 2</h5>
-                    <form action="{{ route('edit.reviewer',['idproposal' => $proposal->id]) }}" method="post" id="kelolatahap2">
-                        {{ csrf_field() }}
-                        {{ method_field('patch') }}
-                        <input type="hidden" name="tahap" value="2"/>
-                        <input type="hidden" name="daftar_pengguna" value="{{ implode(',', $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) }}" id="tahap2"/>
-                        <div class="chooser">
-                            @foreach ($oldreviewer['tahap2']->get() as $reviewer)
-                                <div class="choosed" data-index="{{ $reviewer->id }}">
-                                    <span>{{ $reviewer->nama }}</span>
-                                    <i class="fa fa-close close"></i>
+                @if(\PMW\Models\Proposal::find($proposal->id)->lolos(1))
+                    <div class="col-lg-6">
+                        <h5>Tahap 2</h5>
+                        <form action="{{ route('edit.reviewer',['idproposal' => $proposal->id]) }}" method="post" id="kelolatahap2">
+                            {{ csrf_field() }}
+                            {{ method_field('patch') }}
+                            <input type="hidden" name="tahap" value="2"/>
+                            <input type="hidden" name="daftar_pengguna" value="{{ implode(',', $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) }}" id="tahap2"/>
+                            <div class="chooser">
+                                @foreach ($oldreviewer['tahap2']->get() as $reviewer)
+                                    <div class="choosed" data-index="{{ $reviewer->id }}">
+                                        <span>{{ $reviewer->nama }}</span>
+                                        <i class="fa fa-close close"></i>
+                                    </div>
+                                @endforeach
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>Pilih Reviewer</span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" data-target="#tahap2">
+                                        <input type="text" class="form-control"/>
+                                        @foreach ($daftarreviewer as $reviewer)
+                                            <li data-id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            @endforeach
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span>Pilih Reviewer</span> <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" data-target="#tahap2">
-                                    <input type="text" class="form-control"/>
-                                    @foreach ($daftarreviewer as $reviewer)
-                                        <li data-id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
-                                    @endforeach
-                                </ul>
                             </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                @endif
             </div>
 
             <div class="row">
@@ -93,8 +95,16 @@
 
         $('#kelolatahap1').ajaxForm({
             success : function(response){
-                console.log('hello')
-                $('#kelolatahap2').submit()
+                @if(\PMW\Models\Proposal::find($proposal->id)->lolos(1))
+                    $('#kelolatahap2').submit()
+                @else
+                swal({
+                    title : 'Berhasil !',
+                    text : 'Anda baru saja memperbarui reviewer !',
+                    type : 'success'},function(){
+                    window.history.back()
+                })
+                @endif
             }
         })
 
@@ -143,7 +153,8 @@
             var target = $(dropdown.attr('data-target'))
             li.show()
             var val = target.val().split(',')
-            val.splice(val.indexOf(li.attr('id')),1)
+            console.log(val)
+            val.splice(val.indexOf(li.attr('data-id')),1)
             target.val(val)
             console.log(val)
             $(this).parent().remove()
