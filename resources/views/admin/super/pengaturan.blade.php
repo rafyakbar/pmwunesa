@@ -6,32 +6,55 @@
         <form>
             <input type="hidden" value="{{ $item->id }}">
             <input type="text" value="{{ $item->keterangan }}">
-            <input type="submit" name="submit" value="simpan">
+            <input type="submit" name="submit" value="simpan" class="btn btn-primary">
         </form>
         <p>Terakhir diubah pada {{ $item->updated_at }}</p>
         <br><br>
     @endforeach
 
-    <h3>Daftar aspek</h3>
+    <div class="card">
+        <div class="card-header" data-background-color="blue">
+            <h3>Daftar aspek</h3>
+        </div>
+        <div class="card-content">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>No.</td>
+                    <td>Nama Aspek</td>
+                    <td>Aksi</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($aspek as $item)
+                    <tr>
+                        <td>
+                            {{ $item->id }}
+                        </td>
+                        <form action="{{ route('edit.aspek') }}" method="post">
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
+                                <input type="hidden" name="id" value="{{ $item->id }}">
+                            <td>
+                                <input name="nama" value="{{ $item->nama }}">
+                            </td>
+                            <td>
+                                <input type="submit" name="submit" value="simpan" class="btn btn-primary">
+                        </form>
+                        <form action="{{ route('hapus.aspek') }}" method="post">
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
+                                <input type="hidden" name="id" value="{{ $item->id }}">
+                                <input type="submit" name="submit" value="hapus" class="btn btn-danger">
+                            </td>
+                        </form>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
     <ul>
-        @foreach($aspek as $item)
-            <li>
-                id={{ $item->id }}
-                <form action="{{ route('edit.aspek') }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
-                    <input type="hidden" name="id" value="{{ $item->id }}">
-                    <input name="nama" value="{{ $item->nama }}">
-                    <input type="submit" name="submit" value="simpan">
-                </form>
-                <form action="{{ route('hapus.aspek') }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
-                    <input type="hidden" name="id" value="{{ $item->id }}">
-                    <input type="submit" name="submit" value="hapus">
-                </form>
-            </li>
-        @endforeach
     </ul>
     <br>
     <br>
