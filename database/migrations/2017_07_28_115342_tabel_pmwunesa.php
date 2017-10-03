@@ -93,7 +93,7 @@ class TabelPMWUNESA extends Migration
         });
 
         Schema::create('mahasiswa', function (Blueprint $table){
-            $table->string('id_pengguna',25);
+            $table->string('id_pengguna',25)->unique();
             $table->foreign('id_pengguna')
                 ->references('id')
                 ->on('pengguna')
