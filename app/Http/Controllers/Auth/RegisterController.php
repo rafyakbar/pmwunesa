@@ -63,9 +63,9 @@ class RegisterController extends Controller
      * @param User $user
      * @return void
      */
-    protected function registered(Request $request, $user)
+    protected function registered(Request $request, $user) 
     {
-        event(new UserTerdaftar($user, $password = $this->generatedPassword));
+        event(new UserTerdaftar($user, [], $this->generatedPassword));
     }
 
     /**
