@@ -20,7 +20,7 @@ class KirimEmailRegistrasi
     {
         $user = $event->user;
 
-        // Mail::to($user->email)->send(new RegisterMail($user, $event->password));
+        Mail::to($user->email)->send(new RegisterMail($user, $event->password));
     }
 
 }
