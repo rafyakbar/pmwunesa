@@ -99,7 +99,7 @@
             <div id="lupapass" class="tab-pane fade">
                 <div class="panel-default login-panel panel">
                     <div class="panel-body">
-                        <form role="form" action="/pmw/login.php" method="post">
+                        <form role="form" action="{{ route('reset.password') }}" method="post">
                             <fieldset>
                                 <div class="form-group">
                                     <label style="color: #111111">Email</label>

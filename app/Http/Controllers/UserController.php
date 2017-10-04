@@ -16,6 +16,7 @@ use PMW\Models\Prodi;
 use PMW\Support\RequestStatus;
 use PMW\User;
 use PMW\Events\UserTerdaftar;
+use PMW\Mail\PasswordResetMail;
 
 class UserController extends Controller
 {
@@ -149,6 +150,23 @@ class UserController extends Controller
         $nama = $request->nama;
 
         return User::cari('nama', $nama, HakAkses::REVIEWER);
+    }
+
+    public function resetPassword(Request $request)
+    {
+
+        $this->validate($request, [
+            'email' => 'required|email|exists:pengguna,email'
+        ]);
+
+        $email = $request->email;
+
+        $password = str_random(10);
+        $user = User::where('email', $email)->first();
+
+        Mail::to($email)->send(new PasswordResetMail($user, $password));
+
+        return 'Berhasil melakukan reset password. Silahkan cek email';
     }
 
 }

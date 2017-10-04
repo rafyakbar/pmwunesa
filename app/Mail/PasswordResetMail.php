@@ -11,14 +11,19 @@ class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $user;
+
+    private $password;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user, $password)
     {
-        //
+        $this->user = $user;
+        $this->password = $password;
     }
 
     /**
@@ -28,6 +33,9 @@ class PasswordResetMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('mail.passwordreset', [
+            'user' => $this->user,
+            'password' => $this->password
+        ]);
     }
 }

@@ -122,9 +122,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 });
 
-/*
-|---------------------------------------------
-| Autentikasi bawaan dari Laravel
-|---------------------------------------------
-*/
-Auth::routes();
+// Authentication Routes...
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', 'Auth\LoginController@login');
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+$this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+$this->post('register', 'Auth\RegisterController@register');
+
+Route::post('reset/password', [
+    'uses' => 'UserController@resetPassword',
+    'as' => 'reset.password'
+]);

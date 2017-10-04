@@ -245,7 +245,7 @@ class User extends Authenticatable
             ->whereHas('relasiMahasiswa', function ($query) {
                 $query->whereNull('id_proposal');
             })
-            ->where('nama', 'LIKE', '%' . $nama . '%')
+            ->where('nama', 'LIKE', '%' . strtolowe($nama) . '%')
             ->where('id', '!=', Auth::user()->id)
             ->whereNotNull('id_prodi')
             ->whereNotIn('id', $daftarUndangan)

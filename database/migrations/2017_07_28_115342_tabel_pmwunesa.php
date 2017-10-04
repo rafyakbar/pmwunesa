@@ -131,12 +131,13 @@ class TabelPMWUNESA extends Migration
                 ->on('pengguna')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->bigInteger('id_proposal')->unsigned();
-            $table->foreign('id_proposal')
+            $table->bigInteger('id_tim')->unsigned();
+            $table->foreign('id_tim')
                 ->references('id')
                 ->on('proposal')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table->string('status_request');
         });
 
         Schema::create('review', function (Blueprint $table) {
