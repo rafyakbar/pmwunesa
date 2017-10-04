@@ -9,12 +9,12 @@
                 </div>
                 <div class="card-content">
                     <p class="category">Kapasitas database</p>
-                    <h3 class="title">{{ $database[0]->ukuran }} <small>KB</small>
+                    <h3 class="title"> <small>KB</small>
                     </h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
-                        <a>Kapasitas dari database {{ $database[0]->nama }}</a>
+                        <a>Kapasitas dari database </a>
                     </div>
                 </div>
             </div>

@@ -62,16 +62,7 @@ class DashboardController extends Controller
 
     public function superAdmin()
     {
-        return view('admin.super.dashboard',[
-            'database'  => DB::select('
-              SELECT
-                table_schema                                     AS "nama",
-                Round(Sum(data_length + index_length) / 1024, 1) AS "ukuran"
-              FROM information_schema.tables
-              WHERE table_schema = \'pmwunesa\'
-              GROUP BY table_schema;
-            ')
-        ]);
+        return view('admin.super.dashboard');
     }
 
     public function tanpaHakAkses()
