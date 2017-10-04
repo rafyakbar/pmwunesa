@@ -6,6 +6,7 @@
 @section('content')
 
     @if(Auth::user()->mahasiswa()->punyaTim())
+        @if(Auth::user()->mahasiswa()->punyaProposal())
         @if(Auth::user()->mahasiswa()->proposal()->lolos())
 
             <div class="card" id="logbook-header" style="{{ $errors->count() > 0 ? 'display:none' : '' }}">
@@ -47,6 +48,13 @@
 
             </div>
 
+        @endif
+        @else
+            <div class="card">
+                <div class="card-content">
+                    <p class="alert alert-primary">Tim anda belum mengunggah proposal</p>
+                </div>
+            </div>
         @endif
 
 

@@ -34,7 +34,10 @@ class MahasiswaController extends Controller
 
     public function logbook()
     {
-        $logbook = Auth::user()->mahasiswa()->proposal()->logbook()->paginate(3);
+        $logbook = [];
+        
+        if(Auth::user()->mahasiswa()->punyaProposal() && Auth::user()->mahasiswa()->proposal()->lolos())
+            $logbook = Auth::user()->mahasiswa()->proposal()->logbook()->paginate(15);
 
         return view('mahasiswa.logbook',[
            'daftarlogbook' => $logbook
