@@ -163,7 +163,7 @@ class UserController extends Controller
 
         $password = str_random(10);
         $user = User::where('email', $email)->first();
-        $user->password = Hash::make($request->pbaru);
+        $user->password = Hash::make($password);
         $user->save();
 
         Mail::to($email)->send(new PasswordResetMail($user, $password));
