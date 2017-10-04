@@ -6,6 +6,7 @@ use PMW\Events\UserTerdaftar;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
+use PMW\Mail\RegisterMail;
 
 class KirimEmailRegistrasi
 {
