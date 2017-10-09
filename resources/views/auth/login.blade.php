@@ -9,10 +9,10 @@
 </div>
 <div class="row" style="margin-top: 30px">
     <div class="col-md-6 col-md-offset-3">
-        <ul class="nav nav-tabs " style="background-color: #FFFFFF; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-left: 0;">
-            <li class="active"><a data-toggle="tab" href="#login" aria-expanded="true">Login</a></li>
-            <li class=""><a data-toggle="tab" href="#daftar" aria-expanded="false">Daftar</a></li>
-            <li class=""><a data-toggle="tab" href="#lupapass" aria-expanded="false">Reset Password</a></li>
+        <ul class="nav nav-tabs " style="background-color: #fff; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-left: 0;">
+            <li class="active bg-secondary" style="background-color: #78c8ff;"><a data-toggle="tab" href="#login" aria-expanded="true" style="color: #fff">Login</a></li>
+            <li class="bg-secondary" style="background-color: #78c8ff;"><a data-toggle="tab" href="#daftar" aria-expanded="false" style="color: #fff">Daftar</a></li>
+            <li class="bg-secondary" style="background-color: #78c8ff;"><a data-toggle="tab" href="#lupapass" aria-expanded="false" style="color: #fff">Reset Password</a></li>
         </ul>
         <div class="tab-content bg">
             <div id="login" class="tab-pane fade active in">
@@ -25,7 +25,7 @@
                                     <label style="color: #111111">NIM/NIP</label>
                                     <input required="" class="form-control nim" placeholder="NIM/NIP" name="id" id="id" type="text" autocomplete="on" value="{{old('id')}}" required autofocus>
                                     @if ($errors->has('id'))
-                                    <span class="help-block">
+                                    <span class="text-danger">
                                         <strong>{{ $errors->first('id') }}</strong>
                                     </span>
                                     @endif
@@ -35,7 +35,7 @@
                                     <input name="form" type="hidden" value="login">
                                     <input required class="form-control" placeholder="Password" name="password" type="password" id="password">
                                     @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <span class="text-danger">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                     @endif
@@ -72,7 +72,7 @@
                                     <label style="color: #111111">NIM/NIP</label>
                                     <input class="form-control nim" placeholder="NIM/NIP" name="id" id="id" type="text" value="{{ old('id') }}" required autofocus autocomplete="on">
                                     @if ($errors->has('id'))
-                                    <span class="help-block">
+                                    <span class="text-danger">
                                         <strong>{{ $errors->first('id') }}</strong>
                                     </span>
                                 @endif
@@ -81,7 +81,7 @@
                                     <label style="color: #111111">Email</label>
                                     <input class="form-control" placeholder="Email" name="email" type="email" value="{{ old('email') }}" required autocomplete="on">
                                     @if ($errors->has('email'))
-                                    <span class="help-block">
+                                    <span class="text-danger">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                     @endif
