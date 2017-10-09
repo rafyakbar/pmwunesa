@@ -23,14 +23,14 @@ class UserController extends Controller
 
     public function editProfil(Request $request)
     {
-        if (Auth::user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA])) {
+        if (Auth::user()->isMahasiswa()) {
             $this->validate($request, [
                 'nama' => 'required',
                 'id_prodi' => 'required|numeric',
                 'alamat_asal' => 'required',
                 'alamat_tinggal' => 'required',
                 'no_telepon' => 'required|numeric',
-                'ipk' => 'required'
+                'ipk' => 'required|integer'
             ]);
         } else {
             $this->validate($request, [
@@ -50,13 +50,16 @@ class UserController extends Controller
             'no_telepon' => $request->no_telepon
         ]);
 
-        if (Auth::user()->hasAnyRole([HakAkses::KETUA_TIM, HakAkses::ANGGOTA])) {
+        // Jika user adalah mahasiswa, maka perlu melakukan update
+        // nilai ipknya
+        if (Auth::user()->isMahasiswa()) {
             Auth::user()->mahasiswa()->update([
                 'ipk' => $request->ipk
             ]);
         }
 
         Session::flash('message', 'Berhasil mengubah profil !');
+
         return back();
     }
 

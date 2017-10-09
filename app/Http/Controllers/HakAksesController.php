@@ -4,6 +4,7 @@ namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
 use PMW\User;
@@ -13,14 +14,14 @@ class HakAksesController extends Controller
 
     public function requestReviewer()
     {
-        $reviewer = HakAkses::where('nama',HakAkses::REVIEWER)->first();
+        $reviewer = HakAkses::where('nama', HakAkses::REVIEWER)->first();
 
         return $this->requestHakAkses($reviewer);
     }
 
     public function requestDosenPembimbing()
     {
-        $pembimbing = HakAkses::where('nama',HakAkses::DOSEN_PEMBIMBING)->first();
+        $pembimbing = HakAkses::where('nama', HakAkses::DOSEN_PEMBIMBING)->first();
 
         return $this->requestHakAkses($pembimbing);
     }
@@ -40,20 +41,25 @@ class HakAksesController extends Controller
             // Jika request pernah di tolak, maka cukup melakukan
             // update pada tabel dengan mengubah status request
             if ($pengguna->hakAksesDitolak($hakAkses)) {
-                $pengguna->hakAksesPengguna()
-                    ->detach($hakAkses);
-                $pengguna->hakAksesPengguna()
-                    ->attach($hakAkses);
+                $pengguna->hakAksesPengguna()->updateExistingivot($hakAkses->id ,[
+                    'status_request' => RequestStatus::REQUESTING
+                ]);
             } else {
                 $pengguna->hakAksesPengguna()->attach($hakAkses, [
                     'status_request' => RequestStatus::REQUESTING
                 ]);
             }
+
+            Session::flash('message', 'Berhasil melakukan request hak akses !');
+            Session::flash('error', false);
+
+            return back();
         }
-        return response()->json([
-            'message' => 'Gagal !',
-            'error' => 1
-        ]);
+
+        Session::flash('message', 'Gagal melakukan request hak akses !');
+        Session::flash('error', true);
+
+        return back();
     }
 
     public function terimaRequest(Request $request)

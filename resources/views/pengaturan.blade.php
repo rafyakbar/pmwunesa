@@ -89,7 +89,7 @@
                                     <label for="ipk">IPK</label>
                                 </div>
                                 <div class="col-lg-9">
-                                    <input type="number" min="0" max="4" name="ipk"
+                                    <input type="text" name="ipk"
                                            value="{{ $errors->has('ipk') ? old('ipk') : Auth::user()->mahasiswa()->ipk }}"
                                            class="form-control" placeholder="IPK"/>
                                 </div>

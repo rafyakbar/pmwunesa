@@ -29,11 +29,8 @@ trait FileHandler
      */
     private function berkasValid($berkas)
     {
-        // memecah nama dari berkas
-        $berkas = explode('.', $berkas->getClientOriginalName());
-
         // mengambil ekstensi berkas
-        $formatBerkas = $berkas[count($berkas) - 1];
+        $formatBerkas = $berkas->getClientOriginalExtension();
 
         if (is_array($this->validExtension)) {
             if (in_array($formatBerkas, $this->validExtension))

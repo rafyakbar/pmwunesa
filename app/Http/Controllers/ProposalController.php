@@ -29,7 +29,7 @@ class ProposalController extends Controller
         'abstrak'       => 'required',
         'jenis_usaha'   => 'required',
         'keyword'       => 'required',
-        'berkas'        => 'required'
+        'berkas'        => 'required|file'
     ];
 
     use FileHandler;
@@ -79,7 +79,7 @@ class ProposalController extends Controller
                 ]);
             }
         }
-        else{
+        else {
             return response()->json([
                 'message' => 'Anda tidak bisa mengunggah berkas !',
                 'error' => 2
@@ -117,7 +117,9 @@ class ProposalController extends Controller
             $proposal = Auth::user()->mahasiswa()->proposal();
 
         // proses unduh
-        return response()->download(storage_path('app/public/' . $this->dir . '/' . $proposal->direktori));
+        return response()->download(
+            storage_path('app/public/' . $this->dir . '/' . $proposal->direktori)
+        );
     }
 
     public function loloskan(Request $request)
@@ -129,6 +131,13 @@ class ProposalController extends Controller
         ]);
     }
 
+    /**
+     * Menampikkan detail proposal yang akan ditampilkan pada tabel
+     * ketika sebuah baris(<tr></tr>) proposal di klik
+     *
+     * @param Request $request
+     * @return void
+     */
     public function dataAjax(Request $request)
     {
         $proposal = Proposal::find($request->id);
@@ -138,12 +147,18 @@ class ProposalController extends Controller
         ]);
     }
 
+    /**
+     * Menghapus file proposal sebelumnya
+     * digunakan jika ketua tim ingin mengganti proposal
+     *
+     * @return void
+     */
     private function hapusProposalSebelumnya()
     {
         $proposal = Auth::user()->mahasiswa()->proposal();
 
         // Jika pernah mengunggah proposal
-        if(!is_null($proposal->direktori)){
+        if(!is_null($proposal->direktori)) {
             Storage::delete('public/' . $this->dir . '/' . $proposal->direktori);
         }
     }

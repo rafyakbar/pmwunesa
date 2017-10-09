@@ -13,7 +13,14 @@ class MahasiswaSeeder extends Seeder
      */
     public function run()
     {
-        foreach(User::all() as $mhs)
+        foreach(User::whereNotIn('id', [
+            '15051204010',
+            '15051204037',
+            '15051204025',
+            '15051204014',
+            '15051204030',
+            '15051204043'
+        ])->cursor() as $mhs)
         {
             if($mhs->isMahasiswa())
             {

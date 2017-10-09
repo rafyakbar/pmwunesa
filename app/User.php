@@ -245,7 +245,7 @@ class User extends Authenticatable
             ->whereHas('relasiMahasiswa', function ($query) {
                 $query->whereNull('id_proposal');
             })
-            ->where('nama', 'LIKE', '%' . strtolowe($nama) . '%')
+            ->where('nama', 'LIKE', '%' . strtolower($nama) . '%')
             ->where('id', '!=', Auth::user()->id)
             ->whereNotNull('id_prodi')
             ->whereNotIn('id', $daftarUndangan)
@@ -256,6 +256,8 @@ class User extends Authenticatable
 
     public static function cariDosenPembimbing($nama)
     {
+        $nama = strtolower($nama);
+
         $eloquent = static::whereHas('hakAksesPengguna', function ($query) {
             $query->where('nama', HakAkses::DOSEN_PEMBIMBING)
                 ->where('status_request', RequestStatus::APPROVED);
@@ -269,9 +271,16 @@ class User extends Authenticatable
     public function jadikanKetua()
     {
         // Menghapus hak akses sebagai anggota dari pengirim undangan
-        $this->hakAksesPengguna()->detach(HakAkses::where('nama', HakAkses::ANGGOTA)->first());
+        $this->hakAksesPengguna()->detach(
+            HakAkses::where('nama', HakAkses::ANGGOTA)->first()
+        );
+
         // menjadikan pengirim undangan sebagai ketua
-        $this->hakAksesPengguna()->attach(HakAkses::where('nama', HakAkses::KETUA_TIM)->first(), ['status_request' => 'Approved']);
+        $this->hakAksesPengguna()->attach(
+            HakAkses::where('nama', HakAkses::KETUA_TIM)->first(), [
+                'status_request' => 'Approved'
+                ]
+        );
     }
 
     public static function perFakultas($nama_fakultas)

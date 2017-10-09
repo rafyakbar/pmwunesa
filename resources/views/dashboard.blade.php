@@ -2,6 +2,10 @@
 
 @section('content')
 
+    @if(Session::has('message'))
+        <p class="alert {{ Session::get('error') ? 'alert-danger' : 'alert-success' }}">{{ Session::get('message') }}</p>
+    @endif
+
     <div class="card">
         <div class="card-header">
             <h4 class="title">Ups, anda belum mendapat hak akses apapun !</h4>
