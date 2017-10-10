@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link href="{{ asset("css/table.css") }}" rel="stylesheet">
+@endpush
+
 @section('content')
 
     <div class="row">
@@ -48,7 +52,7 @@
     <div class="card card-content">
         <div class="row">
             <div class="col-lg-12">
-                <table class="table" style="margin-left: 10px">
+                <table class="table table-expand" style="margin-left: 10px">
                     <thead class="text-primary">
                     <tr>
                         <th>No.</th>
@@ -140,6 +144,35 @@
                                 @endif
                             @endif
                         </tr>
+                        <tr class="expand">
+                            <td colspan="4">
+                                <ul>
+                                    <li>Prodi :
+                                        @if(!is_null($item->id_prodi))
+                                            {{ \PMW\Models\Prodi::find($item->id_prodi)->nama }}
+                                        @endif
+                                    </li>
+                                    <li>Email :
+                                        {{ $item->email }}
+                                    </li>
+                                    <li>Alamat Asal :
+                                        @if(!is_null($item->alamat_asal))
+                                            {{ $item->alamat_asal }}
+                                        @endif
+                                    </li>
+                                    <li>Alamat Tinggal :
+                                        @if(!is_null($item->alamat_tinggal))
+                                            {{ $item->alamat_tinggal }}
+                                        @endif
+                                    </li>
+                                    <li>No. Telepon :
+                                        @if(!is_null($item->no_telepon))
+                                            {{ $item->no_telepon }}
+                                        @endif
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -178,4 +211,17 @@
             </form>
         </div>
     </div>
+
 @endsection
+
+@push('js')
+    <script>
+        $('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {
+            $(this).prevUntil('.table-expand', '.expand').hide()
+            $(this).next().nextUntil('.table-expand', '.expand').hide()
+            $(this).next().toggle()
+
+            var elem = $(this).next()
+        })
+    </script>
+@endpush

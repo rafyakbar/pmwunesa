@@ -34,7 +34,7 @@
 
 <li @if(Route::currentRouteName() === 'daftar.pengguna' ) class="active" @endif>
     <a href="{{ route('daftar.pengguna', ['fakultas'=>'semua_fakultas', 'role' => 'semua_hak_akses']) }}">
-        <i class="material-icons">library_books</i>
+        <i class="material-icons">people</i>
         <p>Pengguna</p>
     </a>
 </li>
