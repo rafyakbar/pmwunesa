@@ -28,6 +28,11 @@
                                        value="{{ $errors->has('nama') ? old('nama') : Auth::user()->nama }}" required/>
                             </div>
                         </div>
+                        @if ($errors->has('nama'))
+                            <span class="text-danger">
+                                <strong>{{ $errors->first('nama') }}</strong>
+                            </span>
+                        @endif
 
                         <div class="row">
                             <div class="col-lg-3">
@@ -38,6 +43,7 @@
                                        value="{{ Auth::user()->id }}" disabled/>
                             </div>
                         </div>
+                        
 
                         <div class="row">
                             <div class="col-lg-3">
@@ -49,6 +55,11 @@
                                        required/>
                             </div>
                         </div>
+                        @if ($errors->has('nama'))
+                            <span class="text-danger">
+                                <strong>{{ $errors->first('no_telepon') }}</strong>
+                            </span>
+                        @endif
 
                         <div class="row">
                             <div class="col-lg-3">
@@ -71,6 +82,11 @@
                                        class="form-control" placeholder="Alamat asal" required/>
                             </div>
                         </div>
+                        @if ($errors->has('alamat_asal'))
+                            <span class="text-danger">
+                                <strong>{{ $errors->first('alamat_asal') }}</strong>
+                            </span>
+                        @endif
 
                         <div class="row">
                             <div class="col-lg-3">
@@ -82,6 +98,11 @@
                                        class="form-control" placeholder="Alamat tinggal" required/>
                             </div>
                         </div>
+                        @if ($errors->has('alamat_tinggal'))
+                            <span class="text-danger">
+                                <strong>{{ $errors->first('alamat_tinggal') }}</strong>
+                            </span>
+                        @endif
 
                         @if(Auth::user()->isMahasiswa())
                             <div class="row">
@@ -94,6 +115,11 @@
                                            class="form-control" placeholder="IPK"/>
                                 </div>
                             </div>
+                            @if ($errors->has('ipk'))
+                                <span class="text-danger">
+                                    <strong>{{ $errors->first('ipk') }}</strong>
+                                </span>
+                            @endif
                         @endif
 
                         @if(Auth::user()->isDosenPembimbing() || Auth::user()->isMahasiswa())
