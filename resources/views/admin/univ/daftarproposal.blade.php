@@ -50,6 +50,9 @@
                     </thead>
                     <tbody>
                     <tr>
+                        @if(count($proposal)==0)
+                            <td colspan="3">Tidak ada data</td>
+                        @endif
                         @foreach($proposal as $item)
                             <td>{{ ++$c }}</td>
                             @if($lolos != 'semua')
@@ -99,7 +102,4 @@
         </div>
     </div>
 
-    <ul>
-
-    </ul>
 @endsection

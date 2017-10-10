@@ -34,6 +34,9 @@
                     </thead>
                     <tbody>
                     <tr>
+                        @if(count($proposal)==0)
+                            <td colspan="3">Tidak ada data</td>
+                        @endif
                         @foreach($proposal as $item)
                             @if($filter == 'semua')
                                 <td>{{ ++$c }}</td>
