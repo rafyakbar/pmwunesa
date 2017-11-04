@@ -28,8 +28,9 @@
                     <h4 class="title">{{ $pengaturan[1]->nama }}</h4>
                 </div>
                 <div class="card-content">
-                    <form>
-                        <input type="hidden" value="{{ $pengaturan[1]->id }}">
+                    <form action="{{ route('edit.pengaturan') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $pengaturan[1]->id }}">
                         <input type="text" name="keterangan" value="{{ $pengaturan[1]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
@@ -41,8 +42,9 @@
                     <h4 class="title">{{ $pengaturan[3]->nama }}</h4>
                 </div>
                 <div class="card-content">
-                    <form>
-                        <input type="hidden" value="{{ $pengaturan[3]->id }}">
+                    <form action="{{ route('edit.pengaturan') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $pengaturan[3]->id }}">
                         <input type="text" name="keterangan" value="{{ $pengaturan[3]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
@@ -56,8 +58,9 @@
                     <h4 class="title">{{ $pengaturan[2]->nama }}</h4>
                 </div>
                 <div class="card-content">
-                    <form>
-                        <input type="hidden" value="{{ $pengaturan[2]->id }}">
+                    <form action="{{ route('edit.pengaturan') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $pengaturan[2]->id }}">
                         <input type="text" name="keterangan" value="{{ $pengaturan[2]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
@@ -69,8 +72,9 @@
                     <h4 class="title">{{ $pengaturan[4]->nama }}</h4>
                 </div>
                 <div class="card-content">
-                    <form>
-                        <input type="hidden" value="{{ $pengaturan[4]->id }}">
+                    <form action="{{ route('edit.pengaturan') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $pengaturan[4]->id }}">
                         <input type="text" name="keterangan" value="{{ $pengaturan[4]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
