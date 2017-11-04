@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+    @if(session()->has('message'))
+    <div class="alert alert-info">
+        {{ session()->get('message') }}
+    </div>
+    @endif
+
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <div class="card">
