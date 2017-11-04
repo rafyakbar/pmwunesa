@@ -35,5 +35,23 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+        Session::flash('tab', 'reset');        
     }
+
+    protected function resetPassword($user, $password)
+    {
+        if(Session::has('tab'))
+            Session::forget('tab');
+    
+        Session::flash('tab', 'reset');
+
+        $user->forceFill([
+            'password' => bcrypt($password),
+            'remember_token' => Str::random(60),
+        ])->save();
+
+        $this->guard()->login($user);
+    }
+
 }

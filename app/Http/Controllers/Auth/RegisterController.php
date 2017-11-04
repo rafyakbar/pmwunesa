@@ -38,11 +38,15 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest');       
     }
 
     public function register(Request $request)
     {
+        if(Session::has('tab'))
+            Session::forget('tab');
+            
+        Session::flash('tab', 'register'); 
 
         $this->validator($request->all())->validate();
 
@@ -50,7 +54,7 @@ class RegisterController extends Controller
 
         $this->registered($request,$user);
 
-        Session::flash('message','Berhasil Mendaftar !');
+        Session::flash('message','Berhasil Mendaftar !<br/>Silahkan cek email anda untuk melihat kata sandi');
 
         return back();
     }
