@@ -143,6 +143,11 @@ Route::group(['prefix' => 'edit'], function (){
         'as'    => 'edit.reviewer'
     ]);
 
+    Route::post('pengaturan', [
+        'uses'  => 'PengaturanController@edit',
+        'as'    => 'edit.pengaturan'
+    ]);
+
 });
 
 Route::group(['prefix' => 'unduh'], function (){

@@ -14,9 +14,10 @@
                     <h4 class="title">{{ $pengaturan[0]->nama }}</h4>
                 </div>
                 <div class="card-content">
-                    <form>
-                        <input type="hidden" value="{{ $pengaturan[0]->id }}">
-                        <input type="number" value="{{ $pengaturan[0]->keterangan }}" class="form-control">
+                    <form action="{{ route('edit.pengaturan') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" value="{{ $pengaturan[0]->id }}" min="0" max="100">
+                        <input type="number" name="keterangan" value="{{ $pengaturan[0]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[0]->updated_at->diffForHumans() }}.</p>
@@ -29,7 +30,7 @@
                 <div class="card-content">
                     <form>
                         <input type="hidden" value="{{ $pengaturan[1]->id }}">
-                        <input type="text" value="{{ $pengaturan[1]->keterangan }}" class="form-control">
+                        <input type="text" name="keterangan" value="{{ $pengaturan[1]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[1]->updated_at->diffForHumans() }}.</p>
@@ -42,7 +43,7 @@
                 <div class="card-content">
                     <form>
                         <input type="hidden" value="{{ $pengaturan[3]->id }}">
-                        <input type="text" value="{{ $pengaturan[3]->keterangan }}" class="form-control">
+                        <input type="text" name="keterangan" value="{{ $pengaturan[3]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[3]->updated_at->diffForHumans() }}.</p>
@@ -57,7 +58,7 @@
                 <div class="card-content">
                     <form>
                         <input type="hidden" value="{{ $pengaturan[2]->id }}">
-                        <input type="text" value="{{ $pengaturan[2]->keterangan }}" class="form-control">
+                        <input type="text" name="keterangan" value="{{ $pengaturan[2]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[2]->updated_at->diffForHumans() }}.</p>
@@ -70,7 +71,7 @@
                 <div class="card-content">
                     <form>
                         <input type="hidden" value="{{ $pengaturan[4]->id }}">
-                        <input type="text" value="{{ $pengaturan[4]->keterangan }}" class="form-control">
+                        <input type="text" name="keterangan" value="{{ $pengaturan[4]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[4]->updated_at->diffForHumans() }}.</p>
