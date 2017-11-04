@@ -26,6 +26,11 @@
                             <div class="col-lg-9">
                                 <input class="form-control" placeholder="Nama lengkap" type="text" name="nama"
                                        value="{{ $errors->has('nama') ? old('nama') : Auth::user()->nama }}" required/>
+                                @if($errors->has('nama'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('nama') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -47,6 +52,11 @@
                                 <input class="form-control" placeholder="No. telepon" type="text" name="no_telepon"
                                        value="{{ $errors->has('no_telepon') ? old('no_telepon') : Auth::user()->no_telepon }}"
                                        required/>
+                                @if($errors->has('no_telepon'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('no_telepon') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -69,6 +79,11 @@
                                 <input type="text" name="alamat_asal"
                                        value="{{ $errors->has('alamat_asal') ? old('alamat_asal') : Auth::user()->alamat_asal }}"
                                        class="form-control" placeholder="Alamat asal" required/>
+                                @if($errors->has('alamat_asal'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('alamat_asal') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -80,6 +95,11 @@
                                 <input type="text" name="alamat_tinggal"
                                        value="{{ $errors->has('alamat_tinggal') ? old('alamat_tinggal') : Auth::user()->alamat_tinggal }}"
                                        class="form-control" placeholder="Alamat tinggal" required/>
+                                @if($errors->has('alamat_tinggal'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('alamat_tinggal') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -90,8 +110,13 @@
                                 </div>
                                 <div class="col-lg-9">
                                     <input type="text" name="ipk"
-                                           value="{{ $errors->has('ipk') ? old('ipk') : Auth::user()->mahasiswa()->ipk }}"
+                                           value="{{ count($errors) ? old('ipk') : Auth::user()->mahasiswa()->ipk }}"
                                            class="form-control" placeholder="IPK"/>
+                                    @if($errors->has('ipk'))
+                                        <span class="text-danger">
+                                            <strong>{{ $errors->first('ipk') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -137,6 +162,11 @@
                                         <option value="{{ $prodi->id }}">Fakultas {{ $prodi->nama }}</option>
                                     @endforeach
                                 </select>
+                                @if($errors->has('id_prodi'))
+                                    <span class="text-danger">
+                                        <strong>{{ $errors->first('id_prodi') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                         @endif
