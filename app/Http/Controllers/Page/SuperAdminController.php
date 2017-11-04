@@ -22,7 +22,8 @@ class SuperAdminController extends Controller
     {
         return view('admin.super.pengaturan', [
             'pengaturan' => Pengaturan::all(),
-            'aspek' => Aspek::all()
+            'aspek' => Aspek::all(),
+            'c' => 0
         ]);
     }
 
