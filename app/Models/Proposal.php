@@ -343,30 +343,24 @@ class Proposal extends Model
      */
     public function statusPenilaian()
     {
-        if($this->lolos(2)){
+        if($this->lolos(2))
             // jika lolos tahap 2
             return 'Proposal Lolos';
-        }
-        elseif ($this->dalamProsesPenilaian(2)){
+        elseif ($this->dalamProsesPenilaian(2))
             return 'Proposal dalam proses penilaian tahap 2';
-        }
         else{
             // jika lolos tahap 1 dan belum melewati batas penilaian tahap 2
-            if($this->lolos(1) && !Pengaturan::melewatiBatasPenilaian(2)){
+            if($this->lolos(1) && !Pengaturan::melewatiBatasPenilaian(2))
                 return 'Lolos tahap 1';
-            }
             // jika masih dalam tahap penilaian
-            elseif ($this->dalamProsesPenilaian(1)){
+            elseif ($this->dalamProsesPenilaian(1))
                 return 'Proposal dalam proses penilaian tahap 1';
-            }
             // jika proposal belum dinilai
-            elseif (!Pengaturan::melewatiBatasPenilaian(1)){
+            elseif (!Pengaturan::melewatiBatasPenilaian(1))
                 return 'Proposal belum dinilai';
-            }
             // jika proposal tidak lolos
-            else{
+            else
                 return 'Proposal tidak lolos';
-            }
         }
     }
 
