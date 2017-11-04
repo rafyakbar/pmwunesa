@@ -30,7 +30,7 @@ class UserController extends Controller
                 'alamat_asal' => 'required',
                 'alamat_tinggal' => 'required',
                 'no_telepon' => 'required|numeric',
-                'ipk' => 'required|integer'
+                'ipk' => 'required|between:0.0,4.0'
             ]);
         } else {
             $this->validate($request, [
@@ -157,7 +157,6 @@ class UserController extends Controller
 
     public function resetPassword(Request $request)
     {
-
         $this->validate($request, [
             'email' => 'required|email|exists:pengguna,email'
         ]);
