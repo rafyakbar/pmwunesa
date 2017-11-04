@@ -49,6 +49,27 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 
+{{--DateTimePicker--}}
+<script type="text/javascript" src="{{ asset('js/moment-with-locales.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/bootstrap-material-datetimepicker.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('.dtp-show').bootstrapMaterialDatePicker
+        ({
+            format: 'YYYY-MM-DD HH:mm',
+            lang: 'id',
+            weekStart: 0,
+            cancelText : 'Batal',
+            nowText : 'Sekarang',
+            nowButton : true,
+            switchOnClick : true
+        });
+
+        $.material.init()
+    });
+</script>
+
 <script>
 $.ajaxSetup({
     headers: {
