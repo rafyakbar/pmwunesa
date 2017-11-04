@@ -3,7 +3,7 @@
 @section('content')
     <h3>Proposal</h3>
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                     Filter&nbsp;&nbsp;Fakultas&nbsp;&nbsp;<span class="caret"></span>
@@ -16,7 +16,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                     Filter&nbsp;&nbsp;Tahap&nbsp;&nbsp;<span class="caret"></span>
@@ -37,45 +37,69 @@
     <br>
     <a href="{{ route('unduhproposaluniv', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
 
-    <ul>
-        @foreach($proposal as $item)
-            @if($lolos != 'semua')
-                @if(\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$lolos)[1]))
-                    @if($item->judul != '' && $item->judul != null)
-                        <li>
-                            {{ $item->judul }} <br>
-                            <ul>
-                                <p>Tim</p>
-                                @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
-                                    <li>
-                                        {{ \PMW\User::find($value->id_pengguna)->nama }}
-                                        @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
-                                            <strong>(Ketua)</strong>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                    @endif
-                @endif
-            @else
-                @if($item->judul != '' && $item->judul != null)
-                    <li>
-                        {{ $item->judul }} <br>
-                        <ul>
-                            <p>Tim</p>
-                            @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
-                                <li>
-                                    {{ \PMW\User::find($value->id_pengguna)->nama }}
-                                    @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
-                                        <strong>(Ketua)</strong>
+    <div class="card card-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table" style="margin-left: 10px">
+                    <thead class="text-primary">
+                    <tr>
+                        <th>No.</th>
+                        <th>Judul Proposal</th>
+                        <th>Anggota Tim</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        @if(count($proposal)==0)
+                            <td colspan="3">Tidak ada data</td>
+                        @endif
+                        @foreach($proposal as $item)
+                            <td>{{ ++$c }}</td>
+                            @if($lolos != 'semua')
+                                @if(\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$lolos)[1]))
+                                    @if($item->judul != '' && $item->judul != null)
+                                        <td>
+                                            {{ $item->judul }}
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
+                                                    <li>
+                                                        {{ \PMW\User::find($value->id_pengguna)->nama }}
+                                                        @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
+                                                            <strong>(Ketua)</strong>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
                                     @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                @endif
-            @endif
-        @endforeach
-    </ul>
+                                @endif
+                            @else
+                                @if($item->judul != '' && $item->judul != null)
+                                    <td>
+                                        {{ $item->judul }}
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
+                                                <li>
+                                                    {{ \PMW\User::find($value->id_pengguna)->nama }}
+                                                    @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
+                                                        <strong>(Ketua)</strong>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                @endif
+                            @endif
+                        @endforeach
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 @endsection

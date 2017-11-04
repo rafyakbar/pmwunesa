@@ -35,49 +35,74 @@
 
     <p>Filter : @if($fakultas!='semua_fakultas') Fakultas @endif {{ ucwords(str_replace('_',' ',$fakultas)) }} | @if($lolos == 'semua') Semua Tahap @else {{ ucwords(str_replace('_',' ',$lolos)) }} @endif</p>
     <br>
-    <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
+    <a href="{{ route('unduhproposaluniv', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}" class="btn btn-primary">Unduh Proposal</a>
 
-    <ul>
-        @foreach($proposal as $item)
-            @if($lolos != 'semua')
-                @if(\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$lolos)[1]))
-                    @if($item->judul != '' && $item->judul != null)
-                        <li>
-                            {{ $item->judul }} <br>
-                            <ul>
-                                <p>Tim</p>
-                                @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
-                                    <li>
-                                        {{ \PMW\User::find($value->id_pengguna)->nama }}
-                                        @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
-                                            <strong>(Ketua)</strong>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}" class="btn btn-primary">Atur Reviewer</a>
-                        </li>
-                    @endif
-                @endif
-            @else
-                @if($item->judul != '' && $item->judul != null)
-                    <li>
-                        {{ $item->judul }} <br>
-                        <ul>
-                            <p>Tim</p>
-                            @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
-                                <li>
-                                    {{ \PMW\User::find($value->id_pengguna)->nama }}
-                                    @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
-                                        <strong>(Ketua)</strong>
+    <div class="card card-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table" style="margin-left: 10px">
+                    <thead class="text-primary">
+                    <tr>
+                        <th>No.</th>
+                        <th>Judul Proposal</th>
+                        <th>Anggota Tim</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        @if(count($proposal)==0)
+                            <td colspan="4">Tidak ada data</td>
+                        @endif
+                        @foreach($proposal as $item)
+                            <td>{{ ++$c }}</td>
+                            @if($lolos != 'semua')
+                                @if(\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$lolos)[1]))
+                                    @if($item->judul != '' && $item->judul != null)
+                                        <td>
+                                            {{ $item->judul }}
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
+                                                    <li>
+                                                        {{ \PMW\User::find($value->id_pengguna)->nama }}
+                                                        @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
+                                                            <strong>(Ketua)</strong>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td><a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}" class="btn btn-primary">Atur Reviewer</a></td>
                                     @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                        <a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}" class="btn btn-primary">Atur Reviewer</a>
-                    </li>
-                @endif
-            @endif
-        @endforeach
-    </ul>
+                                @endif
+                            @else
+                                @if($item->judul != '' && $item->judul != null)
+                                    <td>
+                                        {{ $item->judul }}
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
+                                                <li>
+                                                    {{ \PMW\User::find($value->id_pengguna)->nama }}
+                                                    @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
+                                                        <strong>(Ketua)</strong>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td><a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}" class="btn btn-primary">Atur Reviewer</a></td>
+                                @endif
+                            @endif
+                        @endforeach
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 @endsection

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'Informasi Akun tidak cocok.',
+    'throttle' => 'Terlalu banyak percobaan masuk. Silahkan coba lagi dalam :seconds detik.',
 
 ];

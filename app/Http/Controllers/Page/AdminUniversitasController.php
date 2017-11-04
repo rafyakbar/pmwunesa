@@ -18,7 +18,8 @@ class AdminUniversitasController extends Controller
             'proposal' => $proposal,
             'daftar_fakultas' => Fakultas::all(),
             'fakultas' => $request->fakultas,
-            'lolos' => $request->lolos
+            'lolos' => $request->lolos,
+            'c' => 0
         ]);
     }
 
