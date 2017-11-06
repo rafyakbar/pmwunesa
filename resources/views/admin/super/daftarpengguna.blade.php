@@ -41,7 +41,49 @@
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-primary">Tambah pengguna</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#tambah">Tambah pengguna</button>
+    </div>
+
+    <div id="tambah" class="modal fade" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
+        <div class="modal-dialog">
+            <div class="card">
+                <div class="card-header" data-background-color="blue">
+                    <h4>Tambah pengguna</h4>
+                </div>
+                <div class="card-content">
+                    <div class="row">
+                        <form action="{{ route('tambah.user') }}" method="post" class="form-group">
+                            <div class="col-sm-6">
+                                {{ csrf_field() }}
+                                {{ method_field('put') }}
+                                <label>NIP/NIM</label>
+                                <input type="text" name="id" required class="form-control">
+                                <label>Email</label>
+                                <input type="email" name="email" required class="form-control">
+                                <br>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Hak akses</label><br>
+                                <input type="checkbox" name="hakakses[]" value="Super Admin"> Super Admin<br>
+                                <input type="checkbox" name="hakakses[]" value="Admin Universitas"> Admin Universitas<br>
+                                <input type="checkbox" name="hakakses[]" value="Admin Fakultas"> Admin Fakultas
+                                <select name="idfakultas">
+                                    @foreach($daftar_fakultas as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select><br>
+                                <input type="checkbox" name="hakakses[]" value="Reviewer"> Reviewer<br>
+                                <input type="checkbox" name="hakakses[]" value="Dosen Pembimbing"> Dosen Pembimbing<br>
+                                <input type="checkbox" name="hakakses[]" value="Anggota"> Mahasiswa<br>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success">Tambah</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="card">
@@ -134,38 +176,6 @@
         </div>
         <div class="card-footer">
             {{ $user->links() }}
-        </div>
-    </div>
-
-    <div class="card card-content">
-        <div class="row">
-            <form action="{{ route('tambah.user') }}" method="post" class="form-group">
-                <div class="col-lg-5 col-lg-offset-1" style="padding:5px">
-                    <h3>Tambah Pengguna</h3>
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
-                    <label for="id">NIP/NIM</label>
-                    <input type="text" name="id" placeholder="NIP/NIM" required class="form-control">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" placeholder="Email" required class="form-control">
-                    <br>
-                </div>
-                <div class="col-lg-5" style="padding:5px">
-                    <label style="margin-top:25px">Hak akses</label><br>
-                    <input type="checkbox" name="hakakses[]" value="Super Admin"> Super Admin<br>
-                    <input type="checkbox" name="hakakses[]" value="Admin Universitas"> Admin Universitas<br>
-                    <input type="checkbox" name="hakakses[]" value="Admin Fakultas"> Admin Fakultas
-                    <select name="idfakultas">
-                        @foreach($daftar_fakultas as $item)
-                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                        @endforeach
-                    </select><br>
-                    <input type="checkbox" name="hakakses[]" value="Reviewer"> Reviewer<br>
-                    <input type="checkbox" name="hakakses[]" value="Dosen Pembimbing"> Dosen Pembimbing<br>
-                    <input type="checkbox" name="hakakses[]" value="Anggota"> Mahasiswa<br>
-                    <input type="submit" class="btn btn-primary" value="Tambah">
-                </div>
-            </form>
         </div>
     </div>
 @endsection
