@@ -30,8 +30,17 @@ class SuperAdminController extends Controller
     public function tampilDataPengguna(Request $request)
     {
         $pengguna = ($request->fakultas == 'semua_fakultas') ? User::orderBy('nama')->get() : User::perFakultas(ucwords(str_replace('_',' ', $request->fakultas)));
+        if ($request->role != 'semua_hak_akses'){
+            $dump = $pengguna;
+            $pengguna = [];
+            foreach ($dump as $item){
+                if (User::find($item->id)->hasRole(ucwords(str_replace('_',' ', $request->role))))
+                    array_push($pengguna, $item);
+            }
+        }
+        $pengguna = collect($pengguna);
         return view('admin.super.daftarpengguna', [
-            'user'              => $pengguna,
+            'user'              => $pengguna->paginate(10),
             'hak_akses'         => HakAkses::orderBy('id')->get(),
             'daftar_fakultas'   => Fakultas::all(),
             'fakultas'          => $request->fakultas,

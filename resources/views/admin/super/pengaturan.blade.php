@@ -115,7 +115,6 @@
                 <tbody>
                 @foreach($aspek as $item)
                     <tr>
-
                         <td>
                             {{ ++$c }}
                         </td>
