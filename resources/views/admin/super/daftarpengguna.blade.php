@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-{{--@push('css')--}}
-{{--<link href="{{ asset("css/table.css") }}" rel="stylesheet">--}}
-{{--@endpush--}}
+@section('brand')
+    Pengguna
+@endsection
 
 @section('content')
     <div class="btn-group">

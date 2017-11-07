@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('brand')
+    Permintaan Hak Akses
+@endsection
+
 @section('content')
     <div class="card">
         <div class="card-header" data-background-color="purple">
@@ -9,7 +13,7 @@
         <div class="card-content">
             @if($pengguna->count() > 0)
             <table class="table">
-                <thead class="text-primary">
+                <thead>
                 <tr>
                     <th>NIP</th>
                     <th>Nama</th>

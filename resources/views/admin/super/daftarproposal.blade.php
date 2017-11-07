@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('brand')
+    Proposal
+@endsection
+
 @section('content')
     <div class="btn-group">
         <div class="btn-group">

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('brand')
+    Pengaturan
+@endsection
+
 @section('content')
     @if(session()->has('message'))
     <div class="alert alert-info">
