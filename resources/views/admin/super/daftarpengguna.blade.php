@@ -42,11 +42,14 @@
                 {{ $perHalaman }} per halaman&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                @for($per = 5; $per <= 30; $per++)
+                @for($per = 5; $per <= $user->total(); $per += 5)
                     <li>
                         <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $per]) }}">{{ $per }} data per halaman</a>
                     </li>
                 @endfor
+                    <li>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $user->total()]) }}"> Semua data</a>
+                    </li>
             </ul>
         </div>
     </div>
@@ -100,12 +103,13 @@
     </div>
 
     <div class="card">
-        <div class="card-header" data-background-color="blue">
+        <div class="card-header" data-background-color="orange">
             <h4>Daftar pengguna PMW UNESA</h4>
             <p class="category">Jumlah pengguna sesuai filter adalah {{ $user->total() }}</p>
         </div>
         <div class="card-content">
-            <table class="table table-responsive">
+            <input type="text" id="myInput" class="form-control form-info" placeholder="Cari pengguna..." onkeyup="cari()">
+            <table class="table table-responsive" id="myTable">
                 <thead>
                 <tr>
                     <th>No.</th>
@@ -147,7 +151,7 @@
                         <td colspan="4" style="border-top: none !important;">
                             <div id="detail-{{ $item->id }}" class="collapse">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4">
                                         <label>Hak akses</label>
                                         <form action="{{ route('tambah.hakaksespengguna') }}" method="post" id="simpan-{{ $item->id }}">
                                             {{ csrf_field() }}
@@ -163,7 +167,7 @@
                                             @endforeach
                                         </form>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4">
                                         <label>E-mail</label>
                                         <p>{{ $item->email }}</p>
                                         <label>Alamat asal</label>
@@ -171,7 +175,7 @@
                                         <label>Alamat tinggal</label>
                                         <p>{{ (is_null($item->alamat_tinggal)) ? '-' : $item->alamat_tinggal }}</p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-4">
                                         <label>No telepon</label>
                                         <p>{{ is_null($item->no_telepon) ? '-' : $item->no_telepon }}</p>
                                         <p>Pengguna ini mendaftar
@@ -200,14 +204,6 @@
     </div>
 @endsection
 
-{{--@push('js')--}}
-{{--<script>--}}
-{{--$('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {--}}
-{{--$(this).prevUntil('.table-expand', '.expand').hide()--}}
-{{--$(this).next().nextUntil('.table-expand', '.expand').hide()--}}
-{{--$(this).next().toggle()--}}
-
-{{--var elem = $(this).next()--}}
-{{--})--}}
-{{--</script>--}}
-{{--@endpush--}}
+@push('js')
+    @include('js.searchintable', ['inputId' => 'myInput', 'tableId' => 'myTable', 'fieldIndex' => '1'])
+@endpush
