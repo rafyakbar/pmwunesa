@@ -84,7 +84,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-info btn-sm">Detail</button>
+                                    <a href="{{ route('detail.proposal', ['id' => $item->id]) }}" class="btn btn-info btn-sm">Detail</a>
                                     <a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}"
                                        class="btn btn-primary btn-sm">Atur Reviewer</a>
                                 </div>

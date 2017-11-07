@@ -106,6 +106,13 @@ class SuperAdminController extends Controller
         ]);
     }
 
+    public function detailProposal(Request $request)
+    {
+        return view('admin.super.detailproposal', [
+            'proposal' => Proposal::find($request->id)
+        ]);
+    }
+
     public function tampilRequestHakAkses(Request $request)
     {
         return view('admin.super.daftarrequesthakakses', ['pengguna' => HakAkses::permintaanHakAkses()]);
