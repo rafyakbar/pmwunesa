@@ -83,12 +83,24 @@ class SuperAdminController extends Controller
 
     public function tampilDataProposal(Request $request)
     {
+        $request->lolos = ($request->lolos != 'tahap_1' && $request->lolos != 'tahap_2') ? 'semua_proposal' : $request->lolos;
         $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
-        $proposal = ($request->fakultas == 'semua_fakultas') ? Proposal::all() : Proposal::proposalPerFakultas(Fakultas::where('nama', $nama_fakultas)->first()->id);
+        $nama_fakultas = (Fakultas::checkName($nama_fakultas)) ? $nama_fakultas : 'semua_fakultas';
+        $proposal = ($nama_fakultas == 'semua_fakultas') ? Proposal::all() : Proposal::proposalPerFakultas(Fakultas::where('nama', $nama_fakultas)->first()->id);
+        if ($request->lolos == 'tahap_1' || $request->lolos == 'tahap_2'){
+            $dump = $proposal;
+            $proposal = [];
+            foreach ($dump as $item){
+                if (\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$request->lolos)[1])){
+                    array_push($proposal, $item);
+                }
+            }
+        }
+        $proposal = collect($proposal);
         return view('admin.super.daftarproposal', [
-            'proposal' => $proposal,
+            'proposal' => $proposal->paginate(10),
             'daftar_fakultas' => Fakultas::all(),
-            'fakultas' => $request->fakultas,
+            'fakultas' => $nama_fakultas,
             'lolos' => $request->lolos,
             'c' => 0
         ]);
