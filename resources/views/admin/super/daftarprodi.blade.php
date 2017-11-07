@@ -68,6 +68,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="card-footer">
+            {{ $prodi->links() }}
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">

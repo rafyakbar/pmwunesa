@@ -4,7 +4,7 @@ Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('p
 
 Route::group(['prefix' => 'daftar'], function (){
 
-    Route::get('pengguna/{fakultas}/{role}', [
+    Route::get('pengguna/{fakultas}/{role}/{perHalaman}', [
         'uses'  => 'Page\SuperAdminController@tampilDataPengguna',
         'as'    => 'daftar.pengguna'
     ]);

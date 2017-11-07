@@ -11,11 +11,11 @@
                 {{ ucwords(str_replace('_',' ',$fakultas)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ route('daftar.pengguna',['fakultas' => 'semua_fakultas', 'role' => $role]) }}">Semua
+                <li><a href="{{ route('daftar.pengguna',['fakultas' => 'semua_fakultas', 'role' => $role, 'perHalaman' => $perHalaman]) }}">Semua
                         Fakultas</a></li>
                 @foreach($daftar_fakultas as $item)
                     <li>
-                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => str_replace(' ','_',strtolower($item->nama)), 'role' => $role]) }}">Fakultas {{ $item->nama }}</a>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => str_replace(' ','_',strtolower($item->nama)), 'role' => $role, 'perHalaman' => $perHalaman]) }}">Fakultas {{ $item->nama }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -25,24 +25,33 @@
                 {{ ucwords(str_replace('_',' ',$role)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ route('daftar.pengguna',['fakultas' => $fakultas, 'role' => 'semua_hak_akses']) }}">Semua
+                <li><a href="{{ route('daftar.pengguna',['fakultas' => $fakultas, 'role' => 'semua_hak_akses', 'perHalaman' => $perHalaman]) }}">Semua
                         Hak Akses</a>
                 </li>
                 @foreach($hak_akses as $item)
                     <li>
-                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => str_replace(' ','_',strtolower($item->nama))]) }}">{{ $item->nama }}</a>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => str_replace(' ','_',strtolower($item->nama)), 'perHalaman' => $perHalaman]) }}">{{ $item->nama }}</a>
                     </li>
                 @endforeach
             </ul>
         </div>
-
         <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role]) }}"
            class="btn btn-info">Unduh</a>
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                {{ $perHalaman }} per halaman&nbsp;&nbsp;<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @for($per = 5; $per <= 30; $per++)
+                    <li>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $per]) }}">{{ $per }} data per halaman</a>
+                    </li>
+                @endfor
+            </ul>
+        </div>
     </div>
 
-    <div class="btn-group">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#tambah">Tambah pengguna</button>
-    </div>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#tambah">Tambah pengguna</button>
 
     <div id="tambah" class="modal fade" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
         <div class="modal-dialog">
@@ -181,7 +190,9 @@
             </table>
         </div>
         <div class="card-footer">
-            {{ $user->links() }}
+            <div style="float: none;margin: 0 auto">
+                {{ $user->links() }}
+            </div>
         </div>
     </div>
 @endsection

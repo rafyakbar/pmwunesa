@@ -40,12 +40,13 @@ class SuperAdminController extends Controller
         }
         $pengguna = collect($pengguna);
         return view('admin.super.daftarpengguna', [
-            'user'              => $pengguna->paginate(10),
+            'user'              => $pengguna->paginate($request->perHalaman),
             'hak_akses'         => HakAkses::orderBy('id')->get(),
             'daftar_fakultas'   => Fakultas::all(),
             'fakultas'          => $request->fakultas,
             'role'              => $request->role,
-            'c'                 => 0
+            'c'                 => 0,
+            'perHalaman'        => $request->perHalaman
         ]);
     }
 
@@ -67,7 +68,7 @@ class SuperAdminController extends Controller
     public function tampilDataProdi()
     {
         return view('admin.super.daftarprodi', [
-            'prodi' => Prodi::orderBy('id_jurusan')->orderBy('nama')->get(),
+            'prodi' => Prodi::orderBy('id_jurusan')->orderBy('nama')->paginate(10),
             'jurusan' => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get()
         ]);
     }

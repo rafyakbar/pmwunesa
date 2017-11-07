@@ -6,7 +6,8 @@
             <h4 class="title">Hak Akses</h4>
             <p class="category">Daftar permintaan hak akses oleh pengguna</p>
         </div>
-        <div class="card-content table-responsive">
+        <div class="card-content">
+            @if($pengguna->count() > 0)
             <table class="table">
                 <thead class="text-primary">
                 <tr>
@@ -44,6 +45,9 @@
                 @endforeach
                 </tbody>
             </table>
+            @else
+                <div class="alert alert-info"><h4>Belum ada permintaan hak akses saat ini!</h4></div>
+            @endif
         </div>
     </div>
 @endsection
