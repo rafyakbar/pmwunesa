@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 {{--@push('css')--}}
-    {{--<link href="{{ asset("css/table.css") }}" rel="stylesheet">--}}
+{{--<link href="{{ asset("css/table.css") }}" rel="stylesheet">--}}
 {{--@endpush--}}
 
 @section('content')
@@ -65,7 +65,8 @@
                             <div class="col-sm-6">
                                 <label>Hak akses</label><br>
                                 <input type="checkbox" name="hakakses[]" value="Super Admin"> Super Admin<br>
-                                <input type="checkbox" name="hakakses[]" value="Admin Universitas"> Admin Universitas<br>
+                                <input type="checkbox" name="hakakses[]" value="Admin Universitas"> Admin
+                                Universitas<br>
                                 <input type="checkbox" name="hakakses[]" value="Admin Fakultas"> Admin Fakultas
                                 <select name="idfakultas">
                                     @foreach($daftar_fakultas as $item)
@@ -97,7 +98,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nama</th>
-                    <th>Hak Akses</th>
+                    <th>Prodi</th>
                     <th>Aksi</th>
                 </tr>
                 </thead>
@@ -118,13 +119,14 @@
                         @endif
                         @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
                             <td>
-                                -
+                                {{ (is_null($item->id_prodi)) ? '-' : \PMW\Models\Prodi::find($item->id_prodi)->nama }}
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-success btn-sm">Simpan</a>
-                                    <a class="btn btn-danger btn-sm">Hapus</a>
-                                    <a class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#detail-{{ $item->id }}">Detail/Edit</a>
+                                    <a class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
+                                    <a class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
+                                    <a class="btn btn-primary btn-sm" data-toggle="collapse"
+                                       data-target="#detail-{{ $item->id }}">Detail/Edit</a>
                                 </div>
                             </td>
                         @endif
@@ -135,13 +137,14 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label>Hak akses</label>
-                                        <form action="{{ route('tambah.hakaksespengguna') }}" method="post">
+                                        <form action="{{ route('tambah.hakaksespengguna') }}" method="post" id="simpan-{{ $item->id }}">
                                             {{ csrf_field() }}
                                             {{ method_field('put') }}
                                             <input type="hidden" name="id" value="{{ $item->id }}">
                                             @foreach($hak_akses as $value)
                                                 <input type="checkbox" name="hakakses[]" value="{{ $value->nama }}"
-                                                       @if(\PMW\User::find($item->id)->hasRole($value->nama)) checked disabled
+                                                       @if(\PMW\User::find($item->id)->hasRole($value->nama)) checked
+                                                       disabled
                                                        @endif @if($value->nama == 'Ketua Tim') disabled @endif>
                                                 {{ $value->nama }}
                                                 <br>
@@ -159,13 +162,16 @@
                                     <div class="col-md-4">
                                         <label>No telepon</label>
                                         <p>{{ is_null($item->no_telepon) ? '-' : $item->no_telepon }}</p>
-                                        <p>Pengguna ini mendaftar pada {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->created_at))->diffForHumans() }} dan telah memperbarui profil {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->updated_at))->diffForHumans() }}</p>
+                                        <p>Pengguna ini mendaftar
+                                            pada {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->created_at))->diffForHumans() }}
+                                            dan telah memperbarui
+                                            profil {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->updated_at))->diffForHumans() }}</p>
                                     </div>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    <form action="{{ route('hapus.pengguna') }}" method="post">
+                    <form action="{{ route('hapus.pengguna') }}" method="post" id="hapus-{{ $item->id }}">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
                         <input type="hidden" name="id" value="{{ $item->id }}">
@@ -181,13 +187,13 @@
 @endsection
 
 {{--@push('js')--}}
-    {{--<script>--}}
-        {{--$('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {--}}
-            {{--$(this).prevUntil('.table-expand', '.expand').hide()--}}
-            {{--$(this).next().nextUntil('.table-expand', '.expand').hide()--}}
-            {{--$(this).next().toggle()--}}
+{{--<script>--}}
+{{--$('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {--}}
+{{--$(this).prevUntil('.table-expand', '.expand').hide()--}}
+{{--$(this).next().nextUntil('.table-expand', '.expand').hide()--}}
+{{--$(this).next().toggle()--}}
 
-            {{--var elem = $(this).next()--}}
-        {{--})--}}
-    {{--</script>--}}
+{{--var elem = $(this).next()--}}
+{{--})--}}
+{{--</script>--}}
 {{--@endpush--}}
