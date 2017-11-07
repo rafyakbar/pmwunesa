@@ -35,8 +35,10 @@
                 @endforeach
             </ul>
         </div>
-        <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role]) }}"
-           class="btn btn-info">Unduh</a>
+        @if($user->total() > 0)
+            <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role]) }}"
+               class="btn btn-info">Unduh</a>
+        @endif
         <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                 {{ $perHalaman }} per halaman&nbsp;&nbsp;<span class="caret"></span>
@@ -108,93 +110,99 @@
             <p class="category">Jumlah pengguna sesuai filter adalah {{ $user->total() }}</p>
         </div>
         <div class="card-content">
-            <input type="text" id="myInput" class="form-control form-info" placeholder="Cari pengguna..." onkeyup="cari()">
-            <table class="table table-responsive" id="myTable">
-                <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Nama</th>
-                    <th>Prodi</th>
-                    <th>Aksi</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($user as $item)
+            @if(count($user) == 0)
+                <div class="alert alert-info">
+                    <h4>Maaf, masih belum ada data sesuai filter!</h4>
+                </div>
+            @else
+                <input type="text" id="myInput" class="form-control form-info" placeholder="Cari pengguna..." onkeyup="cari()">
+                <table class="table table-responsive" id="myTable">
+                    <thead>
                     <tr>
-                        <td>
-                            {{ ($user->currentpage() * $user->perpage()) + (++$c) - $user->perpage()  }}
-                        </td>
-                        @if(is_null($item->nama))
+                        <th>No.</th>
+                        <th>Nama</th>
+                        <th>Prodi</th>
+                        <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($user as $item)
+                        <tr>
                             <td>
-                                "Pengguna ini belum mengatur nama"
+                                {{ ($user->currentpage() * $user->perpage()) + (++$c) - $user->perpage()  }}
                             </td>
-                        @else
-                            <td>
-                                {{ $item->nama }}
-                            </td>
-                        @endif
-                        @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
-                            <td>
-                                {{ (is_null($item->id_prodi)) ? '-' : \PMW\Models\Prodi::find($item->id_prodi)->nama }}
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
-                                    <a class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
-                                    <a class="btn btn-primary btn-sm" data-toggle="collapse"
-                                       data-target="#detail-{{ $item->id }}">Detail/Edit</a>
+                            @if(is_null($item->nama))
+                                <td>
+                                    "Pengguna ini belum mengatur nama"
+                                </td>
+                            @else
+                                <td>
+                                    {{ $item->nama }}
+                                </td>
+                            @endif
+                            @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
+                                <td>
+                                    {{ (is_null($item->id_prodi)) ? '-' : \PMW\Models\Prodi::find($item->id_prodi)->nama }}
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
+                                        <a class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
+                                        <a class="btn btn-primary btn-sm" data-toggle="collapse"
+                                           data-target="#detail-{{ $item->id }}">Detail/Edit</a>
+                                    </div>
+                                </td>
+                            @endif
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="border-top: none !important;">
+                                <div id="detail-{{ $item->id }}" class="collapse">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <label>Hak akses</label>
+                                            <form action="{{ route('tambah.hakaksespengguna') }}" method="post" id="simpan-{{ $item->id }}">
+                                                {{ csrf_field() }}
+                                                {{ method_field('put') }}
+                                                <input type="hidden" name="id" value="{{ $item->id }}">
+                                                @foreach($hak_akses as $value)
+                                                    <input type="checkbox" name="hakakses[]" value="{{ $value->nama }}"
+                                                           @if(\PMW\User::find($item->id)->hasRole($value->nama)) checked
+                                                           disabled
+                                                           @endif @if($value->nama == 'Ketua Tim') disabled @endif>
+                                                    {{ $value->nama }}
+                                                    <br>
+                                                @endforeach
+                                            </form>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <label>E-mail</label>
+                                            <p>{{ $item->email }}</p>
+                                            <label>Alamat asal</label>
+                                            <p>{{ (is_null($item->alamat_asal)) ? '-' : $item->alamat_asal }}</p>
+                                            <label>Alamat tinggal</label>
+                                            <p>{{ (is_null($item->alamat_tinggal)) ? '-' : $item->alamat_tinggal }}</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4">
+                                            <label>No telepon</label>
+                                            <p>{{ is_null($item->no_telepon) ? '-' : $item->no_telepon }}</p>
+                                            <p>Pengguna ini mendaftar
+                                                pada {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->created_at))->diffForHumans() }}
+                                                dan telah memperbarui
+                                                profil {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->updated_at))->diffForHumans() }}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
-                        @endif
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="border-top: none !important;">
-                            <div id="detail-{{ $item->id }}" class="collapse">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-4">
-                                        <label>Hak akses</label>
-                                        <form action="{{ route('tambah.hakaksespengguna') }}" method="post" id="simpan-{{ $item->id }}">
-                                            {{ csrf_field() }}
-                                            {{ method_field('put') }}
-                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                            @foreach($hak_akses as $value)
-                                                <input type="checkbox" name="hakakses[]" value="{{ $value->nama }}"
-                                                       @if(\PMW\User::find($item->id)->hasRole($value->nama)) checked
-                                                       disabled
-                                                       @endif @if($value->nama == 'Ketua Tim') disabled @endif>
-                                                {{ $value->nama }}
-                                                <br>
-                                            @endforeach
-                                        </form>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4">
-                                        <label>E-mail</label>
-                                        <p>{{ $item->email }}</p>
-                                        <label>Alamat asal</label>
-                                        <p>{{ (is_null($item->alamat_asal)) ? '-' : $item->alamat_asal }}</p>
-                                        <label>Alamat tinggal</label>
-                                        <p>{{ (is_null($item->alamat_tinggal)) ? '-' : $item->alamat_tinggal }}</p>
-                                    </div>
-                                    <div class="col-md-4 col-sm-4">
-                                        <label>No telepon</label>
-                                        <p>{{ is_null($item->no_telepon) ? '-' : $item->no_telepon }}</p>
-                                        <p>Pengguna ini mendaftar
-                                            pada {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->created_at))->diffForHumans() }}
-                                            dan telah memperbarui
-                                            profil {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->updated_at))->diffForHumans() }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <form action="{{ route('hapus.pengguna') }}" method="post" id="hapus-{{ $item->id }}">
-                        {{ csrf_field() }}
-                        {{ method_field('put') }}
-                        <input type="hidden" name="id" value="{{ $item->id }}">
-                    </form>
-                @endforeach
-                </tbody>
-            </table>
+                        </tr>
+                        <form action="{{ route('hapus.pengguna') }}" method="post" id="hapus-{{ $item->id }}">
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
+                            <input type="hidden" name="id" value="{{ $item->id }}">
+                        </form>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
         <div class="card-footer">
             <div style="float: none;margin: 0 auto">
