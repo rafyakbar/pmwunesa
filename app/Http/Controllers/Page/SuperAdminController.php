@@ -29,6 +29,7 @@ class SuperAdminController extends Controller
 
     public function tampilDataPengguna(Request $request)
     {
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
         $pengguna = ($request->fakultas == 'semua_fakultas') ? User::orderBy('nama')->get() : User::perFakultas(ucwords(str_replace('_',' ', $request->fakultas)));
         if ($request->role != 'semua_hak_akses'){
             $dump = $pengguna;

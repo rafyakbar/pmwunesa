@@ -61,7 +61,7 @@
                 </div>
                 <div class="card-content">
                     <div class="row">
-                        <form action="{{ route('tambah.user') }}" method="post" class="form-group">
+                        <form action="{{ route('tambah.user') }}" method="post" class="form-group" id="tambah-form">
                             <div class="col-sm-6">
                                 {{ csrf_field() }}
                                 {{ method_field('put') }}
@@ -90,7 +90,10 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-success">Tambah</button>
+                    <div class="btn-group">
+                        <a class="btn btn-success" onclick="event.preventDefault(); document.getElementById('tambah-form')">Tambah</a>
+                        <button class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                    </div>
                 </div>
             </div>
         </div>
