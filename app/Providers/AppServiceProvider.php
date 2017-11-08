@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('ExcelExport','PMW\Support\ExcelExport');
         $this->app->bind('Dana','PMW\Support\Dana');
+        $this->app->bind('PMW\Contract\FileHandler', 'PMW\Support\FileHandler\LocalStorage');
     }
 
 }
