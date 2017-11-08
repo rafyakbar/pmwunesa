@@ -170,7 +170,14 @@ class UserController extends Controller
 
         Mail::to($email)->send(new PasswordResetMail($user, $password));
 
-        return 'Berhasil melakukan reset password. Silahkan cek email';
+        if(Session::has('tab'))
+            Session::forget('tab');
+
+        Session::flash('tab', 'reset');
+
+        Session::flash('message', 'Berhasil melakukan reset password. Silahkan cek email');
+
+        return back();
     }
 
 }
