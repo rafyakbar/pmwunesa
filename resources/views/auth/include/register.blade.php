@@ -1,10 +1,10 @@
 <div id="daftar" class="{{ Session::has('tab') && Session::get('tab') == 'register' ? 'active' : '' }} tab-pane fade in">
-    @if(Session::has('message'))
-    <p class="alert alert-notif">
-        {{ Session::get('message') }}
-    </p>
-    @endif
     <div class="panel-default login-panel panel">
+        @if(Session::has('message') && Session::has('tab') && Session::get('tab') === 'register')
+            <p class="alert alert-success">
+                {{ Session::get('message') }}
+            </p>
+        @endif
         <div class="panel-body">
             <form role="form" action="{{ route('register') }}" method="post">
                 {{ csrf_field() }}
