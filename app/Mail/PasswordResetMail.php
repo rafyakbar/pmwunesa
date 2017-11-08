@@ -38,4 +38,5 @@ class PasswordResetMail extends Mailable
             'password' => $this->password
         ]);
     }
+    
 }
