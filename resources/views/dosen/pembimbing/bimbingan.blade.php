@@ -71,7 +71,7 @@
                     {{ $daftarProposal->links() }}
                 </div>
             @else
-                <p class="alert alert-warning" style="margin:10px">Anda belum menjadi pembimbing dari sebuah tim.</p>
+                <p class="alert alert-danger" style="margin:10px">Anda belum menjadi pembimbing dari sebuah tim.</p>
             @endif
         </div>
     </div>
