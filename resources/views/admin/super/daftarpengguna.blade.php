@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+    <style>
+        table tr:nth-child(even) {
+            display: none;
+        }
+    </style>
     <div class="btn-group">
         <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -148,15 +153,14 @@
                                     <div class="btn-group">
                                         <a class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
                                         <a class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
-                                        <a class="btn btn-primary btn-sm" data-toggle="collapse"
-                                           data-target="#detail-{{ $item->id }}">Detail/Edit</a>
+                                        <a class="btn btn-primary btn-sm" onclick="$(this).parent().parent().parent().next().toggle()">Detail/Edit</a>
                                     </div>
                                 </td>
                             @endif
                         </tr>
                         <tr>
                             <td colspan="4" style="border-top: none !important;">
-                                <div id="detail-{{ $item->id }}" class="collapse">
+                                <div>
                                     <div class="row">
                                         <div class="col-md-4 col-sm-4">
                                             <label>Hak akses</label>
