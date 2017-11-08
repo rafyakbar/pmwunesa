@@ -92,7 +92,6 @@ class LogBookController extends Controller
 
     private function bolehTambahLogBook()
     {
-        return true;
         return (Auth::user()->isKetua() && Auth::user()->mahasiswa()->proposal()->lolos());
     }
 
