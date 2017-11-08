@@ -13,10 +13,10 @@ class Dana
 
     public function __construct()
     {
-        $this->formatter = new NumberFormatter($this->local,2);
+        $this->formatter = new NumberFormatter($this->local, 2);
     }
 
-    public function format($currency,$type = NULL)
+    public function format($currency, $type = NULL)
     {
         return $this->formatter->format($currency);
     }
