@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('brand')
+    Jurusan
+@endsection
+
 @section('content')
     <div class="card">
         <div class="card-header" data-background-color="purple">

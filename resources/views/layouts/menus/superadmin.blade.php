@@ -1,6 +1,6 @@
 <li>
     <a data-toggle="collapse" href="#permintaan">
-        <i class="material-icons">grid_on</i>
+        <i class="material-icons">sms</i>
         <p>Permintaan</p>
     </a>
     <div class="collapse" id="permintaan">
@@ -14,7 +14,7 @@
 
 <li>
     <a data-toggle="collapse" href="#akademik">
-        <i class="material-icons">grid_on</i>
+        <i class="material-icons">school</i>
         <p>Akademik</p>
     </a>
     <div class="collapse" id="akademik">
@@ -33,14 +33,14 @@
 </li>
 
 <li @if(Route::currentRouteName() === 'daftar.pengguna' ) class="active" @endif>
-    <a href="{{ route('daftar.pengguna', ['fakultas'=>'semua_fakultas', 'role' => 'semua_hak_akses']) }}">
+    <a href="{{ route('daftar.pengguna', ['fakultas'=>'semua_fakultas', 'role' => 'semua_hak_akses', 'data' => 10]) }}">
         <i class="material-icons">people</i>
         <p>Pengguna</p>
     </a>
 </li>
 
 <li @if(Route::currentRouteName() === 'daftar.proposal' ) class="active" @endif>
-    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua']) }}">
+    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua_proposal']) }}">
         <i class="material-icons">library_books</i>
         <p>Proposal</p>
     </a>
@@ -48,7 +48,7 @@
 
 <li @if(Route::currentRouteName() === 'pengaturansistem' ) class="active" @endif>
     <a href="{{ route('pengaturansistem') }}">
-        <i class="material-icons">library_books</i>
+        <i class="material-icons">settings</i>
         <p>Pengaturan</p>
     </a>
 </li>

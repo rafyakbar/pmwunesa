@@ -22,20 +22,32 @@ class SuperAdminController extends Controller
     {
         return view('admin.super.pengaturan', [
             'pengaturan' => Pengaturan::all(),
-            'aspek' => Aspek::all()
+            'aspek' => Aspek::all(),
+            'c' => 0
         ]);
     }
 
     public function tampilDataPengguna(Request $request)
     {
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
         $pengguna = ($request->fakultas == 'semua_fakultas') ? User::orderBy('nama')->get() : User::perFakultas(ucwords(str_replace('_',' ', $request->fakultas)));
+        if ($request->role != 'semua_hak_akses'){
+            $dump = $pengguna;
+            $pengguna = [];
+            foreach ($dump as $item){
+                if (User::find($item->id)->hasRole(ucwords(str_replace('_',' ', $request->role))))
+                    array_push($pengguna, $item);
+            }
+        }
+        $pengguna = collect($pengguna);
         return view('admin.super.daftarpengguna', [
-            'user'              => $pengguna,
+            'user'              => $pengguna->paginate($request->perHalaman),
             'hak_akses'         => HakAkses::orderBy('id')->get(),
             'daftar_fakultas'   => Fakultas::all(),
             'fakultas'          => $request->fakultas,
             'role'              => $request->role,
-            'c'                 => 0
+            'c'                 => 0,
+            'perHalaman'        => $request->perHalaman
         ]);
     }
 
@@ -57,7 +69,7 @@ class SuperAdminController extends Controller
     public function tampilDataProdi()
     {
         return view('admin.super.daftarprodi', [
-            'prodi' => Prodi::orderBy('id_jurusan')->orderBy('nama')->get(),
+            'prodi' => Prodi::orderBy('id_jurusan')->orderBy('nama')->paginate(10),
             'jurusan' => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get()
         ]);
     }
@@ -71,14 +83,33 @@ class SuperAdminController extends Controller
 
     public function tampilDataProposal(Request $request)
     {
+        $request->lolos = ($request->lolos != 'tahap_1' && $request->lolos != 'tahap_2') ? 'semua_proposal' : $request->lolos;
         $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
-        $proposal = ($request->fakultas == 'semua_fakultas') ? Proposal::all() : Proposal::proposalPerFakultas(Fakultas::where('nama', $nama_fakultas)->first()->id);
+        $nama_fakultas = (Fakultas::checkName($nama_fakultas)) ? $nama_fakultas : 'semua_fakultas';
+        $proposal = ($nama_fakultas == 'semua_fakultas') ? Proposal::all() : Proposal::proposalPerFakultas(Fakultas::where('nama', $nama_fakultas)->first()->id);
+        if ($request->lolos == 'tahap_1' || $request->lolos == 'tahap_2'){
+            $dump = $proposal;
+            $proposal = [];
+            foreach ($dump as $item){
+                if (\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$request->lolos)[1])){
+                    array_push($proposal, $item);
+                }
+            }
+        }
+        $proposal = collect($proposal);
         return view('admin.super.daftarproposal', [
-            'proposal' => $proposal,
+            'proposal' => $proposal->paginate(10),
             'daftar_fakultas' => Fakultas::all(),
-            'fakultas' => $request->fakultas,
+            'fakultas' => $nama_fakultas,
             'lolos' => $request->lolos,
             'c' => 0
+        ]);
+    }
+
+    public function detailProposal(Request $request)
+    {
+        return view('admin.super.detailproposal', [
+            'proposal' => Proposal::find($request->id)
         ]);
     }
 

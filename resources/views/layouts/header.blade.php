@@ -23,6 +23,10 @@
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     {{-- <link href="{{ asset('css/demo.css') }}" rel="stylesheet"/> --}}
 
+    {{--DateTimePicker--}}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-material-datetimepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/material-icons.css') }}">
+
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'>

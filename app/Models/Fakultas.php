@@ -28,4 +28,11 @@ class Fakultas extends Model
         return $this->hasMany('PMW\Models\Jurusan');
     }
 
+    public static function checkName($nama){
+        foreach (Fakultas::all() as $item)
+            if ($item->nama == $nama)
+                return true;
+        return false;
+    }
+
 }

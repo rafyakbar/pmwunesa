@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('brand')
+    Prodi
+@endsection
+
 @section('content')
     <div class="card">
         <div class="card-header" data-background-color="purple">
@@ -67,6 +71,9 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="card-footer">
+            {{ $prodi->links() }}
         </div>
         <div class="container-fluid">
             <div class="row">

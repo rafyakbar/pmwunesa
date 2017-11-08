@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('brand')
+    Profil
+@endsection
+
 @section('content')
 
     @if(Session::has('message'))
