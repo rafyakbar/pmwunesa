@@ -53,11 +53,10 @@
                 <table class="table table-responsive">
                     <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Judul Proposal</th>
-                        <th>Jenis Usaha</th>
-                        <th>Anggota Tim</th>
-                        <th>Aksi</th>
+                        <th style="width: 5%">No.</th>
+                        <th style="width: 45%">Judul Proposal</th>
+                        <th style="width: 20%">Jenis Usaha</th>
+                        <th style="width: 30%">Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,18 +68,6 @@
                             </td>
                             <td>
                                 {{ $item->jenis_usaha }}
-                            </td>
-                            <td>
-                                <ul>
-                                    @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->cursor() as $value)
-                                        <li>
-                                            {{ \PMW\User::find($value->id_pengguna)->nama }}
-                                            @if(\PMW\User::find($value->id_pengguna)->hasRole('Ketua Tim'))
-                                                <strong>(Ketua)</strong>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
                             </td>
                             <td>
                                 <div class="btn-group">
