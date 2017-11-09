@@ -10,10 +10,14 @@
             if (td) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
-                    tr[i+1].style.display = "";
+                    @if ($isDetailed)
+                        tr[i+1].style.display = "";
+                    @endif
                 } else {
                     tr[i].style.display = "none";
-                    tr[i+1].style.display = "none";
+                    @if ($isDetailed)
+                        tr[i+1].style.display = "none";
+                    @endif
                 }
             }
         }

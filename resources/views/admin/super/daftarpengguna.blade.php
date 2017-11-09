@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('js')
+    @include('js.searchintable', ['inputId' => 'myInput', 'tableId' => 'myTable', 'fieldIndex' => '1', 'isDetailed' => true])
+@endpush
+
 @section('brand')
     Pengguna
 @endsection
@@ -215,7 +219,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-    @include('js.searchintable', ['inputId' => 'myInput', 'tableId' => 'myTable', 'fieldIndex' => '1'])
-@endpush
