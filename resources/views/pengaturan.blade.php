@@ -177,7 +177,7 @@
                                     <option value="-1">Pilih Jurusan</option>
                                         @endif
                                         @foreach($daftar_jurusan as $jurusan)
-                                            <option value="{{ $jurusan->id }}">Fakultas {{ $jurusan->nama }}</option>
+                                            <option value="{{ $jurusan->id }}">{{ $jurusan->nama }}</option>
                                         @endforeach
                                 </select>
 
@@ -189,7 +189,7 @@
                                         <option value="-1">Pilih Program Studi</option>
                                     @endif
                                     @foreach($daftar_prodi as $prodi)
-                                        <option value="{{ $prodi->id }}">Fakultas {{ $prodi->nama }}</option>
+                                        <option value="{{ $prodi->id }}">{{ $prodi->nama }}</option>
                                     @endforeach
                                 </select>
                                 @if($errors->has('id_prodi'))
