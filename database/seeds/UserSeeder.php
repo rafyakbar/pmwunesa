@@ -3,9 +3,14 @@
 use Illuminate\Database\Seeder;
 use PMW\User;
 use PMW\Models\HakAkses;
+use PMW\Support\RequestStatus;
+use Faker\Factory;
+use PMW\Models\Prodi;
+use PMW\Models\Mahasiswa;
 
 class UserSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
@@ -13,14 +18,36 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(PMW\User::class, 50)->create()->each(function ($u) {
-            $u->make();
-        });
-        foreach (User::all() as $user)
-        {
-            $user->hakAksesPengguna()->attach(HakAkses::find([1,1,1,1,3,4,5,6,7][rand(0,8)]),[
-                'status_request' => \PMW\Support\RequestStatus::APPROVED
+        for($i = 1; $i <= 100; $i++) {
+            $faker = Factory::create();
+
+            // Membuat user
+            $user = User::create([
+                'id' => $faker->isbn10,
+                'nama' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'password' => bcrypt('secret'),
+                'request' => true,
+                'id_prodi' => Prodi::all()->pluck('id')->random()
             ]);
+
+            // Mengeset hak akses
+            $user->hakAksesPengguna()->attach(HakAkses::all()->random(), [
+                'status_request' => RequestStatus::APPROVED
+            ]);
+
+            // Jika hak akses adalah mahasiswa, maka
+            // menambah pada tabel mahasiswa
+            if($user->isMahasiswa()) {
+                $user->request = false;
+                $user->save();
+
+                Mahasiswa::create([
+                    'id_pengguna' => $user->id,
+                    'ipk' => Factory::create()->biasedNumberBetween($min = 0, $max = 400)/100
+                ]);
+            }
         }
     }
+
 }
