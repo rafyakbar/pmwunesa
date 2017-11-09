@@ -309,9 +309,16 @@ class Proposal extends Model
      */
     public function tambahPembimbing($dosen)
     {
-        $this->bimbingan()->updateExistingPivot($dosen->id, [
-            'status_request' => RequestStatus::APPROVED
-        ]);
+        if(is_null($this->bimbingan()->where('id_pengguna', $dosen->id)->first())) {
+            $this->bimbingan()->attach($dosen->id, [
+                'status_request' => RequestStatus::APPROVED
+            ]);
+        }
+        else {
+            $this->bimbingan()->updateExistingPivot($dosen->id, [
+                'status_request' => RequestStatus::APPROVED
+            ]);
+        }
     }
 
     public static function proposalPerFakultas($idfakultas)
