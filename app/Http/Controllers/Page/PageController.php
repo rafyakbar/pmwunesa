@@ -12,6 +12,12 @@ use PMW\Models\Proposal;
 
 class PageController extends Controller
 {
+    public function detailProposal(Request $request)
+    {
+        return view('admin.super.detailproposal', [
+            'proposal' => Proposal::find($request->id)
+        ]);
+    }
 
     public function proposalDetail($id = null)
     {

@@ -9,7 +9,7 @@
     @else
         Anda telah mengunggah proposal final. <a href="{{ route('unduh.proposal.final') }}" onclick="event.preventDefault(); document.getElementById('unduh-proposal').submit();">Unduh disini</a>
 
-        <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post" style="display: none;">
+        <form id="unduh-proposal" action="{{ route('unduh.proposal.final') }}" method="post" style="display: none;">
             {{ csrf_field() }}
         </form>
     @endif

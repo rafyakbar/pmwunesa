@@ -10,6 +10,9 @@ use PMW\Support\RequestStatus;
 
 class Proposal extends Model
 {
+    const JENIS_USAHA = [
+        'Barang', 'Jasa', 'Barang & Jasa'
+    ];
 
     protected $table = 'proposal';
 

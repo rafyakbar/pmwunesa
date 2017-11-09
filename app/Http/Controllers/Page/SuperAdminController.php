@@ -98,18 +98,11 @@ class SuperAdminController extends Controller
         }
         $proposal = collect($proposal);
         return view('admin.super.daftarproposal', [
-            'proposal' => $proposal->paginate(10),
+            'proposal' => $proposal->paginate(1000),
             'daftar_fakultas' => Fakultas::all(),
             'fakultas' => $nama_fakultas,
             'lolos' => $request->lolos,
             'c' => 0
-        ]);
-    }
-
-    public function detailProposal(Request $request)
-    {
-        return view('admin.super.detailproposal', [
-            'proposal' => Proposal::find($request->id)
         ]);
     }
 

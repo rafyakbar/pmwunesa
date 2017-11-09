@@ -23,6 +23,13 @@ Route::group(['middleware' => 'auth'], function () {
             'as' => 'dashboard'
         ]);
 
+        Route::group(['prefix' => 'detail'], function (){
+            Route::get('proposal/{id}', [
+                'uses'  => 'Page\PageController@detailProposal',
+                'as'    => 'detail.proposal'
+            ]);
+        });
+
         Route::group(['prefix' => 'cari'], function () {
 
             Route::get('carimahasiswa', [

@@ -34,19 +34,7 @@ class UserSeeder extends Seeder
             // Mengeset hak akses
             $user->hakAksesPengguna()->attach(HakAkses::all()->random(), [
                 'status_request' => RequestStatus::APPROVED
-            ]);
-
-            // Jika hak akses adalah mahasiswa, maka
-            // menambah pada tabel mahasiswa
-            if($user->isMahasiswa()) {
-                $user->request = false;
-                $user->save();
-
-                Mahasiswa::create([
-                    'id_pengguna' => $user->id,
-                    'ipk' => Factory::create()->biasedNumberBetween($min = 0, $max = 400)/100
                 ]);
-            }
         }
     }
 

@@ -2,13 +2,6 @@
 
 Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('pengaturansistem');
 
-Route::group(['prefix' => 'detail'], function (){
-    Route::get('proposal/{id}', [
-        'uses'  => 'Page\SuperAdminController@detailProposal',
-        'as'    => 'detail.proposal'
-    ]);
-});
-
 Route::group(['prefix' => 'daftar'], function (){
 
     Route::get('pengguna/{fakultas}/{role}/{perHalaman}', [

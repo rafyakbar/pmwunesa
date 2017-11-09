@@ -17,6 +17,7 @@ class ProposalSeeder extends Seeder
      *
      * @return void
      */
+
     public function run()
     {
         $jumlahProposal = 73;
@@ -39,7 +40,7 @@ class ProposalSeeder extends Seeder
                 'usulan_dana' => $faker->numberBetween(1000000, 5000000),
                 'abstrak' => $faker->text($maxNbChars = 500),
                 'keyword' => 'key|word',
-                'jenis_usaha' => 'barang'
+                'jenis_usaha' => Proposal::JENIS_USAHA[rand(0,2)]
             ]);
 
             // Membuat 3 user sebagai tim
