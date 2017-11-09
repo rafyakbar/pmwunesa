@@ -39,15 +39,11 @@
             @endif
 
         @else
-
             <div class="card">
-
                 <div class="card-content">
                     <p class="alert alert-primary">Tim anda belum dinyatakan lolos</p>
                 </div>
-
             </div>
-
         @endif
         @else
             <div class="card">
@@ -56,23 +52,16 @@
                 </div>
             </div>
         @endif
-
-
     @else
-
         <div class="card">
-
             <div class="card-content">
                 <p class="alert alert-primary">Anda belum memiliki tim</p>
             </div>
-
         </div>
-
     @endif
-
 @endsection
 
-@if(Auth::user()->mahasiswa()->punyaTim())
+@if(Auth::user()->mahasiswa()->punyaProposal() && Auth::user()->mahasiswa()->punyaProposal())
     @push('js')
         <script type="text/javascript">
             $('#tampilkan-form-logbook').click(function (e) {
