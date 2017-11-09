@@ -40,7 +40,7 @@
 </li>
 
 <li @if(Route::currentRouteName() === 'daftar.proposal' ) class="active" @endif>
-    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua_proposal']) }}">
+    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua_proposal', 'perHalaman' => 10]) }}">
         <i class="material-icons">library_books</i>
         <p>Proposal</p>
     </a>

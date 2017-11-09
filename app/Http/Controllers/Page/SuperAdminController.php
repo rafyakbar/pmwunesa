@@ -83,6 +83,7 @@ class SuperAdminController extends Controller
 
     public function tampilDataProposal(Request $request)
     {
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
         $request->lolos = ($request->lolos != 'tahap_1' && $request->lolos != 'tahap_2') ? 'semua_proposal' : $request->lolos;
         $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
         $nama_fakultas = (Fakultas::checkName($nama_fakultas)) ? $nama_fakultas : 'semua_fakultas';
@@ -97,12 +98,14 @@ class SuperAdminController extends Controller
             }
         }
         $proposal = collect($proposal);
+
         return view('admin.super.daftarproposal', [
-            'proposal' => $proposal->paginate(1000),
+            'proposal' => $proposal->paginate($request->perHalaman),
             'daftar_fakultas' => Fakultas::all(),
             'fakultas' => $nama_fakultas,
             'lolos' => $request->lolos,
-            'c' => 0
+            'c' => 0,
+            'perHalaman' => $request->perHalaman
         ]);
     }
 
