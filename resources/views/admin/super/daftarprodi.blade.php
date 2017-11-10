@@ -35,18 +35,23 @@
                                         <div class="col-md-7">
                                             <select name="id_jurusan" class="form-control">
                                                 @if(is_null($item->id_jurusan))
-                                                    <option value="">Pilih jurusan</option>
+                                                    <option value="">Pilih Jurusan</option>
                                                     @foreach($jurusan as $value)
                                                         <option value="{{ $value->id }}">Jurusan {{ $value->nama }}</option>
                                                     @endforeach
                                                 @else
-                                                    {{ $pJurusan = \PMW\Models\Prodi::find($item->id)->jurusan() }}
-                                                    <option value="{{ $pJurusan->id }}">Fakultas {{ \PMW\Models\Jurusan::find($pJurusan->id)->fakultas()->nama }} | Jurusan {{ $pJurusan->nama }}</option>
-                                                    @foreach($jurusan as $value)
-                                                        @if($value->id !== $pJurusan->id)
-                                                            <option value="{{ $value->id }}">Fakultas {{ \PMW\Models\Jurusan::find($value->id)->fakultas()->nama }} | Jurusan {{ $value->nama }}</option>
+                                                    <option value="{{ $item->id_jurusan }}">
+                                                        @if(!is_null($item->jurusan()->id_fakultas))
+                                                            Fakultas {{ $item->jurusan()->fakultas()->nama }}
+                                                        @else
+                                                            Fakultas belum diatur
                                                         @endif
-                                                    @endforeach
+                                                        | Jurusan {{ $item->jurusan()->nama }}</option>
+                                                    {{--@foreach($jurusan as $value)--}}
+                                                        {{--@if($value->id !== $pJurusan->id)--}}
+                                                            {{--<option value="{{ $value->id }}">Fakultas {{ \PMW\Models\Jurusan::find($value->id)->fakultas()->nama }} | Jurusan {{ $value->nama }}</option>--}}
+                                                        {{--@endif--}}
+                                                    {{--@endforeach--}}
                                                 @endif
                                             </select>
                                         </div>
