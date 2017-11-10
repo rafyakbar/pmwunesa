@@ -69,7 +69,7 @@
                     <h5>Maaf, masih belum ada proposal!</h5>
                 </div>
             @else
-                <table class="table table-responsive">
+                <table class="table use-datatable">
                     <thead>
                     <tr>
                         <th style="width: 5%">No.</th>
