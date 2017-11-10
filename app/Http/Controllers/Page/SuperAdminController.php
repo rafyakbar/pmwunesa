@@ -55,7 +55,8 @@ class SuperAdminController extends Controller
     public function tampilDataFakultas()
     {
         return view('admin.super.daftarfakultas', [
-            'fakultas' => Fakultas::orderBy('nama')->get()
+            'fakultas' => Fakultas::orderBy('nama')->get(),
+            'c' => 0
         ]);
     }
 
