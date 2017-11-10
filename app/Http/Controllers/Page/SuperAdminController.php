@@ -29,6 +29,7 @@ class SuperAdminController extends Controller
 
     public function tampilDataPengguna(Request $request)
     {
+        $request->fakultas = (Fakultas::checkName(ucwords(str_replace('_',' ', $request->fakultas)))) ? $request->fakultas : 'semua_fakultas';
         $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
         $pengguna = ($request->fakultas == 'semua_fakultas') ? User::orderBy('nama')->get() : User::perFakultas(ucwords(str_replace('_',' ', $request->fakultas)));
         if ($request->role != 'semua_hak_akses'){
@@ -58,11 +59,23 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function tampilDataJurusan()
+    public function tampilDataJurusan(Request $request)
     {
+        $request->fakultas = (Fakultas::checkName(ucwords(str_replace('_',' ', $request->fakultas)))) ? $request->fakultas : 'semua_fakultas';
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
+        $nama_fakultas = ucwords(str_replace('_',' ',$request->fakultas));
+        if (Fakultas::checkName($nama_fakultas)){
+            $jurusan = Jurusan::where('id_fakultas',Fakultas::getIdByName($nama_fakultas))->orderBy('nama');
+        }
+        else{
+            $jurusan = Jurusan::orderBy('id_fakultas')->orderBy('nama');
+        }
         return view('admin.super.daftarjurusan', [
-            'jurusan' => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get(),
-            'fakultas' => Fakultas::orderBy('nama')->get()
+            'fakultas' => $request->fakultas,
+            'jurusan' => $jurusan->paginate($request->perHalaman),
+            'daftarfakultas' => Fakultas::orderBy('nama')->get(),
+            'c' => 0,
+            'perHalaman' => $request->perHalaman
         ]);
     }
 

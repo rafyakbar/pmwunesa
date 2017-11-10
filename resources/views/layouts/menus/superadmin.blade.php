@@ -23,7 +23,7 @@
                 <a href="{{ route('daftar.fakultas') }}">Fakultas</a>
             </li>
             <li>
-                <a href="{{ route('daftar.jurusan') }}">Jurusan</a>
+                <a href="{{ route('daftar.jurusan', ['fakultas' => 'semua_fakultas', 'perHalaman' => 10]) }}">Jurusan</a>
             </li>
             <li>
                 <a href="{{ route('daftar.prodi') }}">Prodi</a>

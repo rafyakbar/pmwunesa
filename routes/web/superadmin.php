@@ -14,7 +14,7 @@ Route::group(['prefix' => 'daftar'], function (){
         'as'    => 'daftar.fakultas'
     ]);
 
-    Route::get('jurusan', [
+    Route::get('jurusan/{fakultas}/{perHalaman}', [
         'uses'  => 'Page\SuperAdminController@tampilDataJurusan',
         'as'    => 'daftar.jurusan'
     ]);
