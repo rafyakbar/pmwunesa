@@ -20,6 +20,9 @@
 
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet"/>
 
+    <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/dataTables.responsive.css') }}" rel="stylesheet"/>
+
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     {{-- <link href="{{ asset('css/demo.css') }}" rel="stylesheet"/> --}}
 
