@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <label>Usulan dana</label>
-                    <h5><b>Rp {{ number_format($proposal->usulan_dana, 0, ',', '.') }}</b></h5>
+                    <h5><b>Rp {{ Dana::format($proposal->usulan_dana) }}</b></h5>
                     <label>Reviewer tahap 2</label>
                     @if(!is_null($proposal->daftarReview(2)))
                         <ul class="list-group">
@@ -109,7 +109,7 @@
             </div>
             <label>Abstrak</label>
             <p>{!! $proposal->abstrak !!}</p>
-            <p><i>keyword : </i>{{ $proposal->keyword }}</p>
+            <p><i>keyword : </i>{{ $proposal->keyword() }}</p>
         </div>
     </div>
 @endsection
