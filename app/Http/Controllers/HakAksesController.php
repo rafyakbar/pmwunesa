@@ -41,7 +41,7 @@ class HakAksesController extends Controller
             // Jika request pernah di tolak, maka cukup melakukan
             // update pada tabel dengan mengubah status request
             if ($pengguna->hakAksesDitolak($hakAkses)) {
-                $pengguna->hakAksesPengguna()->updateExistingivot($hakAkses->id ,[
+                $pengguna->hakAksesPengguna()->updateExistingPivot($hakAkses->id ,[
                     'status_request' => RequestStatus::REQUESTING
                 ]);
             } else {
@@ -50,16 +50,16 @@ class HakAksesController extends Controller
                 ]);
             }
 
-            Session::flash('message', 'Berhasil melakukan request hak akses !');
-            Session::flash('error', false);
-
-            return back();
+            return response()->json([
+                'message' => 'Berhasil meminta hak akses !',
+                'error' => false
+            ]);
         }
-
-        Session::flash('message', 'Gagal melakukan request hak akses !');
-        Session::flash('error', true);
-
-        return back();
+        
+        return response()->json([
+            'message' => 'Gagal meminta hak akses tersebut !',
+            'error' => true
+        ]);
     }
 
     public function terimaRequest(Request $request)

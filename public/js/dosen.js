@@ -3,9 +3,9 @@ $(function(){
     $('.ajax-form').ajaxForm({
         success : function(response){
             swal({
-                title : (response.error === 0) ? 'Berhasil' : 'Gagal',
+                title : (response.error === false) ? 'Berhasil' : 'Gagal',
                 text : response.message,
-                type : (response.error === 0 ) ? 'success' : 'error'
+                type : (response.error === false ) ? 'success' : 'error'
             },function(){
                 window.location.reload()
             })
