@@ -31,13 +31,16 @@ class Proposal extends Model
     ];
 
     /**
-     * Mendapatkan pembmbing dari proposal terkait
+     * Mendapatkan daftar pembimbing dari proposal terkait
+     * method ini juga berfungsi sebagai bentuk relasi dari proposal
+     * dan dosen pembimbing
      *
      * @return BelongsToMany
      */
     public function bimbingan()
     {
-        return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')->withPivot('status_request');
+        return $this->belongsToMany('PMW\User', 'bimbingan', 'id_tim', 'id_pengguna')
+                    ->withPivot('status_request');
     }
 
     /**
@@ -57,7 +60,7 @@ class Proposal extends Model
      */
     public function reviewer()
     {
-        return $this->belongsToMany('PMW\User', 'review', 'id_proposal', 'id_pengguna')->withPivot('id', 'tahap', 'komentar');
+        return $this->belongsToMany('PMW\User', 'review', 'id_proposal', 'id_pengguna')                     ->withPivot('id', 'tahap', 'komentar');
     }
 
     /**
@@ -79,6 +82,7 @@ class Proposal extends Model
     public function laporan($type = null)
     {
         $relasi = $this->hasMany('PMW\Models\Laporan', 'id_proposal');
+
         if (is_null($type))
             return $relasi;
         else if ($type == 'kemajuan')
@@ -162,6 +166,7 @@ class Proposal extends Model
         $idketua = DB::table(DB::raw($tabel))
             ->whereRaw('tim.id_pengguna = hak_akses_pengguna.id_pengguna AND hak_akses_pengguna.id_hak_akses = ketua.id')
             ->select(DB::raw('tim.id_pengguna'))->first();
+
         return User::find($idketua->id_pengguna);
     }
 
@@ -213,7 +218,7 @@ class Proposal extends Model
     public function nilaiRataRata($tahap = 1)
     {
         $jumlahReviewer = Review::where('id_proposal', $this->id)
-            ->where('tahap',$tahap)
+            ->where('tahap', $tahap)
             ->count();
 
         if($jumlahReviewer !== 0)
@@ -280,13 +285,19 @@ class Proposal extends Model
         return null;
     }
 
+    /**
+     * Mendapatkan daftar penilaian dari review tertentu
+     *
+     * @param int $idreview
+     * @return void
+     */
     public function penilaian($idreview)
     {
         $review = Review::find($idreview);
 
         return $this->daftarReview($review->tahap)
-            ->first()
-            ->penilaian();
+                    ->first()
+                    ->penilaian();
     }
 
     /**
@@ -372,6 +383,17 @@ class Proposal extends Model
             else
                 return 'Proposal tidak lolos';
         }
+    }
+
+    /**
+     * Mengganti format keyword yang pada database menggunakan '|' sebagai
+     * pemisah, maka diganti dengan ','
+     *
+     * @return string
+     */
+    public function keyword()
+    {
+        return implode(', ', explode('|', $this->keyword));
     }
 
 }
