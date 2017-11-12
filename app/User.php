@@ -92,6 +92,9 @@ class User extends Authenticatable
      */
     public function hakAksesDitolak($hakAkses)
     {
+        if(is_string($hakAkses))
+            $hakAkses = HakAkses::where('nama', $hakAkses)->first();
+        
         return ($this->hakAksesPengguna()
                 ->where('id_hak_akses', $hakAkses->id)
                 ->where('status_request', RequestStatus::REJECTED)
@@ -147,12 +150,23 @@ class User extends Authenticatable
         return $bimbingan;
     }
 
+    /**
+     * Mengecek apakah user (dosen pembimbing) memiliki
+     * undangan sebagai pembimbing sebuah tim
+     *
+     * @return boolean
+     */
     public function punyaUndanganBimbingan()
     {
         return ($this->bimbingan(RequestStatus::REQUESTING)
                 ->count() > 0);
     }
 
+    /**
+     * Mengecek apakah user memiliki tim untuk dibimbing
+     *
+     * @return boolean
+     */
     public function punyaBimbingan()
     {
         return ($this->bimbingan(RequestStatus::APPROVED)
@@ -174,53 +188,106 @@ class User extends Authenticatable
         return false;
     }
 
+    /**
+     * Mengecek apakah user memiliki role tertentu
+     *
+     * @param string $role
+     * @return boolean
+     */
     public function hasRole($role)
     {
         return $this->hakAksesPengguna()
-                ->where('nama', $role)
+                ->where('nama', strtolower($role))
                 ->where('status_request', RequestStatus::APPROVED)->count() > 0;
     }
 
+    /**
+     * Mengecek apakah user adalah seorang ketua tim
+     *
+     * @return boolean
+     */
     public function isKetua()
     {
         return ($this->hasRole(HakAkses::KETUA_TIM));
     }
 
+    /**
+     * Mengecek apakah user adalah seorang anggota tim atau belum menjadi
+     * anggota dari sebuah tim
+     *
+     * @return boolean
+     */
     public function isAnggota()
     {
         return ($this->hasRole(HakAkses::ANGGOTA));
     }
 
+    /**
+     * Mengecek apakah user adalah seorang mahasiswa
+     *
+     * @return boolean
+     */
     public function isMahasiswa()
     {
         return ($this->isKetua() || $this->isAnggota());
     }
 
+    /**
+     * Mengecek apakah user adalah admin fakultas
+     *
+     * @return boolean
+     */
     public function isAdminFakultas()
     {
         return ($this->hasRole(HakAkses::ADMIN_FAKULTAS));
     }
 
+    /**
+     * Mengecek apakah user adalah admin universitas
+     *
+     * @return boolean
+     */
     public function isAdminUniversitas()
     {
         return ($this->hasRole(HakAkses::ADMIN_UNIVERSITAS));
     }
 
+    /**
+     * Mengecek apakah user adalah super admin
+     *
+     * @return boolean
+     */
     public function isSuperAdmin()
     {
         return ($this->hasRole(HakAkses::SUPER_ADMIN));
     }
 
+    /**
+     * Mengecek apakah user adalah dosen pembimbing
+     *
+     * @return boolean
+     */
     public function isDosenPembimbing()
     {
         return $this->hasRole(HakAkses::DOSEN_PEMBIMBING);
     }
 
+    /**
+     * Mengecek apakah user adalah reviewer
+     *
+     * @return boolean
+     */
     public function isReviewer()
     {
         return $this->hasRole(HakAkses::REVIEWER);
     }
 
+    /**
+     * Mengecek apakah user sedang meminta hak akses tertentu
+     *
+     * @param string $hakAkses
+     * @return boolean
+     */
     public function requestingHakAkses($hakAkses)
     {
         return ($this->hakAksesPengguna()
@@ -229,11 +296,25 @@ class User extends Authenticatable
                 ->count() == 1);
     }
 
+    /**
+     * Mengecek apakah user bisa melakukan permintaan hak akses
+     * tertentu
+     *
+     * @param [type] $role
+     * @return void
+     */
     public function bisaRequestHakAkses($role)
     {
         return (!$this->hasRole($role) && !$this->requestingHakAkses($role));
     }
 
+    /**
+     * Melakukan pencarian mahasiswa yang bisa diundang bergabung
+     * dalam tim
+     *
+     * @param string $nama
+     * @return string
+     */
     public static function cariMahasiswaUntukUndanganTim($nama)
     {
         // Daftar undangan yang dikirim oleh user terkait
@@ -248,12 +329,25 @@ class User extends Authenticatable
             ->where('nama', 'LIKE', '%' . strtolower($nama) . '%')
             ->where('id', '!=', Auth::user()->id)
             ->whereNotNull('id_prodi')
-            ->whereNotIn('id', $daftarUndangan)
-            ->get();
+            ->whereNotIn('id', $daftarUndangan);
+        
+        // Menambahkan field nama prodi
+        $daftarMahasiswa = [];
+        foreach($eloquent->cursor() as $pengguna) {
+            $tempArr = $pengguna->toArray();
+            $tempArr['prodi'] = $pengguna->prodi()->nama;
+            array_push($daftarMahasiswa, $tempArr);
+        }
 
-        return $eloquent;
+        return response()->json(collect($daftarMahasiswa)->toArray());
     }
 
+    /**
+     * Melakukan pencarian dosen pembimbing
+     *
+     * @param string $nama
+     * @return void
+     */
     public static function cariDosenPembimbing($nama)
     {
         $nama = strtolower($nama);
@@ -262,12 +356,24 @@ class User extends Authenticatable
             $query->where('nama', HakAkses::DOSEN_PEMBIMBING)
                 ->where('status_request', RequestStatus::APPROVED);
         })
-            ->where('nama', 'LIKE', '%' . $nama . '%')
-            ->get();
+            ->where('nama', 'LIKE', '%' . $nama . '%');
 
-        return $eloquent;
+        // menambah field nama prodi
+        $daftarDosen = [];
+        foreach($eloquent->cursor() as $pengguna) {
+            $tempArr = $pengguna->toArray();
+            $tempArr['prodi'] = $pengguna->prodi()->nama;
+            array_push($daftarDosen, $tempArr);
+        }
+
+        return response()->json($daftarDosen);
     }
 
+    /**
+     * Menjadikan user terkait sebagai ketua tim
+     *
+     * @return void
+     */
     public function jadikanKetua()
     {
         // Menghapus hak akses sebagai anggota dari pengirim undangan
