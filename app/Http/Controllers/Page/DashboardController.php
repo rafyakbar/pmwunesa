@@ -1,11 +1,12 @@
 <?php
 
-namespace PMW\Http\Controllers;
+namespace PMW\Http\Controllers\Page;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
+use PMW\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -30,7 +31,7 @@ class DashboardController extends Controller
 
     public function mahasiswa()
     {
-        return view('mahasiswa.dashboard',[
+        return view('mahasiswa.dashboard', [
             'undangan' => Auth::user()->mahasiswa()->undanganTimAnggota(),
         ]);
     }
@@ -42,12 +43,10 @@ class DashboardController extends Controller
 
     public function dosen()
     {
-        return redirect()->route('bimbingan');
-
-//        return view('dosen.dashboard',[
-//            'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING),
-//            'bimbingan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::APPROVED)
-//        ]);
+       return view('dosen.dashboard',[
+           'undangan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::REQUESTING),
+           'bimbingan' => Auth::user()->bimbingan()->where('status_request',RequestStatus::APPROVED)->limit(3)
+       ]);
     }
 
     public function adminFakultas()
