@@ -38,8 +38,8 @@
                 </li>
             </ul>
         </div>
-        <a class="btn btn-success" data-toggle="modal" data-target="#tambah">Tambah jurusan</a>
     </div>
+    <a class="btn btn-success" data-toggle="modal" data-target="#tambah">Tambah jurusan</a>
     <div id="tambah" class="modal fade" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
         <div class="modal-dialog">
             <div class="card">
@@ -51,18 +51,31 @@
                     <form action="{{ route('tambah.jurusan') }}" method="post">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
-                        <div class="row" style="padding-left: 5%; padding-right: 5%">
-                            <div class="col-md-10">
-                                <textarea name="nama"
-                                          placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas"
-                                          class="form-control"></textarea>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="submit" name="submit" value="tambah" class="btn btn-round btn-sm">
-                            </div>
+                        <div class="input-group">
+                            <textarea name="nama"
+                                      placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas"
+                                      class="form-control" required></textarea>
+                            <span class="input-group-btn">
+                                        <button class="btn btn-success btn-sm" type="button">Tambah</button>
+                                    </span>
                         </div>
                     </form>
-                    <p>Tambahkan dengan .csv file</p>
+                    <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>id_fakultas</b>(opsional)</p>
+                    <div class="row" style="padding-left: 5%; padding-right: 5%">
+                        <div class="col-md-10">
+                            <form action="{{ route('tambah.csv.jurusan') }}" method="post"
+                                  enctype="multipart/form-data">
+                                {{ csrf_field() }}
+                                <div class="input-group input-group-sm">
+                                    <input type="text" name="splitter" maxlength="1" minlength="1" required>
+                                    <input name="csv" type="file" accept=".csv" required>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-success btn-sm" type="submit">Tambah</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

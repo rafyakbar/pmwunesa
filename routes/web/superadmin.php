@@ -2,164 +2,169 @@
 
 Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('pengaturansistem');
 
-Route::group(['prefix' => 'daftar'], function (){
+Route::group(['prefix' => 'daftar'], function () {
 
     Route::get('pengguna/{fakultas}/{role}/{perHalaman}', [
-        'uses'  => 'Page\SuperAdminController@tampilDataPengguna',
-        'as'    => 'daftar.pengguna'
+        'uses' => 'Page\SuperAdminController@tampilDataPengguna',
+        'as' => 'daftar.pengguna'
     ]);
 
     Route::get('fakultas', [
-        'uses'  => 'Page\SuperAdminController@tampilDataFakultas',
-        'as'    => 'daftar.fakultas'
+        'uses' => 'Page\SuperAdminController@tampilDataFakultas',
+        'as' => 'daftar.fakultas'
     ]);
 
     Route::get('jurusan/{fakultas}/{perHalaman}', [
-        'uses'  => 'Page\SuperAdminController@tampilDataJurusan',
-        'as'    => 'daftar.jurusan'
+        'uses' => 'Page\SuperAdminController@tampilDataJurusan',
+        'as' => 'daftar.jurusan'
     ]);
 
     Route::get('prodi', [
-        'uses'  => 'Page\SuperAdminController@tampilDataProdi',
-        'as'    => 'daftar.prodi'
+        'uses' => 'Page\SuperAdminController@tampilDataProdi',
+        'as' => 'daftar.prodi'
     ]);
 
     Route::get('proposal/{fakultas}/{lolos}/{perHalaman}', [
-        'uses'  => 'Page\SuperAdminController@tampilDataProposal',
-        'as'    => 'daftar.proposal'
+        'uses' => 'Page\SuperAdminController@tampilDataProposal',
+        'as' => 'daftar.proposal'
     ]);
 
 });
 
-Route::group(['prefix' => 'permintaan'], function (){
+Route::group(['prefix' => 'permintaan'], function () {
 
     Route::get('hakakses', [
-        'uses'  => 'Page\SuperAdminController@tampilRequestHakAkses',
-        'as'    => 'permintaan.hakakses'
+        'uses' => 'Page\SuperAdminController@tampilRequestHakAkses',
+        'as' => 'permintaan.hakakses'
     ]);
 
 });
 
-Route::group(['prefix' => 'tambah'], function (){
+Route::group(['prefix' => 'tambah'], function () {
 
-   Route::put('fakultas',[
-       'uses'   => 'FakultasController@tambah',
-       'as'     => 'tambah.fakultas'
-   ]);
-
-   Route::put('jurusan',[
-       'uses'   => 'JurusanController@tambah',
-       'as'     => 'tambah.jurusan'
-   ]);
-
-   Route::put('prodi',[
-       'uses'   => 'ProdiController@tambah',
-       'as'     => 'tambah.prodi'
-   ]);
-
-   Route::put('pengguna',[
-       'uses'   => 'UserController@tambah',
-       'as'     => 'tambah.user'
-   ]);
-
-    Route::put('aspek',[
-        'uses'  => 'AspekController@tambah',
-        'as'    => 'tambah.aspek'
+    Route::put('fakultas', [
+        'uses' => 'FakultasController@tambah',
+        'as' => 'tambah.fakultas'
     ]);
 
-    Route::put('hakaksespengguna',[
-        'uses'  => 'UserController@editHakAkses',
-        'as'    => 'tambah.hakaksespengguna'
+    Route::put('jurusan', [
+        'uses' => 'JurusanController@tambah',
+        'as' => 'tambah.jurusan'
+    ]);
+
+    Route::put('prodi', [
+        'uses' => 'ProdiController@tambah',
+        'as' => 'tambah.prodi'
+    ]);
+
+    Route::put('pengguna', [
+        'uses' => 'UserController@tambah',
+        'as' => 'tambah.user'
+    ]);
+
+    Route::put('aspek', [
+        'uses' => 'AspekController@tambah',
+        'as' => 'tambah.aspek'
+    ]);
+
+    Route::put('hakaksespengguna', [
+        'uses' => 'UserController@editHakAkses',
+        'as' => 'tambah.hakaksespengguna'
+    ]);
+
+    Route::post('csv/jurusan', [
+        'uses' => 'JurusanController@tambahCsv',
+        'as' => 'tambah.csv.jurusan'
     ]);
 
 });
 
-Route::group(['prefix' => 'hapus'], function (){
-    Route::put('fakultas',[
-        'uses'  => 'FakultasController@hapus',
-        'as'    => 'hapus.fakultas'
+Route::group(['prefix' => 'hapus'], function () {
+    Route::put('fakultas', [
+        'uses' => 'FakultasController@hapus',
+        'as' => 'hapus.fakultas'
     ]);
 
-    Route::put('jurusan',[
-        'uses'  => 'JurusanController@hapus',
-        'as'    => 'hapus.jurusan'
+    Route::put('jurusan', [
+        'uses' => 'JurusanController@hapus',
+        'as' => 'hapus.jurusan'
     ]);
 
-    Route::put('prodi',[
+    Route::put('prodi', [
         'uses' => 'ProdiController@hapus',
-        'as'   => 'hapus.prodi'
+        'as' => 'hapus.prodi'
     ]);
 
-    Route::put('pengguna',[
+    Route::put('pengguna', [
         'uses' => 'UserController@hapus',
-        'as'   => 'hapus.pengguna'
+        'as' => 'hapus.pengguna'
     ]);
 
-    Route::put('aspek',[
-        'uses'  => 'AspekController@hapus',
-        'as'    => 'hapus.aspek'
+    Route::put('aspek', [
+        'uses' => 'AspekController@hapus',
+        'as' => 'hapus.aspek'
     ]);
 });
 
-Route::group(['prefix' => 'edit'], function (){
+Route::group(['prefix' => 'edit'], function () {
 
-    Route::put('fakultas',[
-        'uses'  => 'FakultasController@edit',
-        'as'    => 'edit.fakultas'
+    Route::put('fakultas', [
+        'uses' => 'FakultasController@edit',
+        'as' => 'edit.fakultas'
     ]);
 
-    Route::put('jurusan',[
-        'uses'  => 'JurusanController@edit',
-        'as'    => 'edit.jurusan'
+    Route::put('jurusan', [
+        'uses' => 'JurusanController@edit',
+        'as' => 'edit.jurusan'
     ]);
 
-    Route::put('prodi',[
-        'uses'  => 'ProdiController@edit',
-        'as'    => 'edit.prodi'
+    Route::put('prodi', [
+        'uses' => 'ProdiController@edit',
+        'as' => 'edit.prodi'
     ]);
 
-    Route::put('aspek',[
-        'uses'  => 'AspekController@edit',
-        'as'    => 'edit.aspek'
+    Route::put('aspek', [
+        'uses' => 'AspekController@edit',
+        'as' => 'edit.aspek'
     ]);
 
-    Route::put('terimahakakses',[
-        'uses'  => 'HakAksesController@terimaRequest',
-        'as'    => 'set.terimahakakses'
+    Route::put('terimahakakses', [
+        'uses' => 'HakAksesController@terimaRequest',
+        'as' => 'set.terimahakakses'
     ]);
 
-    Route::put('tolakhakakses',[
-        'uses'  => 'HakAksesController@tolakRequest',
-        'as'    => 'set.tolakhakakses'
+    Route::put('tolakhakakses', [
+        'uses' => 'HakAksesController@tolakRequest',
+        'as' => 'set.tolakhakakses'
     ]);
 
     Route::get('reviewer/{idproposal}', [
-        'uses'  => 'Page\SuperAdminController@editReviewer',
-        'as'    => 'edit.reviewer'
+        'uses' => 'Page\SuperAdminController@editReviewer',
+        'as' => 'edit.reviewer'
     ]);
 
     Route::patch('reviewer/{idproposal}', [
-        'uses'  => 'ReviewerController@kelola',
-        'as'    => 'edit.reviewer'
+        'uses' => 'ReviewerController@kelola',
+        'as' => 'edit.reviewer'
     ]);
 
     Route::post('pengaturan', [
-        'uses'  => 'PengaturanController@edit',
-        'as'    => 'edit.pengaturan'
+        'uses' => 'PengaturanController@edit',
+        'as' => 'edit.pengaturan'
     ]);
 
 });
 
-Route::group(['prefix' => 'unduh'], function (){
+Route::group(['prefix' => 'unduh'], function () {
 
     Route::get('proposal/{fakultas}/{lolos}', [
-        'uses'  => 'Page\SuperAdminController@unduhProposal',
-        'as'    => 'unduh.filter.proposal'
+        'uses' => 'Page\SuperAdminController@unduhProposal',
+        'as' => 'unduh.filter.proposal'
     ]);
 
     Route::get('pengguna/{fakultas}/{role}', [
-        'uses'  => 'Page\SuperAdminController@unduhPengguna',
-        'as'    => 'unduh.filter.pengguna'
+        'uses' => 'Page\SuperAdminController@unduhPengguna',
+        'as' => 'unduh.filter.pengguna'
     ]);
 
 });
