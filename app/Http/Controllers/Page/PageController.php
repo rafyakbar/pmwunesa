@@ -12,9 +12,17 @@ use PMW\Models\Proposal;
 
 class PageController extends Controller
 {
+
+    /**
+     * Menampilkan halaman detail proposal
+     * tidak bisa dilihat oleh mahasiswa
+     *
+     * @param Request $request
+     * @return void
+     */
     public function detailProposal(Request $request)
     {
-        return view('admin.super.detailproposal', [
+        return view('detailproposal', [
             'proposal' => Proposal::find($request->id)
         ]);
     }
@@ -36,6 +44,12 @@ class PageController extends Controller
         return $view;
     }
 
+    /**
+     * Melihat hasil review dari sebuah proposal
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function lihatHasilReview($id)
     {
         $proposal = Proposal::find($id);
@@ -56,6 +70,11 @@ class PageController extends Controller
         ]);
     }
 
+    /**
+     * Halaman pengaturan user
+     *
+     * @return void
+     */
     public function pengaturan()
     {
         $fakultas = Fakultas::all();
