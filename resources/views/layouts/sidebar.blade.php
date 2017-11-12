@@ -1,9 +1,4 @@
 <div class="sidebar" data-color="blue" data-image="{{ asset('img/sidebar-3.jpg') }}">
-    <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
-
-        Tip 2: you can also add an image using data-image tag
-    -->
 
     <div class="logo">
         <a href="{{ route('dashboard') }}" class="simple-text">
@@ -13,14 +8,12 @@
 
     <div class="sidebar-wrapper">
         <ul class="nav">
-            @if(!Auth::user()->isReviewer() && !Auth::user()->isDosenPembimbing())
             <li {{ Route::currentRouteName() === 'dashboard' ? 'class=active' : '' }}>
                 <a href="{{ route('dashboard') }}">
                     <i class="material-icons">dashboard</i>
                     <p>Dashboard</p>
                 </a>
             </li>
-            @endif
 
             @if (Auth::user()->isSuperAdmin())
 
