@@ -40,7 +40,7 @@
                     <tbody>
                     @foreach($daftarProposal as $proposal)
                         <tr data-proposal="{{ $proposal->id }}">
-                            <td><a target="_blank" href="{{ route('lihat.proposal',[ 'id' => $proposal->id]) }}">
+                            <td><a target="_blank" href="{{ route('detail.proposal',[ 'id' => $proposal->id]) }}">
                                     <strong>{{ $proposal->judul }}</strong><sup><i
                                                 class="fa fa-external-link"></i></sup></a></td>
                             <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
@@ -73,6 +73,7 @@
             @else
                 <p class="alert alert-danger" style="margin:10px">Anda belum menjadi pembimbing dari sebuah tim.</p>
             @endif
+
         </div>
     </div>
 
@@ -80,7 +81,6 @@
 
 @push('js')
     <script>
-
         $('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {
             console.log(e.target)
             $(this).prevUntil('.table-expand', '.expand').hide()
