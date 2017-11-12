@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         @include('mahasiswa.part.daftar_tim')
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         @if(Auth::user()->mahasiswa()->proposal()->punyaPembimbing())
             <div class="card">
                 <div class="card-header">

@@ -100,9 +100,10 @@ $(function () {
                 $('#not-found').hide()
                 hasilPencarian.parent().show()
                 for (value in response) {
+                    console.log(response[value])
                     var baris = $('<tr id="hasil-' + response[value].id + '"></tr>')
                     var nama = $('<td></td>').text(response[value].nama)
-                    var asal = $('<td></td>').text('asal')
+                    var asal = $('<td></td>').text(response[value].prodi)
                     var aksi = undangButton(response[value].id, response[value].nama)
                     baris.append(nama)
                     baris.append(asal)

@@ -43,7 +43,7 @@ $(function(){
                 for (value in response) {
                     var baris = $('<tr id="hasil-' + response[value].id + '"></tr>')
                     var nama = $('<td></td>').text(response[value].nama)
-                    var asal = $('<td></td>').text('asal')
+                    var asal = $('<td></td>').text(response[value].prodi)
                     var aksi = undangButton(response[value].id, response[value].nama)
                     baris.append(nama)
                     baris.append(asal)
@@ -65,6 +65,10 @@ $(function(){
             $(this).parent().submit()
     })
 
+    /**
+     * Melakukan Ajax untuk mengirim undangan kepada
+     * calon dosen pembimbing
+     */
     undangPembimbing.ajaxForm({
         success : function (response) {
             swal({

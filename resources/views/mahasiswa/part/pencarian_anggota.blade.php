@@ -1,9 +1,6 @@
 <form class="card cari" action="{{ route('cari.mahasiswa') }}" method="get" id="cari-anggota">
-
     <input  type="text" name="nama" placeholder="Cari Mahasiswa" autofocus/>
-
     <button type="submit"><i class="fa fa-search"></i></button>
-
 </form>
 
 <div class="card">
@@ -23,7 +20,7 @@
             <thead>
                 <tr class="text-default">
                     <th>Nama</th>
-                    <th>Asal</th>
+                    <th>Asal Prodi</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
