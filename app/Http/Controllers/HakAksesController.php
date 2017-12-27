@@ -12,6 +12,11 @@ use PMW\User;
 class HakAksesController extends Controller
 {
 
+    /**
+     * Melakukan request untuk menjadi reviewer
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function requestReviewer()
     {
         $reviewer = HakAkses::where('nama', HakAkses::REVIEWER)->first();
@@ -19,6 +24,11 @@ class HakAksesController extends Controller
         return $this->requestHakAkses($reviewer);
     }
 
+    /**
+     * Melakukan request untuk menjadi dosen pembimbing
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function requestDosenPembimbing()
     {
         $pembimbing = HakAkses::where('nama', HakAkses::DOSEN_PEMBIMBING)->first();
@@ -28,8 +38,9 @@ class HakAksesController extends Controller
 
     /**
      * Melakukan request untuk hak akses tertentu
-     * @param  $hakAkses
-     * @return Illuminate\Http\JsonResponse
+     *
+     * @param  HakAkses $hakAkses
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function requestHakAkses($hakAkses)
     {
@@ -50,18 +61,24 @@ class HakAksesController extends Controller
                 ]);
             }
 
-            return response()->json([
-                'message' => 'Berhasil meminta hak akses !',
-                'error' => false
-            ]);
+            Session::flash('message', 'Berhasil meminta hak akses');
+            Session::flash('error', false);
+
+            return back();
         }
+
+        Session::flash('message', 'Gagal meminta hak akses tersebut !');
+        Session::flash('error', true);
         
-        return response()->json([
-            'message' => 'Gagal meminta hak akses tersebut !',
-            'error' => true
-        ]);
+        return back();
     }
 
+    /**
+     * Menerima request terhadap hak akses yang diminta oleh user tertentu
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function terimaRequest(Request $request)
     {
         $pengguna = User::find($request->id_pengguna);
@@ -73,6 +90,12 @@ class HakAksesController extends Controller
         return back();
     }
 
+    /**
+     * Menolak request hak akses yang diajukan user dan hak akses tertentu
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function tolakRequest(Request $request)
     {
         $pengguna = User::find($request->id_pengguna);
