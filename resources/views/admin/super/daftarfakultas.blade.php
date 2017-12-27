@@ -14,6 +14,7 @@
             <table class="table">
                 <thead class="text-primary">
                 <tr>
+                    <th>No</th>
                     <th>Nama</th>
                     <th>Aksi</th>
                 </tr>
@@ -21,31 +22,30 @@
                 <tbody>
                 @foreach($fakultas as $item)
                     <tr>
-                        <td class="col-xs-10">
-                            <form action="{{ route('edit.fakultas') }}" method="post" class="col-xs-11">
+                        <td>{{ ++$c }}</td>
+                        <td>
+                            <form action="{{ route('edit.fakultas') }}" method="post" id="simpan-{{ $item->id }}">
                                 {{ csrf_field() }}
                                 {{ method_field('put') }}
                                 <input type="hidden" name="id" value="{{ $item->id }}">
                                 <span class="material-input"></span>
                                 <div class="input-group">
                                     <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" style="border: 1px">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-white btn-just-icon" title="simpan">
-                                            <i class="material-icons">save</i>
-                                        </button>
-                                    </span>
                                 </div>
                             </form>
                         </td>
-                        <td class="col-xs-2">
-                            <form action="{{ route('hapus.fakultas') }}" method="post">
-                                {{ csrf_field() }}
-                                {{ method_field('put') }}
-                                <input type="hidden" name="id" value="{{ $item->id }}">
-                                <input type="submit" name="submit" value="Hapus" class="btn btn-danger btn-round btn-sm">
-                            </form>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
+                                <a class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
+                            </div>
                         </td>
                     </tr>
+                    <form action="{{ route('hapus.fakultas') }}" method="post" id="hapus-{{ $item->id  }}">
+                        {{ csrf_field() }}
+                        {{ method_field('put') }}
+                        <input type="hidden" name="id" value="{{ $item->id }}">
+                    </form>
                 @endforeach
                 </tbody>
             </table>

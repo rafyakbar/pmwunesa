@@ -69,7 +69,9 @@
         $.material.init()
     });
 </script>
-
+<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.responsive.js') }}"></script>
 <script>
 $.ajaxSetup({
     headers: {
@@ -77,7 +79,15 @@ $.ajaxSetup({
     }
 })
 </script>
-
+<script>
+    $(document).ready(function() {
+        $('.use-datatable').DataTable({
+            responsive: true,
+            "paging":   false,
+            "info":     false
+        });
+    });
+</script>
 @stack('js')
 
 </html>

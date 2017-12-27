@@ -35,4 +35,9 @@ class Fakultas extends Model
         return false;
     }
 
+    public static function getIdByName($nama)
+    {
+        return Fakultas::where('nama',$nama)->first()->id;
+    }
+
 }

@@ -23,7 +23,7 @@
                 <a href="{{ route('daftar.fakultas') }}">Fakultas</a>
             </li>
             <li>
-                <a href="{{ route('daftar.jurusan') }}">Jurusan</a>
+                <a href="{{ route('daftar.jurusan', ['fakultas' => 'semua_fakultas', 'perHalaman' => 10]) }}">Jurusan</a>
             </li>
             <li>
                 <a href="{{ route('daftar.prodi') }}">Prodi</a>
@@ -40,7 +40,7 @@
 </li>
 
 <li @if(Route::currentRouteName() === 'daftar.proposal' ) class="active" @endif>
-    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua_proposal']) }}">
+    <a href="{{ route('daftar.proposal', ['fakultas' => 'semua_fakultas', 'lolos' => 'semua_proposal', 'perHalaman' => 10]) }}">
         <i class="material-icons">library_books</i>
         <p>Proposal</p>
     </a>

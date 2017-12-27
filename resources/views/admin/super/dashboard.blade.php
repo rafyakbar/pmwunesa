@@ -12,7 +12,7 @@
                     <i class="material-icons">content_copy</i>
                 </div>
                 <div class="card-content">
-                    <p class="category">Kapasitas database</p>
+                    <p class="category">Jumlah</p>
                     <h3 class="title"> <small>KB</small>
                     </h3>
                 </div>

@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@push('js')
-    @include('js.searchintable', ['inputId' => 'myInput', 'tableId' => 'myTable', 'fieldIndex' => '1', 'isDetailed' => true])
-@endpush
-
 @section('brand')
     Pengguna
 @endsection
@@ -124,8 +120,7 @@
                     <h4>Maaf, masih belum ada data sesuai filter!</h4>
                 </div>
             @else
-                <input type="text" id="myInput" class="form-control form-info" placeholder="Cari pengguna..." onkeyup="cari()">
-                <table class="table table-responsive" id="myTable">
+                <table class="table use-datatable">
                     <thead>
                     <tr>
                         <th>No.</th>

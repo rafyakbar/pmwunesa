@@ -29,6 +29,7 @@ class SuperAdminController extends Controller
 
     public function tampilDataPengguna(Request $request)
     {
+        $request->fakultas = (Fakultas::checkName(ucwords(str_replace('_',' ', $request->fakultas)))) ? $request->fakultas : 'semua_fakultas';
         $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
         $pengguna = ($request->fakultas == 'semua_fakultas') ? User::orderBy('nama')->get() : User::perFakultas(ucwords(str_replace('_',' ', $request->fakultas)));
         if ($request->role != 'semua_hak_akses'){
@@ -54,15 +55,28 @@ class SuperAdminController extends Controller
     public function tampilDataFakultas()
     {
         return view('admin.super.daftarfakultas', [
-            'fakultas' => Fakultas::orderBy('nama')->get()
+            'fakultas' => Fakultas::orderBy('nama')->get(),
+            'c' => 0
         ]);
     }
 
-    public function tampilDataJurusan()
+    public function tampilDataJurusan(Request $request)
     {
+        $request->fakultas = (Fakultas::checkName(ucwords(str_replace('_',' ', $request->fakultas)))) ? $request->fakultas : 'semua_fakultas';
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
+        $nama_fakultas = ucwords(str_replace('_',' ',$request->fakultas));
+        if (Fakultas::checkName($nama_fakultas)){
+            $jurusan = Jurusan::where('id_fakultas',Fakultas::getIdByName($nama_fakultas))->orderBy('nama');
+        }
+        else{
+            $jurusan = Jurusan::orderBy('id_fakultas')->orderBy('nama');
+        }
         return view('admin.super.daftarjurusan', [
-            'jurusan' => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get(),
-            'fakultas' => Fakultas::orderBy('nama')->get()
+            'fakultas' => $request->fakultas,
+            'jurusan' => $jurusan->paginate($request->perHalaman),
+            'daftarfakultas' => Fakultas::orderBy('nama')->get(),
+            'c' => 0,
+            'perHalaman' => $request->perHalaman
         ]);
     }
 
@@ -83,6 +97,7 @@ class SuperAdminController extends Controller
 
     public function tampilDataProposal(Request $request)
     {
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
         $request->lolos = ($request->lolos != 'tahap_1' && $request->lolos != 'tahap_2') ? 'semua_proposal' : $request->lolos;
         $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
         $nama_fakultas = (Fakultas::checkName($nama_fakultas)) ? $nama_fakultas : 'semua_fakultas';
@@ -97,12 +112,14 @@ class SuperAdminController extends Controller
             }
         }
         $proposal = collect($proposal);
+
         return view('admin.super.daftarproposal', [
-            'proposal' => $proposal->paginate(1000),
+            'proposal' => $proposal->paginate($request->perHalaman),
             'daftar_fakultas' => Fakultas::all(),
             'fakultas' => $nama_fakultas,
             'lolos' => $request->lolos,
-            'c' => 0
+            'c' => 0,
+            'perHalaman' => $request->perHalaman
         ]);
     }
 
