@@ -2,6 +2,7 @@
 
 namespace PMW;
 
+use function foo\func;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
@@ -51,12 +52,30 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * Mendapatkan instance Prodi
+     *
+     * @param bool $relasi
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
     public function prodi()
     {
         return $this->belongsTo(
             'PMW\Models\Prodi',
             'id_prodi')
             ->first();
+    }
+
+    /**
+     * Mendapatkan relasi prodi belongTo (Instance BelongTo)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function relasiProdi()
+    {
+        return $this->belongsTo(
+            'PMW\Models\Prodi',
+            'id_prodi');
     }
 
     /**
@@ -92,15 +111,20 @@ class User extends Authenticatable
      */
     public function hakAksesDitolak($hakAkses)
     {
-        if(is_string($hakAkses))
+        if (is_string($hakAkses))
             $hakAkses = HakAkses::where('nama', $hakAkses)->first();
-        
+
         return ($this->hakAksesPengguna()
                 ->where('id_hak_akses', $hakAkses->id)
                 ->where('status_request', RequestStatus::REJECTED)
                 ->count() > 0);
     }
 
+    /**
+     * Mendapatka daftar review dari user terkait
+     *
+     * @return BelongsToMany
+     */
     public function review()
     {
         return $this->belongsToMany(
@@ -185,6 +209,7 @@ class User extends Authenticatable
             if ($this->hasRole($role))
                 return true;
         }
+
         return false;
     }
 
@@ -199,6 +224,18 @@ class User extends Authenticatable
         return $this->hakAksesPengguna()
                 ->where('nama', strtolower($role))
                 ->where('status_request', RequestStatus::APPROVED)->count() > 0;
+    }
+
+    /**
+     * Mengecek apakah user tidak memiliki hak akses apapun
+     *
+     * @return bool
+     */
+    public function hasNoRole()
+    {
+        return $this->hakAksesPengguna()
+                ->where('status_request', RequestStatus::APPROVED)
+                ->count() === 0;
     }
 
     /**
@@ -301,7 +338,7 @@ class User extends Authenticatable
      * tertentu
      *
      * @param [type] $role
-     * @return void
+     * @return bool
      */
     public function bisaRequestHakAkses($role)
     {
@@ -321,19 +358,21 @@ class User extends Authenticatable
         $daftarUndangan = Auth::user()->mahasiswa()->undanganTimKetua()->pluck('id_anggota');
 
         $eloquent = static::whereHas('hakAksesPengguna', function ($query) {
+            // melakukan sortir bahwa user yang dicari memiliki hak akses anggota
             $query->where('nama', HakAkses::ANGGOTA);
         })
             ->whereHas('relasiMahasiswa', function ($query) {
+                // memastikan user belum memiliki tim atau proposal
                 $query->whereNull('id_proposal');
             })
             ->where('nama', 'LIKE', '%' . strtolower($nama) . '%')
             ->where('id', '!=', Auth::user()->id)
             ->whereNotNull('id_prodi')
             ->whereNotIn('id', $daftarUndangan);
-        
+
         // Menambahkan field nama prodi
         $daftarMahasiswa = [];
-        foreach($eloquent->cursor() as $pengguna) {
+        foreach ($eloquent->cursor() as $pengguna) {
             $tempArr = $pengguna->toArray();
             $tempArr['prodi'] = $pengguna->prodi()->nama;
             array_push($daftarMahasiswa, $tempArr);
@@ -346,7 +385,7 @@ class User extends Authenticatable
      * Melakukan pencarian dosen pembimbing
      *
      * @param string $nama
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public static function cariDosenPembimbing($nama)
     {
@@ -356,11 +395,16 @@ class User extends Authenticatable
             $query->where('nama', HakAkses::DOSEN_PEMBIMBING)
                 ->where('status_request', RequestStatus::APPROVED);
         })
+            ->whereHas('relasiProdi', function ($query) {
+                // memastikan bahwa user dan calon dosen pembimbing berasal dari jurusan
+                // yang sama
+                $query->where('id_jurusan', Auth::user()->prodi()->jurusan()->id);
+            })
             ->where('nama', 'LIKE', '%' . $nama . '%');
 
         // menambah field nama prodi
         $daftarDosen = [];
-        foreach($eloquent->cursor() as $pengguna) {
+        foreach ($eloquent->cursor() as $pengguna) {
             $tempArr = $pengguna->toArray();
             $tempArr['prodi'] = $pengguna->prodi()->nama;
             array_push($daftarDosen, $tempArr);
@@ -385,7 +429,7 @@ class User extends Authenticatable
         $this->hakAksesPengguna()->attach(
             HakAkses::where('nama', HakAkses::KETUA_TIM)->first(), [
                 'status_request' => 'Approved'
-                ]
+            ]
         );
     }
 
@@ -399,7 +443,7 @@ class User extends Authenticatable
               FROM prodi LEFT JOIN jurusan ON prodi.id_jurusan = jurusan.id
             ) AS fk'
             ), 'fk.id_prodi', '=', 'pengguna.id_prodi')
-            ->whereRaw('fk.id_fakultas = '.$idfakultas)
+            ->whereRaw('fk.id_fakultas = ' . $idfakultas)
             ->orderBy('nama')
             ->get();
     }
