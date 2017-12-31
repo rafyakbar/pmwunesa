@@ -17,6 +17,18 @@
 
         <div class="card-content">
 
+            @if(Session::has('message'))
+                <p class="alert alert-{{ Session::get('error') ? 'danger': 'success' }}">
+                    {{ Session::get('message') }}
+                </p>
+            @endif
+
+            @if($errors->count() > 0 && $errors->has('message'))
+                <p class="alert alert-danger">
+                    {{ $errors->first('message') }}
+                </p>
+            @endif
+
             <form action="{{ $type == 'edit' ? route('edit.nilai.review',['id'=>$proposal->pivot->id]) : route('tambah.nilai.review',['id'=>$proposal->pivot->id]) }}"
                   method="post">
 
@@ -39,8 +51,10 @@
                                     <td>{{ $aspek->nama }}</td>
                                     <td>
                                         @for($i = 1;$i <= 5;$i++)
-                                            <input id="{{ $aspek->nama . $i }}" type="radio" name="nilai[{{ $aspek->id }}]"
-                                                           value="{{ $i }}" {{ $type == 'edit' && $penilaian->get()[$index]->pivot->nilai == $i ? 'checked' : '' }}/><label for="{{ $aspek->nama . $i }}"><span></span>{{ $i }}</label>
+                                            <input id="{{ $aspek->nama . $i }}"
+                                                   type="radio"
+                                                   name="nilai[{{ $aspek->id }}]"
+                                                   value="{{ $i }}" {{ ($type == 'edit' && $penilaian->get()[$index]->pivot->nilai == $i) || ($errors->has('message') && key_exists($index + 1, old('nilai')) && old('nilai')[$index + 1] == $i) ? 'checked' : '' }}/><label for="{{ $aspek->nama . $i }}"><span></span>{{ $i }}</label>
                                             &nbsp;
                                         @endfor
                                     </td>
@@ -50,8 +64,13 @@
                         </table>
                     </div>
                     <div class="col-lg-6">
+                        @if($errors->has('komentar'))
+                            <p class="alert alert-danger">
+                                {{ $errors->first('komentar') }}
+                            </p>
+                        @endif
                                 <textarea placeholder="Komentar" class="form-control"
-                                          name="komentar">{{ $type == 'edit' ? $proposal->pivot->komentar : '' }}</textarea>
+                                          name="komentar">{{ $type == 'edit' ? $proposal->pivot->komentar : $errors->has('komentar') ? old('komentar') : '' }}</textarea>
                     </div>
                 </div>
 
