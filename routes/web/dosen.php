@@ -23,8 +23,3 @@ Route::get('logbook/{proposal}', [
     'uses' => 'Page\DosenController@logbook',
     'as' => 'logbook.bimbingan'
 ]);
-
-Route::post('request/reviewer',[
-    'uses' => 'HakAksesController@requestReviewer',
-    'as' => 'request.reviewer'
-]);
