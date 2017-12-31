@@ -128,10 +128,16 @@ class SuperAdminController extends Controller
         return view('admin.super.daftarrequesthakakses', ['pengguna' => HakAkses::permintaanHakAkses()]);
     }
 
+    /**
+     * Melakukan pengeditan reviewer dari sebuah proposal
+     *
+     * @param $idproposal
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function editReviewer($idproposal)
     {
         return view('admin.super.setreviewer', [
-            'daftarreviewer' => HakAkses::where('nama', HakAkses::REVIEWER)->first()->pengguna()->get(),
+            'daftarreviewer' => HakAkses::where('nama', HakAkses::REVIEWER)->first()->pengguna()->where('status_request', RequestStatus::APPROVED)->get(),
             'proposal' => Proposal::find($idproposal),
             'oldreviewer' => [
                 'tahap1' => Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap', 1),
