@@ -17,6 +17,11 @@ class Pengaturan extends Model
         'updated_at'
     ];
 
+    /**
+     * Mendapatkan nilai minimum proposal untuk dinyatakan lolos
+     *
+     * @return mixed
+     */
     public static function nilaiMinimumProposal()
     {
         return static::where(
@@ -26,6 +31,11 @@ class Pengaturan extends Model
             ->keterangan;
     }
 
+    /**
+     * Mendaptkan waktu batas pengunggahan proposal
+     *
+     * @return mixed
+     */
     public static function batasUnggahProposal()
     {
         return static::where(
@@ -35,6 +45,26 @@ class Pengaturan extends Model
             ->keterangan;
     }
 
+    /**
+     * Mendaptkan waktu batas pengunggahan proposal final
+     *
+     * @return mixed
+     */
+    public static function batasUnggahProposalFinal()
+    {
+        return static::where(
+            'nama',
+            'Batas pengumpulan proposal final')
+            ->first()
+            ->keterangan;
+    }
+
+    /**
+     * Mendapatkan waktu batas penilaian tahap tertentu
+     *
+     * @param $tahap
+     * @return mixed
+     */
     public static function batasPenilaian($tahap)
     {
         return static::where(
@@ -44,16 +74,29 @@ class Pengaturan extends Model
             ->keterangan;
     }
 
+    /**
+     * Mengecek apakah waktu sekarang telah melewati waktu
+     * batas pengunggahan proposal
+     *
+     * @return bool
+     */
     public static function melewatiBatasUnggahProposal()
     {
-        return (Carbon::now()->diffInDays(
+        return (Carbon::now()->diffInSeconds(
                 Carbon::parse(static::batasUnggahProposal()), false
             ) <= 0);
     }
 
+    /**
+     * Mengecek apakah waktu sekarang telah melewati waktu
+     * batas penilaian tahap tertentu
+     *
+     * @param $tahap
+     * @return bool
+     */
     public static function melewatiBatasPenilaian($tahap)
     {
-        return (Carbon::now()->diffInDays(
+        return (Carbon::now()->diffInSeconds(
                 Carbon::parse(static::batasPenilaian($tahap)
                 ), false) <= 0);
     }
