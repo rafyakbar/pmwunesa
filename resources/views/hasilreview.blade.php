@@ -28,7 +28,7 @@
                 </div>
                 <div class="card-content">
                     @if($proposal->lolos(1))
-                        @if($review['tahap2']->count() > 0)
+                        @if(key_exists('tahap2', $review))
                             {{ $review['tahap2']->get() }}
                         @else
                             <p class="alert-warning alert">Proposal anda belum dinilai</p>

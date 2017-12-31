@@ -18,7 +18,7 @@ class PageController extends Controller
      * tidak bisa dilihat oleh mahasiswa
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detailProposal(Request $request)
     {
@@ -47,22 +47,25 @@ class PageController extends Controller
     /**
      * Melihat hasil review dari sebuah proposal
      *
-     * @param [type] $id
-     * @return void
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function lihatHasilReview($id)
     {
         $proposal = Proposal::find($id);
 
-        if(!is_null($proposal->daftarReview(1)) && !is_null($proposal->daftarReview(2))) {
-            $review = [
-                'tahap1' => $proposal->daftarReview(1)->whereNotNull('komentar'),
-                'tahap2' => $proposal->daftarReview(2)->WhereNotNull('komentar')
-            ];
+        $review = [];
+
+        if(!is_null($proposal->daftarReview(1))) {
+            $review['tahap1'] = $proposal->daftarReview(1)->whereNotNull('komentar');
         }
-        else{
+
+        if(!is_null($proposal->daftarReview(2))) {
+            $review['tahap2'] = $proposal->daftarReview(2)->whereNotNull('komentar');
+        }
+
+        if(count($review) == 0)
             $review = null;
-        }
 
         return view('hasilreview', [
             'review' => $review,
@@ -73,7 +76,7 @@ class PageController extends Controller
     /**
      * Halaman pengaturan user
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function pengaturan()
     {
