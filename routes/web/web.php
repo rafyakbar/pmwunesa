@@ -19,7 +19,7 @@ Route::group(['middleware' => 'auth'], function () {
          * Jika belum, maka akan diarahkan ke halaman login.
          */
         Route::get('dashboard', [
-            'uses' => 'DashboardController@index',
+            'uses' => 'Page\DashboardController@index',
             'as' => 'dashboard'
         ]);
 
@@ -101,7 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::prefix('daftar')->group(function (){
 
-        Route::post('jurusan',[
+        Route::post('jurusan', [
             'uses' => 'JurusanController@daftarBerdasarkanFakultas',
             'as' => 'daftar.jurusan.fakultas'
         ]);
