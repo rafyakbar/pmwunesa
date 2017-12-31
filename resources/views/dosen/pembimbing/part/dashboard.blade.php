@@ -36,6 +36,20 @@
                 </div>
             </div>
         @endif
+        
+        @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::REVIEWER))
+            @if(Auth::user()->hakAksesDitolak(\PMW\Models\HakAkses::REVIEWER))
+                Permintaan hak akses anda sebelumnya telah ditolak
+            @endif
+        <form action="{{ route('request.reviewer') }}" class="ajax-form" method="post">
+            {{ csrf_field() }}
+            <input type="submit" class="btn btn-success" value="Request menjadi reviewer"/>
+        </form>
+        @endif
+
+        @if(Auth::user()->requestingHakAkses(\PMW\Models\HakAkses::REVIEWER))
+            Anda sedang menunggu persetujuan untuk menjadi reviewer
+        @endif
     </div>
 
     <div class="col-lg-6">
