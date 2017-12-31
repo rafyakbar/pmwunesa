@@ -21,13 +21,13 @@ class CompleteProfile
                 is_null($request->user()->id_prodi)) ||
             ($request->user()->isReviewer() &&
                 is_null($request->user()->nama))) {
-            Session::flash(
-                'message',
-                'Harap melengkapi profil anda terlebih dahulu !');
+            Session::flash('message', 'Harap melengkapi profil anda terlebih dahulu !');
+            Session::flash('error', true);
 
             return redirect()->route('pengaturan');
         }
 
         return $next($request);
     }
+
 }
