@@ -41,6 +41,6 @@
 
 </head>
 
-<body>
+<body style="background-image: url('{{ asset('img/Background.jpg') }}'); ">
 
 <div class="wrapper">
