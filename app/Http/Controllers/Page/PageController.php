@@ -10,6 +10,14 @@ use PMW\Models\Jurusan;
 use PMW\Models\Prodi;
 use PMW\Models\Proposal;
 
+/**
+ * Class ini berfungsi sebagai pengatur halaman yang bisa diakses oleh
+ * lebih dari satu user, sebagai contoh, halaman pengaturan adalah
+ * halama yang bisa diakses oleh seluurh user
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers\Page
+ */
 class PageController extends Controller
 {
 
@@ -27,9 +35,15 @@ class PageController extends Controller
         ]);
     }
 
+    /**
+     * Menampilkan halaman detail dari sebuah proposal
+     *
+     * @param int|null $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function proposalDetail($id = null)
     {
-        $view = view('proposaldetail');
+        $view = view('detailproposal');
         $proposal = Auth::user()->isMahasiswa() ? Auth::user()->mahasiswa()->proposal() : Proposal::find($id);
         $view->with('proposal', $proposal);
 
@@ -97,7 +111,6 @@ class PageController extends Controller
                 ->where('id_jurusan', Auth::user()->prodi()->jurusan()->id)
                 ->get();
         }
-
 
         return view('pengaturan', [
             'daftar_fakultas' => $fakultas,
