@@ -6,10 +6,14 @@
     </p>
 @endif
 
-<div class="card" style="margin-top:0;{{ $errors->count() == 0 ? 'display:none' : '' }}"
+<div class="card" style="{{ $errors->count() == 0 ? 'display:none' : '' }}"
      id="wrapper-form-logbook">
-    <div class="card-content">
+
+    <div class="card-header" data-background-color="red">
         <h5>Tambah Logbook</h5>
+    </div>
+
+    <div class="card-content">
         <form action="{{ route('tambah.logbook') }}" method="post">
 
             {{ csrf_field() }}
@@ -18,10 +22,10 @@
 
             <div class="row">
                 <div class="col-lg-2">
-                    <label>Tanggal</label>
+                    <label>Hari dan Tanggal</label>
                 </div>
                 <div class="col-lg-5">
-                    <p>{{ Carbon\Carbon::today()->formatLocalized('%A %d %B %Y') }}</p>
+                    <p>{{ Carbon\Carbon::today()->formatLocalized('%A, %d %B %Y') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -30,7 +34,7 @@
                 </div>
                 <div class="col-lg-5">
                     <input class="form-control" type="number" name="biaya" placeholder="biaya"
-                           value="{{ old('biaya') }}"/>
+                           value="{{ old('biaya') }}" required/>
                     @if($errors->has('biaya'))
                         <p class="alert alert-danger">{{ $errors->first('biaya') }}</p>
                     @endif
@@ -42,7 +46,7 @@
                 </div>
                 <div class="col-lg-5">
                                 <textarea name="catatan" class="form-control"
-                                          placeholder="Catatan">{{ old('catatan') }}</textarea>
+                                          placeholder="Catatan" required>{{ old('catatan') }}</textarea>
                     @if($errors->has('catatan'))
                         <p class="alert alert-danger">{{ $errors->first('catatan') }}</p>
                     @endif

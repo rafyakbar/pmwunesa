@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'PMW Unesa')
+
 @section('content')
 <div class="row" style="margin-top: 20px">
     <div class="col-lg-12" style="margin : 0 auto; text-align: center; color: #333333">

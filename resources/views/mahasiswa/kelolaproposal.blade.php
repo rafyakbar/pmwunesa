@@ -159,7 +159,7 @@
                     title : 'Berhasil !',
                     type : 'success',
                     text : response.message
-                }, function(){
+                }, function() {
                     window.location.reload()
                 })
             },

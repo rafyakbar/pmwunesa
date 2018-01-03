@@ -82,7 +82,6 @@
 @push('js')
     <script>
         $('.table-expand').find('tbody').find('tr:not(".expand")').click(function (e) {
-            console.log(e.target)
             $(this).prevUntil('.table-expand', '.expand').hide()
             $(this).next().nextUntil('.table-expand', '.expand').hide()
             $(this).next().toggle()

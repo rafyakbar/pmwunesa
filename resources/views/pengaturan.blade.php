@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
-@section('brand')
-Profil
-@endsection
+@section('title', 'Profil')
+@section('brand', 'Profil')
 
 @section('content')
 

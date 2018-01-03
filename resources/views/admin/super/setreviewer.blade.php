@@ -132,7 +132,7 @@
             var val = target.val() == '' ? [] :  target.val().split(',')
             val.push($(this).attr('data-id'))
             target.val(val)
-            console.log(val)
+            {{--  console.log(val)  --}}
             btn.before('<div data-index="'+($(this).attr('data-id'))+'" class="choosed"><span>' + $(this).text() + '</span><i class="fa fa-close close"></i></div>')
             $(this).hide()
             $('.chooser').find('.close').click(function(){
@@ -142,7 +142,7 @@
                 var val = target.val().split(',')
                 val.splice(val.indexOf(li.attr('id')),1)
                 target.val(val)
-                console.log(val)
+                {{--  console.log(val)  --}}
                 $(this).parent().remove();
             })
         })
@@ -153,7 +153,7 @@
             var target = $(dropdown.attr('data-target'))
             li.show()
             var val = target.val().split(',')
-            console.log(val)
+            {{--  console.log(val)  --}}
             val.splice(val.indexOf(li.attr('data-id')),1)
             target.val(val)
             console.log(val)
@@ -166,11 +166,11 @@
             var val = $(this).val()
             var target = $(dropdown.attr('data-target'))
             dropdown.find("li").each(function(){
-                console.log('dnjasdn')
+                {{--  console.log('dnjasdn')  --}}
                 if($(this).text().toLowerCase().indexOf(val.toLowerCase()) == -1)
                     $(this).hide()
                 else{
-                    console.log(target.val().indexOf($(this).attr('data-id')))
+                    {{--  console.log(target.val().indexOf($(this).attr('data-id')))  --}}
                     if(target.val().indexOf($(this).attr('data-id')) == -1)
                         $(this).show()
                 }

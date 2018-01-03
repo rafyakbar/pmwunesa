@@ -1,35 +1,15 @@
 @extends('layouts.app')
 
+@section('title', 'Dasbor')
+@section('brand', 'Dasbor')
+
 @section('content')
 
     <div class="row">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Informasi tim</h4>
-                </div>
+        <div class="col-lg-6">
+            @include('mahasiswa.part.daftar_tim')
 
-                <div class="card-content">
-                    @if(Auth::user()->mahasiswa()->punyaTim())
-                        <p>Anggota tim anda : </p>
-                        <ul>
-                            @foreach(\PMW\Models\Mahasiswa::where('id_proposal',Auth::user()->mahasiswa()->id_proposal)->cursor() as $anggota)
-                                <li>{{ $anggota->pengguna()->nama }} @if($anggota->pengguna()->isKetua())
-                                        <b>(Ketua)</b> @endif</li>
-                            @endforeach
-                        </ul>
-
-                    @else
-                        <p class="alert alert-warning">
-                            Anda belum memiliki tim
-                        </p>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        @if($undangan->count() > 0)
-            <div class="col-lg-4">
+            @if($undangan->count() > 0 && !Auth::user()->mahasiswa()->timLengkap())
                 <div class="card">
                     <div class="card-header">
                         <h4>Undangan tim</h4>
@@ -37,22 +17,26 @@
 
                     <div class="card-content">
                         Anda mendapat undangan dari <br/>
-                        <ul>
+                        <ul class="list-group">
                             @foreach($undangan->cursor() as $item)
-                                <li>
-                                    {{ $item->pengguna()->nama }}
+                                <li class="list-group-item">
+                                    <b>{{ $item->pengguna()->nama }}</b>
                                     <form action="{{ route('terima.undangan.tim') }}" method="post">
                                         {{ csrf_field() }}
-                                        <input type="hidden" name="dari" value="{{ $item->id_pengguna }}"/>
-                                        <button>Terima Undangan</button>
+                                        <input type="hidden"  name="dari" value="{{ $item->id_pengguna }}"/>
+                                        <button class="btn btn-primary">Terima Undangan</button>
                                     </form>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
+
+        <div class="col-lg-6">
+            @include('part.linimasa')
+        </div>
     </div>
 
 @endsection

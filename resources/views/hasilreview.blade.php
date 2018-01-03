@@ -29,7 +29,9 @@
                 <div class="card-content">
                     @if($proposal->lolos(1))
                         @if(key_exists('tahap2', $review))
-                            {{ $review['tahap2']->get() }}
+                            @foreach($review['tahap2']->get() as $hasil)
+                                <div class="alert alert-primary">{!! $hasil->komentar !!}</div>
+                            @endforeach
                         @else
                             <p class="alert-warning alert">Proposal anda belum dinilai</p>
                         @endif

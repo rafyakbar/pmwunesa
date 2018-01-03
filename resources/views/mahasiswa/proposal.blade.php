@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title',"Proposal")
 @section('brand',"Proposal")
 
 @section('content')
@@ -20,12 +21,11 @@
                     @else
                         <p class="alert alert-primary">Anda belum mengunggah proposal</p>
                     @endif
-                    @if(Auth::user()->isKetua())
-                        @if(Auth::user()->mahasiswa()->bisaUnggahProposal())
-                            <a href="{{ route('unggah.proposal') }}" class="btn btn-primary">Unggah Proposal</a>
-                        @else
-                            <p class="alert alert-danger">Anda sudah tidak bisa mengunggah proposal.</p>
-                        @endif
+                    
+                    @if(Auth::user()->mahasiswa()->bisaUnggahProposal())
+                        <a href="{{ route('unggah.proposal') }}" class="btn btn-primary">Unggah Proposal</a>
+                    @else
+                        <p class="alert alert-danger">Anda sudah tidak bisa mengunggah proposal.</p>
                     @endif
                 </div>
             </div>

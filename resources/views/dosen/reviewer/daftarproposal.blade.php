@@ -20,7 +20,8 @@
                 <div class="nav-tabs-wrapper">
                     <ul class="nav nav-tabs" data-tabs="tabs">
                         <li {{ $tahap == 1 ? 'class=active' : '' }}>
-                            <a style="color:#fff !important;" href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 1]) }}" data-toggle="tab"
+                            <a style="color:#fff !important;"
+                               href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 1]) }}" data-toggle="tab"
                                aria-expanded="true"
                                onclick="window.location.href = '{{ route('daftar.proposal.reviewer',[ 'tahap' => 1]) }}'">
                                 Tahap 1
@@ -28,7 +29,8 @@
                             </a>
                         </li>
                         <li {{ $tahap == 2 ? 'class=active' : '' }}>
-                            <a style="color:#fff !important;" href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 2]) }}" data-toggle="tab"
+                            <a style="color:#fff !important;"
+                               href="{{ route('daftar.proposal.reviewer',[ 'tahap' => 2]) }}" data-toggle="tab"
                                aria-expanded="true"
                                onclick="window.location.href = '{{ route('daftar.proposal.reviewer',[ 'tahap' => 2]) }}'">
                                 Tahap 2
@@ -41,13 +43,22 @@
         </div>
 
         <div class="card-content no-padding">
+
+            {{-- Menampilkan pesan --}}
+            @if(Session::has('message'))
+                <p class="alert alert-{{ Session::get('error') ? 'danger' : 'success' }}">
+                    {{ Session::get('message') }}
+                </p>
+            @endif
+
             <div class="tab-content">
                 <div class="tab-pane active" id="daftar">
                     @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian($tahap))
-                    <p style="margin: 10px" class="alert alert-warning">
-                        Batas penilaian tahap {{ $tahap }} adalah pada {{ \Carbon\Carbon::parse(\PMW\Models\Pengaturan::batasPenilaian($tahap))->formatLocalized('%A %d %B %Y') }}
-                    </p>
-                        @else
+                        <p style="margin: 10px" class="alert alert-warning">
+                            Batas penilaian tahap {{ $tahap }} adalah
+                            pada {{ \Carbon\Carbon::parse(\PMW\Models\Pengaturan::batasPenilaian($tahap))->formatLocalized('%A %d %B %Y') }}
+                        </p>
+                    @else
                         <p style="margin: 10px" class="alert alert-danger">
                             Anda sudah tidak bisa melakukan penilaian untuk tahap {{ $tahap }}
                         </p>
@@ -55,8 +66,12 @@
 
                     <div style="margin:10px;">
                         <ul class="nav nav-pills">
-                            <li role="presentation" {{ (is_null(request()->get('sudahdinilai')) || !request()->get('sudahdinilai')) ? 'class=active' : '' }}><a href="{{ route('daftar.proposal.reviewer',['sudahdinilai' => 0,'tahap' => $tahap]) }}">Belum dinilai</a></li>
-                            <li role="presentation" {{ request()->get('sudahdinilai') ? 'class=active' : '' }}><a href="{{ route('daftar.proposal.reviewer',['sudahdinilai' => 1, 'tahap' => $tahap]) }}">Sudah dinilai</a></li>
+                            <li role="presentation" {{ (is_null(request()->get('sudahdinilai')) || !request()->get('sudahdinilai')) ? 'class=active' : '' }}>
+                                <a href="{{ route('daftar.proposal.reviewer',['sudahdinilai' => 0,'tahap' => $tahap]) }}">Belum
+                                    dinilai</a></li>
+                            <li role="presentation" {{ request()->get('sudahdinilai') ? 'class=active' : '' }}><a
+                                        href="{{ route('daftar.proposal.reviewer',['sudahdinilai' => 1, 'tahap' => $tahap]) }}">Sudah
+                                    dinilai</a></li>
                         </ul>
                     </div>
 
@@ -141,7 +156,9 @@
 
         /**
          * Membuat data expand pada tabel ketika sebuah baris pada tabel di klik
-         * @param  json data
+         *
+         * @param data
+         * @param elem
          * @return void
          */
         var createExpandedTable = function (data, elem) {

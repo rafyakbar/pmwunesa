@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-5">
         @include('mahasiswa.part.daftar_tim')
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-lg-7">
         @if(Auth::user()->mahasiswa()->proposal()->punyaPembimbing())
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" data-background-color="green">
                     <h4>Dosen Pembimbing</h4>
                 </div>
                 <div class="card-content">

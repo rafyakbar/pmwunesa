@@ -41,7 +41,7 @@
                 <b>Keyword</b>
             </div>
             <div class="col-lg-8">
-                <span>{{ str_replace('|',', ',$proposal->keyword) }}</span>
+                <span>{{ $proposal->keyword() }}</span>
             </div>
         </div>
         <div class="row">
