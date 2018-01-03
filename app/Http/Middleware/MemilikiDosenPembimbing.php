@@ -3,12 +3,11 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class AuthDosenPembimbing
+class MemilikiDosenPembimbing
 {
     /**
-     * Handle an incoming request.
+     * Mengecek apakah pengguna terkait sudah memiliki dosen pembimbing
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -16,10 +15,10 @@ class AuthDosenPembimbing
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->isDosenPembimbing())
+        if($request->user()->mahasiswa()->proposal()->punyaPembimbing())
             return $next($request);
 
-        return redirect()->route('dashboard');
+        return abort(404);
     }
-
+    
 }

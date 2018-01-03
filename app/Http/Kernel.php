@@ -64,6 +64,9 @@ class Kernel extends HttpKernel
         'mahasiswa' => \PMW\Http\Middleware\AuthMahasiswa::class,
         'ajax' => \PMW\Http\Middleware\XMLHttpRequest::class,
         'superadmin' => \PMW\Http\Middleware\AuthSuperAdmin::class,
-        'dosen' => \PMW\Http\Middleware\AuthDosen::class
+        'dosen' => \PMW\Http\Middleware\AuthDosen::class,
+        'timlengkap' => \PMW\Http\Middleware\CekTimLengkap::class,
+        'unggahproposal' => \PMW\Http\Middleware\BisaUnggahProposal::class,
+        'penilaian' => \PMW\Http\Middleware\BisaMenilaiProposal::class
     ];
 }

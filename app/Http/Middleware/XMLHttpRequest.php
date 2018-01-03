@@ -18,6 +18,6 @@ class XMLHttpRequest
         if($request->isXmlHttpRequest())
             return $next($request);
 
-        return redirect()->route('dashboard');
+        return abort(404);
     }
 }

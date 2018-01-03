@@ -3,12 +3,12 @@
 namespace PMW\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class AuthDosenPembimbing
+class CekTimLengkap
 {
+
     /**
-     * Handle an incoming request.
+     * Melakukan pengecekan apakah tim pengguna terkait sudah lengkap
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -16,10 +16,10 @@ class AuthDosenPembimbing
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->isDosenPembimbing())
+        if($request->user()->mahasisnya()->punyaTim() && $request->user()->mahasiswa()->timLengkap())
             return $next($request);
 
-        return redirect()->route('dashboard');
+        return abort(404);
     }
 
 }
