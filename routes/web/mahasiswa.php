@@ -11,10 +11,6 @@ Route::namespace('Page')->group(function() {
     ]);
 });
 
-Route::get('proposal/final', function () {
-    return view('mahasiswa.proposalfinal');
-})->name('proposal.final');
-
 Route::get('laporan', function(){
     return view('mahasiswa.laporan');
 })->name('laporan');

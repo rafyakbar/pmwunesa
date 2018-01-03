@@ -16,16 +16,17 @@ Route::group(['prefix' => 'unggah'], function () {
         'as' => 'unggah.proposal'
     ]);
 
-    Route::get('proposal/final',function (){
-        return view('mahasiswa.unggahproposalfinal');
-    })->name('unggah.proposal.final');
-
+    Route::get('proposal/final', [
+        'uses' => 'Page\KetuaController@unggahProposalFinal',
+        'as' => 'unggah.proposal.final'
+    ]);
+    
     Route::put('proposal/final', [
         'uses' => 'ProposalFinalController@unggah',
         'as' => 'unggah.proposal.final'
     ]);
 
-    Route::get('laporan/kemajuan',function (){
+    Route::post('laporan/kemajuan',function (){
         return view('mahasiswa.unggahlaporan');
     })->name('unggah.laporan.kemjuan');
 
@@ -60,6 +61,11 @@ Route::group(['prefix' => 'edit'], function () {
     Route::patch('proposal', [
         'uses' => 'ProposalController@edit',
         'as' => 'edit.proposal'
+    ]);
+
+    Route::get('proposal/final', [
+        'uses' => 'Page\KetuaController@editProposalFinal',
+        'as' => 'edit.proposal.final'
     ]);
 
     Route::get('logbook/{id}', [
