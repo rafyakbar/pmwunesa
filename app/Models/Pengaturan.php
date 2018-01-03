@@ -86,6 +86,19 @@ class Pengaturan extends Model
                 Carbon::parse(static::batasUnggahProposal()), false
             ) <= 0);
     }
+    
+    /**
+     * Mengecek apakah waktu sekarang telah melewati waktu
+     * batas pengunggahan proposal final
+     *
+     * @return bool
+     */
+    public static function melewatiBatasUnggahProposalFinal()
+    {
+        return (Carbon::now()->diffInSeconds(
+                Carbon::parse(static::batasUnggahProposalFinal()), false
+            ) <= 0);
+    }
 
     /**
      * Mengecek apakah waktu sekarang telah melewati waktu
