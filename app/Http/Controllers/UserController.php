@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use PMW\Models\Fakultas;
 use PMW\Models\HakAkses;
-use PMW\Mail\RegisterMail;
 use PMW\Models\Jurusan;
 use PMW\Models\Mahasiswa;
 use PMW\Models\Prodi;
@@ -21,27 +19,38 @@ use PMW\Mail\PasswordResetMail;
 class UserController extends Controller
 {
 
+    /**
+     * Melakukan pengeditan profil pengguna
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editProfil(Request $request)
     {
+        // array untuk validasi
+        $validationArr = [
+            'nama' => 'required',
+            'alamat_asal' => 'required',
+            'alamat_tinggal' => 'required',
+            'no_telepon' => 'required|numeric'
+        ];
+
+        // jika pengguna adalah mahasiswa, maka
+        // mahasiswa perlu memasukkan ipk dan prodi
         if (Auth::user()->isMahasiswa()) {
-            $this->validate($request, [
-                'nama' => 'required',
-                'id_prodi' => 'required|numeric',
-                'alamat_asal' => 'required',
-                'alamat_tinggal' => 'required',
-                'no_telepon' => 'required|numeric',
-                'ipk' => 'required|between:0.0,4.0'
-            ]);
-        } else {
-            $this->validate($request, [
-                'nama' => 'required',
-                'id_prodi' => 'required|numeric',
-                'alamat_asal' => 'required',
-                'alamat_tinggal' => 'required',
-                'no_telepon' => 'required|numeric'
-            ]);
+            $validationArr['ipk'] = 'required|between:0.0,4.0';
+            $validationArr['id_prodi'] = 'required|numeric';
+        }
+        // jika pengguna adalah dosen pembimbing, maka
+        // perlu memasukkan prodi
+        else if(Auth::user()->isDosenPembimbing()) {
+            $validationArr['id_prodi'] = 'required|numeric';
         }
 
+        // melakukan validasi
+        $this->validate($request, $validationArr);
+
+        // mengubah prodil
         Auth::user()->update([
             'nama' => $request->nama,
             'id_prodi' => $request->id_prodi,
@@ -59,10 +68,17 @@ class UserController extends Controller
         }
 
         Session::flash('message', 'Berhasil mengubah profil !');
+        Session::flash('error', false);
 
         return back();
     }
 
+    /**
+     * Melakukan proses penggantian kata sandi
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function gantiPassword(Request $request)
     {
         if (!Hash::check($request->plama, Auth::user()->password)) {
@@ -89,6 +105,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Melakukan proses penambahan pengguna
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function tambah(Request $request)
     {
         $password = str_random(8);
@@ -106,6 +128,12 @@ class UserController extends Controller
         return back();
     }
 
+    /**
+     * Melakukan pengeditan hak akses
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function editHakAkses(Request $request)
     {
         if (is_null($request->hakakses))
@@ -129,11 +157,21 @@ class UserController extends Controller
 
     public function hapus(Request $request)
     {
-        User::find($request->id)->delete();
+        try {
+            User::find($request->id)->delete();
+        } catch (\Exception $e) {
+            //
+        }
 
         return back();
     }
 
+    /**
+     * Melakukan pencarian mahasiswa oleh mahasiswa lain
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function cariMahasiswa(Request $request)
     {
         $nama = $request->nama;
@@ -141,6 +179,12 @@ class UserController extends Controller
         return User::cariMahasiswaUntukUndanganTim($nama);
     }
 
+    /**
+     * Melakukan pencarian calon dosen pembimbing oleh mahasiswa
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function cariPembimbing(Request $request)
     {
         $nama = $request->nama;
@@ -148,6 +192,13 @@ class UserController extends Controller
         return User::cariDosenPembimbing($nama);
     }
 
+    /**
+     * Melakukan proses pencarian reviewer dengan kriteria yang
+     * sesuai dengan tim atau proposal
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function cariReviewer(Request $request)
     {
         $nama = $request->nama;
@@ -155,6 +206,13 @@ class UserController extends Controller
         return User::cari('nama', $nama, HakAkses::REVIEWER);
     }
 
+    /**
+     * Melakukan proses reset password dengan mengirim password
+     * baru ke email pengguna
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function resetPassword(Request $request)
     {
         $this->validate($request, [
@@ -174,7 +232,6 @@ class UserController extends Controller
             Session::forget('tab');
 
         Session::flash('tab', 'reset');
-
         Session::flash('message', 'Berhasil melakukan reset password. Silahkan cek email');
 
         return back();
