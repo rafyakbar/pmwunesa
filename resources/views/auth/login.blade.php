@@ -3,7 +3,7 @@
 @section('title', 'PMW Unesa')
 
 @section('content')
-<div class="row" style="margin-top: 20px">
+<div class="row" style="margin-top: 20px; ">
     <div class="col-lg-12" style="margin : 0 auto; text-align: center; color: #333333">
         <h2>Sistem Informasi PMW</h2>
         <h2 style="margin-top: 10px">Universitas Negeri Surabaya</h2>
