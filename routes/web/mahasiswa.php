@@ -15,19 +15,6 @@ Route::get('laporan', function(){
     return view('mahasiswa.laporan');
 })->name('laporan');
 
-// Route::group(['prefix' => 'laporan'], function () {
-//
-//     Route::get('kemajuan', function () {
-//         return view('mahasiswa.laporankemajuan');
-//     })->name('laporan.kemajuan');
-//
-//     Route::get('akhir', function () {
-//         return view('mahasiswa.laporanakhir');
-//     })->name('laporan.akhir');
-//
-// });
-//
-
 Route::get('infotim', [
     'uses' => 'Page\MahasiswaController@infoTim',
     'as' => 'info.tim'
