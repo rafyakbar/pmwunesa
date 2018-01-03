@@ -6,9 +6,21 @@ use Illuminate\Http\Request;
 use PMW\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controller ini menampilkan halaman-halaman yang
+ * akan ditampilkan untuk pengguna dengan hak akses mahasiswa
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers\Page
+ */
 class MahasiswaController extends Controller
 {
 
+    /**
+     * Menampilkan halaman untuk info tim
+     *
+     * @return \Illuminate\View\View
+     */
     public function infoTim()
     {
         $view = view('mahasiswa.infotim');
@@ -19,6 +31,12 @@ class MahasiswaController extends Controller
         return $view;
     }
 
+    /**
+     * Menampilkan halaman laporan kemajuan maupun final
+     * method ini digunakan jika pengguna adalah anggota tim (bukan ketua)
+     *
+     * @return \Illuminate\View\View
+     */
     public function laporan()
     {
         $view = view('mahasiswa.laporan');
@@ -32,6 +50,11 @@ class MahasiswaController extends Controller
         return $view;
     }
 
+    /**
+     * Menampilkan halaman daftar logbook dari tim pengguna
+     *
+     * @return \Illuminate\View\View
+     */
     public function logbook()
     {
         $logbook = [];

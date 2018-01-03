@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Auth;
 use PMW\User;
 use PMW\Models\Proposal;
 
+/**
+ * Controller ini berfungsi untuk mengatur atau melakuakn aksi yang
+ * berkaitan dengan proses undangan mahasiswa ke mahasiswa lain dalam
+ * hal untuk pembentukan sebuah tim pmw
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class UndanganTimController extends Controller
 {
 
@@ -128,7 +136,9 @@ class UndanganTimController extends Controller
 
     /**
      * Melakukan penolakan terhadap undangan pengirim
-     *
+     * penolakan dilakukan dengan bukan menghapus, namun mengubah isi kolom
+     * ditolak menjadi true
+     * 
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -163,9 +173,18 @@ class UndanganTimController extends Controller
         ]);
     }
 
+    /**
+     * Mengirim ulang undangan jika undangan sebelumnya telah
+     * ditolak
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function kirimUlang(Request $request)
     {
-        Auth::user()->mahasiswa()->undanganTimKetua()->updateExistingPivot($request->id,[
+        // mengubah isi kolom ditolak menjadi true
+        // sehingga undangan dianggap belum diterima oleh user tujuan
+        Auth::user()->mahasiswa()->undanganTimKetua()->updateExistingPivot($request->id, [
             'ditolak' => false
         ]);
 

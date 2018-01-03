@@ -9,20 +9,36 @@ use PMW\Models\Proposal;
 use PMW\Support\FileHandler;
 
 /**
- * Class untuk mengatur aktifitas dari Laporan Kemajuan
+ * Controller untuk mengatur aktifitas dari Laporan Kemajuan
  *
- * Class LaporanController
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
  * @package PMW\Http\Controllers
  */
 class LaporanController extends Controller
 {
 
+    /**
+     * jenis ekstensi yang dinggap valid untuk diunggah
+     *
+     * @var array
+     */
     private $validExtension = [
         'pdf', 'doc', 'docx'
     ];
 
+    /**
+     * lokasi dimana file akan disimpan, dengan storage/app/public
+     * sebagai root
+     *
+     * @var string
+     */
     private $dir = 'laporan/kemajuan';
 
+    /**
+     * array untuk validasi
+     *
+     * @var array
+     */
     private $validationArr = [
         'berkas' => 'required'
     ];
@@ -41,7 +57,7 @@ class LaporanController extends Controller
 
         if ($this->bolehUnggah()) {
 
-            $this->validate($request,$this->validationArr);
+            $this->validate($request, $this->validationArr);
 
             if ($this->berkasValid($berkas)) {
                 $file = $this->unggahBerkas($berkas);
@@ -85,11 +101,6 @@ class LaporanController extends Controller
             $laporan = Auth::user()->mahasiswa()->proposal()->laporanKemajuan();
 
         return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
-    }
-
-    public function hapus(Request $request)
-    {
-
     }
 
 }

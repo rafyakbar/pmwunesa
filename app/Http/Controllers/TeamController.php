@@ -8,6 +8,12 @@ use PMW\Models\Mahasiswa;
 class TeamController extends Controller
 {
 
+    /**
+     * Menghapus anggota tim
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function hapusAnggota(Request $request)
     {
         $anggota = User::find($request->anggota);

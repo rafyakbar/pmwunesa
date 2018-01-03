@@ -8,15 +8,37 @@ use PMW\Models\Laporan;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Proposal;
 
+/**
+ * Controller ini berfungsi untuk melakukan aksi yang berkaitan
+ * dengan laporan akhir proposal
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class LaporanAkhirController extends Controller
 {
 
+    /**
+     * Ekstensi file yang dianggap valid untuk diunggah
+     *
+     * @var array
+     */
     private $validExtension = [
         'pdf', 'doc', 'docx'
     ];
 
+    /**
+     * Lokasi dimana file akan diletakkan
+     *
+     * @var string
+     */
     private $dir = 'laporan/akhir';
 
+    /**
+     * array untuk validasi
+     *
+     * @var array
+     */
     private $validationArr = [
         'berkas' => 'required'
     ];
@@ -79,11 +101,6 @@ class LaporanAkhirController extends Controller
             $laporan = Auth::user()->mahasiswa()->proposal()->laporanAkhir();
 
         return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
-    }
-
-    public function hapus(Request $request)
-    {
-
     }
 
 }

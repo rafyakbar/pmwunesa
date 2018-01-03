@@ -9,6 +9,13 @@ use PMW\Models\HakAkses;
 use PMW\Support\RequestStatus;
 use PMW\User;
 
+/**
+ * Controller ini berfungsi untuk melakukan aksi yang berkaitan
+ * dengan hak akses
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class HakAksesController extends Controller
 {
 

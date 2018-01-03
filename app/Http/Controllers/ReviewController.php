@@ -9,6 +9,13 @@ use PMW\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Review;
 
+/**
+ * Controller ini berfungsi untuk melakukan penambahan maupun
+ * penegeditan sebuah review/penilaian
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class ReviewController extends Controller
 {
 
@@ -20,7 +27,7 @@ class ReviewController extends Controller
      * @param Request $request
      * @param int $idreview
      * 
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function tambah(Request $request, $idreview)
     {
@@ -68,7 +75,7 @@ class ReviewController extends Controller
      * @param Request $request
      * @param int $idreview
      * 
-     * @return RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function edit(Request $request, $idreview)
     {

@@ -16,6 +16,13 @@ use PMW\User;
 use PMW\Events\UserTerdaftar;
 use PMW\Mail\PasswordResetMail;
 
+/**
+ * Controller ini berfungsi untuk melakukan aksi
+ * yang berkaitan dengan user
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class UserController extends Controller
 {
 

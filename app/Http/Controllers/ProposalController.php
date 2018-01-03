@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Validator;
 use PMW\Models\Proposal;
 use PMW\Support\FileHandler;
 
+/**
+ * Controller ini berfungsi untuk melakukan aksi yang berkaitan
+ * dengan proposal sebuah tim
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class ProposalController extends Controller
 {
 
@@ -21,8 +28,19 @@ class ProposalController extends Controller
         'pdf', 'doc', 'docx'
     ];
 
+    /**
+     * Direktori dibawah storage/app/public untuk meletakkan file
+     * proposal
+     *
+     * @var string
+     */
     private $dir = 'proposal/awal';
 
+    /**
+     * array untuk validasi
+     *
+     * @var array
+     */
     private $validationArr = [
         'usulan_dana'   => 'required|numeric',
         'judul'         => 'required',
@@ -89,7 +107,7 @@ class ProposalController extends Controller
 
     public function edit(Request $request)
     {
-        $this->validate($request,$this->validationArr);
+        $this->validate($request, $this->validationArr);
 
         $proposal = Auth::user()->mahasiswa()->proposal();
 
@@ -122,6 +140,12 @@ class ProposalController extends Controller
         );
     }
 
+    /**
+     * Meloloskan proposal
+     *
+     * @param Request $request
+     * @return void
+     */
     public function loloskan(Request $request)
     {
         $proposal = Proposal::find($request->id_proposal);
@@ -129,6 +153,8 @@ class ProposalController extends Controller
         $proposal->update([
             'lolos' => true
         ]);
+
+        return back();
     }
 
     /**
@@ -136,13 +162,13 @@ class ProposalController extends Controller
      * ketika sebuah baris(<tr></tr>) proposal di klik
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function dataAjax(Request $request)
     {
         $proposal = Proposal::find($request->id);
 
-        return view('ajax.dataproposal',[
+        return view('ajax.dataproposal', [
             'proposal' => $proposal
         ]);
     }

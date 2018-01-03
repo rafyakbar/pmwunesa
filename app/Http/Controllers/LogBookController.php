@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Session;
 use PMW\Models\LogBook;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controller ini berfungsi untuk melakukan aksi yang berkaitan dengan
+ * logbook
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @package PMW\Http\Controllers
+ */
 class LogBookController extends Controller
 {
 
@@ -24,16 +31,17 @@ class LogBookController extends Controller
     public function tambah(Request $request)
     {
 
-        $this->validate($request,$this->validationArr);
+        $this->validate($request, $this->validationArr);
 
         if ($this->bolehTambahLogBook()) {
 
-            // Menambah LogBook ke database
+            // Menambah Logbook ke database
             $tambah = LogBook::create([
                 'catatan' => $request->catatan,
                 'biaya' => $request->biaya,
                 'id_proposal' => Auth::user()->mahasiswa()->proposal()->id
             ]);
+
             Session::flash('message', 'Berhasil menambah logbook !');
             return redirect()->route('logbook');
         }
@@ -43,6 +51,8 @@ class LogBookController extends Controller
     }
 
     /**
+     * Mengedit logbook tertentu
+     * 
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -56,13 +66,15 @@ class LogBookController extends Controller
             'biaya' => $request->biaya,
         ]);
 
-        Session::flash('message','Berhasil mengubah logbook !');
+        Session::flash('message', 'Berhasil mengubah logbook !');
         return redirect()->route('logbook');
     }
 
     /**
+     * Menghapus logbook tertentu
+     * 
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function hapus(Request $request)
     {
@@ -82,7 +94,14 @@ class LogBookController extends Controller
             ]);
         }
 
-        $logbook->delete();
+        try {
+            $logbook->delete();
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Anda tidak bisa menghapus logbook tersebut !',
+                'type' => 'error'
+            ]);
+        }
 
         return response()->json([
             'message' => 'Berhasil menghapus logbook !',
@@ -90,8 +109,15 @@ class LogBookController extends Controller
         ]);
     }
 
+    /**
+     * Mengecek apakah user terkait bisa menambah logbook
+     *
+     * @return boolean
+     */
     private function bolehTambahLogBook()
     {
+        // Jika user adalah ketua tim dan
+        // proposal dinyatakan lolos
         return (Auth::user()->isKetua() && Auth::user()->mahasiswa()->proposal()->lolos());
     }
 

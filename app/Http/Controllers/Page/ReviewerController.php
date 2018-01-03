@@ -14,6 +14,13 @@ class ReviewerController extends Controller
 
     private $perPage = 3;
 
+    /**
+     * Melihat daftar proposal yang bisa dinilai atau telah dinilai
+     * oleh reviewer tertentu
+     *
+     * @param int $tahap
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function daftarProposal($tahap = 1)
     {
         if ($tahap < 1 || $tahap > 2)
@@ -39,7 +46,7 @@ class ReviewerController extends Controller
         $daftarProposal = Auth::user()->review()
             ->where('tahap', $tahap)
             ->wherePivotIn('id', $filtered)
-            ->whereRaw('YEAR(proposal.created_at) = ' . Carbon::now()->year)
+            // ->whereRaw('YEAR(proposal.created_at) = ' . Carbon::now()->year)
             ->paginate($this->perPage);
 
         return view('dosen.reviewer.daftarproposal', [
@@ -69,6 +76,12 @@ class ReviewerController extends Controller
         ]);
     }
 
+    /**
+     * Melihat nilai review
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function lihatNilaiReview($id)
     {
         // Mengambil proposal sesuai id dari review
@@ -91,6 +104,12 @@ class ReviewerController extends Controller
         ]);
     }
 
+    /**
+     * Menampilkan halaman untuk menambah review dari sebuah proposal
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function tambahReview($id)
     {
         $proposal = Auth::user()->review()->wherePivot('id', $id)->first();
