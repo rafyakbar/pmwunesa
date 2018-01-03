@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use PMW\Support\RequestStatus;
 use PMW\Http\Controllers\Controller;
+use PMW\Models\Penilaian;
+use PMW\Models\Aspek;
 
 /**
  * Class DashboardController
@@ -54,9 +56,24 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Menampilkan halaman dasbor untuk reviewer
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function reviewer()
     {
-        return redirect()->route('daftar.proposal.reviewer');
+        $daftarproposal = [];
+        $daftarproposal['tahap1'] = Auth::user()->review()->where('tahap', 1);
+        $daftarproposal['tahap2'] = Auth::user()->review()->where('tahap', 2);
+        // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 1
+        $daftarproposal['sudahdinilai']['tahap1'] = Penilaian::whereIn('id_review', $daftarproposal['tahap1']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+        // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 2        
+        $daftarproposal['sudahdinilai']['tahap2'] = Penilaian::whereIn('id_review', $daftarproposal['tahap2']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+        
+        return view('dosen.dashboard', [
+            'daftarproposal' => $daftarproposal
+        ]);
     }
 
     /**
@@ -66,10 +83,21 @@ class DashboardController extends Controller
      */
     public function dosen()
     {
-       return view('dosen.dashboard',[
-           'undangan' => Auth::user()->bimbingan()->where('status_request', RequestStatus::REQUESTING),
-           'bimbingan' => Auth::user()->bimbingan()->where('status_request', RequestStatus::APPROVED)->limit(3)
-       ]);
+        if(Auth::user()->isReviewer()) {
+            $daftarproposal = [];
+            $daftarproposal['tahap1'] = Auth::user()->review()->where('tahap', 1);
+            $daftarproposal['tahap2'] = Auth::user()->review()->where('tahap', 2);
+            // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 1
+            $daftarproposal['sudahdinilai']['tahap1'] = Penilaian::whereIn('id_review', $daftarproposal['tahap1']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+            // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 2        
+            $daftarproposal['sudahdinilai']['tahap2'] = Penilaian::whereIn('id_review', $daftarproposal['tahap2']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+        }
+        
+        return view('dosen.dashboard',[
+            'undangan' => Auth::user()->bimbingan()->where('status_request', RequestStatus::REQUESTING),
+            'bimbingan' => Auth::user()->bimbingan()->where('status_request', RequestStatus::APPROVED)->limit(3),
+            'daftarproposal' => $daftarproposal
+        ]);
     }
 
     /**

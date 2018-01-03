@@ -6,9 +6,25 @@
 
 @section('content')
 
-    @if(Auth::user()->isDosenPembimbing())
-        @include('dosen.pembimbing.part.dashboard')
-    @endif
+    <div class="row">
+
+        <div class="col-lg-6">
+            @if(Auth::user()->isDosenPembimbing())
+                @include('dosen.pembimbing.dashboard')
+            @endif
+
+            @if(Auth::user()->isReviewer())
+                @include('dosen.reviewer.dashboard')
+            @endif
+
+            @include('part.permintaan_hak_akses')
+        </div>
+
+        <div class="col-lg-6">
+            @include('part.linimasa')
+        </div>
+
+    </div>
     
 @endsection
 
