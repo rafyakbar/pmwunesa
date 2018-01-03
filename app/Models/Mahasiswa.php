@@ -68,6 +68,11 @@ class Mahasiswa extends Model
         return $this->belongsTo('PMW\Models\Proposal','id_proposal')->first();
     }
 
+    /**
+     * Memastikan bahwa tim memiliki proposal yang sudah memliki judul atau
+     * atribut yang diperlukan
+     * @return bool
+     */
     public function punyaProposal()
     {
         if(!is_null($this->proposal()))
@@ -77,6 +82,11 @@ class Mahasiswa extends Model
         return false;
     }
 
+    /**
+     * Proposal kosong disini adalah proposal dengan judul yang masih kosong
+     *
+     * @return bool
+     */
     public function punyaProposalKosong()
     {
         if(!is_null($this->proposal()))
@@ -102,10 +112,16 @@ class Mahasiswa extends Model
         return Proposal::find($proposal)->ketua();
     }
 
+    /**
+     * Mendapatkan jumlah anggota tim
+     * mengembalikan nilai -1 jika mahasiswa belum memiliki tim
+     *
+     * @return int
+     */
     public function jumlahAnggotaTim()
     {
         if(!$this->punyaProposalKosong())
-            return 0;
+            return -1;
 
         $proposal = $this->proposal();
 
@@ -122,11 +138,22 @@ class Mahasiswa extends Model
 
     }
 
+    /**
+     * Mengecek apakah user dalam mengirim undangan ke dosen untuk menjadi
+     * dosen pembimbing
+     *
+     * @return bool
+     */
     public function bisaKirimUndanganDosen()
     {
         return ($this->jumlahAnggotaTim() == 3);
     }
 
+    /**
+     * Melakukan penolakan terhadap undangan dari mahasiswa lain
+     *
+     * @param $dari
+     */
     public function tolakUndanganTim($dari)
     {
         $dari->mahasiswa()->undanganTimKetua()->updateExistingPivot($this->pengguna()->id, [
@@ -158,14 +185,86 @@ class Mahasiswa extends Model
                 ->count() > 0);
     }
 
+    /**
+     * Memastikan apakah ketua tim dapat melakukan pengunggahan proposal
+     * dengan meilhat bahwa tanggal saat ini belum melewati tanggal batas unggah
+     * proposal
+     *
+     * @return bool
+     */
     public function bisaUnggahProposal()
     {
-        if(Carbon::now()->diffInDays(
-            Carbon::parse(Pengaturan::batasUnggahProposal()
-            ),false) >= 0){
-            return true;
-        }
-        return false;
+        if(!$this->pengguna()->isKetua())
+            return false;
+
+        if(Pengaturan::melewatiBatasUnggahProposal())
+            return false;
+        
+        if(!is_null($this->proposal()->direktori))
+            return false;
+            
+        return true;
+    }
+
+    /**
+     * Memastikan apakah ketua tim dapat mengedit proposal dengan mengecek apakah
+     * tanggal batas unggah proposal belum dilewati, dan memastikan bahwa proposal
+     * telah memiliki judul
+     *
+     * @return bool
+     */
+    public function bisaEditProposal()
+    {
+        if(!$this->pengguna()->isKetua())
+            return false;
+
+        if(Pengaturan::melewatiBatasUnggahProposal())
+            return false;
+        
+        if(is_null($this->proposal()->direktori))
+            return false;
+            
+        return true;
+    }
+
+    /**
+     * Mengecek apakah mahasiswa terkait bisa melakukan
+     * pengunggahan proposal final
+     *
+     * @return bool
+     */
+    public function bisaUnggahProposalFinal()
+    {
+        if(!$this->pengguna()->isKetua())
+            return false;
+
+        if(Pengaturan::melewatiBatasUnggahProposalFinal())
+            return false;
+        
+        if(!is_null($this->proposal()->direktori_final))
+            return false;
+            
+        return true;
+    }
+
+    /**
+     * Mengecek apakah mahasiswa bisa melakukan pengeditan
+     * proposal final
+     *
+     * @return bool
+     */
+    public function bisaEditProposalFinal()
+    {
+        if(!$this->pengguna()->isKetua())
+            return false;
+
+        if(Pengaturan::melewatiBatasUnggahProposalFinal())
+            return false;
+        
+        if(is_null($this->proposal()->direktori_final))
+            return false;
+            
+        return true;
     }
 
 }
