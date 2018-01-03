@@ -5,9 +5,16 @@ namespace PMW\Support;
 class Dana
 {
 
+    /**
+     * Melakukan format untuk sebuah nominal uang dalam
+     * bentuk rupiah
+     *
+     * @param int $currency
+     * @return string
+     */
     public function format($currency)
     {
-        return number_format($currency, 0, ',', '.');
+        return "Rp " . number_format($currency, 0, ',', '.');
     }
 
 }
