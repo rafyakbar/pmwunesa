@@ -5,7 +5,7 @@
     @include('layouts.sidebar')
 
     <div class="main-panel">
-        <nav class="navbar navbar-transparent navbar-absolute">
+        <nav style="background-color: #ffffff" class="navbar navbar-transparent navbar-absolute">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse">
