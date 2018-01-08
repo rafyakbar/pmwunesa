@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+    {{--alert--}}
+    @if(session()->has('message'))
+        <div class="alert alert-info">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+
     <div class="btn-group">
         <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -51,31 +58,24 @@
                     <form action="{{ route('tambah.jurusan') }}" method="post">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
-                        <div class="input-group">
-                            <textarea name="nama"
-                                      placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas"
-                                      class="form-control" required></textarea>
-                            <span class="input-group-btn">
-                                        <button class="btn btn-success btn-sm" type="button">Tambah</button>
-                                    </span>
-                        </div>
+                        <textarea name="nama" placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas"
+                                  class="form-control" required></textarea>
+                        <button class="btn btn-success btn-sm" type="button">Tambah</button>
                     </form>
-                    <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>id_fakultas</b>(opsional)</p>
-                    <div class="row" style="padding-left: 5%; padding-right: 5%">
-                        <div class="col-md-10">
-                            <form action="{{ route('tambah.csv.jurusan') }}" method="post"
-                                  enctype="multipart/form-data">
-                                {{ csrf_field() }}
-                                <div class="input-group input-group-sm">
-                                    <input type="text" name="splitter" maxlength="1" minlength="1" required>
-                                    <input name="csv" type="file" accept=".csv" required>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success btn-sm" type="submit">Tambah</button>
-                                    </span>
-                                </div>
-                            </form>
+                    <hr>
+                    <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>id_fakultas</b>(opsional)
+                    </p>
+                    <form action="{{ route('tambah.csv.jurusan') }}" method="post"
+                          enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="form-group label-floating">
+                            <label>Splitter</label>
+                            <input class="form-control" type="text" name="splitter" maxlength="1" minlength="1" required>
                         </div>
-                    </div>
+                        <label>Pilih file .csv</label>
+                        <input name="csv" type="file" accept=".csv" required><br>
+                        <button class="btn btn-success btn-sm" type="submit">Tambah</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -106,11 +106,11 @@
                                 <span class="material-input"></span>
                                 <div class="input-group">
                                     <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <input type="text" name="nama" value="{{ $item->nama }}"
                                                    class="form-control" style="border: 1px">
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <select name="id_fakultas" class="form-control">
                                                 @if(is_null($item->id_fakultas))
                                                     <option value="">Pilih Fakultas</option>

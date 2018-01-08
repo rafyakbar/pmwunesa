@@ -15,7 +15,7 @@ class JurusanController extends Controller
             ]);
         }
 
-        return back();
+        return back()->with('message', 'Berhasil menambahkan '.count(explode(PHP_EOL, $request->nama)).' jurusan!');
     }
 
     public function tambahCsv(Request $request)
@@ -43,9 +43,11 @@ class JurusanController extends Controller
 
     public function hapus(Request $request)
     {
-        Jurusan::where('id', $request->id)->delete();
+        $jurusan = Jurusan::find($request->id);
+        $nama = $jurusan->nama;
+        $jurusan->delete();
 
-        return back();
+        return back()->with('message', 'Berhasil menghapus '.$nama.'!');
     }
 
     public function edit(Request $request)
@@ -55,7 +57,7 @@ class JurusanController extends Controller
         $data->id_fakultas = $request->id_fakultas;
         $data->save();
 
-        return back();
+        return back()->with('message', 'Berhasil mengedit ');
     }
 
     public function daftarBerdasarkanFakultas(Request $request)

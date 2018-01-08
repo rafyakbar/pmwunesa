@@ -11,7 +11,7 @@
             {{ session()->get('message') }}
         </div>
     @endif
-    
+
     <div class="row">
         <div class="col-md-7">
             <div class="card">
