@@ -29,9 +29,8 @@ class Fakultas extends Model
     }
 
     public static function checkName($nama){
-        foreach (Fakultas::all() as $item)
-            if ($item->nama == $nama)
-                return true;
+        if (Fakultas::where('nama', $nama)->count() > 0)
+            return true;
         return false;
     }
 
