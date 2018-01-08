@@ -137,9 +137,9 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-success btn-sm"
+                                <a class="btn btn-success btn-sm btn-round"
                                    onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
-                                <a class="btn btn-danger btn-sm"
+                                <a class="btn btn-danger btn-sm btn-round"
                                    onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
                             </div>
                         </td>
