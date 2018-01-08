@@ -5,64 +5,92 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        <div class="card-header" data-background-color="purple">
-            <h4 class="title">Fakultas</h4>
-            <p class="category">Daftar fakultas</p>
+    {{--alert--}}
+    @if(session()->has('message'))
+        <div class="alert alert-info">
+            {{ session()->get('message') }}
         </div>
-        <div class="card-content table-responsive">
-            <table class="table">
-                <thead class="text-primary">
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Aksi</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($fakultas as $item)
-                    <tr>
-                        <td>{{ ++$c }}</td>
-                        <td>
-                            <form action="{{ route('edit.fakultas') }}" method="post" id="simpan-{{ $item->id }}">
-                                {{ csrf_field() }}
-                                {{ method_field('put') }}
-                                <input type="hidden" name="id" value="{{ $item->id }}">
-                                <span class="material-input"></span>
-                                <div class="input-group">
-                                    <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" style="border: 1px">
-                                </div>
-                            </form>
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <a class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
-                                <a class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <form action="{{ route('hapus.fakultas') }}" method="post" id="hapus-{{ $item->id  }}">
-                        {{ csrf_field() }}
-                        {{ method_field('put') }}
-                        <input type="hidden" name="id" value="{{ $item->id }}">
-                    </form>
-                @endforeach
-                </tbody>
-            </table>
+    @endif
+    
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header" data-background-color="purple">
+                    <h4 class="title">Fakultas</h4>
+                    <p class="category">Daftar fakultas</p>
+                </div>
+                <div class="card-content table-responsive">
+                    <table class="table" id="fakultas">
+                        <thead class="text-primary">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Aksi</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($fakultas as $item)
+                            <tr>
+                                <td>{{ ++$c }}</td>
+                                <td>
+                                    <form action="{{ route('edit.fakultas') }}" method="post"
+                                          id="simpan-{{ $item->id }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('put') }}
+                                        <input type="hidden" name="id" value="{{ $item->id }}">
+                                        <span class="material-input"></span>
+                                        <div class="input-group">
+                                            <input type="text" name="nama" value="{{ $item->nama }}"
+                                                   class="form-control" style="border: 1px">
+                                        </div>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{{ route('hapus.fakultas') }}" method="post" id="hapus-{{ $item->id  }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('put') }}
+                                        <input type="hidden" name="id" value="{{ $item->id }}">
+                                    </form>
+                                    <div class="btn-group">
+                                        <a class="btn btn-success btn-sm"
+                                           onclick="event.preventDefault(); document.getElementById('simpan-{{ $item->id }}').submit()">Simpan</a>
+                                        <a class="btn btn-danger btn-sm"
+                                           onclick="event.preventDefault(); document.getElementById('hapus-{{ $item->id }}').submit()">Hapus</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header" data-background-color="blue">
+                    <h4 class="title">Tambah fakultas</h4>
+                    <p class="category">Tambah data fakultas secara manual atau .csv file</p>
+                </div>
+                <div class="card-content">
+                    <h5>Manual</h5>
                     <form action="{{ route('tambah.fakultas') }}" method="post">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
-                        <div class="row" style="padding-left: 5%; padding-right: 5%">
-                            <div class="col-md-10">
-                                <textarea name="nama" placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas" class="form-control"></textarea>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="submit" name="submit" value="tambah" class="btn btn-round btn-sm">
-                            </div>
+
+                        <textarea name="nama" placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas"
+                                  class="form-control"></textarea>
+                        <input type="submit" name="submit" value="tambah" class="btn btn-success btn-round btn-sm">
+
+                    </form>
+                    <hr>
+                    <h5>.csv file</h5>
+                    <form action="{{ route('tambah.csv.fakultas') }}" method="post"
+                          enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="input-group input-group-sm">
+                            <label>Pilih file</label>
+                            <input name="csv" type="file" accept=".csv" required><br>
+                            <button class="btn btn-success btn-round btn-sm" type="submit">Tambah</button>
                         </div>
                     </form>
                 </div>

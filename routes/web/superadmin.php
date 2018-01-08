@@ -77,6 +77,11 @@ Route::group(['prefix' => 'tambah'], function () {
         'as' => 'tambah.csv.jurusan'
     ]);
 
+    Route::post('csv/fakultas', [
+        'uses' => 'FakultasController@tambahCsv',
+        'as' => 'tambah.csv.fakultas'
+    ]);
+
 });
 
 Route::group(['prefix' => 'hapus'], function () {
