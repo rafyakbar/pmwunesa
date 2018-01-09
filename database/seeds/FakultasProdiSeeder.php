@@ -44,7 +44,7 @@ class FakultasProdiSeeder extends Seeder
             'Bahasa & Sastra Inggris' => [
                 'S1 Pendidikan Bahasa Inggris',
                 'S1 Sastra Inggris',
-                'D III Bahasa Inggris'
+                'D3 Bahasa Inggris'
             ],
             'Bahasa & Sastra Daerah' => [
                 'S1 Pendidikan Bahasa Jawa',
@@ -66,7 +66,7 @@ class FakultasProdiSeeder extends Seeder
             ],
             'Desain' => [
                 'S1 Desain Komunikasi Visual',
-                'DIII Desain Grafis'
+                'D3 Desain Grafis'
             ],
             'Seni Drama, Tari & Musik' => [
                 'S1 Pendidikan Seni Drama, Tari, & Musik',
@@ -102,7 +102,7 @@ class FakultasProdiSeeder extends Seeder
             ],
             'Administrasi Publik' => [
                 'S1 Ilmu Administrasi Negara',
-                'D III Administrasi Negara'
+                'D3 Administrasi Negara'
             ],
             'Hukum' => [
                 'S1 Ilmu Hukum'
@@ -125,31 +125,31 @@ class FakultasProdiSeeder extends Seeder
                 'S1 Teknik Informatika',
                 'S1 Sistem Informasi',
                 'S1 Pendidikan Teknologi Informasi',
-                'D III Manajemen Informatika'
+                'D3 Manajemen Informatika'
             ],
             'Teknik Mesin' => [
                 'S1 Teknik Mesin',
-                'DIII Teknik Mesin',
+                'D3 Teknik Mesin',
                 'S1 Pend Teknik Mesin'
             ],
             'Teknik Elektro' => [
                 'S1 Teknik Elektro',
                 'S1 Pend. Teknik Elektro',
-                'DIII Teknik Listrik',
+                'D3 Teknik Listrik',
             ],
             'Teknik Sipil' => [
                 'S1 Teknik Sipil',
                 'S1 Pend Teknik Bangunan',
-                'DIII Teknik Sipil',
-                'DIII Manajemen Transportasi'
+                'D3 Teknik Sipil',
+                'D3 Manajemen Transportasi'
             ],
             'Pendidikan Kesejahteraan Keluarga' => [
                 'S1 Pendidikan Tata Busana',
                 'S1 Pendidikan Kesejahteraan Keluarga',
                 'S1 Pendidikan Tata Rias',
                 'S1 Pendidikan Tata Boga',
-                'DIII Tata Boga',
-                'DIII Tata Busana'
+                'D3 Tata Boga',
+                'D3 Tata Busana'
             ]
         ],
 
@@ -173,7 +173,7 @@ class FakultasProdiSeeder extends Seeder
             ],
             'Akutansi' => [
                 'S1 Akuntansi',
-                'DIII Akuntansi'
+                'D3 Akuntansi'
             ],
             'Ilmu Ekonomi' => [
                 'S1 Ekonomi Islam'
