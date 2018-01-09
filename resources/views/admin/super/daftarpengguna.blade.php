@@ -10,6 +10,15 @@
             display: none;
         }
     </style>
+
+    {{--alert--}}
+    @if(session()->has('message'))
+        <br>
+        <div class="alert alert-info">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+
     <div class="btn-group">
         <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -61,9 +70,9 @@
         </div>
     </div>
 
-    <button class="btn btn-primary" data-toggle="modal" data-target="#tambah">Tambah pengguna</button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#tambah">Tambah pengguna</button>
 
-    <div id="tambah" class="modal fade" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div id="tambah" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="card">
                 <div class="card-header" data-background-color="blue">
@@ -101,8 +110,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="btn-group">
-                        <a class="btn btn-success" onclick="event.preventDefault(); document.getElementById('tambah-form')">Tambah</a>
-                        <button class="btn btn-danger" data-dismiss="modal">Tutup</button>
+                        <a class="btn btn-success btn-round btn-sm" onclick="event.preventDefault(); document.getElementById('tambah-form')">Tambah</a>
+                        <button class="btn btn-danger btn-round btn-sm" data-dismiss="modal">Tutup</button>
                     </div>
                 </div>
             </div>

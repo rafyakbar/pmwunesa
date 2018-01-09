@@ -132,7 +132,7 @@ class UserController extends Controller
 
         event(new UserTerdaftar($user, $request->hakakses, $password));
 
-        return back();
+        return back()->with('message', 'Berhasil menambahkan user!');
     }
 
     /**
@@ -159,7 +159,7 @@ class UserController extends Controller
             }
         }
 
-        return back();
+        return back()->with('message', 'Berhasil menyimpan data '.User::find($request->id)->nama);
     }
 
     public function hapus(Request $request)
@@ -167,10 +167,10 @@ class UserController extends Controller
         try {
             User::find($request->id)->delete();
         } catch (\Exception $e) {
-            //
+            return back()->with('message', 'Gagal menghapus user!');
         }
 
-        return back();
+        return back()->with('message', 'Berhasil menghapus user!');
     }
 
     /**
