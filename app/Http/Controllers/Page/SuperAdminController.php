@@ -162,6 +162,7 @@ class SuperAdminController extends Controller
     {
         $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
         $fakultas = Fakultas::where('nama', $nama_fakultas)->first();
+        $request->lolos = ($request->lolos == 'semua_proposal') ? 'semua' : $request->lolos;
         return ExcelExport::unduhProposal((is_null($fakultas)) ? $fakultas : $fakultas->id, $request->lolos);
     }
 
