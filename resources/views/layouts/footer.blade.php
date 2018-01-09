@@ -92,7 +92,7 @@ $.ajaxSetup({
     }
 })
 </script>
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
         $('.use-datatable').DataTable({
             responsive: true,
@@ -103,10 +103,17 @@ $.ajaxSetup({
             ]
         });
     });
-</script>
-<script type="text/javascript">
     $(document).ready(function () {
         $('#fakultas').DataTable({
+            responsive: true,
+            "info": false,
+            "sort": false,
+            "searching": false,
+            "lengthMenu": [[5, 10, 20, 40, 80, 100, -1], [5, 10, 20, 40, 80, 100, "Semua data"]],
+        });
+    });
+    $(document).ready(function () {
+        $('#aspek').DataTable({
             responsive: true,
             "info": false,
             "sort": false,

@@ -6,50 +6,54 @@
 
 @section('content')
     @if(session()->has('message'))
-    <div class="alert alert-info">
-        {{ session()->get('message') }}
-    </div>
+        <br>
+        <div class="alert alert-info">
+            {{ session()->get('message') }}
+        </div>
     @endif
 
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <div class="card">
-                <div class="card-header" data-background-color="blue">
+                <div class="card-header" data-background-color="orange">
                     <h4 class="title">{{ $pengaturan[0]->nama }}</h4>
                 </div>
                 <div class="card-content">
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[0]->id }}" min="0" max="100">
-                        <input type="number" name="keterangan" value="{{ $pengaturan[0]->keterangan }}" class="form-control">
+                        <input type="number" name="keterangan" value="{{ $pengaturan[0]->keterangan }}"
+                               class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[0]->updated_at->diffForHumans() }}.</p>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header" data-background-color="blue">
+                <div class="card-header" data-background-color="orange">
                     <h4 class="title">{{ $pengaturan[1]->nama }}</h4>
                 </div>
                 <div class="card-content">
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[1]->id }}">
-                        <input id="pengumpulan-proposal" type="text" name="keterangan" value="{{ $pengaturan[1]->keterangan }}" class="form-control">
+                        <input id="pengumpulan-proposal" type="text" name="keterangan"
+                               value="{{ $pengaturan[1]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[1]->updated_at->diffForHumans() }}.</p>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header" data-background-color="blue">
+                <div class="card-header" data-background-color="orange">
                     <h4 class="title">{{ $pengaturan[3]->nama }}</h4>
                 </div>
                 <div class="card-content">
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[3]->id }}">
-                        <input id="pengumpulan-proposal-final" type="text" name="keterangan" value="{{ $pengaturan[3]->keterangan }}" class="form-control">
+                        <input id="pengumpulan-proposal-final" type="text" name="keterangan"
+                               value="{{ $pengaturan[3]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[3]->updated_at->diffForHumans() }}.</p>
@@ -58,35 +62,37 @@
         </div>
         <div class="col-md-6 col-sm-6">
             <div class="card">
-                <div class="card-header" data-background-color="blue">
+                <div class="card-header" data-background-color="orange">
                     <h4 class="title">{{ $pengaturan[2]->nama }}</h4>
                 </div>
                 <div class="card-content">
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[2]->id }}">
-                        <input type="text" name="keterangan" value="{{ $pengaturan[2]->keterangan }}" class="form-control dtp-show">
+                        <input type="text" name="keterangan" value="{{ $pengaturan[2]->keterangan }}"
+                               class="form-control dtp-show">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[2]->updated_at->diffForHumans() }}.</p>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header" data-background-color="blue">
+                <div class="card-header" data-background-color="orange">
                     <h4 class="title">{{ $pengaturan[4]->nama }}</h4>
                 </div>
                 <div class="card-content">
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[4]->id }}">
-                        <input type="text" name="keterangan" value="{{ $pengaturan[4]->keterangan }}" class="form-control dtp-show">
+                        <input type="text" name="keterangan" value="{{ $pengaturan[4]->keterangan }}"
+                               class="form-control dtp-show">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[4]->updated_at->diffForHumans() }}.</p>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header" data-background-color="blue">
+                <div class="card-header" data-background-color="purple">
                     <h4 class="title">Tambah Aspek</h4>
                 </div>
                 <div class="card-content">
@@ -107,12 +113,12 @@
             <h4>Daftar aspek</h4>
             <p class="category">Berikut ini adalah aspek atau kriteria PMW UNESA</p>
         </div>
-        <div class="card-content">
-            <table class="table">
+        <div class="card-content table-responsive">
+            <table class="table" id="aspek">
                 <thead>
                 <tr>
                     <td>No.</td>
-                    <td width="50%">Nama Aspek</td>
+                    <td>Nama Aspek</td>
                     <td>Aksi</td>
                 </tr>
                 </thead>
@@ -127,14 +133,16 @@
                                 {{ csrf_field() }}
                                 {{ method_field('put') }}
                                 <input type="hidden" name="id" value="{{ $item->id }}">
-                                <input name="nama" value="{{ $item->nama }}" class="form-control">
+                                <textarea name="nama" class="form-control">{{ $item->nama }}</textarea>
                             </form>
                         </td>
                         <td>
                             <div class="btn-group">
                                 <a href="{{ route('edit.aspek') }}" class="btn btn-success btn-sm"
                                    onclick="event.preventDefault(); document.getElementById('update-{{ $item->id }}').submit();">Simpan</a>
-                                <a href="{{ route('hapus.aspek') }}" onclick="event.preventDefault();document.getElementById('hapus-{{ $item->id }}').submit();" class="btn btn-danger btn-sm">Hapus</a>
+                                <a href="{{ route('hapus.aspek') }}"
+                                   onclick="event.preventDefault();document.getElementById('hapus-{{ $item->id }}').submit();"
+                                   class="btn btn-danger btn-sm">Hapus</a>
                             </div>
                         </td>
 
