@@ -55,7 +55,7 @@
 <script type="text/javascript">
     $(document).ready(function()
     {
-        $('.dtp-show').bootstrapMaterialDatePicker
+        $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker
         ({
             format: 'YYYY-MM-DD HH:mm',
             lang: 'id',
@@ -64,6 +64,19 @@
             nowText : 'Sekarang',
             nowButton : true,
             switchOnClick : true
+        });
+        $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker('setMinDate', $('#pengumpulan-proposal').val());
+        $('#pengumpulan-proposal').bootstrapMaterialDatePicker
+        ({
+            format: 'YYYY-MM-DD HH:mm',
+            lang: 'id',
+            weekStart: 0,
+            cancelText : 'Batal',
+            nowText : 'Sekarang',
+            nowButton : true,
+            switchOnClick : true
+        }).on('change', function (e, date) {
+            $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker('setMinDate', date);
         });
 
         $.material.init()

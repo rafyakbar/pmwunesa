@@ -35,7 +35,7 @@
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[1]->id }}">
-                        <input type="text" name="keterangan" value="{{ $pengaturan[1]->keterangan }}" class="form-control dtp-show">
+                        <input id="pengumpulan-proposal" type="text" name="keterangan" value="{{ $pengaturan[1]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[1]->updated_at->diffForHumans() }}.</p>
@@ -49,7 +49,7 @@
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[3]->id }}">
-                        <input type="text" name="keterangan" value="{{ $pengaturan[3]->keterangan }}" class="form-control dtp-show">
+                        <input id="pengumpulan-proposal-final" type="text" name="keterangan" value="{{ $pengaturan[3]->keterangan }}" class="form-control">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
                     <p>Diubah {{ $pengaturan[3]->updated_at->diffForHumans() }}.</p>
