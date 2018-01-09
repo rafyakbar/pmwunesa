@@ -3,6 +3,7 @@
 namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PMW\Models\Fakultas;
 use PMW\Models\Jurusan;
 
 class JurusanController extends Controller
@@ -22,7 +23,7 @@ class JurusanController extends Controller
     {
         $this->validate($request,[
             'csv' => 'required',
-            'splitter' => 'required|max:1'
+            'splitter' => 'required|max:1|min:1'
         ]);
 
         $file = fopen($request->file('csv')->getRealPath(),'r');
@@ -30,15 +31,18 @@ class JurusanController extends Controller
         while(!feof($file))
         {
             $row = fgetcsv($file,0,$request->splitter);
+            $id_fakultas = null;
+            if (Fakultas::checkName((isset($row[1])) ? $row[1] : ''))
+                $id_fakultas = Fakultas::getIdByName($row[1]);
             Jurusan::create([
                 'nama' => $row[0],
-                'id_fakultas' => (isset($row[1])) ? $row[1] : null
+                'id_fakultas' => $id_fakultas
             ]);
             $jumlah++;
         }
         fclose($file);
 
-       return back()->with('message', 'Berhasil menambahkan '.$jumlah.' jurusan');
+        return back()->with('message', 'Berhasil menambahkan '.$jumlah.' jurusan!');
     }
 
     public function hapus(Request $request)

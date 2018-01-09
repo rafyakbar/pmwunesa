@@ -69,7 +69,7 @@
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>id_fakultas</b>(opsional)
+                        <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>nama_fakultas</b>(opsional)
                         </p>
                         <form action="{{ route('tambah.csv.jurusan') }}" method="post"
                               enctype="multipart/form-data">
