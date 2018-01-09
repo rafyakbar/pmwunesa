@@ -7,6 +7,7 @@
 @section('content')
     {{--alert--}}
     @if(session()->has('message'))
+        <br>
         <div class="alert alert-info">
             {{ session()->get('message') }}
         </div>
@@ -15,12 +16,14 @@
     <div class="btn-group">
         <div class="btn-group">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                {{ ucwords(str_replace('_',' ',$fakultas)) }}&nbsp;&nbsp;<span class="caret"></span>
+                {{ ($fakultas == 'semua_fakultas') ? '' : 'Fakultas' }}
+                {{ ucwords(str_replace('_',' ',$fakultas)) }}&nbsp;&nbsp;
+                <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
                 <li>
                     <a href="{{ route('daftar.jurusan', ['fakultas' => 'semua_fakultas', 'perHalaman' => $perHalaman]) }}">Semua
-                        FAKULTAS</a></li>
+                        Fakultas</a></li>
                 @foreach($daftarfakultas as $item)
                     <li>
                         <a href="{{ route('daftar.jurusan', ['fakultas' => str_replace(' ','_',strtolower($item->nama)), 'perHalaman' => $perHalaman]) }}">{{ $item->nama }}</a>
@@ -35,51 +38,56 @@
             <ul class="dropdown-menu">
                 @for($per = 5; $per <= $jurusan->total(); $per += 5)
                     <li>
-                        <a href="{{ route('daftar.jurusan', ['fakultas' => 'semua_fakultas', 'perHalaman' => $per]) }}">{{ $per }}
+                        <a href="{{ route('daftar.jurusan', ['fakultas' => $fakultas, 'perHalaman' => $per]) }}">{{ $per }}
                             data per halaman</a></li>
                 @endfor
                 <li>
                 <li>
-                    <a href="{{ route('daftar.jurusan', ['fakultas' => 'semua_fakultas', 'perHalaman' => $jurusan->total()]) }}">Semua
+                    <a href="{{ route('daftar.jurusan', ['fakultas' => $fakultas, 'perHalaman' => $jurusan->total()]) }}">Semua
                         Data</a></li>
                 </li>
             </ul>
         </div>
     </div>
-    <a class="btn btn-success" data-toggle="modal" data-target="#tambah">Tambah jurusan</a>
-    <div id="tambah" class="modal fade" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
-        <div class="modal-dialog">
-            <div class="card">
-                <div class="card-header" data-background-color="blue">
-                    <h4>Tambah jurusan</h4>
-                </div>
-                <div class="card-content">
-                    <p>Tambahkan secara manual</p>
-                    <form action="{{ route('tambah.jurusan') }}" method="post">
-                        {{ csrf_field() }}
-                        {{ method_field('put') }}
-                        <textarea name="nama" placeholder="Pisahkan dengan enter untuk menambahkan banyak fakultas"
-                                  class="form-control" required></textarea>
-                        <button class="btn btn-success btn-sm" type="button">Tambah</button>
-                    </form>
-                    <hr>
-                    <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>id_fakultas</b>(opsional)
-                    </p>
-                    <form action="{{ route('tambah.csv.jurusan') }}" method="post"
-                          enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        <div class="form-group label-floating">
-                            <label>Splitter</label>
-                            <input class="form-control" type="text" name="splitter" maxlength="1" minlength="1" required>
-                        </div>
-                        <label>Pilih file .csv</label>
-                        <input name="csv" type="file" accept=".csv" required><br>
-                        <button class="btn btn-success btn-sm" type="submit">Tambah</button>
-                    </form>
+
+    <a class="btn btn-success" data-toggle="collapse" data-target="#tambah">Tambah jurusan</a>
+    <div id="tambah" class="collapse" role="dialog">
+        <div class="card">
+            <div class="card-header" data-background-color="blue">
+                <h4 class="title">Tambah jurusan</h4>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Tambahkan secara manual</p>
+                        <form action="{{ route('tambah.jurusan') }}" method="post">
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
+                            <textarea name="nama" placeholder="Pisahkan dengan enter untuk menambahkan banyak jurusan"
+                                      class="form-control" rows="7" required></textarea>
+                            <button class="btn btn-success btn-sm" type="button">Tambah</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Tambahkan dengan .csv file dengan format <b>nama_jurusan</b>[splitter]<b>id_fakultas</b>(opsional)
+                        </p>
+                        <form action="{{ route('tambah.csv.jurusan') }}" method="post"
+                              enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="form-group label-floating">
+                                <label>Splitter</label>
+                                <input class="form-control" type="text" name="splitter" maxlength="1" minlength="1" required>
+                            </div>
+                            <label>Pilih file .csv</label>
+                            <input name="csv" type="file" accept=".csv" required><br>
+                            <button class="btn btn-success btn-sm" type="submit">Tambah</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="card">
         <div class="card-header" data-background-color="purple">
             <h4 class="title">Jurusan</h4>

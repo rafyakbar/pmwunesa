@@ -39,4 +39,15 @@ class Jurusan extends Model
     {
         return $this->belongsTo('PMW\Models\Fakultas', 'id_fakultas')->first();
     }
+
+    public static function checkName($nama){
+        if (Jurusan::where('nama', $nama)->count() > 0)
+            return true;
+        return false;
+    }
+
+    public static function getIdByName($nama)
+    {
+        return Jurusan::where('nama',$nama)->first()->id;
+    }
 }
