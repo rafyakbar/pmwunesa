@@ -36,7 +36,7 @@ class AdminFakultasController extends Controller
 
     public function unduhProposal(Request $request)
     {
-        return 'fff';
+        $request->lolos = ($request->lolos == 'semua_proposal') ? 'semua' : $request->lolos;
         return ExcelExport::unduhProposal(Auth::user()->prodi()->jurusan()->id_fakultas, $request->lolos);
     }
 }
