@@ -80,11 +80,23 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function tampilDataProdi()
+    public function tampilDataProdi(Request $request)
     {
+        $request->jurusan = (Jurusan::checkName(ucwords(str_replace('_',' ', $request->jurusan)))) ? $request->jurusan : 'semua_jurusan';
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
+        $nama_jurusan = ucwords(str_replace('_',' ',$request->jurusan));
+        if (Jurusan::checkName($nama_jurusan)){
+            $prodi = Prodi::where('id_jurusan',Jurusan::getIdByName($nama_jurusan))->orderBy('nama');
+        }
+        else{
+            $prodi = Prodi::orderBy('id_jurusan')->orderBy('nama');
+        }
         return view('admin.super.daftarprodi', [
-            'prodi' => Prodi::orderBy('id_jurusan')->orderBy('nama')->paginate(10),
-            'jurusan' => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get()
+            'prodi' => $prodi->paginate($request->perHalaman),
+            'daftarjurusan' => Jurusan::orderBy('id_fakultas')->orderBy('nama')->get(),
+            'no' => 0,
+            'perHalaman' => $request->perHalaman,
+            'jurusan' => $request->jurusan
         ]);
     }
 

@@ -19,7 +19,7 @@ Route::group(['prefix' => 'daftar'], function () {
         'as' => 'daftar.jurusan'
     ]);
 
-    Route::get('prodi', [
+    Route::get('prodi/{jurusan}/{perHalaman}', [
         'uses' => 'Page\SuperAdminController@tampilDataProdi',
         'as' => 'daftar.prodi'
     ]);
@@ -80,6 +80,11 @@ Route::group(['prefix' => 'tambah'], function () {
     Route::post('csv/fakultas', [
         'uses' => 'FakultasController@tambahCsv',
         'as' => 'tambah.csv.fakultas'
+    ]);
+
+    Route::post('csv/prodi', [
+        'uses' => 'ProdiController@tambahCsv',
+        'as' => 'tambah.csv.prodi'
     ]);
 
 });
