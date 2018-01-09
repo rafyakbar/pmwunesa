@@ -10,17 +10,33 @@ use PMW\Models\Proposal;
 
 class AdminFakultasController extends Controller
 {
-    public function daftarProposal($filter)
+    public function daftarProposal(Request $request)
     {
+        $request->perHalaman = ($request->perHalaman < 5) ? 5 : $request->perHalaman;
+        $request->lolos = ($request->lolos != 'tahap_1' && $request->lolos != 'tahap_2') ? 'semua_proposal' : $request->lolos;
+        $proposal = Proposal::proposalPerFakultas(Auth::user()->prodi()->jurusan()->id_fakultas);
+        if ($request->lolos == 'tahap_1' || $request->lolos == 'tahap_2'){
+            $dump = $proposal;
+            $proposal = [];
+            foreach ($dump as $item){
+                if (\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$request->lolos)[1])){
+                    array_push($proposal, $item);
+                }
+            }
+        }
+        $proposal = collect($proposal);
+
         return view('admin.fakultas.daftarproposal', [
-            'proposal'  => Proposal::proposalPerFakultas(Auth::user()->prodi()->jurusan()->id_fakultas),
-            'filter'    => $filter,
-            'c'         => 0
+            'proposal' => $proposal->paginate($request->perHalaman),
+            'lolos' => $request->lolos,
+            'c' => 0,
+            'perHalaman' => $request->perHalaman
         ]);
     }
 
     public function unduhProposal(Request $request)
     {
-        return ExcelExport::unduhProposal(Auth::user()->prodi()->jurusan()->id_fakultas, $request->filter);
+        return 'fff';
+        return ExcelExport::unduhProposal(Auth::user()->prodi()->jurusan()->id_fakultas, $request->lolos);
     }
 }

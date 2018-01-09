@@ -1,89 +1,95 @@
 @extends('layouts.app')
 
+@section('brand')
+    Proposal
+@endsection
+
 @section('content')
-    <h3>Proposal</h3>
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                    Pilih&nbsp;&nbsp;Filter&nbsp;&nbsp;<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ route('proposaladminfakultas',[ 'filter' => 'semua' ]) }}">Semua Proposal</a></li>
-                    <li><a href="{{ route('proposaladminfakultas',[ 'filter' => 'tahap_1' ]) }}">Lolos Tahap 1</a></li>
-                    <li><a href="{{ route('proposaladminfakultas',[ 'filter' => 'tahap_2' ]) }}">Lolos Tahap 2</a></li>
-                </ul>
-            </div>
+    <div class="btn-group">
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                {{ ucwords(str_replace('_', ' ', $lolos)) }}&nbsp;&nbsp;<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="{{ route('proposaladminfakultas',['lolos' => 'semua_proposal', 'perHalaman' => $perHalaman]) }}">Semua
+                        Proposal</a></li>
+                <li><a href="{{ route('proposaladminfakultas',['lolos' => 'tahap_1', 'perHalaman' => $perHalaman]) }}">Lolos
+                        Tahap 1</a></li>
+                <li><a href="{{ route('proposaladminfakultas',['lolos' => 'tahap_2', 'perHalaman' => $perHalaman]) }}">Lolos
+                        Tahap 2</a></li>
+            </ul>
         </div>
-        <div class="col-lg-2">
-            <a href="{{ route('unduhproposalfakultas',[ 'filter'=>$filter ]) }}" class="btn btn-primary">Unduh
-                Proposal</a>
+        @if($proposal->total() > 0)
+            <a href="{{ route('unduhproposalfakultas', [ 'lolos' => $lolos ]) }}"
+               class="btn btn-info">Unduh</a>
+        @endif
+    </div>
+    <div class="btn-group">
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                {{ $perHalaman }} per halaman&nbsp;&nbsp;<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @for($per = 5; $per <= $proposal->total(); $per += 5)
+                    <li>
+                        <a href="{{ route('proposaladminfakultas',['lolos' => $lolos, 'perHalaman' => $per]) }}">{{ $per }} data per halaman</a>
+                    </li>
+                @endfor
+                <li>
+                <li>
+                    <a href="{{ route('proposaladminfakultas',['lolos' => $lolos, 'perHalaman' => $proposal->total()]) }}">Semua data</a>
+                </li>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <div class="card card-content">
-        <div class="row">
-            <div class="col-lg-12">
-                <table class="table" style="margin-left: 10px">
-                    <thead class="text-primary">
+    <div class="card">
+        <div class="card-header" data-background-color="purple">
+            <h4>Daftar proposal</h4>
+            <p class="category">Jumlah proposal sesuai filter adalah {{ $proposal->total() }}</p>
+        </div>
+        <div class="card-content">
+            @if($proposal->total() == 0)
+                <div class="alert alert-info">
+                    <h5>Maaf, masih belum ada proposal!</h5>
+                </div>
+            @else
+                <table class="table use-datatable">
+                    <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Judul Proposal</th>
-                        <th>Anggota Tim</th>
+                        <th style="width: 5%">No.</th>
+                        <th style="width: 45%">Judul Proposal</th>
+                        <th style="width: 20%">Jenis Usaha</th>
+                        <th style="width: 30%">Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        @if(count($proposal)==0)
-                            <td colspan="3">Tidak ada data</td>
-                        @endif
-                        @foreach($proposal as $item)
-                            @if($filter == 'semua')
-                                <td>{{ ++$c }}</td>
-                                <td>
-                                    {{ $item->judul }}<br>
-                                </td>
-                                <td>
-                                    <ul>
-                                        @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->get() as $tim)
-                                            <li>
-                                                {{ \PMW\User::find($tim->id_pengguna)->nama }}
-                                                ({{ $tim->id_pengguna }})
-                                                @if(\PMW\User::find($tim->id_pengguna)->hasRole('Ketua Tim'))
-                                                    <strong>(Ketua)</strong>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            @else
-                                @if(\PMW\Models\Proposal::find($item->id)->lolos(explode('_',$filter)[1]))
-                                    <td>{{ ++$c }}</td>
-                                    <td>
-                                        {{ $item->judul }}<br>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            @foreach(\PMW\Models\Proposal::find($item->id)->mahasiswa()->get() as $tim)
-                                                <li>
-                                                    {{ \PMW\User::find($tim->id_pengguna)->nama }}
-                                                    ({{ $tim->id_pengguna }})
-                                                    @if(\PMW\User::find($tim->id_pengguna)->hasRole('Ketua Tim'))
-                                                        <strong>(Ketua)</strong>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                @endif
-                            @endif
-                        @endforeach
-                    </tr>
+                    @foreach($proposal as $item)
+                        <tr>
+                            <td>{{ ($proposal->currentpage() * $proposal->perpage()) + (++$c) - $proposal->perpage()  }}</td>
+                            <td>
+                                {{ $item->judul }}
+                            </td>
+                            <td>
+                                {{ $item->jenis_usaha }}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ route('detail.proposal', ['id' => $item->id]) }}" class="btn btn-info btn-sm">Detail</a>
+                                    <a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}"
+                                       class="btn btn-primary btn-sm">Atur Reviewer</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
-            </div>
+            @endif
         </div>
-        <ul>
+        <div class="card-footer">
+            {{ $proposal->links() }}
+        </div>
+    </div>
 
-        </ul>
 @endsection

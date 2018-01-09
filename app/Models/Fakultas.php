@@ -23,9 +23,9 @@ class Fakultas extends Model
     public function jurusan($jurusan = null)
     {
         if(!is_null($jurusan))
-            return $this->hasMany('PMW\Models\Jurusan')->where('nama',$jurusan)->first();
+            return $this->hasMany('PMW\Models\Jurusan', 'id_fakultas')->where('nama',$jurusan)->first();
 
-        return $this->hasMany('PMW\Models\Jurusan');
+        return $this->hasMany('PMW\Models\Jurusan', 'id_fakultas');
     }
 
     public static function checkName($nama){
