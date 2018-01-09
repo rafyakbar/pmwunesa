@@ -114,4 +114,16 @@ class Pengaturan extends Model
                 ), false) <= 0);
     }
 
+    public static function checkName($name)
+    {
+        if (Pengaturan::where('nama', $name)->count() > 0)
+            return true;
+        return false;
+    }
+
+    public static function getByName($name)
+    {
+        return Pengaturan::where('nama', $name)->first();
+    }
+
 }
