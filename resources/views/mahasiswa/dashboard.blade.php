@@ -30,6 +30,15 @@
                         </ul>
                     </div>
                 </div>
+                @else
+                <div class="card">
+                    <div class="card-header" data-background-color="green">
+                        <h4>Tim Anda</h4>
+                    </div>
+                    <div class="card-content">
+                        <h3>Anda belum memiliki Tim.</h3>
+                    </div>
+                </div>
             @endif
         </div>
 

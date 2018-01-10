@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /routes/web.php
 .env
+
+composer\.lock
