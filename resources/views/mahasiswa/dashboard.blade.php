@@ -7,9 +7,8 @@
 
     <div class="row">
         <div class="col-lg-6">
-            @include('mahasiswa.part.daftar_tim')
-
             @if($undangan->count() > 0 && !Auth::user()->mahasiswa()->timLengkap())
+                @include('mahasiswa.part.daftar_tim')
                 <div class="card">
                     <div class="card-header">
                         <h4>Undangan tim</h4>
