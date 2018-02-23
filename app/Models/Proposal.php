@@ -8,8 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PMW\User;
 use PMW\Support\RequestStatus;
 
+/**
+ * Class Proposal
+ * Representasi dari tabel proposal pada database
+ *
+ * @package PMW\Models
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
+ * @author RafyAuliaAkbar <rafyakbar@mhs.unesa.ac.id>
+ */
 class Proposal extends Model
 {
+
     const JENIS_USAHA = [
         'Barang', 'Jasa', 'Barang & Jasa'
     ];
@@ -179,10 +188,15 @@ class Proposal extends Model
     public function lolos($tahap = 2)
     {
         if (!is_null($tahap)) {
-            if ($this->nilaiRataRata($tahap) === Pengaturan::nilaiMinimumProposal())
+            // Jika nilai rata-rata dari proposal lebih besar dari
+            // nilai minimum yang dibutuhkan, maka dianggap lolos
+            if ($this->nilaiRataRata($tahap) >= Pengaturan::nilaiMinimumProposal() && Pengaturan::melewatiBatasPenilaian($tahap))
                 return true;
         }
 
+        // Jika proposal tidak lolos pada tahap 1 maupun tahap 2
+        // secara nilai, namun jika pada kolom lolos bernilai true, maka
+        // proposal dianggap lolos
         if ($this->lolos)
             return true;
 
@@ -193,7 +207,7 @@ class Proposal extends Model
      * Mendapatkan total nilai dari proposal tertentu
      *
      * @param $tahap
-     * @return int|null
+     * @return int
      */
     public function nilai($tahap)
     {
@@ -206,7 +220,7 @@ class Proposal extends Model
             return $sum;
         }
 
-        return null;
+        return 0;
     }
 
     /**
@@ -228,7 +242,7 @@ class Proposal extends Model
     }
 
     /**
-     * Mengecek apakah proposal telah dinilai oleh user tertentu pada
+     * Mengecek apakah proposal telah dinilai oleh reviewer tertentu pada
      * tahap tertentu
      *
      * @param $reviewer
@@ -289,7 +303,7 @@ class Proposal extends Model
      * Mendapatkan daftar penilaian dari review tertentu
      *
      * @param int $idreview
-     * @return void
+     * @return BelongsToMany
      */
     public function penilaian($idreview)
     {
@@ -317,7 +331,7 @@ class Proposal extends Model
     }
 
     /**
-     * Menambah pembimbing dari proposal
+     * Menambah pembimbing untuk tim atau proposal
      *
      * @param User $dosen
      */
@@ -387,7 +401,7 @@ class Proposal extends Model
 
     /**
      * Mengganti format keyword yang pada database menggunakan '|' sebagai
-     * pemisah, maka diganti dengan ','
+     * pemisah, diganti dengan ','
      *
      * @return string
      */

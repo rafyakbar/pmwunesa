@@ -21,9 +21,13 @@
                     @else
                         <p class="alert alert-primary">Anda belum mengunggah proposal</p>
                     @endif
-                    
+
                     @if(Auth::user()->mahasiswa()->bisaUnggahProposal())
-                        <a href="{{ route('unggah.proposal') }}" class="btn btn-primary">Unggah Proposal</a>
+                        @if(Auth::user()->mahasiswa()->proposal()->punyaPembimbing())
+                            <a href="{{ route('unggah.proposal') }}" class="btn btn-primary">Unggah Proposal</a>
+                        @else
+                            <p class="alert alert-danger">Anda belum memiliki dosen pembimbing</p>
+                        @endif
                     @else
                         <p class="alert alert-danger">Anda sudah tidak bisa mengunggah proposal.</p>
                     @endif

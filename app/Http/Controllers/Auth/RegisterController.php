@@ -43,19 +43,27 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        // mereset tab
         if(Session::has('tab'))
             Session::forget('tab');
-            
+        
+        // Memberi tanda bahwa tab yang diklik oleh user adalah tab register
+        // sehingga memberi tahu pada halaman auth bahwa tab yang aktif adalah
+        // tab register
         Session::flash('tab', 'register'); 
 
+        // validasi
         $this->validator($request->all())->validate();
 
+        // membuat user
         $user = $this->create($request->all());
 
         $this->registered($request,$user);
 
-        Session::flash('message','Berhasil Mendaftar !<br/>Silahkan cek email anda untuk melihat kata sandi');
+        // memberikan respon bahsa registrasi berhasil
+        Session::flash('message','Berhasil Mendaftar ! Silahkan cek email anda untuk melihat kata sandi');
 
+        // kembali halaman auth
         return back();
     }
 
@@ -81,7 +89,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'id' => 'required|min:12|unique:pengguna|numeric',
+            'id' => 'required|unique:pengguna|numeric',
             'email' => 'required|unique:pengguna|email'
         ]);
     }

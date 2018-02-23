@@ -42,22 +42,21 @@ class UndanganTimController extends Controller
                             'error' => 0
                         ]);
                     }
-                    else{
+                    else {
                         return response()->json([
                             'message' => 'Anda tidak bisa mengirim undangan ke pengguna ini !',
                             'error' => 4
                         ]);
                     }
                 }
-                else{
+                else {
                     return response()->json([
                         'message' => 'Anda sudah pernah mengirim undangan ke mahasiswa ini !',
                         'error' => 3
                     ]);
                 }
             }
-            else
-            {
+            else {
                 return response()->json([
                     'message' => 'Anda tidak bisa mengirim undangan !',
                     'error' => 1
@@ -113,13 +112,13 @@ class UndanganTimController extends Controller
 
                 $dari->mahasiswa()->undanganTimKetua()->detach($untuk->mahasiswa());
 
-                return response()->json([
+                return back()->with([
                     'message' => 'Anda berhasil bergabung dalam tim ' . $dari->nama,
                     'error' => 0
                 ]);
             }
             else{
-                return response()->json([
+                return back()->with([
                     'message' => 'Pengirim undangan telah memiliki jumlah anggota yang mencukupi !',
                     'error' => 2
                 ]);
@@ -127,7 +126,7 @@ class UndanganTimController extends Controller
         }
         else
         {
-            return response()->json([
+            return back()->with([
                 'message' => 'Anda tidak bisa menerima undangan ini !',
                 'error' => 1
             ]);

@@ -10,6 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 /**
  * Class ini digunakan untuk melakukan pengiriman email
  * kepada user yang telah melakukan pendaftaran
+ * 
+ * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
  */
 class RegisterMail extends Mailable
 {
@@ -48,7 +50,7 @@ class RegisterMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.register',[
+        return $this->subject('Pendaftaran PMW Unesa')->view('mail.register',[
             'user' => $this->user,
             'password' => $this->password
         ]);

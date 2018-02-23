@@ -21,7 +21,7 @@ class JurusanController extends Controller
 
     public function tambahCsv(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'csv' => 'required',
             'splitter' => 'required|max:1|min:1'
         ]);

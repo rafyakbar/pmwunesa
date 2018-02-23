@@ -43,6 +43,7 @@ class SetHakAkses
     private function registrasiManual()
     {
         if (strlen((string)$this->user->id) == 11) {
+
             // Set user sebagai mahasiswa
             Mahasiswa::create([
                 'id_pengguna' => $this->user->id,
@@ -54,7 +55,9 @@ class SetHakAkses
                 ->attach(HakAkses::where('nama', HakAkses::ANGGOTA)->first(), [
                     'status_request' => RequestStatus::APPROVED
                 ]);
+
         } else if (strlen((string)$this->user->id) == 18 || strlen((string)$this->user->id)) {
+
             // jika panjang id sesuai panjang NIP atau NIDN
             $this->user->update([
                 'request' => true
@@ -63,7 +66,7 @@ class SetHakAkses
     }
 
     /**
-     * Jika penmabahan user dilakukanoleh admin
+     * Jika penambahan user dilakukan oleh admin
      *
      * @return void
      */

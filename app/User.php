@@ -2,7 +2,6 @@
 
 namespace PMW;
 
-use function foo\func;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
@@ -350,7 +349,7 @@ class User extends Authenticatable
      * dalam tim
      *
      * @param string $nama
-     * @return string
+     * @return \Illuminate\Http\JsonResponse
      */
     public static function cariMahasiswaUntukUndanganTim($nama)
     {
@@ -410,9 +409,9 @@ class User extends Authenticatable
             array_push($daftarDosen, $tempArr);
         }
 
-        return response()->json($daftarDosen);
+        return response()->json(collect($daftarDosen)->toArray());
     }
-
+    
     /**
      * Menjadikan user terkait sebagai ketua tim
      *

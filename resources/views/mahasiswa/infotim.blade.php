@@ -38,6 +38,16 @@
         @else
         <script src="{{ asset('js/undanganpembimbing.js') }}"></script>
         @endif
+
+        @if(Session::has('message'))
+            <script>
+                swal({
+                    type: '{{ Session::get('error') == 0 ? 'success' : 'error' }}',
+                    text: '{{ Session::get('message') }}',
+                    title: '{{ Session::get('error') == 0 ? 'Berhasil' : 'Gagal' }}'
+                })
+            </script>
+        @endif
     @endpush
 
 @endsection

@@ -240,6 +240,9 @@ class Mahasiswa extends Model
 
         if(Pengaturan::melewatiBatasUnggahProposalFinal())
             return false;
+
+        if(!$this->proposal()->lolos(1))
+            return false;
         
         if(!is_null($this->proposal()->direktori_final))
             return false;

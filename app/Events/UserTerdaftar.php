@@ -52,4 +52,5 @@ class UserTerdaftar
     {
         return new PrivateChannel('channel-name');
     }
+    
 }

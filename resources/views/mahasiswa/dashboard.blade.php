@@ -7,8 +7,11 @@
 
     <div class="row">
         <div class="col-lg-6">
-            @if($undangan->count() > 0 && !Auth::user()->mahasiswa()->timLengkap())
+            @if(Auth::user()->mahasiswa()->punyaTim())
                 @include('mahasiswa.part.daftar_tim')
+            @endif
+
+            @if($undangan->count() > 0 && !Auth::user()->mahasiswa()->timLengkap())
                 <div class="card">
                     <div class="card-header">
                         <h4>Undangan tim</h4>
@@ -19,7 +22,8 @@
                         <ul class="list-group">
                             @foreach($undangan->cursor() as $item)
                                 <li class="list-group-item">
-                                    <b>{{ $item->pengguna()->nama }}</b>
+                                    <b>{{ $item->pengguna()->nama }}</b><br/>
+                                    <b>{{ $item->pengguna()->id }}</b>
                                     <form action="{{ route('terima.undangan.tim') }}" method="post">
                                         {{ csrf_field() }}
                                         <input type="hidden"  name="dari" value="{{ $item->id_pengguna }}"/>
@@ -28,15 +32,6 @@
                                 </li>
                             @endforeach
                         </ul>
-                    </div>
-                </div>
-                @else
-                <div class="card">
-                    <div class="card-header" data-background-color="green">
-                        <h4>Tim Anda</h4>
-                    </div>
-                    <div class="card-content">
-                        <h3>Anda belum memiliki Tim.</h3>
                     </div>
                 </div>
             @endif
@@ -48,3 +43,15 @@
     </div>
 
 @endsection
+
+@push('js')
+    @if(Session::has('message'))
+        <script>
+            swal({
+                type: '{{ Session::get('error') == 0 ? 'success' : 'error' }}',
+                text: '{{ Session::get('message') }}',
+                title: '{{ Session::get('error') == 0 ? 'Berhasil' : 'Gagal' }}'
+            })
+        </script>
+    @endif
+@endpush

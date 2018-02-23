@@ -18,11 +18,23 @@ class Review extends Model
         'updated_at'
     ];
 
+    /**
+     * Mendapatkan daftar penilaian dari review terkait
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function penilaian()
     {
-        return $this->belongsToMany('PMW\Models\Aspek', 'penilaian', 'id_review', 'id_aspek')->withPivot('nilai');
+        return $this->belongsToMany('PMW\Models\Aspek', 'penilaian', 'id_review', 'id_aspek')                  ->withPivot('nilai');
     }
 
+    /**
+     * Mengubah nilai sesuai aspek tertentu
+     *
+     * @param string $aspek
+     * @param int $nilai
+     * @return void
+     */
     public function ubahNilai($aspek, $nilai)
     {
         $this->penilaian()->detach($aspek);
