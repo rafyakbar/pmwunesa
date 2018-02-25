@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    Admin Universitas
+    @include('part.permintaan_hak_akses')
+    @include('part.linimasa')
 @endsection
