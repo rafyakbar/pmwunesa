@@ -34,7 +34,7 @@
             </ul>
         </div>
         @if($proposal->total() > 0)
-            <a href="{{ route('unduhproposaluniv', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}"
+            <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}"
                class="btn btn-info">Unduh</a>
         @endif
     </div>

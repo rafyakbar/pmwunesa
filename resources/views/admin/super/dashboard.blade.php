@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-    @include('part.pilih_dashboard')
+    @include('part.linimasa')
 @endsection
