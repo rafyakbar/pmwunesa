@@ -19,7 +19,7 @@ class KetuaController extends Controller
     /**
      * Menampilkan halaman untuk mengunggah proposal
      *
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function unggahProposal()
     {
@@ -34,11 +34,11 @@ class KetuaController extends Controller
     /**
      * Menampilkan halaman untuk mengedit proposal
      *
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function editProposal()
     {
-        if(!Auth::user()->mahasiswa()->bisaUnggahProposal())
+        if(!Auth::user()->mahasiswa()->bisaEditProposal())
             return redirect()->route('proposal');
 
         return view('mahasiswa.kelolaproposal', [
@@ -50,7 +50,7 @@ class KetuaController extends Controller
      * Menampilkan halaman untuk mengedit logbook
      *
      * @param int $id
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function editLogbook($id)
     {
@@ -68,7 +68,7 @@ class KetuaController extends Controller
     /**
      * Halaman untuk mengunggah proposal final
      *
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function unggahProposalFinal()
     {
@@ -78,7 +78,7 @@ class KetuaController extends Controller
     /**
      * Menampilkan halaman untuk mengedit proposal final
      *
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function editProposalFinal()
     {

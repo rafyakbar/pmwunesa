@@ -64,12 +64,7 @@ class DashboardController extends Controller
     public function reviewer()
     {
         $daftarproposal = [];
-        $daftarproposal['tahap1'] = Auth::user()->review()->where('tahap', 1);
-        $daftarproposal['tahap2'] = Auth::user()->review()->where('tahap', 2);
-        // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 1
-        $daftarproposal['sudahdinilai']['tahap1'] = Penilaian::whereIn('id_review', $daftarproposal['tahap1']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
-        // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 2        
-        $daftarproposal['sudahdinilai']['tahap2'] = Penilaian::whereIn('id_review', $daftarproposal['tahap2']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+        $daftarproposal = $this->pushDataUntukReviewer($daftarproposal);
         
         return view('dosen.dashboard', [
             'daftarproposal' => $daftarproposal
@@ -83,21 +78,15 @@ class DashboardController extends Controller
      */
     public function dosen()
     {
-        if(Auth::user()->isReviewer()) {
-            $daftarproposal = [];
-            $daftarproposal['tahap1'] = Auth::user()->review()->where('tahap', 1);
-            $daftarproposal['tahap2'] = Auth::user()->review()->where('tahap', 2);
-            // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 1
-            $daftarproposal['sudahdinilai']['tahap1'] = Penilaian::whereIn('id_review', $daftarproposal['tahap1']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
-            // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 2        
-            $daftarproposal['sudahdinilai']['tahap2'] = Penilaian::whereIn('id_review', $daftarproposal['tahap2']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
-        }
+        $data = [];
+
+        $data = $this->pushDataUntukDosenPembimbing($data);
+        $data['daftarproposal'] = [];
+
+        if(Auth::user()->isReviewer())
+            $data['daftarproposal'] = $this->pushDataUntukReviewer($data['daftarproposal']);
         
-        return view('dosen.dashboard',[
-            'undangan' => Auth::user()->bimbingan()->where('status_request', RequestStatus::REQUESTING),
-            'bimbingan' => Auth::user()->bimbingan()->where('status_request', RequestStatus::APPROVED)->limit(3),
-            'daftarproposal' => $daftarproposal
-        ]);
+        return view('dosen.dashboard', $data);
     }
 
     /**
@@ -127,7 +116,11 @@ class DashboardController extends Controller
      */
     public function superAdmin()
     {
-        return view('admin.super.dashboard');
+        $data = [];
+        if(Auth::user()->isDosenPembimbing())
+            $data = $this->pushDataUntukDosenPembimbing($data);
+
+        return view('admin.super.dashboard', $data);
     }
 
     /**
@@ -144,6 +137,38 @@ class DashboardController extends Controller
         }
 
         return view('dashboard');
+    }
+
+    /**
+     * Mendapatkan data untuk reviwer untuk dikirimkan ke dashboard pengguna
+     *
+     * @param $data
+     * @return array
+     */
+    private function pushDataUntukReviewer($data)
+    {
+        $data['tahap1'] = Auth::user()->review()->where('tahap', 1);
+        $data['tahap2'] = Auth::user()->review()->where('tahap', 2);
+        // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 1
+        $data['sudahdinilai']['tahap1'] = Penilaian::whereIn('id_review', $data['tahap1']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+        // Mendaptkan jumlah proposla yang sudah dinilai pada tahap 2
+        $data['sudahdinilai']['tahap2'] = Penilaian::whereIn('id_review', $data['tahap2']->pluck('review.id'))->distinct()->count() / Aspek::all()->count();
+
+        return $data;
+    }
+
+    /**
+     * Mendapatkan data untuk dosen pembimbing untuk dikirimkan ke dashboard pengguna
+     *
+     * @param $data
+     * @return array
+     */
+    private function pushDataUntukDosenPembimbing($data)
+    {
+        $data['undangan'] = Auth::user()->bimbingan()->where('status_request', RequestStatus::REQUESTING);
+        $data['bimbingan'] = Auth::user()->bimbingan()->where('status_request', RequestStatus::APPROVED)->limit(3);
+
+        return $data;
     }
 
 }

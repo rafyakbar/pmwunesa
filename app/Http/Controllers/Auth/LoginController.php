@@ -31,6 +31,16 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');        
     }
 
+    public function showLoginForm()
+    {
+        if(Session::has('tab'))
+            Session::forget('tab');
+
+        Session::forget('loginerr');
+
+        return view('auth.login');
+    }
+
     public function username()
     {
         return 'id';
@@ -40,18 +50,11 @@ class LoginController extends Controller
     {
         if(Session::has('tab'))
             Session::forget('tab');
-        
-        Session::flash('tab', 'login');
 
-        $errors = [$this->username() => trans('auth.failed')];
+        Session::put('tab', 'login');
+        Session::put('loginerr', trans('auth.failed'));
 
-        if ($request->expectsJson()) {
-            return response()->json($errors, 422);
-        }
-
-        return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors($errors);
+        return back();
     }
 
 }
