@@ -98,3 +98,17 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+    $(document).ready(function () {
+        $('#fakultas').DataTable({
+            responsive: true,
+            "info": false,
+            "sort": false,
+            "searching": false,
+            "lengthMenu": [[5, 10, 20, 40, 80, 100, -1], [5, 10, 20, 40, 80, 100, "Semua data"]],
+        });
+    });
+</script>
+@endpush

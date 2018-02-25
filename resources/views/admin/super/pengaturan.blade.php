@@ -114,7 +114,7 @@
             <p class="category">Berikut ini adalah aspek atau kriteria PMW UNESA</p>
         </div>
         <div class="card-content table-responsive">
-            <table class="table" id="aspek">
+            <table class="table">
                 <thead>
                 <tr>
                     <td>No.</td>
