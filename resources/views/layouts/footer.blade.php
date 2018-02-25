@@ -52,36 +52,6 @@
 {{--DateTimePicker--}}
 <script type="text/javascript" src="{{ asset('js/moment-with-locales.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bootstrap-material-datetimepicker.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker
-        ({
-            format: 'YYYY-MM-DD HH:mm',
-            lang: 'id',
-            weekStart: 0,
-            cancelText : 'Batal',
-            nowText : 'Sekarang',
-            nowButton : true,
-            switchOnClick : true
-        });
-        $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker('setMinDate', $('#pengumpulan-proposal').val());
-        $('#pengumpulan-proposal').bootstrapMaterialDatePicker
-        ({
-            format: 'YYYY-MM-DD HH:mm',
-            lang: 'id',
-            weekStart: 0,
-            cancelText : 'Batal',
-            nowText : 'Sekarang',
-            nowButton : true,
-            switchOnClick : true
-        }).on('change', function (e, date) {
-            $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker('setMinDate', date);
-        });
-
-        $.material.init()
-    });
-</script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.responsive.js') }}"></script>
@@ -91,36 +61,6 @@ $.ajaxSetup({
         'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
     }
 })
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.use-datatable').DataTable({
-            responsive: true,
-            "paging":   false,
-            "info":     false,
-            "columnDefs": [
-                {"orderable": false, "targets": 3}
-            ]
-        });
-    });
-    $(document).ready(function () {
-        $('#fakultas').DataTable({
-            responsive: true,
-            "info": false,
-            "sort": false,
-            "searching": false,
-            "lengthMenu": [[5, 10, 20, 40, 80, 100, -1], [5, 10, 20, 40, 80, 100, "Semua data"]],
-        });
-    });
-    $(document).ready(function () {
-        $('#aspek').DataTable({
-            responsive: true,
-            "info": false,
-            "sort": false,
-            "searching": false,
-            "lengthMenu": [[5, 10, 20, 40, 80, 100, -1], [5, 10, 20, 40, 80, 100, "Semua data"]],
-        });
-    });
 </script>
 @stack('js')
 

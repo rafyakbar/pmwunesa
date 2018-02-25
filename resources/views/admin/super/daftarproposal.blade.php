@@ -34,7 +34,7 @@
             </ul>
         </div>
         @if($proposal->total() > 0)
-            <a href="{{ route('unduhproposaluniv', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}"
+            <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}"
                class="btn btn-info">Unduh</a>
         @endif
     </div>
@@ -69,7 +69,7 @@
                     <h5>Maaf, masih belum ada proposal!</h5>
                 </div>
             @else
-                <table class="table use-datatable">
+                <table class="table">
                     <thead>
                     <tr>
                         <th style="width: 5%">No.</th>
