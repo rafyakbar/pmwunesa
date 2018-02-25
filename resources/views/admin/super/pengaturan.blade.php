@@ -69,7 +69,7 @@
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[2]->id }}">
-                        <input type="text" name="keterangan" value="{{ $pengaturan[2]->keterangan }}"
+                        <input id="penilaian-1" type="text" name="keterangan" value="{{ $pengaturan[2]->keterangan }}"
                                class="form-control dtp-show">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
@@ -84,7 +84,7 @@
                     <form action="{{ route('edit.pengaturan') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $pengaturan[4]->id }}">
-                        <input type="text" name="keterangan" value="{{ $pengaturan[4]->keterangan }}"
+                        <input id="penilaian-2" type="text" name="keterangan" value="{{ $pengaturan[4]->keterangan }}"
                                class="form-control dtp-show">
                         <input type="submit" name="submit" value="simpan" class="btn btn-success">
                     </form>
@@ -158,3 +158,59 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker
+            ({
+                format: 'YYYY-MM-DD HH:mm',
+                lang: 'id',
+                weekStart: 0,
+                cancelText : 'Batal',
+                nowText : 'Sekarang',
+                nowButton : true,
+                switchOnClick : true
+            });
+            $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker('setMinDate', $('#pengumpulan-proposal').val());
+            $('#pengumpulan-proposal').bootstrapMaterialDatePicker
+            ({
+                format: 'YYYY-MM-DD HH:mm',
+                lang: 'id',
+                weekStart: 0,
+                cancelText : 'Batal',
+                nowText : 'Sekarang',
+                nowButton : true,
+                switchOnClick : true
+            }).on('change', function (e, date) {
+                $('#pengumpulan-proposal-final').bootstrapMaterialDatePicker('setMinDate', date);
+            });
+
+            $('#penilaian-2').bootstrapMaterialDatePicker
+            ({
+                format: 'YYYY-MM-DD HH:mm',
+                lang: 'id',
+                weekStart: 0,
+                cancelText : 'Batal',
+                nowText : 'Sekarang',
+                nowButton : true,
+                switchOnClick : true
+            });
+            $('#penilaian-2').bootstrapMaterialDatePicker('setMinDate', $('#penilaian-1').val());
+            $('#penilaian-1').bootstrapMaterialDatePicker
+            ({
+                format: 'YYYY-MM-DD HH:mm',
+                lang: 'id',
+                weekStart: 0,
+                cancelText : 'Batal',
+                nowText : 'Sekarang',
+                nowButton : true,
+                switchOnClick : true
+            }).on('change', function (e, date) {
+                $('#penilaian-2').bootstrapMaterialDatePicker('setMinDate', date);
+            });
+            $.material.init()
+        });
+    </script>
+@endpush
