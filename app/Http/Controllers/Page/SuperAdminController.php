@@ -148,11 +148,16 @@ class SuperAdminController extends Controller
      */
     public function editReviewer($idproposal)
     {
+        $daftarreviewer = HakAkses::where('nama', HakAkses::REVIEWER)->first()->pengguna()->where('status_request', RequestStatus::APPROVED)->get();
+
+        $reviewerTahap1 = Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap', 1);
+
         return view('admin.super.setreviewer', [
-            'daftarreviewer' => HakAkses::where('nama', HakAkses::REVIEWER)->first()->pengguna()->where('status_request', RequestStatus::APPROVED)->get(),
+            'daftarreviewer' => $daftarreviewer,
+            'daftarreviewer2' => HakAkses::where('nama', HakAkses::REVIEWER)->first()->pengguna()->where('status_request', RequestStatus::APPROVED)->whereNotIn('id', $reviewerTahap1->get()->pluck('id')->toArray())->get(),
             'proposal' => Proposal::find($idproposal),
             'oldreviewer' => [
-                'tahap1' => Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap', 1),
+                'tahap1' => $reviewerTahap1,
                 'tahap2' => Proposal::where('id', $idproposal)->first()->reviewer()->wherePivot('tahap', 2)
             ]
         ]);
