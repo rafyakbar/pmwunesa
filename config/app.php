@@ -176,8 +176,8 @@ return [
         // PMW\Providers\BroadcastServiceProvider::class,
         PMW\Providers\EventServiceProvider::class,
         PMW\Providers\RouteServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Smadia\LaravelGoogleDrive\Providers\LaravelGoogleDriveServiceProvider::class
     ],
 
     /*
@@ -228,7 +228,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'ExcelExport' => PMW\Facades\ExcelExport::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Dana' => PMW\Facades\Dana::class
-    ],
+        'Dana' => PMW\Facades\Dana::class,
+        'FileHandler' => PMW\Facades\FileHandler::class,
+        'LGD' => Smadia\LaravelGoogleDrive\Facades\LaravelGoogleDrive::class
+    ]
 
 ];

@@ -7,6 +7,7 @@ use PMW\Support\FileHandler;
 use PMW\Models\Laporan;
 use Illuminate\Support\Facades\Auth;
 use PMW\Models\Proposal;
+use PMW\Facades\FileHandler as FH;
 
 /**
  * Controller ini berfungsi untuk melakukan aksi yang berkaitan
@@ -100,7 +101,7 @@ class LaporanAkhirController extends Controller
         if(Auth::user()->isMahasiswa())
             $laporan = Auth::user()->mahasiswa()->proposal()->laporanAkhir();
 
-        return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
+        return FH::download($this->dir, $laporan->direktori);
     }
 
 }

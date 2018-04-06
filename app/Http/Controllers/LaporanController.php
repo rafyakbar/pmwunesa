@@ -100,7 +100,7 @@ class LaporanController extends Controller
         if (Auth::user()->isMahasiswa())
             $laporan = Auth::user()->mahasiswa()->proposal()->laporanKemajuan();
 
-        return response()->download(storage_path('app/public/' . $this->dir . '/' . $laporan->direktori));
+        return FH::download($this->dir, $laporan->direktori);
     }
 
 }
