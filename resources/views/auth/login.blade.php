@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="row" style="margin-top: 50px; ">
-    <div class="col-md-6 col-md-offset-3" style="text-align: center; color: #333333; background-color: #fff">
+    <div class="col-md-6 col-md-offset-3" style="text-align: center; color: #333333; background-color: #fff;">
         <h2>Sistem Informasi PMW</h2>
-        <h2 style="margin-top: 0px">Universitas Negeri Surabaya</h2>
+        <img src="{{ asset("img/Unesa.png") }}" width="20%" style="margin-bottom: 50px">
     </div>
 </div>
 <div class="row" style="margin-top: 0px">
