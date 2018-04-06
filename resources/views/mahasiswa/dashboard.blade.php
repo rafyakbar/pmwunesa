@@ -9,6 +9,16 @@
         <div class="col-lg-6">
             @if(Auth::user()->mahasiswa()->punyaTim())
                 @include('mahasiswa.part.daftar_tim')
+            @else
+                <div class="card">
+                    <div class="card-header" data-background-color="green">
+                        <h4>Anda belum memiliki tim</h4>
+                    </div>
+                    <div class="card-content">
+                        Ups, anda belum memiliki tim !<br/>
+                        Cari tim anda pada menu tim saya atau terima undangan dari mahasiswa lain.
+                    </div>
+                </div>    
             @endif
 
             @if($undangan->count() > 0 && !Auth::user()->mahasiswa()->timLengkap())

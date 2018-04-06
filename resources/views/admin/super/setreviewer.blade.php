@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
+@section('title', 'Atur Reviewer')
+
 @push('css')
     <link rel="stylesheet" href="{{ asset('css/chooser.css') }}"/>
 @endpush
 
 @section('content')
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" data-background-color="green">
             <h4 class="title">Atur Reviewer Untuk <strong>{{ $proposal->judul }}</strong> </h4>
             <p class="category">Atur reviewer dari sebuah proposal tertentu</p>
         </div>
@@ -24,9 +26,12 @@
                             @foreach ($oldreviewer['tahap1']->get() as $reviewer)
                                 <div class="choosed" data-index="{{ $reviewer->id }}">
                                     <span>{{ $reviewer->nama }}</span>
+                                    @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian(1))
                                     <i class="fa fa-close close"></i>
+                                    @endif
                                 </div>
                             @endforeach
+                            @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian(1))
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span>Pilih Reviewer</span> <span class="caret"></span>
@@ -38,6 +43,7 @@
                                     @endforeach
                                 </ul>
                             </div>
+                            @endif
                         </div>
                     </form>
                 </div>
@@ -53,20 +59,24 @@
                                 @foreach ($oldreviewer['tahap2']->get() as $reviewer)
                                     <div class="choosed" data-index="{{ $reviewer->id }}">
                                         <span>{{ $reviewer->nama }}</span>
+                                    @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian(2))
                                         <i class="fa fa-close close"></i>
+                                        @endif
                                     </div>
                                 @endforeach
+                            @if(!\PMW\Models\Pengaturan::melewatiBatasPenilaian(2))                         
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>Pilih Reviewer</span> <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" data-target="#tahap2">
                                         <input type="text" class="form-control"/>
-                                        @foreach ($daftarreviewer as $reviewer)
+                                        @foreach ($daftarreviewer2 as $reviewer)
                                             <li data-id="{{ $reviewer->id }}" {{ in_array($reviewer->id, $oldreviewer['tahap2']->pluck('pengguna.id')->toArray()) ? 'style=display:none' : '' }}><a href="#">{{ $reviewer->nama }}</a></li>
                                         @endforeach
                                     </ul>
                                 </div>
+                                @endif
                             </div>
                         </form>
                     </div>

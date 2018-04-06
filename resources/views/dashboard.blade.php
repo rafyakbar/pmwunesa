@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Dasbor')
+
 @section('content')
 
     @if(Session::has('message'))
@@ -7,7 +9,7 @@
     @endif
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" data-background-color="red">
             <h4 class="title">Ups, anda belum mendapat hak akses apapun !</h4>
             <p class="category">Untuk mendapatkan hak akses, silahkan klik tombol berikut sesuai hak akses yang anda inginkan</p>
         </div>
@@ -19,7 +21,7 @@
                     <input type="submit" value="Request menjadi dosen pembimbing" class="btn btn-primary"/>
                 </form>
             @elseif(Auth::user()->requestingHakAkses(\PMW\Models\HakAkses::DOSEN_PEMBIMBING))
-                <p class="alert alert-notif">Anda sedang menunggu persetujuan untuk menjadi dosen pembimbing</p>
+                <p class="alert alert-info">Anda sedang menunggu persetujuan untuk menjadi dosen pembimbing</p>
             @endif
 
             @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::REVIEWER))
@@ -28,7 +30,7 @@
                     <input type="submit" value="Request menjadi reviewer" class="btn btn-primary"/>
                 </form>
             @elseif(Auth::user()->requestingHakAkses(\PMW\Models\HakAkses::REVIEWER))
-                <p class="alert alert-notif">Anda sedang menunggu persetujuan untuk menjadi reviewer</p>
+                <p class="alert alert-info">Anda sedang menunggu persetujuan untuk menjadi reviewer</p>
             @endif
 
             <div class="alert alert-warning">
