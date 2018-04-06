@@ -223,6 +223,9 @@ class Mahasiswa extends Model
         
         if(is_null($this->proposal()->direktori))
             return false;
+
+        if($this->proposal()->dalamProsesPenilaian(1))
+            return false;
             
         return true;
     }
@@ -265,6 +268,9 @@ class Mahasiswa extends Model
             return false;
         
         if(is_null($this->proposal()->direktori_final))
+            return false;
+
+        if($this->proposal()->dalamProsesPenilaian(2))
             return false;
             
         return true;
