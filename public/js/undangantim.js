@@ -102,7 +102,7 @@ $(function () {
                 for (value in response) {
                     console.log(response[value])
                     var baris = $('<tr id="hasil-' + response[value].id + '"></tr>')
-                    var nama = $('<td></td>').text(response[value].nama)
+                    var nama = $('<td></td>').html(response[value].nama + '<br/><b>' + response[value].id + '</b>')
                     var asal = $('<td></td>').text(response[value].prodi)
                     var aksi = undangButton(response[value].id, response[value].nama)
                     baris.append(nama)
