@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
             // Membuat user
             $user = User::create([
-                'id' => $faker->isbn10,
+                'id' => $faker->numerify('###########'),
                 'nama' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('secret'),

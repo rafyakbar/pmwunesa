@@ -141,6 +141,26 @@ class Proposal extends Model
     {
         return $this->laporan()->where('jenis', Laporan::KEMAJUAN)->first();
     }
+    
+    /**
+     * Mendapatakan laporan kemajuan
+     *
+     * @return mixed
+     */
+    public function laporanMagang()
+    {
+        return $this->laporan()->where('jenis', Laporan::MAGANG)->first();
+    }
+    
+    /**
+     * Mendapatakan laporan kemajuan
+     *
+     * @return mixed
+     */
+    public function laporanKeuangan()
+    {
+        return $this->laporan()->where('jenis', Laporan::KEUANGAN)->first();
+    }
 
     /**
      * Mendapatkan daftar mahasiswa yang merupakan anggota tim dari proposal

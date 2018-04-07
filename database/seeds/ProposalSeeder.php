@@ -47,7 +47,7 @@ class ProposalSeeder extends Seeder
             for($j = 1; $j <= 3; $j++) {
                 $user = User::create([
                     'nama' => $faker->name,
-                    'id' => $faker->isbn10,
+                    'id' => $faker->numerify('###########'),
                     'email' => $faker->email,
                     'alamat_asal' => $faker->address,
                     'alamat_tinggal' => $faker->address,
