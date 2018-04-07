@@ -365,6 +365,7 @@ class User extends Authenticatable
                 $query->whereNull('id_proposal');
             })
             ->where('nama', 'LIKE', '%' . strtolower($nama) . '%')
+            ->orWhere('id', 'LIKE', '%'. $nama .'%')
             ->where('id', '!=', Auth::user()->id)
             ->whereNotNull('id_prodi')
             ->whereNotIn('id', $daftarUndangan);
@@ -399,7 +400,7 @@ class User extends Authenticatable
                 // yang sama
                 $query->where('id_jurusan', Auth::user()->prodi()->jurusan()->id);
             })
-            ->where('nama', 'LIKE', '%' . $nama . '%');
+            ->where('nama', 'LIKE', '%' . strtolower($nama) . '%');
 
         // menambah field nama prodi
         $daftarDosen = [];
