@@ -18,9 +18,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Factory::create('id_ID');
         for($i = 1; $i <= 100; $i++) {
-            $faker = Factory::create();
-
             // Membuat user
             $user = User::create([
                 'id' => $faker->numerify('###########'),
