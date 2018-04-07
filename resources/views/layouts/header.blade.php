@@ -23,6 +23,10 @@
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/dataTables.responsive.css') }}" rel="stylesheet"/>
 
+    <!-- Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/unesa_fav.ico') }}"/>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/unesa_fav.ico') }}"/>
+
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     {{-- <link href="{{ asset('css/demo.css') }}" rel="stylesheet"/> --}}
 
