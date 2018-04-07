@@ -8,6 +8,7 @@ use Faker\Factory;
 use PMW\Models\Prodi;
 use PMW\Models\Mahasiswa;
 use PMW\Support\RequestStatus;
+use PMW\Models\Jenis;
 
 class ProposalSeeder extends Seeder
 {
@@ -20,6 +21,11 @@ class ProposalSeeder extends Seeder
 
     public function run()
     {
+        $faker = Factory::create('id_ID');
+        Jenis::create(['nama' => 'Barang']);
+        Jenis::create(['nama' => 'Jasa']);
+        Jenis::create(['nama' => 'Barang & Jasa']);
+
         $jumlahProposal = 73;
 
         $daftarDosenPembimbing = User::whereHas('hakAksesPengguna', function($query) {
@@ -29,8 +35,6 @@ class ProposalSeeder extends Seeder
 
         // Membuat proposal
         for($i = 1; $i <= $jumlahProposal; $i++ ) {
-            $faker = Factory::create();
-            
             // Membuat proposal
             $proposal = Proposal::create([
                 'lolos' => false,
@@ -40,7 +44,7 @@ class ProposalSeeder extends Seeder
                 'usulan_dana' => $faker->numberBetween(1000000, 5000000),
                 'abstrak' => $faker->text($maxNbChars = 500),
                 'keyword' => 'key|word',
-                'jenis_usaha' => Proposal::JENIS_USAHA[rand(0,2)]
+                'jenis_id' => rand(1,3)
             ]);
 
             // Membuat 3 user sebagai tim
