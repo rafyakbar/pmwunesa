@@ -20,6 +20,8 @@
 
             {{ method_field('put') }}
 
+            <input type="hidden" name="tanggal" value="{{ Carbon\Carbon::today() }}"/>
+
             <div class="row">
                 <div class="col-lg-2">
                     <label>Hari dan Tanggal</label>

@@ -18,7 +18,7 @@
                 <tbody>
                 @foreach ($daftarlogbook as $index => $logbook)
                     <tr>
-                        <td>{{ Carbon\Carbon::parse($logbook->created_at)->formatLocalized('%A, %d %B %Y') }}</td>
+                        <td>{{ Carbon\Carbon::parse($logbook->tanggal)->formatLocalized('%A, %d %B %Y') }}</td>
                         <td>{{ $logbook->catatan }}</td>
                         <td>{{ Dana::format($logbook->biaya) }}</td>
                         @if(Auth::user()->isKetua())

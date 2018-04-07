@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('brand', "Logbook")
-@section('title', "Logbook")
+@section('brand', "Catatan Harian")
+@section('title', "Catatan Harian")
 
 @section('content')
 
@@ -14,13 +14,13 @@
                     <div class="row">
                         <div class="col-lg-10">
                             <h5 style="vertical-align:middle;margin-top:20px">Tim anda
-                                memiliki {{ Auth::user()->mahasiswa()->proposal()->logbook()->count() }} logbook</h5>
+                                memiliki {{ Auth::user()->mahasiswa()->proposal()->logbook()->count() }} catatan</h5>
                         </div>
 
                         @if(Auth::user()->isKetua())
                             <div class="col-lg-2">
                                 <button id="tampilkan-form-logbook" class="btn btn-primary"
-                                        style="width:100%;text-align:center;padding:12px 0">Tambah Logbook
+                                        style="width:100%;text-align:center;padding:12px 0">Tambah Catatan Harian
                                 </button>
                             </div>
                         @endif

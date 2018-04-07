@@ -39,6 +39,7 @@ class LogBookController extends Controller
             $tambah = LogBook::create([
                 'catatan' => $request->catatan,
                 'biaya' => $request->biaya,
+                'tanggal' => $request->tanggal,
                 'id_proposal' => Auth::user()->mahasiswa()->proposal()->id
             ]);
 
@@ -64,6 +65,7 @@ class LogBookController extends Controller
         $edit = LogBook::find($request->id)->update([
             'catatan' => $request->catatan,
             'biaya' => $request->biaya,
+            'tanggal' => $request->tanggal
         ]);
 
         Session::flash('message', 'Berhasil mengubah logbook !');

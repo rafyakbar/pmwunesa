@@ -7,7 +7,7 @@
 @section('content')
     <div class="card" id="wrapper-form-logbook">
         <div class="card-content">
-            <h5>Edit Logbook</h5>
+            <h5>Edit Catatan Harian</h5>
             <form action="{{ route('edit.logbook') }}" method="post">
 
                 {{ csrf_field() }}
@@ -21,7 +21,8 @@
                         <label>Tanggal<label>
                         </div>
                         <div class="col-lg-5">
-                            <p>{{ Carbon\Carbon::today()->formatLocalized('%A %d %B %Y') }}</p>
+                            <input name="tanggal" id="tanggal" class="form-control" type="text" value="{{ $logbook->tanggal }}">
+                            <span id="locale">{{ Carbon\Carbon::parse($logbook->tanggal)->formatLocalized('%A, %d %B %Y') }}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -61,3 +62,23 @@
                 </div>
 
             @endsection
+
+@push('js')
+
+<script>
+$('#tanggal').bootstrapMaterialDatePicker({
+    format: 'YYYY-MM-DD',
+    lang: 'id',
+    weekStart: 0,
+    cancelText : 'Batal',
+    nowText : 'Sekarang',
+    nowButton : true,
+    switchOnClick : true
+}).on('change', function (e, date) {
+    event = new Date(Date.parse($(this).val()))
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    $('#locale').text(event.toLocaleDateString('id-ID', options))
+});
+</script>
+
+@endpush
