@@ -22,8 +22,7 @@
         <div class="card-content no-padding">
 
             @if($jumlahProposalKosong > 0)
-                <p style="margin:10px" class="alert alert-primary">Terdapat {{ $jumlahProposalKosong }} tim yang belum
-                    mengunggah proposal</p>
+                <p style="margin:10px" class="alert alert-primary">Terdapat {{ $jumlahProposalKosong }} tim yang belum mengunggah proposal</p>
             @endif
 
 

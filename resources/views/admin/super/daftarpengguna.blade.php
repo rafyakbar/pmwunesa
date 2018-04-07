@@ -153,7 +153,6 @@
                                     {{ $item->nama }}
                                 </td>
                             @endif
-                            @if(!\PMW\User::find($item->id)->hasRole('Super Admin'))
                                 <td>
                                     {{ (is_null($item->id_prodi)) ? '-' : \PMW\Models\Prodi::find($item->id_prodi)->nama }}
                                 </td>
@@ -164,7 +163,6 @@
                                         <a class="btn btn-primary btn-sm" onclick="$(this).parent().parent().parent().next().toggle()">Detail/Edit</a>
                                     </div>
                                 </td>
-                            @endif
                         </tr>
                         <tr>
                             <td colspan="4" style="border-top: none !important;">
@@ -179,8 +177,7 @@
                                                 @foreach($hak_akses as $value)
                                                     <input type="checkbox" name="hakakses[]" value="{{ $value->nama }}"
                                                            @if(\PMW\User::find($item->id)->hasRole($value->nama)) checked
-                                                           disabled
-                                                           @endif @if($value->nama == 'Ketua Tim') disabled @endif>
+                                                           @endif>
                                                     {{ $value->nama }}
                                                     <br>
                                                 @endforeach

@@ -11,11 +11,10 @@ interface FileHandler {
      * Menyimpan file yang telah diunggah ke storage
      *
      * @param string $dir
-     * @param string $filename
      * @param string $contents
      * @return void
      */
-    public function save($dir, $filename, $contents);
+    public function save($dir, $file);
 
     /**
      * Menghapus file
@@ -23,7 +22,7 @@ interface FileHandler {
      * @param string $filepath
      * @return void
      */
-    public function delete($filepath);
+    public function delete($filedir, $filename);
 
     /**
      * Menngunduh file
@@ -31,6 +30,6 @@ interface FileHandler {
      * @param string $filepath
      * @return void
      */
-    public function get($filepath);
+    public function download($filedir, $filename);
 
 }

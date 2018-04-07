@@ -79,6 +79,12 @@ class TabelPMWUNESA extends Migration
             $table->string('status_request');
         });
 
+        Schema::create('jenis', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nama');
+            $table->softDeletes();
+        });
+
         Schema::create('proposal', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('lolos')->nullable();
@@ -88,7 +94,8 @@ class TabelPMWUNESA extends Migration
             $table->bigInteger('usulan_dana')->nullable();
             $table->text('abstrak')->nullable();
             $table->text('keyword')->nullable();
-            $table->string('jenis_usaha')->nullable();
+            $table->integer('jenis_id')->unsigned();
+            $table->foreign('jenis_id')->references('id')->on('jenis')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->timestamps();
         });
 

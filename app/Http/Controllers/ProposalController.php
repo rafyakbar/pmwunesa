@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PMW\Models\Proposal;
 use PMW\Support\FileHandler;
+use PMW\Facades\FileHandler as FH;
 
 /**
  * Controller ini berfungsi untuk melakukan aksi yang berkaitan
@@ -135,9 +136,7 @@ class ProposalController extends Controller
             $proposal = Auth::user()->mahasiswa()->proposal();
 
         // proses unduh
-        return response()->download(
-            storage_path('app/public/' . $this->dir . '/' . $proposal->direktori)
-        );
+        return FH::download($this->dir, $proposal->direktori);
     }
 
     /**
@@ -185,7 +184,7 @@ class ProposalController extends Controller
 
         // Jika pernah mengunggah proposal
         if(!is_null($proposal->direktori)) {
-            Storage::delete('public/' . $this->dir . '/' . $proposal->direktori);
+            FH::delete($this->dir, $proposal->direktori);
         }
     }
 

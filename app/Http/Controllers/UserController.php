@@ -143,12 +143,15 @@ class UserController extends Controller
      */
     public function editHakAkses(Request $request)
     {
-        if (is_null($request->hakakses))
-            return back();
+        $user = User::find($request->id);
+        if (is_null($request->hakakses)){
+            foreach ($user->hakAksesPengguna()->get() as $ha){
+                $user->hakAksesPengguna()->detach($ha);
+            }
+            return back()->with('message', 'Berhasil menghilangkan semua hak akses '.$user->nama);
+        }
 
         foreach ($request->hakakses as $value) {
-            if ($value == 'Ketua Tim')
-                $value = 'Anggota';
             if (!User::find($request->id)->hasRole($value)) {
                 if ($value == 'Anggota' || $value == 'Ketua Tim') {
                     Mahasiswa::create([

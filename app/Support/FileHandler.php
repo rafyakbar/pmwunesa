@@ -3,6 +3,8 @@
 namespace PMW\Support;
 
 use Illuminate\Support\Facades\Auth;
+use PMW\Models\Pengaturan;
+use PMW\Facades\FileHandler as FH;
 
 trait FileHandler
 {
@@ -15,10 +17,7 @@ trait FileHandler
      */
     public function unggahBerkas($file)
     {
-        $namaFile = Auth::user()->id . ' ' . Auth::user()->nama . '.' . $file->getClientOriginalExtension();
-        $file->storePubliclyAs('public/' . $this->dir, $namaFile);
-
-        return $namaFile;
+        return FH::save($this->dir, $file);
     }
 
     /**
@@ -44,13 +43,17 @@ trait FileHandler
     }
 
     /**
-     * Memastikan bahwa user adalah ketua tim
+     * Memastikan bahwa user dapat mengunggah proposal
      *
+     * @param bool $final
      * @return boolean
      */
-    private function bolehUnggah()
+    private function bolehUnggah($final = false)
     {
-        return (Auth::user()->isKetua());
+        if($final)
+            return Auth::user()->mahasiswa()->bisaUnggahProposalFinal() || Auth::user()->mahasiswa()->bisaEditProposalFinal();
+
+        return Auth::user()->mahasiswa()->bisaUnggahProposal() || Auth::user()->mahasiswa()->bisaEditProposal();
     }
 
 }

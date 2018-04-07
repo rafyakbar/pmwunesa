@@ -46,18 +46,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('ExcelExport','PMW\Support\ExcelExport');
         $this->app->bind('Dana','PMW\Support\Dana');
-
-        // Membuat bind untuk FileHandler
-        switch($this->storage) {
-            // Jika storage yang diinginkan adalah local
-            case 'local':
-                $this->app->bind('PMW\Contract\FileHandler', 'PMW\Support\FileHandler\LocalStorage');
-                break;
-            // Jika storage yang diinginkan adalah Google Drive
-            case 'googledrive':
-                $this->app->bind('PMW\Contract\FileHandler', 'PMW\Support\FileHandler\GoogleDrive');
-                break;
-        }
+        $this->app->bind('FileHandler', 'PMW\Support\FileHandler\GoogleDrive');
     }
 
 }
