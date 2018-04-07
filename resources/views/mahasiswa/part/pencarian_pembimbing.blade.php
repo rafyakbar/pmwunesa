@@ -23,7 +23,7 @@
         <table class="table table-striped" style="display:none">
             <thead>
                 <tr class="text-default">
-                    <th>Nama</th>
+                    <th>Nama & NIP/NIDN</th>
                     <th>Asal</th>
                     <th>Aksi</th>
                 </tr>

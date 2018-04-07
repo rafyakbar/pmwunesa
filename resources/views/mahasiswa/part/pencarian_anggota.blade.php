@@ -19,7 +19,7 @@
         <table class="table table-striped" style="display:none">
             <thead>
                 <tr class="text-default">
-                    <th>Nama</th>
+                    <th>Nama & NIM</th>
                     <th>Asal Prodi</th>
                     <th>Aksi</th>
                 </tr>
