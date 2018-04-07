@@ -1,14 +1,17 @@
 <?php
 
 Route::namespace('Page')->group(function() {
+
     Route::get('proposal', [
         'uses' => 'PageController@proposalDetail',
         'as' => 'proposal'
     ]);
+
     Route::get('logbook', [
         'uses' => 'MahasiswaController@logbook',
         'as' => 'logbook'
     ]);
+    
 });
 
 Route::get('laporan', function(){
@@ -18,6 +21,11 @@ Route::get('laporan', function(){
 Route::get('infotim', [
     'uses' => 'Page\MahasiswaController@infoTim',
     'as' => 'info.tim'
+]);
+
+Route::post('konfirmasitim', [
+    'uses' => 'TeamController@konfirmasiTim',
+    'as' => 'mahasiswa.konfirmasi.tim'
 ]);
 
 Route::group(['prefix' => 'undang'], function () {

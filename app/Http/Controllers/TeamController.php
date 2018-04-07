@@ -4,6 +4,8 @@ namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PMW\Models\Mahasiswa;
+use Illuminate\Support\Facades\Auth;
+use PMW\Models\Proposal;
 
 class TeamController extends Controller
 {
@@ -31,6 +33,27 @@ class TeamController extends Controller
         return response()->json([
             'message' => 'Tidak bisa menghapus anggota !',
             'type' => 'error'
+        ]);
+    }
+
+    public function konfirmasiTim(Request $request)
+    {
+        $mahasiswa = Auth::user();
+
+        $mahasiswa->jadikanKetua();
+
+        $proposal = Proposal::create([
+            'lolos' => false,
+            'konfirmasi_tim' => true
+        ]);
+
+        $mahasiswa->mahasiswa()->update([
+            'id_proposal' => $proposal->id
+        ]);
+
+        return response()->json([
+            'error' => 0,
+            'message' => 'Anda telah menjadi tim individu !'
         ]);
     }
 

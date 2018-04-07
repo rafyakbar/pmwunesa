@@ -10,7 +10,7 @@
 @section('content')
 
     {{-- Jika tim belum lengkap, maka akan menampilkan daftar undangan dan pencarian anggota --}}
-    @if(!Auth::user()->mahasiswa()->punyaTim() || (Auth::user()->isKetua() && Auth::user()->mahasiswa()->jumlahAnggotaTim() < 3))
+    @if(!Auth::user()->mahasiswa()->punyaTim() || !Auth::user()->mahasiswa()->proposal()->konfirmasi_tim)
         <div class="row">
             <div class="col-lg-4 col-md-4">
                 @if(Auth::user()->mahasiswa()->punyaTim())
@@ -20,6 +20,20 @@
                     @include('mahasiswa.part.undangan_tim_yang_diterima')
                 @endif
                     @include('mahasiswa.part.undangan_tim_yang_dikirim')
+
+                @if(!Auth::user()->mahasiswa()->punyaTim())
+                    <div class="card">
+                        <div class="card-header" data-background-color="green">
+                            <h4>Opsi Tim/Kelompok</h4>
+                        </div>
+                        <div class="card-content">
+                            <button class="btn btn-primary" id="individu">Saya mengikuti PMW secara individu</button>
+                            <p class="alert alert-info">
+                                Klik tombol diatas jika anda ingin mengikuti PMW secara individu
+                            </p>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="col-lg-8 cl-md-8">
                 @include('mahasiswa.part.pencarian_anggota')
@@ -38,6 +52,34 @@
         @else
         <script src="{{ asset('js/undanganpembimbing.js') }}"></script>
         @endif
+
+        <script>
+            $('#individu').click(function () {
+                swal({
+                    type: 'warning',
+                    title: 'Apa anda yakin ?',
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function () {
+                    $.ajax({
+                        url: '{{ route('mahasiswa.konfirmasi.tim') }}',
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.error == 0) {
+                                swal({
+                                    type: 'success',
+                                    title: 'Berhasil',
+                                    text: response.message  
+                                })
+                            }
+                        },
+                        error: function (response) {
+
+                        }
+                    })
+                })
+            })
+        </script>
 
         @if(Session::has('message'))
             <script>
