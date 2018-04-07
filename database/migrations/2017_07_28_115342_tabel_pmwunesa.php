@@ -94,8 +94,9 @@ class TabelPMWUNESA extends Migration
             $table->bigInteger('usulan_dana')->nullable();
             $table->text('abstrak')->nullable();
             $table->text('keyword')->nullable();
-            $table->integer('jenis_id')->unsigned();
+            $table->integer('jenis_id')->unsigned()->nullable();
             $table->foreign('jenis_id')->references('id')->on('jenis')->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->boolean('konfirmasi_tim')->default(false);
             $table->timestamps();
         });
 
