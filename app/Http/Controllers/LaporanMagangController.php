@@ -3,23 +3,17 @@
 namespace PMW\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use PMW\Models\Laporan;
-use PMW\Models\Proposal;
 use PMW\Support\FileHandler;
 use PMW\Facades\FileHandler as FH;
+use PMW\Models\Laporan;
+use Illuminate\Support\Facades\Auth;
+use PMW\Models\Proposal;
 
-/**
- * Controller untuk mengatur aktifitas dari Laporan Kemajuan
- *
- * @author BagasMuharom <bagashidayat@mhs.unesa.ac.id|bagashidayat45@gmail.com>
- * @package PMW\Http\Controllers
- */
-class LaporanController extends Controller
+class LaporanMagangController extends Controller
 {
-
+    
     /**
-     * jenis ekstensi yang dinggap valid untuk diunggah
+     * Ekstensi file yang dianggap valid untuk diunggah
      *
      * @var array
      */
@@ -28,12 +22,11 @@ class LaporanController extends Controller
     ];
 
     /**
-     * lokasi dimana file akan disimpan, dengan storage/app/public
-     * sebagai root
+     * Lokasi dimana file akan diletakkan
      *
      * @var string
      */
-    private $dir = 'laporan/kemajuan';
+    private $dir = 'laporan/magang';
 
     /**
      * array untuk validasi
@@ -41,13 +34,13 @@ class LaporanController extends Controller
      * @var array
      */
     private $validationArr = [
-        'berkas' => 'required'
+        'berkas' => 'required|file'
     ];
 
     use FileHandler;
 
     /**
-     * Mengunggah laporan kemajuan
+     * Mengunggah laporan akhir
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -56,23 +49,20 @@ class LaporanController extends Controller
     {
         $berkas = $request->file('berkas');
 
-        // if ($this->bolehUnggah()) {
-
-            $this->validate($request, $this->validationArr);
-
-            if ($this->berkasValid($berkas)) {
+            if($this->berkasValid($berkas))
+            {
                 $file = $this->unggahBerkas($berkas);
 
                 Laporan::create([
                     'id_proposal' => Auth::user()->mahasiswa()->proposal()->id,
-                    'jenis' => Laporan::KEMAJUAN,
+                    'jenis' => Laporan::MAGANG,
                     'direktori' => $file,
                     'keterangan' => $request->keterangan
                 ]);
 
                 return response()->json([
-                   'message' => 'Berhasil mengunggah laporan kemajuan !',
-                   'type' => 'success'
+                    'message' => 'Berhasil mengunggah laporan magang !',
+                    'type' => 'success'
                 ]);
             }
 
@@ -80,27 +70,22 @@ class LaporanController extends Controller
                 'message' => 'Berkas tidak valid !',
                 'type' => 'error'
             ]);
-        // }
 
-        // return response()->json([
-        //    'message' => 'Gagal mengunggah laporan kemajuan !',
-        //    'type' => 'error'
-        // ]);
     }
 
     /**
-     * Mengunduh laporan kemajuan
+     * Mengunduh laporan akhir
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function unduh(Request $request)
     {
-        if ($request->has('id_proposal'))
-            $laporan = Proposal::find($request->id_proposal)->laporanKemajuan();
+        if(!is_null($request->id_proposal))
+            $laporan = Proposal::find($request->id_proposal)->laporanMagang();
 
-        if (Auth::user()->isMahasiswa())
-            $laporan = Auth::user()->mahasiswa()->proposal()->laporanKemajuan();
+        if(Auth::user()->isMahasiswa())
+            $laporan = Auth::user()->mahasiswa()->proposal()->laporanMagang();
 
         return FH::download($this->dir, $laporan->direktori);
     }

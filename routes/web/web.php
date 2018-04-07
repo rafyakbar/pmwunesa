@@ -61,6 +61,16 @@ Route::group(['middleware' => 'auth'], function () {
                 'as' => 'unduh.laporan.akhir',
             ]);
 
+            Route::post('laporan/magang', [
+                'uses' => 'LaporanMagangController@unduh',
+                'as' => 'unduh.laporan.magang',
+            ]);
+
+            Route::post('laporan/keuangan', [
+                'uses' => 'LaporanKeuanganController@unduh',
+                'as' => 'unduh.laporan.keuangan',
+            ]);
+
         });
 
         Route::get('data/proposal', [

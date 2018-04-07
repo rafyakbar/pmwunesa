@@ -43,6 +43,16 @@ Route::group(['prefix' => 'unggah'], function () {
         'uses' => 'LaporanAkhirController@unggah',
         'as' => 'unggah.laporan.akhir'
     ]);
+    
+    Route::put('laporan/magang', [
+        'uses' => 'LaporanMagangController@unggah',
+        'as' => 'unggah.laporan.magang'
+    ]);
+    
+    Route::put('laporan/keuangan', [
+        'uses' => 'LaporanKeuanganController@unggah',
+        'as' => 'unggah.laporan.keuangan'
+    ]);
 
     Route::put('logbook', [
         'uses' => 'LogBookController@tambah',

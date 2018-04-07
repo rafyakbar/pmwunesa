@@ -31,7 +31,8 @@ class Proposal extends Model
         'keyword',
         'jenis_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'konfirmasi_tim'
     ];
 
     /**
@@ -105,6 +106,10 @@ class Proposal extends Model
             return $relasi->where('jenis', 'kemajuan')->first();
         else if ($type == 'akhir')
             return $relasi->where('jenis', 'akhir')->first();
+        else if ($type == 'magang')
+            return $relasi->where('jenis', 'magang')->first();
+        else if ($type == 'keuangan')
+            return $relasi->where('jenis', 'keuangan')->first();
 
         return null;
     }

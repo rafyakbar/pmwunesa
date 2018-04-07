@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col-lg-6">
+        {{-- Laporan Kemajuan --}}
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" data-background-color="green">
                 <h5 class="title">
                     Laporan Kemajuan
                 </h5>
@@ -10,7 +11,26 @@
             <div class="card-content">
                 @if(Auth::user()->mahasiswa()->proposal()->lolos())
                     @include('mahasiswa.part.form_laporan',[
-                    'type' => 'kemajuan'
+                        'type' => 'kemajuan'
+                    ])
+                @else
+                    <p class="alert alert-warning">Proposal tim anda belum lolos</p>
+                @endif
+            </div>
+        </div>
+
+        {{-- Laporan Magang --}}
+        <div class="card">
+            <div class="card-header" data-background-color="green">
+                <h5 class="title">
+                    Laporan Magang
+                </h5>
+            </div>
+
+            <div class="card-content">
+                @if(Auth::user()->mahasiswa()->proposal()->lolos())
+                    @include('mahasiswa.part.form_laporan',[
+                        'type' => 'magang'
                     ])
                 @else
                     <p class="alert alert-warning">Proposal tim anda belum lolos</p>
@@ -19,10 +39,10 @@
         </div>
     </div>
 
-    {{-- Laporan Akhir  --}}
     <div class="col-lg-6">
+        {{-- Laporan Akhir  --}}
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" data-background-color="green">
                 <h5 class="title">
                     Laporan Akhir
                 </h5>
@@ -32,6 +52,25 @@
                 @if(Auth::user()->mahasiswa()->proposal()->lolos())
                     @include('mahasiswa.part.form_laporan',[
                         'type' => 'akhir'
+                    ])
+                @else
+                    <p class="alert alert-warning">Proposal tim anda belum lolos</p>
+                @endif
+            </div>
+        </div>
+        
+        {{-- Laporan Keuangan  --}}
+        <div class="card">
+            <div class="card-header" data-background-color="green">
+                <h5 class="title">
+                    Laporan Keuangan
+                </h5>
+            </div>
+
+            <div class="card-content">
+                @if(Auth::user()->mahasiswa()->proposal()->lolos())
+                    @include('mahasiswa.part.form_laporan',[
+                        'type' => 'keuangan'
                     ])
                 @else
                     <p class="alert alert-warning">Proposal tim anda belum lolos</p>

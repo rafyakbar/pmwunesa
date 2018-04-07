@@ -2,9 +2,9 @@
     <p class="alert alert-primary">Tim anda belum mengunggah laporan {{ $type }}</p>
 
     @if(Auth::user()->isKetua())
-        <h4>Unggah Laporan {{ $type === 'kemajuan' ? 'Kemajuan' : 'Akhir' }}</h4>
+        <h4>Unggah Laporan {{ ucwords($type) }}</h4>
 
-        <form class="upload" action="{{ $type === 'kemajuan' ? route('unggah.laporan.kemajuan') : route('unggah.laporan.akhir') }}" method="post"
+        <form class="upload" action="{{ route('unggah.laporan.' . $type) }}" method="post"
               enctype="multipart/form-data">
 
             {{ csrf_field() }}
@@ -33,21 +33,21 @@
         </form>
     @endif
 @else
-    <p class="alert alert-primary">Tim anda telah mengunggah laporan {{ $type === 'kemajuan' ? 'kemajuan' : 'akhir' }}</p>
+    <p class="alert alert-primary">Tim anda telah mengunggah laporan {{ ucwords($type) }}</p>
 
     <div id="info-{{ $type === 'kemajuan' ? 'kemajuan' : 'akhir' }}">
         <h6>Keterangan</h6>
         <p>{{ Auth::user()->mahasiswa()->proposal()->laporan($type)->keterangan }}</p>
-        <form action="{{ $type === 'kemajuan' ? route('unduh.laporan.kemajuan') : route('unduh.laporan.akhir') }}" method="post">
+        <form action="{{ route('unduh.laporan.' . $type) }}" method="post">
             {{ csrf_field() }}
             <button class="btn btn-primary">Unduh Laporan</button>
         </form>
-        <button class="btn btn-warning edit-laporan" data-target="#form-{{ $type === 'kemajuan' ? 'kemajuan' : 'akhir' }}">Edit Laporan</button>
+        <button class="btn btn-warning edit-laporan" data-target="#form-{{ $type }}">Edit Laporan</button>
     </div>
 
-    <form id="form-{{ $type === 'kemajuan' ? 'kemajuan' : 'akhir' }}" class="upload" action="{{ $type === 'kemajuan' ? route('unggah.laporan.kemajuan') : route('unggah.laporan.akhir') }}" method="post" style="display: none"
+    <form id="form-{{ $type  }}" class="upload" action="{{ route('unggah.laporan.' . $type)  }}" method="post" style="display: none"
           enctype="multipart/form-data">
-
+          
         {{ csrf_field() }}
 
         {{ method_field('put') }}

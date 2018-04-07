@@ -25,7 +25,7 @@ class LaporanAkhirController extends Controller
      * @var array
      */
     private $validExtension = [
-        'pdf', 'doc', 'docx'
+        'pdf'
     ];
 
     /**
@@ -56,8 +56,6 @@ class LaporanAkhirController extends Controller
     {
         $berkas = $request->file('berkas');
 
-        if($this->bolehUnggah())
-        {
             if($this->berkasValid($berkas))
             {
                 $file = $this->unggahBerkas($berkas);
@@ -79,12 +77,6 @@ class LaporanAkhirController extends Controller
                 'message' => 'Berkas tidak valid !',
                 'type' => 'error'
             ]);
-        }
-
-        return response()->json([
-            'message' => 'Gagal mengunggah laporan kemajuan !',
-            'type' => 'error'
-        ]);
     }
 
     /**

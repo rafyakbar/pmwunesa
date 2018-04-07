@@ -14,6 +14,10 @@ class Laporan extends Model
 
     const AKHIR = 'akhir';
 
+    const MAGANG = 'magang';
+
+    const KEUANGAN = 'keuangan';
+
     protected $fillable = [
         'id_proposal',
         'jenis',
@@ -22,7 +26,7 @@ class Laporan extends Model
     ];
 
     /**
-     *
+     * Mendapatkan proposal dari laporan terkait
      *
      * @return mixed
      */
@@ -39,6 +43,16 @@ class Laporan extends Model
     public function akhir()
     {
         return $this->where('jenis', Laporan::AKHIR)->first();
+    }
+
+    public function magang()
+    {
+        return $this->where('jenis', Laporan::MAGANG)->first();
+    }
+    
+    public function keuangan()
+    {
+        return $this->where('jenis', Laporan::KEUANGAN)->first();
     }
 
 }
