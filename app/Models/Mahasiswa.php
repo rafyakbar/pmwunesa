@@ -76,7 +76,7 @@ class Mahasiswa extends Model
     public function punyaProposal()
     {
         if(!is_null($this->proposal()))
-            if(!is_null($this->proposal()->direktori))
+            if(!is_null($this->proposal()->direktori) || !empty($this->proposal()->direktori)) 
                 return true;
 
         return false;
@@ -168,7 +168,7 @@ class Mahasiswa extends Model
 
         $proposal = $this->proposal();
 
-        return ($proposal->mahasiswa()->count() == 3);
+        return ($proposal->mahasiswa()->count() == 3) || $proposal->konfirmasi_tim;
     }
 
     /**

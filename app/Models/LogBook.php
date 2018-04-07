@@ -13,7 +13,8 @@ class LogBook extends Model
         'catatan',
         'biaya',
         'created_at',
-        'updates_at'
+        'updates_at',
+        'tanggal'
     ];
 
     /**

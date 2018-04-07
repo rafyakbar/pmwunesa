@@ -28,4 +28,5 @@ class Jenis extends Model
         $data = $this->hasMany('PMW\Models\Proposal', 'jenis_id');
         return $queryReturns ? $data : $data->get();
     }
+
 }
