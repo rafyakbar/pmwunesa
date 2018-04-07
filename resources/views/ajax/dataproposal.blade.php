@@ -13,7 +13,7 @@
                 <b>Jenis Usaha</b>
             </div>
             <div class="col-lg-8">
-                <span>{{ $proposal->jenis_usaha }}</span>
+                <span>{{ $proposal->jenis()->nama }}</span>
             </div>
         </div>
         <div class="row">

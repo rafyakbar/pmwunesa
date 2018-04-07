@@ -26,7 +26,7 @@ class ProposalController extends Controller
      * @var array
      */
     private $validExtension = [
-        'pdf', 'doc', 'docx'
+        'pdf'
     ];
 
     /**
@@ -82,7 +82,7 @@ class ProposalController extends Controller
                     'usulan_dana'   => $request->usulan_dana,
                     'judul'         => $request->judul,
                     'abstrak'       => $request->abstrak,
-                    'jenis_usaha'   => $request->jenis_usaha,
+                    'jenis_id'      => $request->jenis_usaha,
                     'keyword'       => $request->keyword,
                     'direktori'     => $file
                 ]);
@@ -116,7 +116,7 @@ class ProposalController extends Controller
             'usulan_dana'   => $request->usulan_dana,
             'judul'         => $request->judul,
             'abstrak'       => $request->abstrak,
-            'jenis_usaha'   => $request->jenis_usaha,
+            'jenis_id'      => $request->jenis_usaha,
             'keyword'       => $request->keyword,
             'direktori'     => $request->direktori
         ]);

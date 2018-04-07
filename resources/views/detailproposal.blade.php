@@ -24,9 +24,9 @@ Detail <b>{{ $proposal->judul }}</b>
             @endif
 
             @if(Auth::user()->mahasiswa()->bisaUnggahProposalFinal())
-            <a href="{{ route('unggah.proposal.final') }}" class="btn btn-primary btn-sm">Unggah Proposal Final</a>
+            <a href="{{ route('unggah.proposal.final') }}" class="btn btn-primary btn-sm">Unggah Proposal Akhir</a>
             @elseif(Auth::user()->mahasiswa()->bisaEditProposalFinal())
-            <a href="{{ route('edit.proposal.final') }}" class="btn btn-primary btn-sm">Edit Proposal Final</a>
+            <a href="{{ route('edit.proposal.final') }}" class="btn btn-primary btn-sm">Edit Proposal Akhir</a>
             @endif
         </div>
         @endif
@@ -34,7 +34,7 @@ Detail <b>{{ $proposal->judul }}</b>
         <div class="row">
             <div class="col-md-3 col-sm-6">
                 <label>Jenis usaha</label>
-                <h5><b>{{ $proposal->jenis_usaha }}</b></h5>
+                <h5><b>{{ $proposal->jenis()->nama }}</b></h5>
                 {{-- Jika user adalah mahasiswa, maka tidak perlu menampilkan daftar review --}}
                 @unless(Auth::user()->isMahasiswa())
                 <label>Reviewer tahap 1</label>
@@ -101,11 +101,11 @@ Detail <b>{{ $proposal->judul }}</b>
                 <br>
                 <div class="btn-group">
                     <a class="btn btn-primary btn-sm" href="#" onclick="event.preventDefault();document.getElementById('unduh-proposal').submit();">
-                        belum final
+                        Awal
                     </a>
                     @if(!is_null($proposal->direktori_final))
                     <a class="btn btn-success btn-sm" href="#" onclick="event.preventDefault();document.getElementById('unduh-proposal-final').submit();">
-                        final
+                        Akhir
                     </a>
                     @endif
                 </div>
@@ -120,10 +120,10 @@ Detail <b>{{ $proposal->judul }}</b>
                 </form>
 
                 @unless(Auth::user()->isMahasiswa())
-                <label>Pembimbing & Tim</label>
+                <label style="display: block">Pembimbing & Tim</label>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <label>Pembimbing</label>
+                        <label style="display: block">Pembimbing</label>
                         @if($proposal->punyaPembimbing())
                         <b>{{ $proposal->pembimbing()->nama }}</b>
                         <br>

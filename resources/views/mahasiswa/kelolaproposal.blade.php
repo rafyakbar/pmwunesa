@@ -43,9 +43,9 @@
                                 <span>{{ isset($proposal) ? $proposal->jenis_usaha :  'Pilih Jenis Usaha' }}</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" data-target="#jenis_usaha">
-                                <li data-value="barang"><a href="#">Barang</a></li>
-                                <li data-value="jasa"><a href="#">Jasa</a></li>
-                                <li data-value="barang dan jasa"><a href="#">Barang dan Jasa</a></li>
+                            @foreach(\PMW\Models\Jenis::all() as $jenis)
+                                <li data-value="{{ $jenis->id }}"><a href="#">{{ $jenis->nama }}</a></li>
+                            @endforeach
                             </ul>
                         </div>
                         <div class="form-group">
@@ -155,31 +155,42 @@
             success : function(response){
                 $('#progress').hide()
                 $('#progress').find('.progress-bar').width("0%")
-                swal({
-                    title : 'Berhasil !',
-                    type : 'success',
-                    text : response.message
-                }, function() {
-                    window.location.reload()
-                })
+                if(response.error == 0) {
+                    swal({
+                        title : 'Berhasil !',
+                        type : 'success',
+                        text : response.message
+                    }, function() {
+                        window.location.reload()
+                    })
+                }
+                else {
+                    swal({
+                        title : 'Gagal !',
+                        type : 'error',
+                        text : response.message
+                    }, function () {
+                        $('button[type="submit"]').removeAttr('disabled').text('Unggah Proposal') 
+                    })
+                }
             },
-            error : function(response){
+            error : function(response) {
                 $('#progress').hide()
                 $('button[type="submit"]').removeAttr('disabled').text('Unggah Proposal')
                 response = response.responseJSON
                 text = ''
                 if(typeof response.judul !== 'undefined')
-                text = response.judul
+                    text = response.judul
                 else if(typeof response.usulan_dana !== 'undefined')
-                text = response.usulan_dana
+                    text = response.usulan_dana
                 else if(typeof response.jenis_usaha !== 'undefined')
-                text = response.jenis_usaha
+                    text = response.jenis_usaha
                 else if(typeof response.keyword !== 'undefined')
-                text = response.keyword
+                    text = response.keyword
                 else if(typeof response.berkas !== 'undefined')
-                text = response.berkas
+                    text = response.berkas
                 else if(typeof response.abstrak !== 'undefined')
-                text = response.abstrak
+                    text = response.abstrak
                 swal({
                     type : 'error',
                     title : 'Gagal',

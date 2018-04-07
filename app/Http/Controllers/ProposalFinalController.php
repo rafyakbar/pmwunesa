@@ -27,7 +27,7 @@ class ProposalFinalController extends Controller
      * @var array
      */
     private $validExtension = [
-        'pdf', 'doc', 'docx'
+        'pdf'
     ];
 
     private $dir = 'proposal/final';
@@ -54,7 +54,12 @@ class ProposalFinalController extends Controller
                 $berkas = $this->unggahBerkas($request->file('berkas'));
 
                 $proposal->update([
-                    'direktori_final' => $berkas
+                    'direktori_final'   => $berkas,
+                    'usulan_dana'       => $request->usulan_dana,
+                    'judul'             => $request->judul,
+                    'abstrak'           => $request->abstrak,
+                    'jenis_id'          => $request->jenis_usaha,
+                    'keyword'           => $request->keyword
                 ]);
 
                 return response()->json([

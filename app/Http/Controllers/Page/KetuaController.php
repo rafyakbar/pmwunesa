@@ -47,7 +47,7 @@ class KetuaController extends Controller
     }
 
     /**
-     * Menampilkan halaman untuk mengedit logbook
+     * Menampilkan halaman untuk mengedit logbook atau catatan harian
      *
      * @param int $id
      * @return \Illuminate\View\View
@@ -72,7 +72,13 @@ class KetuaController extends Controller
      */
     public function unggahProposalFinal()
     {
-        return view('mahasiswa.kelolaproposalfinal');
+        if(!Auth::user()->mahasiswa()->bisaUnggahProposalFinal())
+            return redirect()->route('proposal');
+
+        return view('mahasiswa.kelolaproposalfinal', [
+            'proposal' => Auth::user()->mahasiswa()->proposal(),
+            'type' => 'unggah'
+        ]);
     }
 
     /**
@@ -82,10 +88,14 @@ class KetuaController extends Controller
      */
     public function editProposalFinal()
     {
+        if(!Auth::user()->mahasiswa()->bisaEditProposalFinal())
+            return redirect()->route('proposal');
+
         $proposal = Auth::user()->mahasiswa()->proposal();
 
         return view('mahasiswa.kelolaproposalfinal', [
-            'proposal' => $proposal
+            'proposal' => $proposal,
+            'type' => 'edit'
         ]);
     }
 

@@ -93,7 +93,7 @@
                                             <strong>{{ $proposal->judul }}</strong><sup><i
                                                         class="fa fa-external-link"></i></sup></a>
                                     </td>
-                                    <td class="hidden-sm hidden-xs">{{ $proposal->jenis_usaha }}</td>
+                                    <td class="hidden-sm hidden-xs">{{ $proposal->jenis()->nama }}</td>
                                     <td class="hidden-sm hidden-xs">{{ Dana::format($proposal->usulan_dana) }}</td>
                                     <td class="hidden-sm hidden-xs">
                                         <div class="btn-group btn-group-sm">
