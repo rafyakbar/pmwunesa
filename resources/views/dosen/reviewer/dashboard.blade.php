@@ -7,7 +7,7 @@
         <div class="alert alert-info">
             <h6><strong>Tahap 1</strong></h6>
             @if($daftarproposal['tahap1']->count() > 0)
-            Anda sudah menilai 1 dari {{ $daftarproposal['tahap1']->count() }} proposal
+            Anda sudah menilai {{ $daftarproposal['sudahdinilai']['tahap1'] }} dari {{ $daftarproposal['tahap1']->count() }} proposal
             @else
             Tidak ada proposal untuk direview pada tahap 1
             @endif

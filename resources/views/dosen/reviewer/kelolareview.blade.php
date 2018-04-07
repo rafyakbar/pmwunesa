@@ -70,7 +70,13 @@
                             </p>
                         @endif
                                 <textarea placeholder="Komentar" class="form-control"
-                                          name="komentar">{{ $type == 'edit' ? $proposal->pivot->komentar : $errors->has('komentar') ? old('komentar') : '' }}</textarea>
+                                          name="komentar">
+                                    @if($type == 'edit')
+                                        {{ $proposal->pivot->komentar }}
+                                    @elseif($errors->has('komentar'))
+                                        {{ old('komentar') }}
+                                    @endif
+                                </textarea>
                     </div>
                 </div>
 

@@ -13,7 +13,7 @@
 <li {{ Route::currentRouteName() === 'logbook' ? 'class=active' : '' }}>
     <a href="{{ route('logbook') }}">
         <i class="material-icons">book</i>
-        <p>Logbook</p>
+        <p>Catatan Harian</p>
     </a>
 </li>
 <li {{ Route::currentRouteName() === 'laporan' ? 'class=active' : '' }}>

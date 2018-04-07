@@ -1,6 +1,6 @@
 @if(Auth::user()->mahasiswa()->undanganTimAnggota()->wherePivot('ditolak', false)->count() > 0)
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" data-background-color="purple">
             <h4>Undangan tim yang diterima</h4>
         </div>
         <div class="card-content">

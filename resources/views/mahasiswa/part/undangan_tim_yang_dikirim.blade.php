@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header">
+    <div class="card-header" data-background-color="purple">
         <h4>Undangan yang sedang dikirim</h4>
     </div>
     <div class="card-content" id="undangan-wrapper">
