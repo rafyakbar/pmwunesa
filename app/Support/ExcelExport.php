@@ -2,6 +2,7 @@
 
 namespace PMW\Support;
 
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use PMW\Models\Fakultas;
 use PMW\Models\Jenis;
@@ -102,7 +103,7 @@ class ExcelExport
                 $proposal = (is_null($GLOBALS['fakultas'])) ? Proposal::all() : Proposal::proposalPerFakultas($GLOBALS['fakultas']);
                 if ($period != 'semua'){
                     $proposal = $proposal->filter(function ($value, $key) use ($period){
-                        return $value->created_at->year == $period;
+                        return Carbon::parse($value->created_at)->year == $period;
                     });
                 }
                 $sheet->setOrientation('landscape');

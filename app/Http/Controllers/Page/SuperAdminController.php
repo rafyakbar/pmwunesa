@@ -128,7 +128,7 @@ class SuperAdminController extends Controller
         $proposal = collect($proposal);
         if ($request->period != 'semua_periode'){
             $proposal = $proposal->filter(function ($value, $key) use ($request){
-                return $value->created_at->year == $request->period;
+                return Carbon::parse($value->created_at)->year == $request->period;
             });
         }
 //        dd($proposal);
