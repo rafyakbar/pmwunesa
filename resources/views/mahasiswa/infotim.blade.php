@@ -10,7 +10,7 @@
 @section('content')
 
     {{-- Jika tim belum lengkap, maka akan menampilkan daftar undangan dan pencarian anggota --}}
-    @if(!Auth::user()->mahasiswa()->punyaTim() || !Auth::user()->mahasiswa()->proposal()->konfirmasi_tim)
+    @if(!Auth::user()->mahasiswa()->punyaTim() || !Auth::user()->mahasiswa()->timLengkap())
         <div class="row">
             <div class="col-lg-4 col-md-4">
                 @if(Auth::user()->mahasiswa()->punyaTim())
@@ -21,15 +21,15 @@
                 @endif
                     @include('mahasiswa.part.undangan_tim_yang_dikirim')
 
-                @if(!Auth::user()->mahasiswa()->punyaTim())
+                @if(!Auth::user()->mahasiswa()->punyaTim() || (Auth::user()->isKetua() && !Auth::user()->mahasiswa()->timLengkap()))
                     <div class="card">
                         <div class="card-header" data-background-color="green">
                             <h4>Opsi Tim/Kelompok</h4>
                         </div>
                         <div class="card-content">
-                            <button class="btn btn-primary" id="individu">Saya mengikuti PMW secara individu</button>
+                            <button class="btn btn-primary" id="individu">Konfirmasi tim saya saat ini</button>
                             <p class="alert alert-info">
-                                Klik tombol diatas jika anda ingin mengikuti PMW secara individu
+                                Klik tombol diatas jika anda ingin mengikuti PMW secara individu atau dengan 1 anggota saja
                             </p>
                         </div>
                     </div>

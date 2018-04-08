@@ -94,7 +94,8 @@ class UndanganTimController extends Controller
                     $proposal = $dari->mahasiswa()->proposal();
                  else {
                     $proposal = Proposal::create([
-                        'lolos' => false
+                        'lolos' => false,
+                        'konfirmasi_tim' => false
                     ]);
                 }
 
@@ -109,6 +110,12 @@ class UndanganTimController extends Controller
                 $untuk->mahasiswa()->update([
                     'id_proposal' => $proposal->id
                 ]);
+
+                if($dari->mahasiswa()->timLengkap()) {
+                    $proposal->update([
+                        'konfirmasi_tim' => true
+                    ]);
+                }
 
                 $dari->mahasiswa()->undanganTimKetua()->detach($untuk->mahasiswa());
 
