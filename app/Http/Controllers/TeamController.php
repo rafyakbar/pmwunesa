@@ -42,18 +42,25 @@ class TeamController extends Controller
 
         $mahasiswa->jadikanKetua();
 
-        $proposal = Proposal::create([
-            'lolos' => false,
-            'konfirmasi_tim' => true
-        ]);
+        if($mahasiswa->mahasiswa()->punyaProposalKosong()) {
+            $mahasiswa->mahasiswa()->proposal()->update([
+                'konfirmasi_tim' => true
+            ]);
+        }
+        else {
+            $proposal = Proposal::create([
+                'lolos' => false,
+                'konfirmasi_tim' => true
+            ]);
 
-        $mahasiswa->mahasiswa()->update([
-            'id_proposal' => $proposal->id
-        ]);
+            $mahasiswa->mahasiswa()->update([
+                'id_proposal' => $proposal->id
+            ]);
+        }
 
         return response()->json([
             'error' => 0,
-            'message' => 'Anda telah menjadi tim individu !'
+            'message' => 'Berhasil mengomfirmasi tim/kelompok anda !'
         ]);
     }
 

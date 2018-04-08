@@ -70,6 +70,8 @@
                                     type: 'success',
                                     title: 'Berhasil',
                                     text: response.message  
+                                }, function () {
+                                    window.location.reload()
                                 })
                             }
                         },
