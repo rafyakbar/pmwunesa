@@ -23,7 +23,7 @@
 
             @if($undangan->count() > 0 && !Auth::user()->mahasiswa()->timLengkap())
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" data-background-color="orange">
                         <h4>Undangan tim</h4>
                     </div>
 
