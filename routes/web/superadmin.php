@@ -87,6 +87,11 @@ Route::group(['prefix' => 'tambah'], function () {
         'as' => 'tambah.csv.prodi'
     ]);
 
+    Route::post('jenis', [
+        'uses' => 'JenisController@tambah',
+        'as' => 'tambah.jenis'
+    ]);
+
 });
 
 Route::group(['prefix' => 'hapus'], function () {
@@ -161,6 +166,11 @@ Route::group(['prefix' => 'edit'], function () {
     Route::post('pengaturan', [
         'uses' => 'PengaturanController@edit',
         'as' => 'edit.pengaturan'
+    ]);
+
+    Route::post('jenis', [
+        'uses' => 'JenisController@edit',
+        'as' => 'edit.jenis'
     ]);
 
 });
