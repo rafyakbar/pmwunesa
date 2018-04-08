@@ -46,7 +46,11 @@ Detail <b>{{ $proposal->judul }}</b>
                         @if(!is_null($item->komentar))
                         <br>
                         <label>Komentar</label>
-                        <p>{!! $item->komentar !!}</p>
+                        <p style="margin: 0">{!! $item->komentar !!}</p>
+                        @if(Auth::user()->isSuperAdmin())
+                        <label>Nilai</label>
+                        <p style="margin: 0">{{ $item->penilaian()->get()->sum('pivot.nilai') }}</p>   
+                        @endif
                         @endif
                     </li>
                     @endforeach
@@ -70,7 +74,11 @@ Detail <b>{{ $proposal->judul }}</b>
                         @if(!is_null($item->komentar))
                         <br>
                         <label>Komentar</label>
-                        <p>{!! $item->komentar !!}</p>
+                        <p style="margin: 0;">{!! $item->komentar !!}</p>
+                        @if(Auth::user()->isSuperAdmin())
+                        <label>Nilai</label>
+                        <p style="margin: 0">{{ $item->penilaian()->get()->sum('pivot.nilai') }}</p>   
+                        @endif
                         @endif
                     </li>
                     @endforeach
@@ -113,10 +121,12 @@ Detail <b>{{ $proposal->judul }}</b>
                 <form id="unduh-proposal" action="{{ route('unduh.proposal') }}" method="post"
                           style="display: none;">
                     {{ csrf_field() }}
+                    <input type="hidden" value="{{ $proposal->id }}" name="id">
                 </form>
                 <form id="unduh-proposal-final" action="{{ route('unduh.proposal.final') }}" method="post"
                           style="display: none;">
                     {{ csrf_field() }}
+                    <input type="hidden" value="{{ $proposal->id }}" name="id">                    
                 </form>
 
                 @unless(Auth::user()->isMahasiswa())
@@ -151,7 +161,68 @@ Detail <b>{{ $proposal->judul }}</b>
                 @endunless
             </div>
         </div>
+
+        @if($proposal->lolos())
+        <div class="row">
+            <div class="col-lg-6">
+                <label>Unduh Laporan</label>
+                <br/>
+                <div class="btn-group btn-group-sm">
+                    @if($proposal->laporanKemajuan())
+                    <button class="btn btn-primary" onclick="event.preventDefault();document.getElementById('unduh-laporan-kemajuan').submit();">Kemajuan</button>
+                    @endif
+                    @if($proposal->laporanAkhir())
+                    <button class="btn btn-primary" onclick="event.preventDefault();document.getElementById('unduh-laporan-akhir').submit();">Akhir</button>
+                    @endif
+                    @if($proposal->laporanMagang())
+                    <button class="btn btn-primary" onclick="event.preventDefault();document.getElementById('unduh-laporan-magang').submit();">Magang</button>
+                    @endif
+                    @if($proposal->laporanKeuangan())
+                    <button class="btn btn-primary" onclick="event.preventDefault();document.getElementById('unduh-laporan-keuangan').submit();">Keuangan</button>
+                    @endif
+                </div>
+                
+                @if($proposal->laporanKemajuan())
+                <form id="unduh-laporan-kemajuan" action="{{ route('unduh.laporan.kemajuan') }}" method="post"
+                          style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="hidden" value="{{ $proposal->id }}" name="id_proposal">                    
+                </form>
+                @endif
+                @if($proposal->laporanAkhir())
+                <form id="unduh-laporan-akhir" action="{{ route('unduh.laporan.akhir') }}" method="post"
+                          style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="hidden" value="{{ $proposal->id }}" name="id_proposal">                    
+                </form>
+                @endif
+                @if($proposal->laporanMagang())
+                <form id="unduh-laporan-magang" action="{{ route('unduh.laporan.magang') }}" method="post"
+                          style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="hidden" value="{{ $proposal->id }}" name="id_proposal">                    
+                </form>
+                @endif
+                @if($proposal->laporanKeuangan())                
+                <form id="unduh-laporan-keuangan" action="{{ route('unduh.laporan.keuangan') }}" method="post"
+                          style="display: none;">
+                    {{ csrf_field() }}
+                    <input type="hidden" value="{{ $proposal->id }}" name="id_proposal">                    
+                </form>
+                @endif
+            </div>
+            <div class="col-lg-6">
+                <label>Aksi Lainnya</label>
+                <br/>
+                <div class="btn-group btn-group-sm">
+                    <a href="{{ Auth::user()->isMahasiswa() ? route('logbook') : route('lihat.logbook', ['proposal' => $proposal->id]) }}" class="btn btn-primary">Lihat Catatan Harian</a>
+                </div>
+            </div>
+        </div>
+        @endif
         
+        
+        <br/>
         <label>Abstrak</label>
         <p>{!! $proposal->abstrak !!}</p>
         <p><i>keyword : </i>{{ $proposal->keyword() }}</p>

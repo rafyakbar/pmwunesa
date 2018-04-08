@@ -18,8 +18,3 @@ Route::get('bimbingan',[
     'uses' => 'Page\DosenController@bimbingan',
     'as' => 'bimbingan'
 ]);
-
-Route::get('logbook/{proposal}', [
-    'uses' => 'Page\DosenController@logbook',
-    'as' => 'logbook.bimbingan'
-]);

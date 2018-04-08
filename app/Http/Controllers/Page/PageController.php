@@ -119,4 +119,26 @@ class PageController extends Controller
         ]);
     }
 
+    /**
+     * Menampilkan halaman logbook
+     *
+     * @return \Illuminate\View\View
+     */
+    public function lihatLogbook($proposal)
+    {
+        if(is_null(Proposal::find($proposal)))
+            return abort(404);
+            
+        if(Auth::user()->isDosenPembimbing() && !Auth::user()->isSuperAdmin())
+            if(Proposal::find($proposal)->pembimbing()->id != Auth::user()->id)
+                return abort(404);
+
+        $logbook = Proposal::find($proposal)->logbook()->paginate(3);
+
+        return view('logbook', [
+            'proposal' => Proposal::find($proposal),
+            'daftarlogbook' => $logbook
+        ]);
+    }
+
 }

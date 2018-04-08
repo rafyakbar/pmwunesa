@@ -39,6 +39,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
+        Route::get('logbook/{proposal}', [
+            'uses' => 'Page\PageController@lihatLogbook',
+            'as' => 'lihat.logbook'
+        ]);
+
         Route::group(['prefix' => 'unduh'], function () {
 
             Route::post('proposal', [
