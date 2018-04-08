@@ -176,7 +176,8 @@ class SuperAdminController extends Controller
         $nama_fakultas = ucwords(str_replace('_', ' ', $request->fakultas));
         $fakultas = Fakultas::where('nama', $nama_fakultas)->first();
         $request->lolos = ($request->lolos == 'semua_proposal') ? 'semua' : $request->lolos;
-        return ExcelExport::unduhProposal((is_null($fakultas)) ? $fakultas : $fakultas->id, $request->lolos);
+        $request->period = ($request->period == 'semua_periode') ? 'semua' : $request->period;
+        return ExcelExport::unduhProposal((is_null($fakultas)) ? $fakultas : $fakultas->id, $request->lolos, $request->period);
     }
 
     public function unduhPengguna(Request $request)

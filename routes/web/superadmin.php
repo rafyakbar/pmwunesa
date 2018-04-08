@@ -177,7 +177,7 @@ Route::group(['prefix' => 'edit'], function () {
 
 Route::group(['prefix' => 'unduh'], function () {
 
-    Route::get('proposal/{fakultas}/{lolos}', [
+    Route::get('proposal/{fakultas}/{lolos}/{period}', [
         'uses' => 'Page\SuperAdminController@unduhProposal',
         'as' => 'unduh.filter.proposal'
     ]);

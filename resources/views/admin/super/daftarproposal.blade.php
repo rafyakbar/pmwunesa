@@ -45,7 +45,7 @@
             </ul>
         </div>
         @if($proposal->total() > 0)
-            <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos ]) }}"
+            <a href="{{ route('unduh.filter.proposal', [ 'fakultas' => $fakultas, 'lolos' => $lolos, 'period' => $period]) }}"
                class="btn btn-info">Unduh</a>
         @endif
     </div>
@@ -97,7 +97,7 @@
                                 {{ $item->judul }}
                             </td>
                             <td>
-                                {{ $item->jenis()->nama }}
+                                {{ \PMW\Models\Jenis::find($item->jenis_id)->nama }}
                             </td>
                             <td>
                                 <div class="btn-group">

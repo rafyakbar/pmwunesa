@@ -4,6 +4,7 @@ namespace PMW\Support;
 
 use Maatwebsite\Excel\Facades\Excel;
 use PMW\Models\Fakultas;
+use PMW\Models\Jenis;
 use PMW\Models\Jurusan;
 use PMW\Models\Prodi;
 use PMW\User;
@@ -91,14 +92,19 @@ class ExcelExport
         })->export('xls');
     }
 
-    public function unduhProposal($fakultas = null, $tahap = 'semua')
+    public function unduhProposal($fakultas = null, $tahap = 'semua', $period = 'semua')
     {
         $GLOBALS['tahap'] = $tahap;
         $GLOBALS['fakultas'] = $fakultas;
         $nama_file = (is_null($fakultas)) ? 'Proposal Semua Fakultas' : 'Proposal Fakultas ' . Fakultas::find($fakultas)->nama;
-        return Excel::create($nama_file, function ($excel) {
-            $excel->sheet('Sheet', function ($sheet) {
+        return Excel::create($nama_file, function ($excel) use ($period) {
+            $excel->sheet('Sheet', function ($sheet) use ($period) {
                 $proposal = (is_null($GLOBALS['fakultas'])) ? Proposal::all() : Proposal::proposalPerFakultas($GLOBALS['fakultas']);
+                if ($period != 'semua'){
+                    $proposal = $proposal->filter(function ($value, $key) use ($period){
+                        return $value->created_at->year == $period;
+                    });
+                }
                 $sheet->setOrientation('landscape');
                 $sheet->setAutoSize(true);
                 $sheet->mergeCells('A1:B1');
@@ -107,47 +113,107 @@ class ExcelExport
                 ]);
                 $sheet->appendRow(['']);
                 $sheet->appendRow([
-                    'No', 'Ketua Tim', 'Judul', 'Jenis Usaha', 'Usulan Dana', 'Reviewer Tahap 1', 'Reviewer Tahap 2'
+                    'No',
+                    'NIM Ketua',
+                    'Nama Ketua',
+                    'Fakultas',
+                    'Jurusan',
+                    'Prodi',
+                    'No Telepon',
+                    'Alamat Asal',
+                    'Alamat Tinggal',
+                    'NIM Anggota 1',
+                    'Nama Anggota 1',
+                    'NIM Anggota 2',
+                    'Nama Anggota 2',
+                    'NIM Anggota 3',
+                    'Nama Anggota 3',
+                    'Judul',
+                    'Jenis Usaha',
+                    'Usulan Dana',
+                    'NIP Dosen Pembimbing',
+                    'Nama Dosen Pembimbing',
+                    'Reviewer Tahap 1',
+                    'Nilai Tahap 1',
+                    'Reviewer Tahap 2',
+                    'Nilai Tahap 2'
                 ]);
                 $counter = 0;
                 foreach ($proposal as $item) {
+                    $prp = Proposal::find($item->id);
                     $reviewerTahap1 = '';
                     $reviewerTahap2 = '';
                     if ($GLOBALS['tahap'] != 'semua') {
-                        if (Proposal::find($item->id)->lolos(explode('_', $GLOBALS['tahap'])[1])) {
-                            $ketua = Proposal::find($item->id)->ketua();
-                            foreach (Proposal::find($item->id)->reviewer()->wherePivot('tahap', 1)->get() as $value) {
+                        if ($prp->lolos(explode('_', $GLOBALS['tahap'])[1])) {
+                            $ketua = $prp->ketua();
+                            foreach ($prp->reviewer()->wherePivot('tahap', 1)->get() as $value) {
                                 $reviewerTahap1 = $reviewerTahap1 . $value->nama . ', ';
                             }
-                            foreach (Proposal::find($item->id)->reviewer()->wherePivot('tahap', 2)->get() as $value) {
+                            foreach ($prp->reviewer()->wherePivot('tahap', 2)->get() as $value) {
                                 $reviewerTahap2 = $reviewerTahap2 . $value->nama . ', ';
                             }
+                            $anggota = $prp->mahasiswa()->whereNotIn('id_pengguna', [$prp->ketua()->id])->get();
                             $sheet->appendRow([
                                 ++$counter,
-                                $ketua->id . ' ' . $ketua->nama,
+                                $ketua->id,
+                                $ketua->nama,
+                                $ketua->prodi()->jurusan()->fakultas()->nama,
+                                $ketua->prodi()->jurusan()->nama,
+                                $ketua->prodi()->nama,
+                                $ketua->no_telepon,
+                                $ketua->alamat_asal,
+                                $ketua->alamat_tinggal,
+                                (isset($anggota[0])) ? $anggota[0]->pengguna()->id : '-',
+                                (isset($anggota[0])) ? $anggota[0]->pengguna()->nama : '-',
+                                (isset($anggota[1])) ? $anggota[1]->pengguna()->id : '-',
+                                (isset($anggota[1])) ? $anggota[1]->pengguna()->nama : '-',
+                                (isset($anggota[2])) ? $anggota[2]->pengguna()->id : '-',
+                                (isset($anggota[2])) ? $anggota[2]->pengguna()->nama : '-',
                                 $item->judul,
-                                $item->jenis_usaha,
+                                Jenis::find($item->jenis_id)->nama,
                                 Dana::format($item->usulan_dana),
+                                $prp->pembimbing()->id,
+                                $prp->pembimbing()->nama,
                                 rtrim($reviewerTahap1, ','),
-                                rtrim($reviewerTahap2, ',')
+                                $prp->nilaiRataRata(1),
+                                rtrim($reviewerTahap2, ','),
+                                $prp->nilaiRataRata(2)
                             ]);
                         }
                     } else {
-                        foreach (Proposal::find($item->id)->reviewer()->wherePivot('tahap', 1)->get() as $value) {
+                        foreach ($prp->reviewer()->wherePivot('tahap', 1)->get() as $value) {
                             $reviewerTahap1 = $reviewerTahap1 . $value->nama . ', ';
                         }
-                        foreach (Proposal::find($item->id)->reviewer()->wherePivot('tahap', 2)->get() as $value) {
+                        foreach ($prp->reviewer()->wherePivot('tahap', 2)->get() as $value) {
                             $reviewerTahap2 = $reviewerTahap2 . $value->nama . ', ';
                         }
-                        $ketua = Proposal::find($item->id)->ketua();
+                        $ketua = $prp->ketua();
+                        $anggota = $prp->mahasiswa()->whereNotIn('id_pengguna', [$prp->ketua()->id])->get();
                         $sheet->appendRow([
                             ++$counter,
-                            $ketua->id . ' ' . $ketua->nama,
+                            $ketua->id,
+                            $ketua->nama,
+                            $ketua->prodi()->jurusan()->fakultas()->nama,
+                            $ketua->prodi()->jurusan()->nama,
+                            $ketua->prodi()->nama,
+                            $ketua->no_telepon,
+                            $ketua->alamat_asal,
+                            $ketua->alamat_tinggal,
+                            (isset($anggota[0])) ? $anggota[0]->pengguna()->id : '-',
+                            (isset($anggota[0])) ? $anggota[0]->pengguna()->nama : '-',
+                            (isset($anggota[1])) ? $anggota[1]->pengguna()->id : '-',
+                            (isset($anggota[1])) ? $anggota[1]->pengguna()->nama : '-',
+                            (isset($anggota[2])) ? $anggota[2]->pengguna()->id : '-',
+                            (isset($anggota[2])) ? $anggota[2]->pengguna()->nama : '-',
                             $item->judul,
-                            $item->jenis_usaha,
+                            Jenis::find($item->jenis_id)->nama,
                             Dana::format($item->usulan_dana),
-                            rtrim($reviewerTahap1, ', '),
-                            rtrim($reviewerTahap2, ', ')
+                            $prp->pembimbing()->id,
+                            $prp->pembimbing()->nama,
+                            rtrim($reviewerTahap1, ','),
+                            $prp->nilaiRataRata(1),
+                            rtrim($reviewerTahap2, ','),
+                            $prp->nilaiRataRata(2)
                         ]);
                     }
                 }
