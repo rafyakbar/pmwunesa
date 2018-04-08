@@ -95,16 +95,33 @@ class Mahasiswa extends Model
         return false;
     }
 
+    /**
+     * Mengecek apakah mahasiswa terakit memiliki proposal final/akhir, hal ini
+     * ditandai dengan kosong atau tidaknya direktori_final pada tabel proposal
+     *
+     * @return bool
+     */
     public function punyaProposalFinal()
     {
-        return ($this->punyaProposal() && $this->proposal()->direktori_final);
+        return ($this->punyaProposal() && !is_null($this->proposal()->direktori_final));
     }
 
+    /**
+     * Mengecek apakah mahasiswa tertentu memiliki tim, hal ini
+     * ditandai dengan field id_proposal pada tabel mahasiswa terkait tidak null
+     *
+     * @return bool
+     */
     public function punyaTim()
     {
         return !is_null($this->id_proposal);
     }
 
+    /**
+     * Mendapatkan ketua dari mahasiswa terkait
+     * 
+     * @return User
+     */
     public function ketua()
     {
         $proposal = $this->mahasiswa()->id_proposal;
@@ -128,14 +145,16 @@ class Mahasiswa extends Model
         return static::where('id_proposal', $proposal->id)->count();
     }
 
+    /**
+     * Memastikan apakah mahasiswa tertentu bisa mengirim undangan tim kepada
+     * mahasiswa lain
+     *
+     * @param [type] $penerima
+     * @return bool
+     */
     public function bisaKirimUndanganTim($penerima = null)
     {
-        return (($this->pengguna()->isAnggota() && !$this->punyaTim()) || ($this->pengguna()->isKetua() && $this->jumlahAnggotaTim() < 3));
-    }
-
-    public function bisaTerimaUndanganTim($pengirim = null)
-    {
-
+        return (($this->pengguna()->isAnggota() && !$this->punyaTim()) || ($this->pengguna()->isKetua() && !$this->timLengkap()));
     }
 
     /**
@@ -161,6 +180,12 @@ class Mahasiswa extends Model
         ]);
     }
 
+    /**
+     * Mengecek apakah tim dari mahasiswa tertentu telah lengkap, yaitu
+     * berjumlah 3 atau field konfirmasi_tim pada tabel proposal bernilai true
+     *
+     * @return bool
+     */
     public function timLengkap()
     {
         if(!$this->punyaProposalKosong())
