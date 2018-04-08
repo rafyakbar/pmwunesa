@@ -11,11 +11,11 @@
                 {{ ucwords(str_replace('_', ' ', $fakultas)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ route('daftar.proposal',['fakultas' => 'semua_fakultas', 'lolos' => $lolos, 'perHalaman' => $perHalaman]) }}">Semua
+                <li><a href="{{ route('daftar.proposal',['fakultas' => 'semua_fakultas', 'lolos' => $lolos, 'perHalaman' => $perHalaman, 'period' => $period]) }}">Semua
                         Fakultas</a></li>
                 @foreach($daftar_fakultas as $item)
                     <li>
-                        <a href="{{ route('daftar.proposal',['fakultas' => str_replace(' ','_',strtolower($item->nama)), 'lolos' => $lolos, 'perHalaman' => $perHalaman]) }}">Fakultas {{ $item->nama }}</a>
+                        <a href="{{ route('daftar.proposal',['fakultas' => str_replace(' ','_',strtolower($item->nama)), 'lolos' => $lolos, 'perHalaman' => $perHalaman, 'period' => $period]) }}">Fakultas {{ $item->nama }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -25,12 +25,23 @@
                 {{ ucwords(str_replace('_', ' ', $lolos)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'semua_proposal', 'perHalaman' => $perHalaman]) }}">Semua
+                <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'semua_proposal', 'perHalaman' => $perHalaman, 'period' => $period]) }}">Semua
                         Proposal</a></li>
-                <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'tahap_1', 'perHalaman' => $perHalaman]) }}">Lolos
+                <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'tahap_1', 'perHalaman' => $perHalaman, 'period' => $period]) }}">Lolos
                         Tahap 1</a></li>
-                <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'tahap_2', 'perHalaman' => $perHalaman]) }}">Lolos
+                <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => 'tahap_2', 'perHalaman' => $perHalaman, 'period' => $period]) }}">Lolos
                         Tahap 2</a></li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                {{ ucwords(str_replace('_', ' ', $period)) }}&nbsp;&nbsp;<span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @for($th = 2016; $th <= \Illuminate\Support\Carbon::now()->year; $th++)
+                    <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $perHalaman, 'period' => $th]) }}">Periode {{ $th }}</a></li>
+                @endfor
+                    <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $perHalaman, 'period' => 'semua_periode']) }}">Semua Periode</a></li>
             </ul>
         </div>
         @if($proposal->total() > 0)
@@ -46,12 +57,12 @@
             <ul class="dropdown-menu">
                 @for($per = 5; $per <= $proposal->total(); $per += 5)
                     <li>
-                        <a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $per]) }}">{{ $per }} data per halaman</a>
+                        <a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $per, 'period' => $period]) }}">{{ $per }} data per halaman</a>
                     </li>
                 @endfor
                 <li>
                     <li>
-                        <a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $proposal->total()]) }}">Semua data</a>
+                        <a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $proposal->total(), 'period' => $period]) }}">Semua data</a>
                     </li>
                 </li>
             </ul>
@@ -86,7 +97,7 @@
                                 {{ $item->judul }}
                             </td>
                             <td>
-                                {{ $item->jenis_usaha }}
+                                {{ $item->jenis()->nama }}
                             </td>
                             <td>
                                 <div class="btn-group">

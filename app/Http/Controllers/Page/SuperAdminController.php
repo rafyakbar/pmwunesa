@@ -2,6 +2,7 @@
 
 namespace PMW\Http\Controllers\Page;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PMW\Http\Controllers\Controller;
 use PMW\Models\Aspek;
@@ -125,14 +126,20 @@ class SuperAdminController extends Controller
             }
         }
         $proposal = collect($proposal);
-
+        if ($request->period != 'semua_periode'){
+            $proposal = $proposal->filter(function ($value, $key) use ($request){
+                return $value->created_at->year == $request->period;
+            });
+        }
+//        dd($proposal);
         return view('admin.super.daftarproposal', [
             'proposal' => $proposal->paginate($request->perHalaman),
             'daftar_fakultas' => Fakultas::all(),
             'fakultas' => $nama_fakultas,
             'lolos' => $request->lolos,
             'c' => 0,
-            'perHalaman' => $request->perHalaman
+            'perHalaman' => $request->perHalaman,
+            'period' => $request->period
         ]);
     }
 
