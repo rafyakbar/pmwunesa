@@ -24,7 +24,7 @@ Route::group(['prefix' => 'daftar'], function () {
         'as' => 'daftar.prodi'
     ]);
 
-    Route::get('proposal/{fakultas}/{lolos}/{perHalaman}', [
+    Route::get('proposal/{fakultas}/{lolos}/{period}/{perHalaman}', [
         'uses' => 'Page\SuperAdminController@tampilDataProposal',
         'as' => 'daftar.proposal'
     ]);
