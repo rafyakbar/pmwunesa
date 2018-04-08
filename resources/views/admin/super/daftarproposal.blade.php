@@ -38,7 +38,7 @@
                 {{ ucwords(str_replace('_', ' ', $period)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                @for($th = 2016; $th <= \Illuminate\Support\Carbon::now()->year; $th++)
+                @for($th = 2016; $th <= \Carbon\Carbon::now()->year; $th++)
                     <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $perHalaman, 'period' => $th]) }}">Periode {{ $th }}</a></li>
                 @endfor
                     <li><a href="{{ route('daftar.proposal',['fakultas' => $fakultas, 'lolos' => $lolos, 'perHalaman' => $perHalaman, 'period' => 'semua_periode']) }}">Semua Periode</a></li>
