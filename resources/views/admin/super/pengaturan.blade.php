@@ -173,6 +173,9 @@
                         {{ method_field('put') }}
                         <textarea name="nama" class="form-control"
                                   placeholder="Pisahkan dengan enter untuk menambahkan banyak aspek"></textarea>
+                        <label>Tahap</label><br/>
+                        <input type="radio" value="1" name="tahap" checked/> Tahap 1 <br/>
+                        <input type="radio" value="2" name="tahap"/> Tahap 2<br/>
                         <input type="submit" name="submit" value="tambah" class="btn btn-success">
                     </form>
                 </div>
