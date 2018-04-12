@@ -14,50 +14,64 @@ class AspekSeeder extends Seeder
     {
         //aspek pemasaran
         Aspek::create([
-            'nama' => 'Perencanaan produk'
+            'nama' => 'Perencanaan produk',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'Penetapan harga'
+            'nama' => 'Penetapan harga',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'System distribusi'
+            'nama' => 'System distribusi',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'Kegiatan promosi'
+            'nama' => 'Kegiatan promosi',
+            'tahap' => 2
         ]);
         Aspek::create([
-            'nama' => 'Pasar'
+            'nama' => 'Pasar',
+            'tahap' => 2
         ]);
         Aspek::create([
-            'nama' => 'Persaingan'
+            'nama' => 'Persaingan',
+            'tahap' => 2
         ]);
         Aspek::create([
-            'nama' => 'Relasi jaringan'
+            'nama' => 'Relasi jaringan',
+            'tahap' => 2
         ]);
 
         //aspek manajemen dan organisasi
         Aspek::create([
-            'nama' => 'Merekap pengeluaran dan pemasukan usaha'
+            'nama' => 'Merekap pengeluaran dan pemasukan usaha',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'Memonitor mobilitas produksi'
+            'nama' => 'Memonitor mobilitas produksi',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'Pelaporan'
+            'nama' => 'Pelaporan',
+            'tahap' => 2
         ]);
 
         //aspek produksi
         Aspek::create([
-            'nama' => 'Proses produksi dan jasa'
+            'nama' => 'Proses produksi dan jasa',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'Mesin dan peralatan yang dibutuhkan'
+            'nama' => 'Mesin dan peralatan yang dibutuhkan',
+            'tahap' => 1
         ]);
         Aspek::create([
-            'nama' => 'Bahan baku dan bahan embantu yang dibutuhkan'
+            'nama' => 'Bahan baku dan bahan embantu yang dibutuhkan',
+            'tahap' => 2
         ]);
         Aspek::create([
-            'nama' => 'Tenaga produksi'
+            'nama' => 'Tenaga produksi',
+            'tahap' => 2
         ]);
     }
 }

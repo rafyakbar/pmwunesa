@@ -13,7 +13,8 @@ class Aspek extends Model
 
     protected $fillable = [
         'id',
-        'nama'
+        'nama',
+        'tahap'
     ];
 
     /**

@@ -169,6 +169,7 @@ class TabelPMWUNESA extends Migration
         Schema::create('aspek', function (Blueprint $table){
             $table->increments('id');
             $table->text('nama');
+            $table->smallInteger('tahap');
         });
 
         Schema::create('penilaian', function (Blueprint $table){
