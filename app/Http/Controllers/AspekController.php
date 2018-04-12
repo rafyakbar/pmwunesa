@@ -11,7 +11,8 @@ class AspekController extends Controller
     {
         foreach (explode(PHP_EOL, $request->nama) as $item) {
             Aspek::create([
-                'nama' => $item
+                'nama' => $item,
+                'tahap' => $request->tahap
             ]);
         }
 
