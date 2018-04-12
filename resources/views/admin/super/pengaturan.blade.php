@@ -171,11 +171,14 @@
                     <form action="{{ route('tambah.aspek') }}" method="post">
                         {{ csrf_field() }}
                         {{ method_field('put') }}
-                        <textarea name="nama" class="form-control"
-                                  placeholder="Pisahkan dengan enter untuk menambahkan banyak aspek"></textarea>
-                        <label>Tahap</label><br/>
-                        <input type="radio" value="1" name="tahap" checked/> Tahap 1 <br/>
-                        <input type="radio" value="2" name="tahap"/> Tahap 2<br/>
+                        <textarea name="nama" class="form-control" placeholder="Pisahkan dengan enter untuk menambahkan banyak aspek"></textarea>
+                        <div class="input-group">
+                            <p>Tahap</p>
+                            <select class="form-control" name="tahap">
+                                <option value="1">Tahap 1</option>
+                                <option value="2">Tahap 2</option>
+                            </select>
+                        </div>
                         <input type="submit" name="submit" value="tambah" class="btn btn-success">
                     </form>
                 </div>
@@ -192,7 +195,8 @@
                         <thead>
                         <tr>
                             <td width="10%">No.</td>
-                            <td width="55%">Nama Aspek</td>
+                            <td width="50%">Nama Aspek</td>
+                            <td width="5%">Tahap</td>
                             <td width="35%">Aksi</td>
                         </tr>
                         </thead>
@@ -210,6 +214,7 @@
                                         <input type="text" name="nama" class="form-control" value="{{ $item->nama }}" style="width: 280px">
                                     </form>
                                 </td>
+                                <td>{{ $item->tahap }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <form action="{{ route('hapus.aspek') }}" method="post" id="hapus-{{ $item->id }}" style="display: none">
@@ -241,7 +246,7 @@
             $('#aspek').DataTable({
                 responsive: true,
                 "info": false,
-                "sort": false,
+                columnDefs: [{orderable: false, targets: [0, 1, 3]}],
                 "searching": false,
                 "lengthMenu": [[5, 10, 20, 40, 80, 100, -1], [5, 10, 20, 40, 80, 100, "Semua data"]],
             });
