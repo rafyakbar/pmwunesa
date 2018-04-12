@@ -126,7 +126,7 @@ class UserController extends Controller
             'id' => $request->id,
             'email' => $request->email,
             'password' => bcrypt($password),
-            'id_prodi' => (in_array('Admin Fakultas',$request->hakakses))?Prodi::where('id_jurusan','=',Jurusan::where('id_fakultas','=',$request->idfakultas)->first()->id)->first()->id:'',
+            'id_prodi' => (in_array('Admin Fakultas',$request->hakakses))?Prodi::where('id_jurusan','=',Jurusan::where('id_fakultas','=',$request->idfakultas)->first()->id)->first()->id:null,
             'request' => true
         ]);
 
@@ -152,6 +152,11 @@ class UserController extends Controller
         }
 
         foreach ($request->hakakses as $value) {
+            // menghapus seluruh hak akses dari seorang pengguna
+            foreach ($user->hakAksesPengguna()->get() as $ha){
+                $user->hakAksesPengguna()->detach($ha);
+            }
+
             if (!User::find($request->id)->hasRole($value)) {
                 if ($value == 'Anggota' || $value == 'Ketua Tim') {
                     Mahasiswa::create([
