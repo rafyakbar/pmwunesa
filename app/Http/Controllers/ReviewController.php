@@ -33,7 +33,7 @@ class ReviewController extends Controller
     {
         $review = Review::find($idreview);
 
-        $daftarAspek = Aspek::all();
+        $daftarAspek = Aspek::where('tahap', $review->tahap)->get();
 
         // mencocokkan jumlah nilai aspek yang dikirim dengan jumlah aspek yang ada
         if (count($daftarAspek) === count($request->input('nilai.*'))) {

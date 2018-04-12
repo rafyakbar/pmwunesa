@@ -117,9 +117,11 @@ class ReviewerController extends Controller
         if (is_null($proposal))
             return abort(404);
 
+        $tahap = $proposal->pivot->tahap;
+
         return view('dosen.reviewer.kelolareview', [
             'proposal' => $proposal,
-            'daftaraspek' => Aspek::all(),
+            'daftaraspek' => Aspek::where('tahap', $tahap)->get(),
             'type' => 'tambah'
         ]);
     }
@@ -133,9 +135,11 @@ class ReviewerController extends Controller
 
         $penilaian = $proposal->penilaian($id);
 
+        $tahap = $proposal->pivot->tahap;        
+
         return view('dosen.reviewer.kelolareview', [
             'penilaian' => $penilaian,
-            'daftaraspek' => Aspek::all(),
+            'daftaraspek' => Aspek::where('tahap', $tahap)->get(),
             'proposal' => $proposal,
             'type' => 'edit'
         ]);
