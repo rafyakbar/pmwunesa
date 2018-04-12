@@ -34,4 +34,5 @@ class AspekController extends Controller
 
         return back()->with('message','Berhasil merubah aspek!');
     }
+    
 }
