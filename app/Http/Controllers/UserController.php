@@ -252,4 +252,14 @@ class UserController extends Controller
         return back();
     }
 
+    public function editPassword(Request $request)
+    {
+        $user = User::find($request->id);
+        $user->update([
+            'password' => bcrypt($request->password)
+        ]);
+
+        return back()->with('message', 'Berhasil mengubah password '.$user->nama.' menjadi '.$request->password);
+    }
+
 }

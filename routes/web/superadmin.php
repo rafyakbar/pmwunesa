@@ -4,7 +4,7 @@ Route::get('pengaturan/sistem', 'Page\SuperAdminController@pengaturan')->name('p
 
 Route::group(['prefix' => 'daftar'], function () {
 
-    Route::get('pengguna/{fakultas}/{role}/{perHalaman}', [
+    Route::get('pengguna/{fakultas}/{role}/{perHalaman}/{q}', [
         'uses' => 'Page\SuperAdminController@tampilDataPengguna',
         'as' => 'daftar.pengguna'
     ]);
@@ -171,6 +171,11 @@ Route::group(['prefix' => 'edit'], function () {
     Route::post('jenis', [
         'uses' => 'JenisController@edit',
         'as' => 'edit.jenis'
+    ]);
+
+    Route::post('pengguna/password', [
+        'uses' => 'UserController@editPassword',
+        'as' => 'edit.pengguna.password'
     ]);
 
 });

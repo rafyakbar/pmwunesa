@@ -25,11 +25,11 @@
                 {{ ucwords(str_replace('_',' ',$fakultas)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ route('daftar.pengguna',['fakultas' => 'semua_fakultas', 'role' => $role, 'perHalaman' => $perHalaman]) }}">Semua
+                <li><a href="{{ route('daftar.pengguna',['fakultas' => 'semua_fakultas', 'role' => $role, 'perHalaman' => $perHalaman, 'q' => $q]) }}">Semua
                         Fakultas</a></li>
                 @foreach($daftar_fakultas as $item)
                     <li>
-                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => str_replace(' ','_',strtolower($item->nama)), 'role' => $role, 'perHalaman' => $perHalaman]) }}">Fakultas {{ $item->nama }}</a>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => str_replace(' ','_',strtolower($item->nama)), 'role' => $role, 'perHalaman' => $perHalaman, 'q' => $q]) }}">Fakultas {{ $item->nama }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -39,18 +39,18 @@
                 {{ ucwords(str_replace('_',' ',$role)) }}&nbsp;&nbsp;<span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="{{ route('daftar.pengguna',['fakultas' => $fakultas, 'role' => 'semua_hak_akses', 'perHalaman' => $perHalaman]) }}">Semua
+                <li><a href="{{ route('daftar.pengguna',['fakultas' => $fakultas, 'role' => 'semua_hak_akses', 'perHalaman' => $perHalaman, 'q' => $q]) }}">Semua
                         Hak Akses</a>
                 </li>
                 @foreach($hak_akses as $item)
                     <li>
-                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => str_replace(' ','_',strtolower($item->nama)), 'perHalaman' => $perHalaman]) }}">{{ $item->nama }}</a>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => str_replace(' ','_',strtolower($item->nama)), 'perHalaman' => $perHalaman, 'q' => $q]) }}">{{ $item->nama }}</a>
                     </li>
                 @endforeach
             </ul>
         </div>
         @if($user->total() > 0)
-            <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role]) }}"
+            <a href="{{ route('unduh.filter.pengguna', ['fakultas' => $fakultas, 'role' => $role, 'q' => $q]) }}"
                class="btn btn-info">Unduh</a>
         @endif
         <div class="btn-group">
@@ -60,11 +60,11 @@
             <ul class="dropdown-menu">
                 @for($per = 5; $per <= $user->total(); $per += 5)
                     <li>
-                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $per]) }}">{{ $per }} data per halaman</a>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $per, 'q' => $q]) }}">{{ $per }} data per halaman</a>
                     </li>
                 @endfor
                     <li>
-                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $user->total()]) }}"> Semua data</a>
+                        <a href="{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $user->total(), 'q' => $q]) }}"> Semua data</a>
                     </li>
             </ul>
         </div>
@@ -124,6 +124,20 @@
             <p class="category">Jumlah pengguna sesuai filter adalah {{ $user->total() }}</p>
         </div>
         <div class="card-content">
+            <script>
+                function cari(q) {
+                    q = q == '' ? '[]' : q
+                    window.location = "{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $perHalaman, 'q' => '']) }}/" + encodeURIComponent(q)
+                }
+                $('#cari').keypress(function(e){
+                    if(e.keyCode==13)
+                        $('#buttonsearch').click();
+                })
+            </script>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Cari berdasarkan NIP/NIM/Nama . . ." value="{{ $q == '[]' ? '' : $q }}" id="cari">
+                <button class="btn btn-primary" id="buttonsearch" onclick="cari($('#cari').val())">Golek</button>
+            </div>
             @if(count($user) == 0)
                 <div class="alert alert-info">
                     <h4>Maaf, masih belum ada data sesuai filter!</h4>
@@ -133,6 +147,7 @@
                     <thead>
                     <tr>
                         <th>No.</th>
+                        <th>NIM/NIP</th>
                         <th>Nama</th>
                         <th>Prodi</th>
                         <th>Aksi</th>
@@ -144,6 +159,7 @@
                             <td>
                                 {{ ($user->currentpage() * $user->perpage()) + (++$c) - $user->perpage()  }}
                             </td>
+                            <td>{{ $item->id }}</td>
                             @if(is_null($item->nama))
                                 <td>
                                     "Pengguna ini belum mengatur nama"
@@ -198,6 +214,13 @@
                                                 pada {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->created_at))->diffForHumans() }}
                                                 dan telah memperbarui
                                                 profil {{ Carbon\Carbon::createFromTimeStamp(strtotime($item->updated_at))->diffForHumans() }}</p>
+                                            <label>Reset password</label>
+                                            <form action="{{ route('edit.pengguna.password') }}" method="post">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="id" value="{{ $item->id }}">
+                                                <input type="password" name="password" class="form-control">
+                                                <input type="submit" value="Reset" class="btn btn-warning btn-sm">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
