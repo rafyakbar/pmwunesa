@@ -43,6 +43,10 @@ class SuperAdminController extends Controller
             }
         }
         $pengguna = collect($pengguna);
+        if ($request->q != '[]')
+            $pengguna = $pengguna->filter(function ($value, $key) use ($request){
+                return str_contains($value->id, $request->q) || str_contains(strtolower($value->nama), strtolower($request->q));
+            });
         return view('admin.super.daftarpengguna', [
             'user'              => $pengguna->paginate($request->perHalaman),
             'hak_akses'         => HakAkses::orderBy('id')->get(),
@@ -50,7 +54,8 @@ class SuperAdminController extends Controller
             'fakultas'          => $request->fakultas,
             'role'              => $request->role,
             'c'                 => 0,
-            'perHalaman'        => $request->perHalaman
+            'perHalaman'        => $request->perHalaman,
+            'q'                 => $request->q
         ]);
     }
 
