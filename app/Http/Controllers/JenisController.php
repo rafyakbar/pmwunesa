@@ -26,4 +26,11 @@ class JenisController extends Controller
 
         return back()->with('message','Berhasil menambahkan jenis!');
     }
+
+    public function hapus(Request $request)
+    {
+        Jenis::find($request->id)->delete();
+
+        return back()->with('message', 'Berhasil menghapus jenis.');
+    }
 }
