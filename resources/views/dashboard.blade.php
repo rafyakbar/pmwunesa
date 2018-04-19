@@ -24,14 +24,14 @@
                 <p class="alert alert-info">Anda sedang menunggu persetujuan untuk menjadi dosen pembimbing</p>
             @endif
 
-            @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::REVIEWER))
+            {{-- @if(Auth::user()->bisaRequestHakAkses(\PMW\Models\HakAkses::REVIEWER))
                 <form action="{{ route('request.reviewer') }}" method="post">
                     {{ csrf_field() }}
                     <input type="submit" value="Request menjadi reviewer" class="btn btn-primary"/>
                 </form>
             @elseif(Auth::user()->requestingHakAkses(\PMW\Models\HakAkses::REVIEWER))
                 <p class="alert alert-info">Anda sedang menunggu persetujuan untuk menjadi reviewer</p>
-            @endif
+            @endif --}}
 
             <div class="alert alert-warning">
                 Anda perlu menunggu sampai admin menerima <i>request</i> anda
