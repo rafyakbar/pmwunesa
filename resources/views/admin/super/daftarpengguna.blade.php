@@ -110,7 +110,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="btn-group">
-                        <a class="btn btn-success btn-round btn-sm" onclick="event.preventDefault(); document.getElementById('tambah-form')">Tambah</a>
+                        <a class="btn btn-success btn-round btn-sm" onclick="event.preventDefault(); document.getElementById('tambah-form').submit()">Tambah</a>
                         <button class="btn btn-danger btn-round btn-sm" data-dismiss="modal">Tutup</button>
                     </div>
                 </div>
