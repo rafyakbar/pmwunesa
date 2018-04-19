@@ -4,6 +4,10 @@
     Pengguna
 @endsection
 
+@push('css')
+<link href="{{ asset('css/form.css') }}" rel="stylesheet"/>
+@endpush
+
 @section('content')
     <style>
         table tr:nth-child(even) {
@@ -118,26 +122,22 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-6">
+            <form action="#" class="card cari">
+                <input type="text" placeholder="Cari berdasarkan NIP/NIM/Nama . . ." value="{{ $q == '[]' ? '' : $q }}" id="cari">
+                <button type="button" id="buttonsearch"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+    
+
     <div class="card">
         <div class="card-header" data-background-color="orange">
             <h4>Daftar pengguna PMW UNESA</h4>
             <p class="category">Jumlah pengguna sesuai filter adalah {{ $user->total() }}</p>
         </div>
         <div class="card-content">
-            <script>
-                function cari(q) {
-                    q = q == '' ? '[]' : q
-                    window.location = "{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $perHalaman, 'q' => '']) }}/" + encodeURIComponent(q)
-                }
-                $('#cari').keypress(function(e){
-                    if(e.keyCode==13)
-                        $('#buttonsearch').click();
-                })
-            </script>
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Cari berdasarkan NIP/NIM/Nama . . ." value="{{ $q == '[]' ? '' : $q }}" id="cari">
-                <button class="btn btn-primary" id="buttonsearch" onclick="cari($('#cari').val())">Golek</button>
-            </div>
             @if(count($user) == 0)
                 <div class="alert alert-info">
                     <h4>Maaf, masih belum ada data sesuai filter!</h4>
@@ -243,3 +243,20 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+    $('#buttonsearch').click(function () {
+        q = $('#cari').val()
+        q = q == '' ? '[]' : q
+        window.location = "{{ route('daftar.pengguna',[ 'fakultas' => $fakultas, 'role' => $role, 'perHalaman' => $perHalaman, 'q' => '']) }}/" + encodeURIComponent(q)
+    })
+    
+    $('#cari').keypress(function(e){
+        if(e.keyCode==13) {
+            e.preventDefault();
+            $('#buttonsearch').click();
+        }
+    })
+</script>
+@endpush
