@@ -1,10 +1,10 @@
 <div id="login"
-     class="{{ (!Session::has('tab') || (Session::has('tab') && Session::get('tab') === 'login')) ? 'active' : '' }} tab-pane fade in">
+     class="{{ (!request()->has('tab') || (request()->has('tab') && request()->get('tab') === 'login')) ? 'active' : '' }} tab-pane fade in">
     <div class="panel-default login-panel panel">
         <div class="panel-body">
-            @if (Session::get('tab') === 'login')
+            @if (request()->get('tab') === 'login')
                 <p class="alert alert-danger">
-                    <strong>{{ Session::get('loginerr') }}</strong>
+                    <strong>{{ request()->get('loginerr') }}</strong>
                 </p>
             @endif
 

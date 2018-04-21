@@ -33,11 +33,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        if(Session::has('tab'))
-            Session::forget('tab');
-
-        Session::forget('loginerr');
-
         return view('auth.login');
     }
 
@@ -48,13 +43,10 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        if(Session::has('tab'))
-            Session::forget('tab');
-
-        Session::put('tab', 'login');
-        Session::put('loginerr', trans('auth.failed'));
-
-        return back();
+        return redirect()->route('login', [
+            'tab' => 'login',
+            'loginerr' => trans('auth.failed')
+        ]);
     }
 
 }

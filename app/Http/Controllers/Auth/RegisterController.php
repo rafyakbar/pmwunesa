@@ -43,15 +43,6 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // mereset tab
-        if(Session::has('tab'))
-            Session::forget('tab');
-        
-        // Memberi tanda bahwa tab yang diklik oleh user adalah tab register
-        // sehingga memberi tahu pada halaman auth bahwa tab yang aktif adalah
-        // tab register
-        Session::flash('tab', 'register'); 
-
         // validasi
         $this->validator($request->all())->validate();
 
@@ -60,11 +51,11 @@ class RegisterController extends Controller
 
         $this->registered($request,$user);
 
-        // memberikan respon bahsa registrasi berhasil
-        Session::flash('message','Berhasil Mendaftar ! Silahkan cek email anda untuk melihat kata sandi');
-
         // kembali halaman auth
-        return back();
+        return redirect()->route('login', [
+            'tab' => 'register',
+            'message' => 'Berhasil Mendaftar ! Silahkan cek email anda untuk melihat kata sandi'
+        ]);
     }
 
     /**

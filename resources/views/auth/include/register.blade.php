@@ -1,8 +1,8 @@
-<div id="daftar" class="{{ Session::has('tab') && Session::get('tab') == 'register' ? 'active' : '' }} tab-pane fade in">
+<div id="daftar" class="{{ request()->has('tab') && request()->get('tab') == 'register' ? 'active' : '' }} tab-pane fade in">
     <div class="panel-default login-panel panel">
-        @if(Session::has('message') && Session::has('tab') && Session::get('tab') === 'register')
+        @if(request()->has('message') && request()->has('tab') && request()->get('tab') === 'register')
             <p class="alert alert-success">
-                {{ Session::get('message') }}
+                {{ request()->get('message') }}
             </p>
         @endif
         <div class="panel-body">

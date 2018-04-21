@@ -1,9 +1,9 @@
-<div id="lupapass" class="{{ Session::has('tab') && Session::get('tab') == 'reset' ? 'active' : '' }} tab-pane fade in">
+<div id="lupapass" class="{{ request()->has('tab') && request()->get('tab') == 'reset' ? 'active' : '' }} tab-pane fade in">
     <div class="panel-default login-panel panel">
         <div class="panel-body">
-            @if(Session::has('message') && Session::has('tab') && Session::get('tab') === 'reset')
+            @if(request()->has('message') && request()->has('tab') && request()->get('tab') === 'reset')
                 <p class="alert alert-success">
-                    {{ Session::get('message') }}
+                    {{ request()->get('message') }}
                 </p>
             @endif
             <form role="form" action="{{ route('reset.password') }}" method="post">
