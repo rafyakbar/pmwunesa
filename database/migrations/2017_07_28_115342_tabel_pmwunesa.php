@@ -170,7 +170,7 @@ class TabelPMWUNESA extends Migration
             $table->increments('id');
             $table->text('nama');
             $table->smallInteger('tahap');
-            
+            $table->softDeletes();
         });
 
         Schema::create('penilaian', function (Blueprint $table){

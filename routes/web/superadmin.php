@@ -119,6 +119,11 @@ Route::group(['prefix' => 'hapus'], function () {
         'uses' => 'AspekController@hapus',
         'as' => 'hapus.aspek'
     ]);
+
+    Route::post('jenis', [
+        'uses' => 'JenisController@hapus',
+        'as' => 'hapus.jenis'
+    ]);
 });
 
 Route::group(['prefix' => 'edit'], function () {

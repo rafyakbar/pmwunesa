@@ -149,7 +149,11 @@
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn btn-success btn-sm" onclick="event.preventDefault(); document.getElementById('ujenis-{{ $jenis->id }}').submit();">Simpan</button>
-                                        <button class="btn btn-danger btn-sm">Hapus</button>
+                                        <button class="btn btn-danger btn-sm" onclick="event.preventDefault(); document.getElementById('hjenis-{{ $jenis->id }}').submit();">Hapus</button>
+                                        <form action="{{ route('hapus.jenis') }}" method="post" id="hjenis-{{ $jenis->id }}">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="id" value="{{ $jenis->id }}">
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

@@ -147,21 +147,34 @@ class UserController extends Controller
         if (is_null($request->hakakses)){
             foreach ($user->hakAksesPengguna()->get() as $ha){
                 $user->hakAksesPengguna()->detach($ha);
+                if ($ha->nama == HakAkses::KETUA_TIM || $ha->nama == HakAkses::ANGGOTA){
+                    Mahasiswa::find($user->id)->delete();
+                }
             }
             return back()->with('message', 'Berhasil menghilangkan semua hak akses '.$user->nama);
         }
 
-        foreach ($request->hakakses as $value) {
-            // menghapus seluruh hak akses dari seorang pengguna
-            foreach ($user->hakAksesPengguna()->get() as $ha){
-                $user->hakAksesPengguna()->detach($ha);
-            }
+        if (in_array(HakAkses::KETUA_TIM, $request->hakakses) && in_array(HakAkses::ANGGOTA, $request->hakakses)){
+            return back()->with('message', 'Tidak bisa memiliki hak akses ketua dan anggota bersamaan!');
+        }
 
-            if (!User::find($request->id)->hasRole($value)) {
+        foreach ($user->hakAksesPengguna()->get() as $ha){
+            if (!in_array($ha->nama, $request->hakakses)){
+                $user->hakAksesPengguna()->detach($ha);
+                if ($ha->nama == HakAkses::KETUA_TIM || $ha->nama == HakAkses::ANGGOTA){
+                    Mahasiswa::find($user->id)->delete();
+                }
+            }
+        }
+
+        foreach ($request->hakakses as $value) {
+            if (!$user->hasRole($value)){
                 if ($value == 'Anggota' || $value == 'Ketua Tim') {
-                    Mahasiswa::create([
-                        'id_pengguna' => $request->id
-                    ]);
+                    if (!(Mahasiswa::where('id_pengguna', $user->id)->count() > 0)){
+                        Mahasiswa::create([
+                            'id_pengguna' => $request->id
+                        ]);
+                    }
                 }
                 User::find($request->id)->hakAksesPengguna()->attach(HakAkses::where('nama', $value)->first(), ['status_request' => RequestStatus::APPROVED]);
             }
