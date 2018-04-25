@@ -101,7 +101,9 @@
                             </td>
                             <td>
                                 <div class="btn-group">
+                                    @if(!is_null($item->judul))
                                     <a href="{{ route('detail.proposal', ['id' => $item->id]) }}" class="btn btn-info btn-sm">Detail</a>
+                                    @endif
                                     <a href="{{ route('edit.reviewer',['idproposal' => $item->id]) }}"
                                        class="btn btn-primary btn-sm">Atur Reviewer</a>
                                 </div>

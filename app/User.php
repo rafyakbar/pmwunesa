@@ -395,11 +395,11 @@ class User extends Authenticatable
             $query->where('nama', HakAkses::DOSEN_PEMBIMBING)
                 ->where('status_request', RequestStatus::APPROVED);
         })
-            ->whereHas('relasiProdi', function ($query) {
+            // ->whereHas('relasiProdi', function ($query) {
                 // memastikan bahwa user dan calon dosen pembimbing berasal dari jurusan
                 // yang sama
-                $query->where('id_jurusan', Auth::user()->prodi()->jurusan()->id);
-            })
+            //     $query->where('id_jurusan', Auth::user()->prodi()->jurusan()->id);
+            // })
             ->where('nama', 'LIKE', '%' . strtolower($nama) . '%');
 
         // menambah field nama prodi

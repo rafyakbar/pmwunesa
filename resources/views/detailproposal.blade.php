@@ -42,7 +42,9 @@ Detail <b>{{ $proposal->judul }}</b>
                 <ul class="list-group">
                     @foreach($proposal->daftarReview(1)->get() as $item)
                     <li class="list-group-item">
+                        @if(!Auth::user()->isMahasiswa())
                         <b>{{ \PMW\User::find($item->id_pengguna)->nama }}</b>
+                        @endif
                         @if(!is_null($item->komentar))
                         <br>
                         <label>Komentar</label>
@@ -70,7 +72,9 @@ Detail <b>{{ $proposal->judul }}</b>
                 <ul class="list-group">
                     @foreach($proposal->daftarReview(2)->get() as $item)
                     <li class="list-group-item">
+                        @if(!Auth::user()->isMahasiswa())                    
                         <b>{{ \PMW\User::find($item->id_pengguna)->nama }}</b>
+                        @endif
                         @if(!is_null($item->komentar))
                         <br>
                         <label>Komentar</label>
