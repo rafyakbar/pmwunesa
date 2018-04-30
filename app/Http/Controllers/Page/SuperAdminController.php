@@ -136,7 +136,11 @@ class SuperAdminController extends Controller
                 return Carbon::parse($value->created_at)->year == $request->period;
             });
         }
-//        dd($proposal);
+        if (!is_null($request->q)){
+            $proposal = $proposal->filter(function ($value, $key) use ($request){
+                return str_contains(strtolower($value->judul), strtolower($request->q));
+            });
+        }
         return view('admin.super.daftarproposal', [
             'proposal' => $proposal->paginate($request->perHalaman),
             'daftar_fakultas' => Fakultas::all(),
@@ -144,7 +148,8 @@ class SuperAdminController extends Controller
             'lolos' => $request->lolos,
             'c' => 0,
             'perHalaman' => $request->perHalaman,
-            'period' => $request->period
+            'period' => $request->period,
+            'q' => $request->q
         ]);
     }
 

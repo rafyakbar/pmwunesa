@@ -69,6 +69,15 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-6">
+            <form action="{{ url()->current() }}">
+                <input type="text" placeholder="Cari berdasarkan NIP/NIM/Nama . . ." value="{{ $q }}" id="cari" name="q">
+                <button type="submit" id="buttonsearch"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header" data-background-color="purple">
             <h4>Daftar proposal</h4>
